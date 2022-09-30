@@ -1,4 +1,5 @@
 import react from 'react'
+import { useTranslation } from 'react-i18next'
 import Container from '../shared/Container'
 import Add from './Add'
 import List from './List'
@@ -6,10 +7,11 @@ import ListGrid from './ListGrid'
 
 
 const ProfessorsIndex = () => {
-
+    const { t } = useTranslation();
+    
     const links = [
-        {name : "Privilege" , url : "#"} ,
-        {name : "Students" , url : "#"} ,
+        {name : "Privilege" , url : "/"} ,
+        {name : "Professors" , url : "#"} ,
     ]
     
     const tabs = [
@@ -25,8 +27,11 @@ const ProfessorsIndex = () => {
              <div className="tab-content">
 
              <List />
-         <Add />
-         <ListGrid />
+
+             <Add />
+
+             
+             <ListGrid />
 
 
                     {/* <div className="tab-pane" id="pro-profile">

@@ -1,8 +1,10 @@
 import react from 'react'
+import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom'
 
 
 const Header = () => {
+    const { t, i18n } = useTranslation();
 
     return  (
         // <!-- Start Page header -->
@@ -42,17 +44,18 @@ const Header = () => {
                                 </div>
                             </li>
                         </ul>
-                        */}
+                        */} 
                        
                         <div className="notification d-flex">
                             <div className="dropdown d-flex">
                                 <a className="nav-link icon d-none d-md-flex btn btn-default btn-icon ml-1" data-toggle="dropdown"><i className="fa fa-language"></i></a>
                                 <div className="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                                    <a className="dropdown-item" href="#"><img className="w20 mr-2" src="../assets/images/flags/us.svg" alt="" />English</a>
+                                    <a className="dropdown-item" href="#" onClick={() => { i18n.changeLanguage("en") }}><img className="w20 mr-2" src="../assets/images/flags/us.svg" alt="" />{t("English")}</a>
                                     <div className="dropdown-divider"></div>
+                                    {/* className={i18n.language === "en" ? "active" : ""} */}
                                     {/* <a className="dropdown-item" href="#"><img className="w20 mr-2" src="../assets/images/flags/es.svg" alt="" />Spanish</a> */}
                                     {/* <a className="dropdown-item" href="#"><img className="w20 mr-2" src="../assets/images/flags/jp.svg" alt="" />japanese</a> */}
-                                    <a className="dropdown-item" href="#"><img className="w20 mr-2" src="../assets/images/flags/bl.svg" alt="" />France</a> 
+                                    <a className="dropdown-item" href="#" onClick={() => { i18n.changeLanguage("fr") }}><img className="w20 mr-2" src="../assets/images/flags/bl.svg" alt="" />{t("France")}</a> 
                                 </div>
                             
                             </div>

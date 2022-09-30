@@ -1,4 +1,3 @@
-import react from 'react'
 import Container from '../shared/Container'
 import Calender from './Calender'
 import Edit from './Edit'

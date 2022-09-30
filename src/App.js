@@ -1,5 +1,4 @@
-import './App.css';
-import { BrowserRouter, Route , Routes   } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import HomeIndex from './components/home/HomeIndex'
 import ProfessorsIndex from './components/Professors/ProfessorsIndex';
 import StudentsIndex from './components/Students/StudentsIndex';
@@ -20,42 +19,52 @@ import Profile from './components/user/Profile';
 import AttendanceIndex from './components/Attendance/AttendanceIndex';
 import View from './components/Courses/View';
 import ExamIndex from './components/Exam/ExamIndex';
+import store , { persistor } from './redux/store';
+import { PersistGate } from 'redux-persist/integration/react';
+import { Provider } from "react-redux";
+import React from 'react';
 
 function App() {
 
-   
+
 
   return (
-        <BrowserRouter>
+
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <BrowserRouter>
 
             <Routes>
-                <Route element={<HomeIndex />} path="/" />
-                <Route element={<ProfessorsIndex />} path="/professors" />
-                <Route element={<StudentsIndex />} path="/students" />
-                <Route element={<DepartmentsIndex />} path="/departments" />
-                <Route element={<CoursesIndex />} path="/courses" />
-                <Route element={<ChatAppIndex />} path="/chatapp" />
-                <Route element={<LibraryIndex />} path="/library" />
-                <Route element={<LevelsIndex />} path="/levels" />
-                <Route element={<PaymentsIndex />} path="/payments" />
-                <Route element={<GroupsIndex />} path="/groups" />
-                <Route element={<SettingsIndex />} path="/settings" />
-                <Route element={<Profile />} path="/profile" />
-                <Route element={<AttendanceIndex />} path="/attendance" />
-                <Route element={<ExamIndex />} path="/exam" />
-                <Route element={<View />} path="/courses/view" />
+              <Route element={<HomeIndex />} path="/" />
+              <Route element={<ProfessorsIndex />} path="/professors" />
+              <Route element={<StudentsIndex />} path="/students" />
+              <Route element={<DepartmentsIndex />} path="/departments" />
+              <Route element={<CoursesIndex />} path="/courses" />
+              <Route element={<ChatAppIndex />} path="/chatapp" />
+              <Route element={<LibraryIndex />} path="/library" />
+              <Route element={<LevelsIndex />} path="/levels" />
+              <Route element={<PaymentsIndex />} path="/payments" />
+              <Route element={<GroupsIndex />} path="/groups" />
+              <Route element={<SettingsIndex />} path="/settings" />
+              <Route element={<Profile />} path="/profile" />
+              <Route element={<AttendanceIndex />} path="/attendance" />
+              <Route element={<ExamIndex />} path="/exam" />
+              <Route element={<View />} path="/courses/view" />
 
-                <Route element={<Login />} path="/login" />
-                <Route element={<Register />} path="/register" />
-                <Route element={<ForgotPassword />} path="/forgotPassword" />
-                <Route element={<P500 />} path="/500" />
-                <Route element={<P404 />} path="/404" />
+              <Route element={<Login />} path="/login" />
+              <Route element={<Register />} path="/register" />
+              <Route element={<ForgotPassword />} path="/forgotPassword" />
+              <Route element={<P500 />} path="/500" />
+              <Route element={<P404 />} path="/404" />
 
             </Routes>
-            
-            
-        </BrowserRouter>
-    
+
+
+          </BrowserRouter>
+
+
+        </PersistGate>
+      </Provider>
 
   );
 }
