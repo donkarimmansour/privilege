@@ -16,9 +16,9 @@ export const AuthReducerSlice = createSlice({
     initialState,
     reducers: {
         setCredentials: (state, action) => {
-            const { user, accessToken } = action.payload
+            const { user, token } = action.payload
             state.user = user
-            state.token = accessToken
+            state.token = token
             state.isLoggedIn = true
         },
         logOut: (state, action) => {

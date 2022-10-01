@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getSingleProfessor, getProfessor, countProfessor, editrofessor, deleteProfessor, createProfessor } from "./action"
+import { getSinglePayment, getPayment, countPayment, editrofessor, deletePayment, createPayment } from "./action"
 const initialState = {
-    professors: [],
-    singleProfessor: {},
+    payments: [],
+    singlePayment: {},
     count: 0,
     loading: false,
     error: false,
@@ -10,8 +10,8 @@ const initialState = {
 }
 
 
-export const ProfessorsReducerSlice = createSlice({
-    name: 'professors', 
+export const PaymentsReducerSlice = createSlice({
+    name: 'payments',
     initialState,
     reducers: {
         // create: (state, action) => {
@@ -34,50 +34,50 @@ export const ProfessorsReducerSlice = createSlice({
         // },
     },
     extraReducers: {
-        //getSingleProfessor
-        [getSingleProfessor.pending]: (state, action) => {
+        //getSinglePayment
+        [getSinglePayment.pending]: (state, action) => {
             state.loading = true
         },
 
-        [getSingleProfessor.fulfilled]: (state, action) => {
+        [getSinglePayment.fulfilled]: (state, action) => {
             state.loading = false
             // state.success = action.payload
-            state.singleProfessor = action.payload
+            state.singlePayment = action.payload
         },
 
-        [getSingleProfessor.rejected]: (state, action) => {
+        [getSinglePayment.rejected]: (state, action) => {
             state.loading = false
             state.error = action.payload
         },
 
-        //getProfessor
-        [getProfessor.pending]: (state, action) => {
+        //getPayment
+        [getPayment.pending]: (state, action) => {
             state.loading = true
         },
 
-        [getProfessor.fulfilled]: (state, action) => {
+        [getPayment.fulfilled]: (state, action) => {
             state.loading = false
             // state.success = action.payload
-            state.professors = action.payload
+            state.Payments = action.payload
         },
 
-        [getProfessor.rejected]: (state, action) => {
+        [getPayment.rejected]: (state, action) => {
             state.loading = false
             state.error = action.payload
         },
 
-        //countProfessor
-        [countProfessor.pending]: (state, action) => {
+        //countPayment
+        [countPayment.pending]: (state, action) => {
             state.loading = true
         },
 
-        [countProfessor.fulfilled]: (state, action) => {
+        [countPayment.fulfilled]: (state, action) => {
             state.loading = false
             // state.success = action.payload
             state.count = action.payload
         },
 
-        [countProfessor.rejected]: (state, action) => {
+        [countPayment.rejected]: (state, action) => {
             state.loading = false
             state.error = action.payload
         },
@@ -90,7 +90,7 @@ export const ProfessorsReducerSlice = createSlice({
         [editrofessor.fulfilled]: (state, action) => {
             state.loading = false
             // state.success = action.payload
-            state.professors = action.payload //chaange
+            state.Payments = action.payload //chaange
         },
 
         [editrofessor.rejected]: (state, action) => {
@@ -98,43 +98,42 @@ export const ProfessorsReducerSlice = createSlice({
             state.error = action.payload
         },
 
-        //deleteProfessor
-        [deleteProfessor.pending]: (state, action) => {
+        //deletePayment
+        [deletePayment.pending]: (state, action) => {
             state.loading = true
         },
 
-        [deleteProfessor.fulfilled]: (state, action) => {
+        [deletePayment.fulfilled]: (state, action) => {
             state.loading = false
             // state.success = action.payload
-            state.professors = action.payload // delete one
+            state.Payments = action.payload // delete one
             state.count = -1
         },
 
-        [deleteProfessor.rejected]: (state, action) => {
+        [deletePayment.rejected]: (state, action) => {
             state.loading = false
             state.error = action.payload
         },
 
-        //createProfessor
-        [createProfessor.pending]: (state, action) => {
+        //createPayment
+        [createPayment.pending]: (state, action) => {
             state.loading = true
         },
 
-        [createProfessor.fulfilled]: (state, action) => {
+        [createPayment.fulfilled]: (state, action) => {
             state.loading = false
             // state.success = action.payload
-            state.professors = [...state.professors, action.payload]
+            state.Payments = [...state.Payments, action.payload]
             state.count = +1
         },
 
-        [createProfessor.rejected]: (state, action) => {
+        [createPayment.rejected]: (state, action) => {
             state.loading = false
             state.error = action.payload
         },
     }
 })
 
-export const { setCredentials, logOut, defaultState } = ProfessorsReducerSlice.actions;
 
 
-export default ProfessorsReducerSlice.reducer;
+export default PaymentsReducerSlice.reducer;

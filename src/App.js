@@ -23,11 +23,12 @@ import store , { persistor } from './redux/store';
 import { PersistGate } from 'redux-persist/integration/react';
 import { Provider } from "react-redux";
 import React from 'react';
+import './common/i18n';
 
 function App() {
 
 
-
+ 
   return (
 
       <Provider store={store}>
@@ -38,13 +39,17 @@ function App() {
               <Route element={<HomeIndex />} path="/" />
               <Route element={<ProfessorsIndex />} path="/professors" />
               <Route element={<StudentsIndex />} path="/students" />
+              <Route element={<GroupsIndex />} path="/groups" />
+              <Route element={<LevelsIndex />} path="/levels" />
+
+              
               <Route element={<DepartmentsIndex />} path="/departments" />
               <Route element={<CoursesIndex />} path="/courses" />
               <Route element={<ChatAppIndex />} path="/chatapp" />
               <Route element={<LibraryIndex />} path="/library" />
               <Route element={<LevelsIndex />} path="/levels" />
               <Route element={<PaymentsIndex />} path="/payments" />
-              <Route element={<GroupsIndex />} path="/groups" />
+              
               <Route element={<SettingsIndex />} path="/settings" />
               <Route element={<Profile />} path="/profile" />
               <Route element={<AttendanceIndex />} path="/attendance" />

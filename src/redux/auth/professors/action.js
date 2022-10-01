@@ -44,7 +44,7 @@ const deleteProfessor =  createAsyncThunk("professors/delete" , async (args , Pr
 
 const getProfessor =  createAsyncThunk("professors/get" , async (args , ProfessorsApi) => {
     const { rejectWithValue , getState } = ProfessorsApi
-    const { token } = getState().auth
+    const { token } = getState().professors
 
     try {
      const res = await  getApi(args , token)

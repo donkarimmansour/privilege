@@ -11,7 +11,7 @@ const initialState = {
 
 
 export const ProfessorsReducerSlice = createSlice({
-    name: 'professors', 
+    name: 'professors',
     initialState,
     reducers: {
         // create: (state, action) => {

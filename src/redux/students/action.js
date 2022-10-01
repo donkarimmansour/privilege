@@ -1,8 +1,8 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { createApi , editApi  , deleteApi , getApi , countApi } from "../../api/professors";
+import { createApi , editApi  , deleteApi , getApi , countApi } from "../../api/students";
 
-const createProfessor =  createAsyncThunk("professors/create" , async (args , ProfessorsApi) => {
-    const { rejectWithValue , getState } = ProfessorsApi
+const createStudent =  createAsyncThunk("students/create" , async (args , StudentsApi) => {
+    const { rejectWithValue , getState } = StudentsApi
     const { token } = getState().auth
 
     try {
@@ -15,10 +15,10 @@ const createProfessor =  createAsyncThunk("professors/create" , async (args , Pr
 })
 
 
-const editrofessor =  createAsyncThunk("professors/edit" , async (args , ProfessorsApi) => {
-    const { rejectWithValue , getState } = ProfessorsApi
+const editrofessor =  createAsyncThunk("students/edit" , async (args , StudentsApi) => {
+    const { rejectWithValue , getState } = StudentsApi
     const { token } = getState().auth
-    const { _id } = getState().professors.singleProfessor
+    const { _id } = getState().students.dingleStudent
 
     try {
      const res = await  editApi(_id , args , token)
@@ -29,8 +29,8 @@ const editrofessor =  createAsyncThunk("professors/edit" , async (args , Profess
     }
 })
 
-const deleteProfessor =  createAsyncThunk("professors/delete" , async (args , ProfessorsApi) => {
-    const { rejectWithValue , getState } = ProfessorsApi
+const deleteStudent =  createAsyncThunk("students/delete" , async (args , StudentsApi) => {
+    const { rejectWithValue , getState } = StudentsApi
     const { token } = getState().auth
 
     try {
@@ -42,8 +42,8 @@ const deleteProfessor =  createAsyncThunk("professors/delete" , async (args , Pr
     }
 })
 
-const getProfessor =  createAsyncThunk("professors/get" , async (args , ProfessorsApi) => {
-    const { rejectWithValue , getState } = ProfessorsApi
+const getStudent =  createAsyncThunk("students/get" , async (args , StudentsApi) => {
+    const { rejectWithValue , getState } = StudentsApi
     const { token } = getState().auth
 
     try {
@@ -55,8 +55,8 @@ const getProfessor =  createAsyncThunk("professors/get" , async (args , Professo
     }
 })
 
-const countProfessor =  createAsyncThunk("professors/count" , async (args , ProfessorsApi) => {
-    const { rejectWithValue , getState } = ProfessorsApi
+const countStudent =  createAsyncThunk("students/count" , async (args , StudentsApi) => {
+    const { rejectWithValue , getState } = StudentsApi
     const { token } = getState().auth
 
     try {
@@ -68,8 +68,8 @@ const countProfessor =  createAsyncThunk("professors/count" , async (args , Prof
     }
 })
 
-const getSingleProfessor =  createAsyncThunk("professors/getSingle" , async (args , ProfessorsApi) => {
-    const { rejectWithValue , getState } = ProfessorsApi
+const getSingleStudent =  createAsyncThunk("students/getSingle" , async (args , StudentsApi) => {
+    const { rejectWithValue , getState } = StudentsApi
     const { token } = getState().auth
 
     try {
@@ -81,4 +81,4 @@ const getSingleProfessor =  createAsyncThunk("professors/getSingle" , async (arg
     }
 })
 
-export {getSingleProfessor , getProfessor , countProfessor , editrofessor , deleteProfessor ,createProfessor} 
+export {getSingleStudent , getStudent , countStudent , editrofessor , deleteStudent ,createStudent} 

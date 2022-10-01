@@ -8,7 +8,7 @@ const StudentsIndex = () => {
 
   const links = [
     {name : "Privilege" , url : "#"} ,
-    {name : "Departments" , url : "#"} ,
+    {name : "Students" , url : "#"} ,
 ]
 
 const tabs = [

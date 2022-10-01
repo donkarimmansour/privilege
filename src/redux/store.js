@@ -5,10 +5,14 @@ import storage from 'redux-persist/lib/storage'
 import { configureStore } from "@reduxjs/toolkit";
 import AuthReducer from "./auth/reducer";
 import ProfessorsReducer from "./professors/reducer";
+import StudentsReducer from "./students/reducer";
+import PaymentsReducer from "./payments/reducer";
 
 const reducers = combineReducers({
   auth : AuthReducer ,
   professors : ProfessorsReducer ,
+  students : StudentsReducer ,
+  payments : PaymentsReducer ,
 })
 
 const persistConfig = { 

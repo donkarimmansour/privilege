@@ -1,190 +1,128 @@
-import react from 'react'
-
+import { useState } from 'react'
+import { useTranslation } from 'react-i18next';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { useSelector } from 'react-redux';
 
 const List = () => {
 
+  const { t } = useTranslation();
+  const [filters, setFilters] = useState({ name: "", phone: "", date: "", class: "" });
+  const { loading, error, success, students, count } = useSelector(state => state.students)
 
-    return (
-        <div className="tab-pane active" id="Student-all">
-        <div className="card">
-          <div className="card-body">
-            <div className="row">
-              <div className="col-lg-2 col-md-4 col-sm-6">
-                <div className="input-group">
-                  <input type="text" className="form-control" placeholder="Roll No." />
-                </div>
+  const OnSee = () => { }
+  const OnEdit = () => { }
+  const OnDelete = () => { }
+  const handleOnChange = (e) => {
+    const { name, value } = e
+    setFilters({ ...filters, [name]: value })
+
+  }
+
+
+  const data = [
+    {
+      firstname: "Peter Richards",
+      lastname: "jjjjjj",
+      class: "female",
+      phone: "+ (916) 369-7180",
+      email: "fff@k.j",
+      createdAtt: "ooo@jj.ko",
+
+    },
+    {
+      firstname: "Peter Richards",
+      lastname: "jjjjjjj",
+      class: "male",
+      phone: "+ (916) 369-7180",
+      email: "ooo@jj.ko",
+      createdAtt: "ooo@jj.ko",
+    }
+
+  ]
+
+  return (
+    <div className="tab-pane active" id="Student-all">
+      <div className="card">
+        <div className="card-body">
+          <div className="row">
+            <div className="col-lg-2 col-md-4 col-sm-6">
+              <div className="input-group">
+                <input type="text" className="form-control" onChange={(e) => { handleOnChange(e) }} placeholder={("Name")} />
               </div>
-              <div className="col-lg-2 col-md-4 col-sm-6">
-                <div className="input-group">
-                  <input type="text" className="form-control" placeholder="Name" />
-                </div>
+            </div>
+            <div className="col-lg-2 col-md-4 col-sm-6">
+              <div className="input-group">
+                <input type="text" className="form-control" onChange={(e) => { handleOnChange(e) }} placeholder={t("class")} />
               </div>
-              <div className="col-lg-4 col-md-4 col-sm-6">
-                <div className="input-group">
-                  <input type="text" className="form-control" placeholder="Department" />
-                </div>
+            </div>
+            <div className="col-lg-4 col-md-4 col-sm-6">
+              <div className="input-group">
+                <input type="text" className="form-control" onChange={(e) => { handleOnChange(e) }} placeholder={t("Phone")} />
               </div>
-              <div className="col-lg-2 col-md-4 col-sm-6">
-                <div className="input-group">
-                  <input data-provide="datepicker" data-date-autoclose="true" className="form-control" placeholder="Admission Date" />
-                </div>
+            </div>
+
+            <div className="col-lg-2 col-md-4 col-sm-6">
+              <div className="input-group">
+                <DatePicker onChange={(e) => { handleOnChange(e) }} className="form-control" placeholder={t("Enter your Date of Birth")} />
+                {/* <input data-provide="datepicker" data-date-autoclose="true" className="form-control" placeholder="Admission Date" /> */}
               </div>
-              <div className="col-lg-2 col-md-4 col-sm-6">
-                <a href="javascript:void(0);" className="btn btn-sm btn-primary btn-block" >Search</a>
-              </div>
+            </div>
+
+            <div className="col-lg-2 col-md-4 col-sm-6">
+              <a href="javascript:void(0);" className="btn btn-sm btn-primary btn-block" >{("Search")}</a>
             </div>
           </div>
         </div>
-        <div className="table-responsive card">
-          <table className="table table-hover table-vcenter table-striped mb-0 text-nowrap">
-            <thead>
-              <tr>
-                <th>Roll No.</th>
-                <th>Name</th>
-                <th />
-                <th>Department</th>
-                <th>Email</th>
-                <th>Phone</th>
-                <th>Admission Date</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>A25</td>
-                <td className="w60">
-                  <img className="avatar" src="../assets/images/xs/avatar1.jpg" alt="" />
-                </td>
-                <td><span className="font-16">Ken Smith</span></td>
-                <td>Science</td>
-                <td>ken@gmail.com</td>
-                <td>(417) 646-7483</td>
-                <td>04 Jan, 2019</td>
-                <td>
-                  <button type="button" className="btn btn-icon btn-sm" title="View"><i className="fa fa-eye" /></button>
-                  <button type="button" className="btn btn-icon btn-sm" title="Edit"><i className="fa fa-edit" /></button>
-                  <button type="button" className="btn btn-icon btn-sm js-sweetalert" title="Delete" data-type="confirm"><i className="fa fa-trash-o text-danger" /></button>
-                </td>
-              </tr>
-              <tr>
-                <td>A26</td>
-                <td className="w60">
-                  <img className="avatar" src="../assets/images/xs/avatar2.jpg" alt="" />
-                </td>
-                <td><span className="font-16">Gerald K Smith</span></td>
-                <td>M.C.A.</td>
-                <td>Gerald@gmail.com</td>
-                <td>(154) 646-2486</td>
-                <td>04 Jan, 2019</td>
-                <td>
-                  <button type="button" className="btn btn-icon btn-sm" title="View"><i className="fa fa-eye" /></button>
-                  <button type="button" className="btn btn-icon btn-sm" title="Edit"><i className="fa fa-edit" /></button>
-                  <button type="button" className="btn btn-icon btn-sm js-sweetalert" title="Delete" data-type="confirm"><i className="fa fa-trash-o text-danger" /></button>
-                </td>
-              </tr>
-              <tr>
-                <td>A25</td>
-                <td className="w60">
-                  <img className="avatar" src="../assets/images/xs/avatar3.jpg" alt="" />
-                </td>
-                <td><span className="font-16">Ken Smith</span></td>
-                <td>Mechanical</td>
-                <td>ken@gmail.com</td>
-                <td>(417) 646-8377</td>
-                <td>04 Jan, 2019</td>
-                <td>
-                  <button type="button" className="btn btn-icon btn-sm" title="View"><i className="fa fa-eye" /></button>
-                  <button type="button" className="btn btn-icon btn-sm" title="Edit"><i className="fa fa-edit" /></button>
-                  <button type="button" className="btn btn-icon btn-sm js-sweetalert" title="Delete" data-type="confirm"><i className="fa fa-trash-o text-danger" /></button>
-                </td>
-              </tr>
-              <tr>
-                <td>A27</td>
-                <td className="w60">
-                  <img className="avatar" src="../assets/images/xs/avatar4.jpg" alt="" />
-                </td>
-                <td><span className="font-16">Alice A Smith</span></td>
-                <td>M.B.B.S.</td>
-                <td>Patricia@gmail.com</td>
-                <td>(753) 646-4931</td>
-                <td>04 Jan, 2019</td>
-                <td>
-                  <button type="button" className="btn btn-icon btn-sm" title="View"><i className="fa fa-eye" /></button>
-                  <button type="button" className="btn btn-icon btn-sm" title="Edit"><i className="fa fa-edit" /></button>
-                  <button type="button" className="btn btn-icon btn-sm js-sweetalert" title="Delete" data-type="confirm"><i className="fa fa-trash-o text-danger" /></button>
-                </td>
-              </tr>
-              <tr>
-                <td>A17</td>
-                <td className="w60">
-                  <img className="avatar" src="../assets/images/xs/avatar5.jpg" alt="" />
-                </td>
-                <td><span className="font-16">Ken Smith</span></td>
-                <td>Arts</td>
-                <td>ken@gmail.com</td>
-                <td>(417) 646-7642</td>
-                <td>04 Jan, 2019</td>
-                <td>
-                  <button type="button" className="btn btn-icon btn-sm" title="View"><i className="fa fa-eye" /></button>
-                  <button type="button" className="btn btn-icon btn-sm" title="Edit"><i className="fa fa-edit" /></button>
-                  <button type="button" className="btn btn-icon btn-sm js-sweetalert" title="Delete" data-type="confirm"><i className="fa fa-trash-o text-danger" /></button>
-                </td>
-              </tr>
-              <tr>
-                <td>A11</td>
-                <td className="w60">
-                  <img className="avatar" src="../assets/images/xs/avatar6.jpg" alt="" />
-                </td>
-                <td><span className="font-16">Corrine M Johnson</span></td>
-                <td>Mechanical</td>
-                <td>Gladys@gmail.com</td>
-                <td>(349) 646-8377</td>
-                <td>04 Jan, 2019</td>
-                <td>
-                  <button type="button" className="btn btn-icon btn-sm" title="View"><i className="fa fa-eye" /></button>
-                  <button type="button" className="btn btn-icon btn-sm" title="Edit"><i className="fa fa-edit" /></button>
-                  <button type="button" className="btn btn-icon btn-sm js-sweetalert" title="Delete" data-type="confirm"><i className="fa fa-trash-o text-danger" /></button>
-                </td>
-              </tr>
-              <tr>
-                <td>A12</td>
-                <td className="w60">
-                  <img className="avatar" src="../assets/images/xs/avatar7.jpg" alt="" />
-                </td>
-                <td><span className="font-16">Alan Johnson</span></td>
-                <td>Music</td>
-                <td>ken@gmail.com</td>
-                <td>(648) 646-8523</td>
-                <td>04 Jan, 2019</td>
-                <td>
-                  <button type="button" className="btn btn-icon btn-sm" title="View"><i className="fa fa-eye" /></button>
-                  <button type="button" className="btn btn-icon btn-sm" title="Edit"><i className="fa fa-edit" /></button>
-                  <button type="button" className="btn btn-icon btn-sm js-sweetalert" title="Delete" data-type="confirm"><i className="fa fa-trash-o text-danger" /></button>
-                </td>
-              </tr>
-              <tr>
-                <td>A23</td>
-                <td className="w60">
-                  <img className="avatar" src="../assets/images/xs/avatar8.jpg" alt="" />
-                </td>
-                <td><span className="font-16">John Smith</span></td>
-                <td>Civil</td>
-                <td>Corrine@gmail.com</td>
-                <td>(417) 646-7845</td>
-                <td>04 Jan, 2019</td>
-                <td>
-                  <button type="button" className="btn btn-icon btn-sm" title="View"><i className="fa fa-eye" /></button>
-                  <button type="button" className="btn btn-icon btn-sm" title="Edit"><i className="fa fa-edit" /></button>
-                  <button type="button" className="btn btn-icon btn-sm js-sweetalert" title="Delete" data-type="confirm"><i className="fa fa-trash-o text-danger" /></button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
       </div>
-      
-     
-        )
+      <div className="table-responsive card">
+        <table className="table table-hover table-vcenter table-striped mb-0 text-nowrap">
+          <thead>
+            <tr>
+              <th>#.</th>
+              <th>{t("Name")}</th>
+              <th />
+              <th>{t("class")}</th>
+              <th>{t("Email")}</th>
+              <th>{t("Phone")}</th>
+              <th>{t("Admission Date")}</th>
+              <th>{t("Action")}</th>
+            </tr>
+          </thead>
+
+
+          <tbody>
+
+
+            {data.length > 0 && data.map((s, si) => {
+              return (
+                <tr key={si}>
+                  <td>{si + 1}</td>
+                  <td className="w60">
+                    <img className="avatar" src="../assets/images/xs/avatar1.jpg" alt="" />
+                  </td>
+                  <td><span className="font-16">{`${s.firstname} ${s.lastname}`}</span></td>
+                  <td>{s.class}</td>
+                  <td>{s.email}</td>
+                  <td>{s.phone}</td>
+                  <td>{s.createdAtt}</td>
+                  <td>
+                    <button type="button" className="btn btn-icon btn-sm" title="View" onclick={() => { OnSee() }}><i className="fa fa-eye" /></button>
+                    <button type="button" className="btn btn-icon btn-sm" title="Edit" onclick={() => { OnEdit() }}><i className="fa fa-edit" /></button>
+                    <button type="button" className="btn btn-icon btn-sm js-sweetalert" onclick={() => { OnDelete() }} title="Delete" data-type="confirm"><i className="fa fa-trash-o text-danger" /></button>
+                  </td>
+                </tr>
+              )
+            })}
+
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+
+  )
 
 }
 

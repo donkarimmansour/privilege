@@ -1,206 +1,248 @@
-import react from 'react'
-
+import { useEffect } from 'react'
+import { useTranslation } from 'react-i18next';
+import { Field, Formik, Form } from "formik"
+import * as yup from 'yup'
+import { useDispatch, useSelector } from "react-redux";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const Add = () => {
 
+  const { t } = useTranslation();
+  //  const dispatch = useDispatch()
+  const { loading, error, success } = useSelector(state => state.professors)
 
-    return (
-      <div className="tab-pane active" id="Fees-all">
-          <div className="card">
-            <div className="card-body">
-              <div className="table-responsive">
-                <table className="table table-hover text-nowrap js-basic-example dataTable table-striped table_custom border-style spacing5">
-                  <thead>
-                    <tr>
-                      <th>Roll No.</th>
-                      <th>Student Name</th>
-                      <th>Fees Type</th>
-                      <th>Date</th>
-                      <th>Invoice No.</th>
-                      <th>Payment Type</th>
-                      <th>Status</th>
-                      <th>Amount</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>111</td>
-                      <td>Corrine Johnson</td>
-                      <td>Annual</td>
-                      <td>12 Jan 2018</td>
-                      <td>IN-4578</td>
-                      <td>cash</td>
-                      <td><span className="tag tag-green">paid</span></td>
-                      <td>248$</td>
-                    </tr>
-                    <tr>
-                      <td>112</td>
-                      <td>Gladys Smith</td>
-                      <td>Tuition</td>
-                      <td>12 Feb 2018</td>
-                      <td>IN-3695</td>
-                      <td>cheque</td>
-                      <td><span className="tag tag-orange">pending</span></td>
-                      <td>124$</td>
-                    </tr>
-                    <tr>
-                      <td>113</td>
-                      <td>Alice Smith</td>
-                      <td>Annual</td>
-                      <td>24 Feb 2018</td>
-                      <td>IN-4679</td>
-                      <td>credit card</td>
-                      <td><span className="tag tag-red">unpaid</span></td>
-                      <td>340$</td>
-                    </tr>
-                    <tr>
-                      <td>114</td>
-                      <td>Gladys Smith</td>
-                      <td>Tuition</td>
-                      <td>25 Feb 2018</td>
-                      <td>IN-2839</td>
-                      <td>cashn</td>
-                      <td><span className="tag tag-green">paid</span></td>
-                      <td>112$</td>
-                    </tr>
-                    <tr>
-                      <td>115</td>
-                      <td>Corrine Johnson</td>
-                      <td>Transport</td>
-                      <td>12 March 2018</td>
-                      <td>IN-4916</td>
-                      <td>cheque</td>
-                      <td><span className="tag tag-green">paid</span></td>
-                      <td>340$</td>
-                    </tr>
-                    <tr>
-                      <td>116</td>
-                      <td>Gladys Smith</td>
-                      <td>Tuition</td>
-                      <td>12 May 2018</td>
-                      <td>IN-7542</td>
-                      <td>cashn</td>
-                      <td><span className="tag tag-red">unpaid</span></td>
-                      <td>421$</td>
-                    </tr>
-                    <tr>
-                      <td>117</td>
-                      <td>Alice Smith</td>
-                      <td>Transport</td>
-                      <td>12 May 2018</td>
-                      <td>IN-8653</td>
-                      <td>credit card</td>
-                      <td><span className="tag tag-orange">pending</span></td>
-                      <td>124$</td>
-                    </tr>
-                    <tr>
-                      <td>118</td>
-                      <td>Gladys Smith</td>
-                      <td>Library</td>
-                      <td>12 May 2018</td>
-                      <td>IN-4859</td>
-                      <td>cheque</td>
-                      <td><span className="tag tag-green">paid</span></td>
-                      <td>485$</td>
-                    </tr>
-                    <tr>
-                      <td>119</td>
-                      <td>Alice Smith</td>
-                      <td>Annual</td>
-                      <td>12 Jun 2018</td>
-                      <td>IN-2648</td>
-                      <td>cheque</td>
-                      <td><span className="tag tag-orange">pending</span></td>
-                      <td>231$</td>
-                    </tr>
-                    <tr>
-                      <td>120</td>
-                      <td>Corrine Johnson</td>
-                      <td>Tuition</td>
-                      <td>21 Jun 2018</td>
-                      <td>IN-4875</td>
-                      <td>cashn</td>
-                      <td><span className="tag tag-green">paid</span></td>
-                      <td>4856$</td>
-                    </tr>
-                    <tr>
-                      <td>121</td>
-                      <td>Gladys Smith</td>
-                      <td>Transport</td>
-                      <td>28 Jun 2018</td>
-                      <td>IN-7946</td>
-                      <td>credit card</td>
-                      <td><span className="tag tag-red">unpaid</span></td>
-                      <td>340$</td>
-                    </tr>
-                    <tr>
-                      <td>122</td>
-                      <td>Ken Smith</td>
-                      <td>Annual</td>
-                      <td>12 Jun 2018</td>
-                      <td>IN-9135</td>
-                      <td>cheque</td>
-                      <td><span className="tag tag-orange">pending</span></td>
-                      <td>340$</td>
-                    </tr>
-                    <tr>
-                      <td>123</td>
-                      <td>Corrine Johnson</td>
-                      <td>Annual</td>
-                      <td>22 Jun 2018</td>
-                      <td>IN-5284</td>
-                      <td>credit card</td>
-                      <td><span className="tag tag-orange">pending</span></td>
-                      <td>340$</td>
-                    </tr>
-                    <tr>
-                      <td>124</td>
-                      <td>Ken Smith</td>
-                      <td>Transport</td>
-                      <td>18 Aug 2018</td>
-                      <td>IN-4613</td>
-                      <td>cashn</td>
-                      <td><span className="tag tag-green">paid</span></td>
-                      <td>254$</td>
-                    </tr>
-                    <tr>
-                      <td>125</td>
-                      <td>Emmett Johnson</td>
-                      <td>Annual</td>
-                      <td>13 Aug 2018</td>
-                      <td>IN-1826</td>
-                      <td>credit card</td>
-                      <td><span className="tag tag-red">unpaid</span></td>
-                      <td>340$</td>
-                    </tr>
-                    <tr>
-                      <td>126</td>
-                      <td>Ken Smith</td>
-                      <td>Library</td>
-                      <td>17 Aug 2018</td>
-                      <td>IN-76149</td>
-                      <td>cashn</td>
-                      <td><span className="tag tag-green">paid</span></td>
-                      <td>340$</td>
-                    </tr>
-                    <tr>
-                      <td>127</td>
-                      <td>Emmett Johnson</td>
-                      <td>Annual</td>
-                      <td>4 Sept 2018</td>
-                      <td>IN-3794</td>
-                      <td>credit card</td>
-                      <td><span className="tag tag-orange">pending</span></td>
-                      <td>548$</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
+  useEffect(() => {
+    if (success) {
+
+    } else if (error) {
+
+    }
+  }, [success, error]);
+
+
+  const initialValues = {
+    studentID: "",
+    class: "",
+    feesType: "",
+    paymentDetails: "",
+    paymentMethod: "",
+    paymentReference: "",
+    paymentStatus: "",
+    paymentDuration: "",
+    confirmpassword: "",
+    collectionDate: "",
+    twitter: "",
+    linkedin: "",
+    registrationDate: "",
+    amount: "",
+  }
+
+  const onSubmit = values => {
+    // dispatch(set_contact())
+    console.log(values);
+  }
+
+
+  const ProfessorsAddValidator = yup.object().shape({
+    studentID: yup.string().required(t("Student Name field is required")),
+    class: yup.string().required(t("class field is required")),
+    paymentStatus: yup.string().required(t("Payment Status field is required")),
+    paymentMethod: yup.string().required(t("Payment Method field is required")),
+    paymentDuration: yup.string().required(t("Payment Duration field is required")),
+    collectionDate: yup.string().required(t("Collection Date field is required")),
+    amount: yup.number().required(t("Amount field is required")).min(1, t("Amount field is required")),
+  })
+
+
+  return (
+    <div className="tab-pane" id="Fees-add">
+
+      <div className="card">
+        <div className="card-header">
+          <h3 className="card-title">{t("Add Library")}</h3>
+          <div className="card-options ">
+            <a href="#" className="card-options-collapse" data-toggle="card-collapse"><i className="fe fe-chevron-up" /></a>
+            <a href="#" className="card-options-remove" data-toggle="card-remove"><i className="fe fe-x" /></a>
           </div>
         </div>
-      
-        )
+
+
+
+        {
+          <Formik
+            initialValues={initialValues}
+            onSubmit={onSubmit}
+            validationSchema={ProfessorsAddValidator}>
+
+            {
+              ({ touched, errors, setFieldValue, setFieldTouched, values, isValid }) => (
+
+                <Form action="#" method="post" className="card-body">
+
+
+
+                  {/* <div className="form-group row">
+                <label className="col-md-3 col-form-label">Roll No <span className="text-danger">*</span></label>
+                <div className="col-md-7">
+                  <File name="" type="text" className="form-control" />
+                </div>
+              </div>
+              <div className="form-group row">
+                <label className="col-md-3 col-form-label">{t("Student Name")} <span className="text-danger">*</span></label>
+                <div className="col-md-7">
+                  <File name="" type="text" className="form-control" />
+                </div>
+              </div> */}
+
+                  <div className="form-group row">
+                    <label className="col-md-3 col-form-label">{t("Student Name")}  <span className="text-danger">*</span></label>
+                    <div className="col-md-7">
+                      <Field as="select" className="form-control" name="studentID">
+                        <option value>{t("Select...")}</option>
+                        <option value="mmm">mmm</option>
+                        <option value="lllllllll">lllllllll</option>
+                        <option value="rrrrrrrrrrrrrrrr">rrrrrrrrrrrrrrrr</option>
+                      </Field>
+                      {touched.studentID && errors.studentID && <small className="text-danger">{errors.studentID}</small>}
+
+                    </div>
+                  </div>
+                  <div className="form-group row">
+                    <label className="col-md-3 col-form-label">{t("Class")} </label>
+                    <div className="col-md-7">
+                      <Field as="select" className="form-control" name="class">
+                        <option value>{t("Select...")}</option>
+                        <option value="Franch">Franch</option>
+                        <option value="English">English</option>
+                        <option value="Germany">Germany</option>
+
+                      </Field>
+                      {touched.collectionDate && errors.collectionDate && <small className="text-danger">{errors.collectionDate}</small>}
+
+                    </div>
+                  </div>
+                  <div className="form-group row">
+                    <label className="col-md-3 col-form-label">{t("Fees Type")} </label>
+                    <div className="col-md-7">
+                      <Field as="select" className="form-control" name="feesType">
+                        <option value>{t("Select..")}.</option>
+                        <option value="Category 3">ecole</option>
+                        <option value="Category 3">Exam</option>
+                        <option value="Category 3">Library</option>
+                      </Field>
+                      {touched.feesType && errors.feesType && <small className="text-danger">{errors.feesType}</small>}
+
+                    </div>
+                  </div>
+                  <div className="form-group row">
+                    <label className="col-md-3 col-form-label">{t("Payment Duration")} <span className="text-danger">*</span></label>
+                    <div className="col-md-7">
+                      <div className="custom-controls-stacked">
+                        <label className="custom-control custom-radio custom-control-inline">
+                          <Field type="radio" className="custom-control-input" name="paymentDuration" defaultValue="option1" defaultChecked />
+                          <span className="custom-control-label">{t("Monthly")}</span>
+                        </label>
+                        <label className="custom-control custom-radio custom-control-inline">
+                          <Field type="radio" className="custom-control-input" name="paymentDuration" defaultValue="option2" />
+                          <span className="custom-control-label">{t("Formation")}</span>
+                        </label>
+                      </div>
+                    </div>
+
+                    {touched.paymentDuration && errors.paymentDuration && <small className="text-danger">{errors.paymentDuration}</small>}
+
+                  </div>
+                  <div className="form-group row">
+                    <label className="col-md-3 col-form-label">{t("Collection Date")} <span className="text-danger">*</span></label>
+                    <div className="col-md-7">
+
+                      <DatePicker
+                        selected={(values.collectionDate && new Date(values.collectionDate)) || null}
+                        onChange={val => {
+                          setFieldTouched("collectionDate")
+                          setFieldValue("collectionDate", val);
+                        }} className="form-control" placeholder={t("Enter your Date of Birth")} />
+                      {touched.collectionDate && errors.collectionDate && <small className="text-danger">{errors.collectionDate}</small>}
+                    </div>
+                  </div>
+                  <div className="form-group row">
+                    <label className="col-md-3 col-form-label">{t("Amount")} <span className="text-danger">*</span></label>
+                    <div className="col-md-7">
+                      <Field name="amount" type="number" className="form-control" placeholder={t("Amount")} />
+                      {touched.amount && errors.amount && <small className="text-danger">{errors.amount}</small>}
+                    </div>
+                  </div>
+
+
+                  <div className="form-group row">
+                    <label className="col-md-3 col-form-label">{t('Payment Method')} <span className="text-danger">*</span></label>
+                    <div className="col-md-7">
+                      <Field as="select" className="form-control" name="paymentMethod">
+                        <option value>{t("Select...")}</option>
+                        <option value="Category 1">Cash</option>
+                        <option value="Category 2">Cheque</option>
+                        <option value="Category 3">Credit Card</option>
+                        <option value="Category 4">Debit Card</option>
+                        <option value="Category 5">Netbanking</option>
+                        <option value="Category 6">Other</option>
+                      </Field>
+                      {touched.paymentMethod && errors.paymentMethod && <small className="text-danger">{errors.paymentMethod}</small>}
+
+                    </div>
+                  </div>
+                  <div className="form-group row">
+                    <label className="col-md-3 col-form-label">{t('Payment Status')} <span className="text-danger">*</span></label>
+                    <div className="col-md-7">
+                      <Field as="select" className="form-control" name="paymentStatus">
+                        <option value>{t("Select...")}</option>
+                        <option value="Category 1">Paid</option>
+                        <option value="Category 2">Unpaid</option>
+                        <option value="Category 3">Pending</option>
+                      </Field>
+                      {touched.paymentStatus && errors.paymentStatus && <small className="text-danger">{errors.paymentStatus}</small>}
+
+                    </div>
+                  </div>
+                  <div className="form-group row">
+                    <label className="col-md-3 col-form-label">{t('Payment Reference')}</label>
+                    <div className="col-md-7">
+                      <Field name="paymentReference" type="text" className="form-control" placeholder={t('Payment Reference')} />
+                      {touched.paymentReference && errors.paymentReference && <small className="text-danger">{errors.paymentReference}</small>}
+
+                    </div>
+                  </div>
+                  <div className="form-group row">
+                    <label className="col-md-3 col-form-label">{t("Payment Details")}</label>
+                    <div className="col-md-7">
+                      <Field as="textarea" name="paymentDetails" rows={4} className="form-control no-resize" placeholder={t("Please type what you want...")} defaultValue={""} />
+                      {touched.paymentDetails && errors.paymentDetails && <small className="text-danger">{errors.paymentDetails}</small>}
+                    </div>
+
+
+                  </div>
+                  <div className="form-group row">
+                    <label className="col-md-3 col-form-label" />
+                    <div className="col-md-7">
+                      <button type="submit" className="btn btn-primary" disabled={(!loading && isValid)}>{t("Submit")}</button>
+                      <button type="submit" className="btn btn-outline-secondary">{t("Cancel")}</button>
+                    </div>
+                  </div>
+
+
+
+                </Form>
+
+              )
+
+            }</Formik>
+        }
+
+
+      </div>
+    </div>
+
+  )
 
 }
 
