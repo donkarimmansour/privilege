@@ -14,7 +14,7 @@ const University = () => {
             type: 'column',
             data: [440, 505, 414, 671, 227, 413, 201, 352, 752, 320, 257, 160]
         }, {
-            name: 'Donation',
+            name: 'Students',
             type: 'line',
             data: [23, 42, 35, 27, 43, 22, 17, 31, 22, 22, 12, 16]
         }],
@@ -95,51 +95,7 @@ const University = () => {
 
 
 
-                                <div className="card-footer">
-                                    <div className="row">
-                                        <div className="col-xl-3 col-md-6 mb-2">
-                                            <div className="clearfix">
-                                                <div className="float-left"><strong>Fees</strong></div>
-                                                <div className="float-right"><small className="text-muted">35%</small></div>
-                                            </div>
-                                            <div className="progress progress-xs">
-                                                <div className="progress-bar bg-indigo" role="progressbar" style={{width: "35%"}} aria-valuenow="35" aria-valuemin="0" aria-valuemax="100"></div>
-                                            </div>
-                                            <span className="text-uppercase font-10">Compared to last year</span>
-                                        </div>
-                                        <div className="col-xl-3 col-md-6 mb-2">
-                                            <div className="clearfix">
-                                                <div className="float-left"><strong>Donation</strong></div>
-                                                <div className="float-right"><small className="text-muted">61%</small></div>
-                                            </div>
-                                            <div className="progress progress-xs">
-                                                <div className="progress-bar bg-yellow" role="progressbar" style={{width: "61%"}} aria-valuenow="61" aria-valuemin="0" aria-valuemax="100"></div>
-                                            </div>
-                                            <span className="text-uppercase font-10">Compared to last year</span>
-                                        </div> 
-                                        <div className="col-xl-3 col-md-6 mb-2">
-                                            <div className="clearfix">
-                                                <div className="float-left"><strong>Income</strong></div>
-                                                <div className="float-right"><small className="text-muted">87%</small></div>
-                                            </div>
-                                            <div className="progress progress-xs">
-                                                <div className="progress-bar bg-green" role="progressbar" style={{width: "87%"}} aria-valuenow="87" aria-valuemin="0" aria-valuemax="100"></div>
-                                            </div>
-                                            <span className="text-uppercase font-10">Compared to last year</span>
-                                        </div>
-                                        <div className="col-xl-3 col-md-6 mb-2">
-                                            <div className="clearfix">
-                                                <div className="float-left"><strong>Expense</strong></div>
-                                                <div className="float-right"><small className="text-muted">42%</small></div>
-                                            </div>
-                                            <div className="progress progress-xs">
-                                                <div className="progress-bar bg-pink" role="progressbar" style={{width: "42%"}} aria-valuenow="42" aria-valuemin="0" aria-valuemax="100"></div>
-                                            </div>
-                                            <span className="text-uppercase font-10">Compared to last year</span>
-                                        </div>                                                                       
-                                    </div>
-                                </div>
-                            </div>
+                               </div>
                         </div>
     )
 

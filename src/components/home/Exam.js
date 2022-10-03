@@ -4,7 +4,7 @@ import react from 'react'
 const Exam = () => {
 
     return  (
-        <div className="col-xl-6 col-lg-6 col-md-12">
+        <div className="col-md-12">
                             <div className="card">
                                 <div className="card-header">
                                     <h3 className="card-title">Exam Toppers</h3>

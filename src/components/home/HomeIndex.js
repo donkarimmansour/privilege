@@ -3,7 +3,6 @@ import Exam from './Exam'
 import StudentList from './StudentList'
 import University from './University'
 import Cards from './Cards'
-import Performance from './Performance'
 import Container from '../shared/Container'
 
 
@@ -33,7 +32,6 @@ const HomeIndex = () => {
                     <div className="row clearfix row-deck">
                        
                         <Exam />
-                        <Performance />
                     </div>
                     <StudentList />
                 </div>
