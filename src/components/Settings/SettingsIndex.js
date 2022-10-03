@@ -1,6 +1,5 @@
 import react from 'react'
 import Container from '../shared/Container'
-import Company from './Company'
 import Email from './Email'
 import Notifications from './Notifications'
 
@@ -13,7 +12,6 @@ const SettingsIndex = () => {
 ]
 
 const tabs = [
-    {name : "Company" , id : "#Company_Settings"} ,
     {name : "Email" , id : "#Email_Settings"} ,
     {name : "Notifications" , id : "#Notifications"} ,
 ]
@@ -23,7 +21,6 @@ const tabs = [
           <div className="tab-content">
             <Email /> 
             <Notifications />
-            <Company />
            </div>
       </Container>
     )

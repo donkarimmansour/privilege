@@ -138,11 +138,30 @@ const resources = {
        "Title" : "Title" ,
        "Subject" : "Subject" ,
        "Type" : "Type" ,
-       "password" : "password" ,
-       "password" : "password" ,
-       "password" : "password" ,
-       "password" : "password" ,
-       "password" : "password" ,
+
+       //smtp
+       "SAVE" : "SAVE" ,
+       "SSL" : "SSL" ,
+       "TLS" : "TLS" ,
+       "SMTP Security" : "SMTP Security" ,
+       "SMTP HOST" : "SMTP HOST" ,
+       "SMTP USER" : "SMTP USER" ,
+       "SMTP PASSWORD" : "SMTP PASSWORD" ,
+       "SMTP PORT" : "SMTP PORT" ,
+       "Email From Name" : "Email From Name" ,
+       "Email From Address" : "Email From Address" ,
+       "host field is required" : "host field is required" ,
+       "username field is required" : "username field is required" ,
+       "port field is required" : "port field is required" ,
+       "name field is required" : "name field is required" ,
+       "security field is required" : "security field is required" ,
+       "password field is required" : "password field is required" ,
+       "SMTP Email Settings" : "SMTP Email Settings" ,
+       //settings
+       "Notifications Settings" : "Notifications Settings" ,
+       //profile
+       "Update Profile" : "Update Profile" ,
+       "Edit Profile" : "Edit Profile" ,
        "password" : "password" ,
 
      

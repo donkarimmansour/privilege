@@ -59,6 +59,13 @@ const ApiEndpoints = {
     list: `/list`, 
   },
 
+  Smtp: { 
+    route: `${Host.PREFIX}/smtp`, 
+    edit: `/edit`, 
+    list: `/list`, 
+  },
+
+
   Library: { 
     route: `${Host.PREFIX}/library`, 
     create: `/create`, 
@@ -93,22 +100,14 @@ const ApiEndpoints = {
     createSingleFile: `/create-single-file`,
   },
 
-  // User: { 
-  //   route: `${Host.PREFIX}/user`,
-  //   create:`/create`, 
-  //   list: `/list`,
-  //   login: `/login`,
-  //   forgot: `/forgot-password`,
-  //   confirm: `/confirm-email`,
-  //   edit: `/edit`,
-  //   address: `/address`,
-  //   image: `/image`,
-  //   me: `/me`,
-  //   suspension:`/suspension`,
-  //   count: `/count`,
-  //   rule: `/rule`,
+  User: { 
+    route: `${Host.PREFIX}/user`,
+    list: `/list`,
+    edit: `/edit`,
+    image: `/image`,
+    me: `/me`,
 
-  // },
+  },
 
 };
  

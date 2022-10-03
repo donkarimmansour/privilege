@@ -1,14 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getExam , createExam  } from "./action"
+import { getSmtp , editSmtp  } from "./action"
 const initialState = {
-    exam: [],
+    smtp: {},
     loading: false,
     error: false,
     success: false,
 }
 
 
-export const ExamReducerSlice = createSlice({
+export const SmtpReducerSlice = createSlice({
     name: 'exam',
     initialState,
     reducers: {
@@ -32,36 +32,36 @@ export const ExamReducerSlice = createSlice({
         // },
     },
     extraReducers: {
-        //getExam
-        [getExam.pending]: (state, action) => {
+        //getSmtp
+        [getSmtp.pending]: (state, action) => {
             state.loading = true
         },
 
-        [getExam.fulfilled]: (state, action) => {
+        [getSmtp.fulfilled]: (state, action) => {
             state.loading = false
             // state.success = action.payload
-            state.exam = action.payload
+            state.smtp = action.payload
         },
 
-        [getExam.rejected]: (state, action) => {
+        [getSmtp.rejected]: (state, action) => {
             state.loading = false
             state.error = action.payload
         },
 
     
 
-        //createExam
-        [createExam.pending]: (state, action) => {
+        //editSmtp
+        [editSmtp.pending]: (state, action) => {
             state.loading = true
         },
 
-        [createExam.fulfilled]: (state, action) => {
+        [editSmtp.fulfilled]: (state, action) => {
             state.loading = false
             // state.success = action.payload
-            state.exam = [...state.exam, action.payload]
+            state.smtp = [...state.smtp, action.payload]
         },
 
-        [createExam.rejected]: (state, action) => {
+        [editSmtp.rejected]: (state, action) => {
             state.loading = false
             state.error = action.payload
         },
@@ -70,4 +70,4 @@ export const ExamReducerSlice = createSlice({
 
 
 
-export default ExamReducerSlice.reducer;
+export default SmtpReducerSlice.reducer;

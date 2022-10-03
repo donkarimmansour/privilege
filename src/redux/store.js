@@ -12,6 +12,8 @@ import DepartmentReducer from "./department/reducer";
 import CoursesReducer from "./courses/reducer";
 import LibraryReducer from "./library/reducer";
 import ExamReducer from "./exam/reducer";
+import SmtpReducer from "./smtp/reducer";
+import UserReducer from "./user/reducer";
 
 const reducers = combineReducers({
   auth : AuthReducer ,
@@ -23,6 +25,8 @@ const reducers = combineReducers({
   courses : CoursesReducer ,
   library : LibraryReducer ,
   exam : ExamReducer ,
+  smtp : SmtpReducer ,
+  user : UserReducer ,
 })
 
 const persistConfig = { 

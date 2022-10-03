@@ -1,15 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getExam , createExam  } from "./action"
+import { getProfile , editProfile  } from "./action"
 const initialState = {
-    exam: [],
+    profile: {},
+    Calender : [] ,
     loading: false,
     error: false,
     success: false,
 }
 
 
-export const ExamReducerSlice = createSlice({
-    name: 'exam',
+export const ProfileReducerSlice = createSlice({
+    name: 'profile',
     initialState,
     reducers: {
         // create: (state, action) => {
@@ -32,36 +33,36 @@ export const ExamReducerSlice = createSlice({
         // },
     },
     extraReducers: {
-        //getExam
-        [getExam.pending]: (state, action) => {
+        //getProfile
+        [getProfile.pending]: (state, action) => {
             state.loading = true
         },
 
-        [getExam.fulfilled]: (state, action) => {
+        [getProfile.fulfilled]: (state, action) => {
             state.loading = false
             // state.success = action.payload
-            state.exam = action.payload
+            state.profile = action.payload
         },
 
-        [getExam.rejected]: (state, action) => {
+        [getProfile.rejected]: (state, action) => {
             state.loading = false
             state.error = action.payload
         },
 
     
 
-        //createExam
-        [createExam.pending]: (state, action) => {
+        //editProfile
+        [editProfile.pending]: (state, action) => {
             state.loading = true
         },
 
-        [createExam.fulfilled]: (state, action) => {
+        [editProfile.fulfilled]: (state, action) => {
             state.loading = false
             // state.success = action.payload
-            state.exam = [...state.exam, action.payload]
+            state.profile = [...state.Profile, action.payload]
         },
 
-        [createExam.rejected]: (state, action) => {
+        [editProfile.rejected]: (state, action) => {
             state.loading = false
             state.error = action.payload
         },
@@ -70,4 +71,4 @@ export const ExamReducerSlice = createSlice({
 
 
 
-export default ExamReducerSlice.reducer;
+export default ProfileReducerSlice.reducer;

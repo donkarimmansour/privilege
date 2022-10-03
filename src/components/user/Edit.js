@@ -1,106 +1,157 @@
-import react from 'react'
-
+import {useEffect} from 'react'
+import {useTranslation} from 'react-i18next';
+import {Field, Formik, Form} from "formik"
+import * as yup from 'yup'
+import {useDispatch, useSelector} from "react-redux";
+import "react-datepicker/dist/react-datepicker.css";
 
 
 const Edit = () => {
 
+    const {t} = useTranslation();
+    // const dispatch = useDispatch()
+    const {loading, error, success, profile} = useSelector(state => state.user)
+
+    useEffect(() => {
+        if (success) {} else if (error) {}
+    }, [success, error]);
 
 
-    return (
-        <div className="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
-        <div className="card">
-          <div className="card-header">
-            <h3 className="card-title">Edit Profile</h3>
-            <div className="card-options">
-              <a href="#" className="card-options-fullscreen" data-toggle="card-fullscreen"><i className="fe fe-maximize" /></a>
-              <a href="#" className="card-options-remove" data-toggle="card-remove"><i className="fe fe-x" /></a>
-              <div className="item-action dropdown ml-2">
-                <a href="javascript:void(0)" data-toggle="dropdown"><i className="fe fe-more-vertical" /></a>
-                <div className="dropdown-menu dropdown-menu-right">
-                  <a href="javascript:void(0)" className="dropdown-item"><i className="dropdown-icon fa fa-eye" /> View Details </a>
-                  <a href="javascript:void(0)" className="dropdown-item"><i className="dropdown-icon fa fa-share-alt" /> Share </a>
-                  <a href="javascript:void(0)" className="dropdown-item"><i className="dropdown-icon fa fa-cloud-download" /> Download</a>                                            
-                  <div className="dropdown-divider" />
-                  <a href="javascript:void(0)" className="dropdown-item"><i className="dropdown-icon fa fa-copy" /> Copy to</a>
-                  <a href="javascript:void(0)" className="dropdown-item"><i className="dropdown-icon fa fa-folder" /> Move to</a>
-                  <a href="javascript:void(0)" className="dropdown-item"><i className="dropdown-icon fa fa-edit" /> Rename</a>
-                  <a href="javascript:void(0)" className="dropdown-item"><i className="dropdown-icon fa fa-trash" /> Delete</a>
+    const initialValues = {
+        firstname: "",
+        lastname: "",
+        phone: "",
+        email: "",
+        password: ""
+    }
+
+    const onSubmit = values => { // dispatch(set_contact())
+        console.log(values);
+    }
+
+
+    const ProfessorsAddValidator = yup.object().shape({
+        firstname: yup.string().required(t("firstname field is required")),
+        lastname: yup.string().required(t("lastname field is required")),
+        phone: yup.string().required(t("phone field is required")),
+        password: yup.string().required(t("password field is required")),
+        email: yup.string().required(t("email field is required")).email("email must be email")
+    })
+
+
+    return (<div className="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+
+
+        {
+        <Formik
+                  initialValues={initialValues}
+                  onSubmit={onSubmit}
+                  validationSchema={ProfessorsAddValidator}>
+        
+                  {
+                    ({ touched, errors, isValid }) => (
+        
+                      <Form action="#" method="post">
+               
+               
+                <div className="card">
+        
+                   <div className="card-header">
+                    <h3 className="card-title">{t("Edit Profile")}</h3>
+                   </div>
+        
+                  <div className="card-body form-horizontal">
+                
+                    <div className="form-group row">
+                      <label className="col-md-3 col-form-label">{t("Username")} <span className="text-danger">*</span></label>
+                      <div className="col-md-7">
+                         <Field type="text" name="username" className="form-control" placeholder={t("Username")} />
+                        {touched.username && errors.username && <small className="text-danger">{errors.username}</small>}
+                      </div>
+                    </div>
+                   
+        
+                    <div className="form-group row">
+                      <label className="col-md-3 col-form-label">{t("First Name")} <span className="text-danger">*</span></label>
+                      <div className="col-md-7">
+                         <Field type="text" name="firstname" className="form-control" placeholder={t("First Name")} />
+                        {touched.firstname && errors.firstname && <small className="text-danger">{errors.firstname}</small>}
+                      </div>
+                    </div>
+        
+        
+        
+                    <div className="form-group row">
+                      <label className="col-md-3 col-form-label">{t("Last Name")} <span className="text-danger">*</span></label>
+                      <div className="col-md-7">
+                         <Field type="text" name="lastname" className="form-control" placeholder={t("Last Name")} />
+                        {touched.lastname && errors.lastname && <small className="text-danger">{errors.lastname}</small>}
+                      </div>
+                    </div>
+        
+                    <div className="form-group row">
+                      <label className="col-md-3 col-form-label">{t("Last Name")} <span className="text-danger">*</span></label>
+                      <div className="col-md-7">
+                         <Field type="text" name="lastname" className="form-control" placeholder={t("Last Name")} />
+                        {touched.lastname && errors.lastname && <small className="text-danger">{errors.lastname}</small>}
+                      </div>
+                    </div>
+        
+        
+                    <div className="form-group row">
+                      <label className="col-md-3 col-form-label">{t("Email")} <span className="text-danger">*</span></label>
+                      <div className="col-md-7">
+                         <Field type="email" name="email" className="form-control" placeholder={t("Email")} />
+                        {touched.email && errors.email && <small className="text-danger">{errors.email}</small>}
+                      </div>
+                    </div>
+        
+                    <div className="form-group row">
+                      <label className="col-md-3 col-form-label">{t("Phone")} <span className="text-danger">*</span></label>
+                      <div className="col-md-7">
+                         <Field type="text" name="phone" className="form-control" placeholder={t("Phone")} />
+                        {touched.phone && errors.phone && <small className="text-danger">{errors.phone}</small>}
+                      </div>
+                    </div>
+        
+        
+                    <div className="form-group row">
+                      <label className="col-md-3 col-form-label">{t("Password")} <span className="text-danger">*</span></label>
+                      <div className="col-md-7">
+                         <Field type="text" name="password" className="form-control" placeholder={t("Password")} />
+                        {touched.password && errors.password && <small className="text-danger">{errors.password}</small>}
+                      </div>
+                    </div>
+        
+        
+                  <div className="form-group row">
+                    <label className="col-md-3 col-form-label">{t("Profile Picture")}</label>
+                        <div className="col-md-7">
+                          <input type="file" className="dropify" />
+                          <small id="fileHelp" className="form-text text-muted">This is some placeholder block-level help text for the above input. It's a bit lighter and easily wraps to a new line.</small>
+                        </div>
+                    </div>
+        
+                  </div>
+                  
+                  <div className="card-footer text-right">
+                    <button disabled={(!loading && isValid)} type="submit" className="btn btn-primary">{t("Update Profile")}</button>
+                  </div>
+        
                 </div>
+        
+        
+                </Form>
+        
+                )
+        
+              }</Formik>
+          }
+        
               </div>
-            </div>
-          </div>
-          <div className="card-body form-horizontal">
-            <div className="form-group row">
-              <label className="col-md-3 col-form-label">Company <span className="text-danger">*</span></label>
-              <div className="col-md-7">
-                <input type="text" className="form-control" />
-              </div>
-            </div>
-            <div className="form-group row">
-              <label className="col-md-3 col-form-label">Username <span className="text-danger">*</span></label>
-              <div className="col-md-7">
-                <input type="text" className="form-control" />
-              </div>
-            </div>
-            <div className="form-group row">
-              <label className="col-md-3 col-form-label">Email address <span className="text-danger">*</span></label>
-              <div className="col-md-7">
-                <input type="text" className="form-control" />
-              </div>
-            </div>
-            <div className="form-group row">
-              <label className="col-md-3 col-form-label">First Name <span className="text-danger">*</span></label>
-              <div className="col-md-7">
-                <input type="text" className="form-control" />
-              </div>
-            </div>
-            <div className="form-group row">
-              <label className="col-md-3 col-form-label">Last Name <span className="text-danger">*</span></label>
-              <div className="col-md-7">
-                <input type="text" className="form-control" />
-              </div>
-            </div>
-            <div className="form-group row">
-              <label className="col-md-3 col-form-label">Address <span className="text-danger">*</span></label>
-              <div className="col-md-7">
-                <input type="text" className="form-control" placeholder="Home Address" defaultValue="455 S. Airport St. Moncks Corner" />
-              </div>
-            </div>
-            <div className="form-group row">
-              <label className="col-md-3 col-form-label">City <span className="text-danger">*</span></label>
-              <div className="col-md-7">
-                <input type="text" className="form-control" />
-              </div>
-            </div>
-            <div className="form-group row">
-              <label className="col-md-3 col-form-label">Postal Code <span className="text-danger">*</span></label>
-              <div className="col-md-7">
-                <input type="text" className="form-control" />
-              </div>
-            </div>
-            <div className="form-group row">
-              <label className="col-md-3 col-form-label">Country <span className="text-danger">*</span></label>
-              <div className="col-md-7">
-                <select className="form-control custom-select">
-                  <option value>USA</option>
-                </select>
-              </div>
-            </div>
-            <div className="form-group row">
-              <label className="col-md-3 col-form-label">About Me <span className="text-danger">*</span></label>
-              <div className="col-md-7">
-                <textarea rows={5} className="form-control" placeholder="Here can be your description" defaultValue={"Oh so, your weak rhyme You doubt I'll bother, reading into it I'll probably won't, left to my own devices But that's the difference in our opinions."} />
-              </div>
-            </div>
-          </div>
-          <div className="card-footer text-right">
-            <button type="submit" className="btn btn-primary">Update Profile</button>
-          </div>
-        </div>
-      </div>
-      
-    )
 
-}
+        )
 
-export default Edit
+    }
+
+    export default Edit
