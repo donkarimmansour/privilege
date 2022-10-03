@@ -1,105 +1,104 @@
-import react from 'react'
+import react, { useState } from 'react'
+import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
+import swal from 'sweetalert';
 
 
 const List = () => {
 
+  const { t } = useTranslation();
+  const [filters, setFilters] = useState({ name: "", phone: "", date: "", class: "" });
+  const { loading, error, success, departments, count } = useSelector(state => state.departments)
 
-    return (
-        <div className="tab-pane active" id="Dep-all">
-        <div className="table-responsive">
-          <div className="table-responsive card">
-            <table className="table table-hover table-striped table-vcenter text-nowrap mb-0">
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Dept. Name</th>
-                  <th>Head OF Dept.</th>
-                  <th>Phone</th>
-                  <th>Email</th>
-                  <th>establish</th>
-                  <th>Std. Capacity</th>
-                  <th>Edit</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>1</td>
-                  <td>Mechanical Engg.</td>
-                  <td>Emmett L Johnson</td>
-                  <td>+123 4567890</td>
-                  <td>test@example.com</td>
-                  <td>1998</td>
-                  <td>150</td>
-                  <td>
-                    <button type="button" className="btn btn-icon btn-sm" title="View"><i className="fa fa-eye" /></button>
-                    <button type="button" className="btn btn-icon btn-sm" title="Edit"><i className="fa fa-edit" /></button>
-                    <button type="button" className="btn btn-icon btn-sm js-sweetalert" title="Delete" data-type="confirm"><i className="fa fa-trash-o text-danger" /></button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>2</td>
-                  <td>Computer Engg.</td>
-                  <td>Corrine M Johnson</td>
-                  <td>+123 4567890</td>
-                  <td>test@example.com</td>
-                  <td>2011</td>
-                  <td>205</td>
-                  <td>
-                    <button type="button" className="btn btn-icon btn-sm" title="View"><i className="fa fa-eye" /></button>
-                    <button type="button" className="btn btn-icon btn-sm" title="Edit"><i className="fa fa-edit" /></button>
-                    <button type="button" className="btn btn-icon btn-sm js-sweetalert" title="Delete" data-type="confirm"><i className="fa fa-trash-o text-danger" /></button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>3</td>
-                  <td>M.B.A.</td>
-                  <td>Gladys J Smith</td>
-                  <td>+123 4567890</td>
-                  <td>test@example.com</td>
-                  <td>2009</td>
-                  <td>128</td>
-                  <td>
-                    <button type="button" className="btn btn-icon btn-sm" title="View"><i className="fa fa-eye" /></button>
-                    <button type="button" className="btn btn-icon btn-sm" title="Edit"><i className="fa fa-edit" /></button>
-                    <button type="button" className="btn btn-icon btn-sm js-sweetalert" title="Delete" data-type="confirm"><i className="fa fa-trash-o text-danger" /></button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>4</td>
-                  <td>M.C.A.</td>
-                  <td>Patricia Smith</td>
-                  <td>+123 4567890</td>
-                  <td>test@example.com</td>
-                  <td>2014</td>
-                  <td>98</td>
-                  <td>
-                    <button type="button" className="btn btn-icon btn-sm" title="View"><i className="fa fa-eye" /></button>
-                    <button type="button" className="btn btn-icon btn-sm" title="Edit"><i className="fa fa-edit" /></button>
-                    <button type="button" className="btn btn-icon btn-sm js-sweetalert" title="Delete" data-type="confirm"><i className="fa fa-trash-o text-danger" /></button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>5</td>
-                  <td>Civil Engg.</td>
-                  <td>Danny M Johnson</td>
-                  <td>+123 4567890</td>
-                  <td>test@example.com</td>
-                  <td>2016</td>
-                  <td>231</td>
-                  <td>
-                    <button type="button" className="btn btn-icon btn-sm" title="View"><i className="fa fa-eye" /></button>
-                    <button type="button" className="btn btn-icon btn-sm" title="Edit"><i className="fa fa-edit" /></button>
-                    <button type="button" className="btn btn-icon btn-sm js-sweetalert" title="Delete" data-type="confirm"><i className="fa fa-trash-o text-danger" /></button>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>        
+  const OnSee = () => { }
+  const OnEdit = () => { }
+  const OnDelete = () => { 
+
+    swal({
+      title: "Are you sure?",
+      text: "You will not be able to recover this imaginary file!",
+      type: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#dc3545",
+      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: "No, cancel plx!",
+      closeOnConfirm: false,
+      closeOnCancel: false
+  }).then(isConfirm => {
+      if (isConfirm) {
+          swal("Deleted!", "Your imaginary file has been deleted.", "success");
+      } else {
+          swal("Cancelled", "Your imaginary file is safe :)", "error");
+      }
+  });
+
+  }
+
+
+  const data = [
+    {
+      headOfDepartment: "1",
+      departmentName: "one",
+
+    },
+    {
+      headOfDepartment: "8",
+      departmentName: "two",
+    } ,
+    {
+      headOfDepartment: "4",
+      departmentName: "thee",
+
+    },
+    {
+      headOfDepartment: "3",
+      departmentName: "uuuu",
+    }
+
+  ]
+
+
+  
+ 
+  return (
+    <div className="tab-pane active" id="Dep-all">
+      <div className="table-responsive">
+        <div className="table-responsive card">
+          <table className="table table-hover table-striped table-vcenter text-nowrap mb-0">
+            <thead>
+              <tr>
+                <th>#.</th>
+                <th>{t("Department Name")}</th>
+                <th>{t("Head of Department")}</th>
+                <th>{t("Action")}</th>
+              </tr>
+            </thead>
+            <tbody>
+
+              {data.length > 0 && data.map((d, di) => {
+                return (
+                  <tr key={di}>
+                    <td>{di + 1}</td>
+
+                    <td>{d.departmentName}</td>
+                    <td>{d.headOfDepartment}</td>
+                    <td>
+                      <button type="button" className="btn btn-icon btn-sm" title="View" onclick={() => { OnSee() }}><i className="fa fa-eye" /></button>
+                      <button type="button" className="btn btn-icon btn-sm" title="Edit" onclick={() => { OnEdit() }}><i className="fa fa-edit" /></button>
+                      <button type="button" className="btn btn-icon btn-sm" onClick={() => { OnDelete() }} title="Delete"><i className="fa fa-trash-o text-danger" /></button>
+                    </td>
+                  </tr>
+                )
+              })}
+
+            </tbody>
+          </table>
         </div>
       </div>
-     
-     
-        )
+    </div>
+
+
+  )
 
 }
 

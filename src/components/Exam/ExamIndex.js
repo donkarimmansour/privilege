@@ -1,14 +1,13 @@
 import React from "react"
 import Container from "../shared/Container"
-import Card from "./Card"
 import List from "./List"
 
 
 const ExamIndex = () => {
 
     const links = [
-        {name : "Ericsson" , url : "#"} ,
         {name : "Privilege" , url : "#"} ,
+        {name : "Exam" , url : "#"} ,
     ]
 
     const tabs = []
@@ -18,7 +17,6 @@ const ExamIndex = () => {
 
           <div className="tab-content">
             <div className="tab-pane active" id="TaskBoard-all">
-                <Card />
                 <List />
          
             </div>

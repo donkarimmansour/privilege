@@ -1,60 +1,147 @@
-import react from 'react'
+import { useEffect } from 'react'
+import { useTranslation } from 'react-i18next';
+import { Field, Formik, Form } from "formik"
+import * as yup from 'yup'
+import { useDispatch, useSelector } from "react-redux";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 
 const Add = () => {
+  const { t } = useTranslation();
+  //  const dispatch = useDispatch()
+  const { loading, error, success } = useSelector(state => state.library)
+
+  useEffect(() => {
+    if (success) {
+
+    } else if (error) {
+
+    }
+  }, [success, error]);
 
 
-    return (
-      <div className="tab-pane" id="Library-add">
-      <div className="card">
-        <div className="card-header">
-          <h3 className="card-title">Add Library</h3>
-          <div className="card-options ">
-            <a href="#" className="card-options-collapse" data-toggle="card-collapse"><i className="fe fe-chevron-up" /></a>
-            <a href="#" className="card-options-remove" data-toggle="card-remove"><i className="fe fe-x" /></a>
-          </div>
-        </div>
-        <div className="card-body">
-          <div className="row">
-            <div className="col-sm-12">
-              <div className="form-group">
-                <input type="text" defaultValue placeholder="Enter Title" className="form-control" />
-              </div>
-            </div>
-            <div className="col-sm-12">
-              <div className="form-group">
-                <input type="text" defaultValue placeholder="Enter Subject" className="form-control" />
-              </div>
-            </div>
-            <div className="col-sm-12">
-              <div className="form-group">
-                <input type="text" defaultValue placeholder="Department" className="form-control" />
-              </div>
-            </div>
-            <div className="col-sm-12">
-              <div className="form-group">
-                <input type="text" defaultValue placeholder="Enter Type" className="form-control" />
-              </div>
-            </div>
-            <div className="col-sm-12">
-              <div className="form-group">
-                <input type="text" defaultValue placeholder="Enter Year" className="form-control" />
-              </div>
-            </div>
-            <div className="col-sm-12">
-              <div className="form-group">
-                <input type="text" defaultValue placeholder="Enter Status" className="form-control" />
-              </div>
-            </div>
-            <div className="col-sm-12">
-              <button className="btn btn-primary btn-lg btn-simple">Add Library</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+  const initialValues = {
+    title: "",
+    status: "",
+    type: "",
+    subject: "",
+  }
+
+  const onSubmit = values => {
+    // dispatch(set_contact())
+    console.log(values);
+  }
+
+
+  const ProfessorsAddValidator = yup.object().shape({
+    title: yup.string().required(t("title field is required")),
+    subject: yup.string().required(t("subject field is required")),
+    status: yup.string().required(t("status field is required")),
+    type: yup.string().required(t("type field is required")),
    
-        )
+   
+  })
+
+
+
+  return (
+    <div className="tab-pane" id="Library-add">
+
+
+      {
+        <Formik
+          initialValues={initialValues}
+          onSubmit={onSubmit}
+          validationSchema={ProfessorsAddValidator}>
+
+          {
+            ({ touched, errors, isValid }) => (
+
+              <Form action="#" method="post">
+
+                <div className="row clearfix">
+                  <div className="col-sm-12">
+                    <div className="card">
+                      <div className="card-header">
+                        <h3 className="card-title">{t("Basic Information")}</h3>
+                        <div className="card-options ">
+                          <a href="#" className="card-options-collapse" data-toggle="card-collapse"><i className="fe fe-chevron-up" /></a>
+                          <a href="#" className="card-options-remove" data-toggle="card-remove"><i className="fe fe-x" /></a>
+                        </div>
+                      </div>
+                      <div className="card-body"> 
+                        <div className="form-group row">
+                          <label className="col-md-3 col-form-label">{t("Title")} <span className="text-danger">*</span></label>
+                          <div className="col-md-9">
+                            <Field type="text" name="title" className="form-control" placeholder={t("Enter your First Name")} />
+                            {touched.title && errors.title && <small className="text-danger">{errors.title}</small>}
+                          </div>
+                        </div>
+
+                        <div className="form-group row">
+                          <label className="col-md-3 col-form-label">{t("Subject")} <span className="text-danger">*</span></label>
+                          <div className="col-md-9">
+                            <Field type="text" name="subject" className="form-control" placeholder={t("Enter your Last Name")} />
+                            {touched.subject && errors.subject && <small className="text-danger">{errors.subject}</small>}
+                          </div>
+                        </div>
+                  
+
+
+            
+
+                        <div className="form-group row">
+                          <label className="col-md-3 col-form-label">{t("Status")} <span className="text-danger">*</span></label>
+                          <div className="col-md-9">
+                            <Field as="select" className="form-control input-height" name="status">
+                              <option value>{t("Select...")}</option>
+                              <option value="Out of Stock">Out of Stock</option>
+                              <option value="In Stock">In Stock</option>
+                            </Field>
+                            {touched.status && errors.status && <small className="text-danger">{errors.status}</small>}
+
+                          </div>
+                        </div>
+
+                        <div className="form-group row">
+                          <label className="col-md-3 col-form-label">{t("Type")} <span className="text-danger">*</span></label>
+                          <div className="col-md-9">
+                            <Field as="select" className="form-control input-height" name="type">
+                              <option value>{t("Select...")}</option>
+                              <option value="CD">CD</option>
+                              <option value="DVD">DVD</option>
+                              <option value="Newspaper">Newspaper</option>
+                              <option value="Book">Book</option>
+                            </Field>
+                            {touched.type && errors.type && <small className="text-danger">{errors.type}</small>}
+
+                          </div>
+                        </div>
+
+
+                          <div className="col-sm-12">
+                            <button type="submit" className="btn btn-primary" disabled={(!loading && isValid)}>{t("Submit")}</button>
+                            <button type="submit" className="btn btn-outline-secondary">{t("Cancel")}</button>
+                          </div>
+
+          
+                      </div>
+                    </div>
+                  </div>
+                 </div>
+
+ 
+              </Form>
+
+            )
+
+          }</Formik>
+      }
+
+
+    </div>
+  )
 
 }
 

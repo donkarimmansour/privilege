@@ -1,8 +1,8 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { createApi , editApi  , deleteApi , getApi , countApi } from "../../api/payments";
+import { createApi , editApi  , deleteApi , getApi , countApi } from "../../api/library";
 
-const createPayment =  createAsyncThunk("payments/create" , async (args , PaymentsApi) => {
-    const { rejectWithValue , getState } = PaymentsApi
+const createLibrary =  createAsyncThunk("library/create" , async (args , LibraryApi) => {
+    const { rejectWithValue , getState } = LibraryApi
     const { token } = getState().auth
 
     try {
@@ -15,10 +15,10 @@ const createPayment =  createAsyncThunk("payments/create" , async (args , Paymen
 })
 
 
-const editPayment =  createAsyncThunk("payments/edit" , async (args , PaymentsApi) => {
-    const { rejectWithValue , getState } = PaymentsApi
+const editLibrary =  createAsyncThunk("library/edit" , async (args , LibraryApi) => {
+    const { rejectWithValue , getState } = LibraryApi
     const { token } = getState().auth
-    const { _id } = getState().payments.singlePayment
+    const { _id } = getState().library.singleLibrary
 
     try {
      const res = await  editApi(_id , args , token)
@@ -29,8 +29,8 @@ const editPayment =  createAsyncThunk("payments/edit" , async (args , PaymentsAp
     }
 })
 
-const deletePayment =  createAsyncThunk("payments/delete" , async (args , PaymentsApi) => {
-    const { rejectWithValue , getState } = PaymentsApi
+const deleteLibrary =  createAsyncThunk("library/delete" , async (args , LibraryApi) => {
+    const { rejectWithValue , getState } = LibraryApi
     const { token } = getState().auth
 
     try {
@@ -42,8 +42,8 @@ const deletePayment =  createAsyncThunk("payments/delete" , async (args , Paymen
     }
 })
 
-const getPayment =  createAsyncThunk("payments/get" , async (args , PaymentsApi) => {
-    const { rejectWithValue , getState } = PaymentsApi
+const getLibrary =  createAsyncThunk("library/get" , async (args , LibraryApi) => {
+    const { rejectWithValue , getState } = LibraryApi
     const { token } = getState().auth
 
     try {
@@ -55,8 +55,8 @@ const getPayment =  createAsyncThunk("payments/get" , async (args , PaymentsApi)
     }
 })
 
-const countPayment =  createAsyncThunk("payments/count" , async (args , PaymentsApi) => {
-    const { rejectWithValue , getState } = PaymentsApi
+const countLibrary =  createAsyncThunk("library/count" , async (args , LibraryApi) => {
+    const { rejectWithValue , getState } = LibraryApi
     const { token } = getState().auth
 
     try {
@@ -68,8 +68,8 @@ const countPayment =  createAsyncThunk("payments/count" , async (args , Payments
     }
 })
 
-const getSinglePayment =  createAsyncThunk("payments/getSingle" , async (args , PaymentsApi) => {
-    const { rejectWithValue , getState } = PaymentsApi
+const getSingleLibrary =  createAsyncThunk("library/getSingle" , async (args , LibraryApi) => {
+    const { rejectWithValue , getState } = LibraryApi
     const { token } = getState().auth
 
     try {
@@ -81,4 +81,4 @@ const getSinglePayment =  createAsyncThunk("payments/getSingle" , async (args , 
     }
 })
 
-export {getSinglePayment , getPayment , countPayment , editPayment , deletePayment ,createPayment} 
+export {getSingleLibrary , getLibrary , countLibrary , editLibrary , deleteLibrary ,createLibrary} 

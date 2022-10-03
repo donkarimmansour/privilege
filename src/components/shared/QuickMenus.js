@@ -19,34 +19,8 @@ const QuickMenus = () => {
                         <div className="card-body">
                             <div>Total Revenue</div>
                             <div className="py-3 m-0 text-center h1 text-success">$79,452</div>
-                            <div className="d-flex">
-                                <span className="text-muted">Income</span>
-                                <div className="ml-auto"><i className="fa fa-caret-up text-success"></i>4%</div>
-                            </div>
                         </div>
-                        <div className="card-footer">
-                            <ul className="list-unstyled mb-0">
-                                <li className="mb-3">
-                                    <div className="clearfix">
-                                        <div className="float-left"><strong>$43,320</strong></div>
-                                        <div className="float-right"><small className="text-muted">Bank of America</small></div>
-                                    </div>
-                                    <div className="progress progress-xxs">
-                                        <div className="progress-bar bg-azure" role="progressbar" style={{width: "87%"}} aria-valuenow="42" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div className="clearfix">
-                                        <div className="float-left"><strong>$36,132</strong></div>
-                                        <div className="float-right"><small className="text-muted">Wells Fargo</small></div>
-                                    </div>
-                                    <div className="progress progress-xxs">
-                                        <div className="progress-bar bg-green" role="progressbar" style={{width: "80%"}} aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
+                   </div>
                     <div className="card">
                         <div className="card-body top_counter">
                             <div className="icon bg-yellow"><i className="fa fa-users"></i> </div>

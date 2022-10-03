@@ -15,7 +15,7 @@ const createStudent =  createAsyncThunk("students/create" , async (args , Studen
 })
 
 
-const editrofessor =  createAsyncThunk("students/edit" , async (args , StudentsApi) => {
+const editStudent =  createAsyncThunk("students/edit" , async (args , StudentsApi) => {
     const { rejectWithValue , getState } = StudentsApi
     const { token } = getState().auth
     const { _id } = getState().students.dingleStudent
@@ -81,4 +81,4 @@ const getSingleStudent =  createAsyncThunk("students/getSingle" , async (args , 
     }
 })
 
-export {getSingleStudent , getStudent , countStudent , editrofessor , deleteStudent ,createStudent} 
+export {getSingleStudent , getStudent , countStudent , editStudent , deleteStudent ,createStudent} 

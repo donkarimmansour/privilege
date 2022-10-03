@@ -16,7 +16,7 @@ const tabs = [
     // {name : "Profile" , id : "#Student-profile"} ,
     {name : "Add" , id : "#Student-add"} 
 ]
-
+ 
 
     return (
       <Container tabs={tabs} links={links}> 

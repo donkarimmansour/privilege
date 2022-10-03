@@ -1,8 +1,8 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { createApi , editApi  , deleteApi , getApi , countApi } from "../../api/payments";
+import { createApi , editApi  , deleteApi , getApi , countApi } from "../../api/courses";
 
-const createPayment =  createAsyncThunk("payments/create" , async (args , PaymentsApi) => {
-    const { rejectWithValue , getState } = PaymentsApi
+const createCourse =  createAsyncThunk("course/create" , async (args , CoursesApi) => {
+    const { rejectWithValue , getState } = CoursesApi
     const { token } = getState().auth
 
     try {
@@ -15,10 +15,10 @@ const createPayment =  createAsyncThunk("payments/create" , async (args , Paymen
 })
 
 
-const editPayment =  createAsyncThunk("payments/edit" , async (args , PaymentsApi) => {
-    const { rejectWithValue , getState } = PaymentsApi
+const editCourse =  createAsyncThunk("course/edit" , async (args , CoursesApi) => {
+    const { rejectWithValue , getState } = CoursesApi
     const { token } = getState().auth
-    const { _id } = getState().payments.singlePayment
+    const { _id } = getState().course.singleCourse
 
     try {
      const res = await  editApi(_id , args , token)
@@ -29,8 +29,8 @@ const editPayment =  createAsyncThunk("payments/edit" , async (args , PaymentsAp
     }
 })
 
-const deletePayment =  createAsyncThunk("payments/delete" , async (args , PaymentsApi) => {
-    const { rejectWithValue , getState } = PaymentsApi
+const deleteCourse =  createAsyncThunk("course/delete" , async (args , CoursesApi) => {
+    const { rejectWithValue , getState } = CoursesApi
     const { token } = getState().auth
 
     try {
@@ -42,8 +42,8 @@ const deletePayment =  createAsyncThunk("payments/delete" , async (args , Paymen
     }
 })
 
-const getPayment =  createAsyncThunk("payments/get" , async (args , PaymentsApi) => {
-    const { rejectWithValue , getState } = PaymentsApi
+const getCourse =  createAsyncThunk("course/get" , async (args , CoursesApi) => {
+    const { rejectWithValue , getState } = CoursesApi
     const { token } = getState().auth
 
     try {
@@ -55,8 +55,8 @@ const getPayment =  createAsyncThunk("payments/get" , async (args , PaymentsApi)
     }
 })
 
-const countPayment =  createAsyncThunk("payments/count" , async (args , PaymentsApi) => {
-    const { rejectWithValue , getState } = PaymentsApi
+const countCourse =  createAsyncThunk("course/count" , async (args , CoursesApi) => {
+    const { rejectWithValue , getState } = CoursesApi
     const { token } = getState().auth
 
     try {
@@ -68,8 +68,8 @@ const countPayment =  createAsyncThunk("payments/count" , async (args , Payments
     }
 })
 
-const getSinglePayment =  createAsyncThunk("payments/getSingle" , async (args , PaymentsApi) => {
-    const { rejectWithValue , getState } = PaymentsApi
+const getSingleCourse =  createAsyncThunk("course/getSingle" , async (args , CoursesApi) => {
+    const { rejectWithValue , getState } = CoursesApi
     const { token } = getState().auth
 
     try {
@@ -81,4 +81,4 @@ const getSinglePayment =  createAsyncThunk("payments/getSingle" , async (args , 
     }
 })
 
-export {getSinglePayment , getPayment , countPayment , editPayment , deletePayment ,createPayment} 
+export {getSingleCourse , getCourse , countCourse , editCourse , deleteCourse ,createCourse} 

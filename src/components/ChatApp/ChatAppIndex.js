@@ -1,4 +1,6 @@
-import react from 'react'
+import react, { useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
+import { useSelector } from 'react-redux'
 import Container from '../shared/Container'
 
 
@@ -13,10 +15,23 @@ const ChatAppIndex = () => {
   const tabs = []
 
 
+  const { t } = useTranslation();
+  //  const dispatch = useDispatch()
+  const { loading, error, success , messages , online } = useSelector(state => state.chat)
+
+  useEffect(() => {
+    if (success) {
+
+    } else if (error) {
+
+    }
+  }, [success, error]);
+
+ 
 
     return (
-      <Container tabs={tabs} links={links}> 
-             <div className="row">
+      <Container tabs={tabs} links={links} > 
+       <div className="row chat_app">
         <div className="col-lg-12 col-md-12">
           <div className="card">
             <div className="card-header bline">
@@ -120,6 +135,7 @@ const ChatAppIndex = () => {
         </div>
       </div>
 
+  
       </Container>
     )
 

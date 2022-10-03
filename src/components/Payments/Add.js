@@ -140,11 +140,11 @@ const Add = () => {
                     <div className="col-md-7">
                       <div className="custom-controls-stacked">
                         <label className="custom-control custom-radio custom-control-inline">
-                          <Field type="radio" className="custom-control-input" name="paymentDuration" defaultValue="option1" defaultChecked />
+                          <Field type="radio" className="custom-control-input" name="paymentDuration" value="m"  />
                           <span className="custom-control-label">{t("Monthly")}</span>
                         </label>
                         <label className="custom-control custom-radio custom-control-inline">
-                          <Field type="radio" className="custom-control-input" name="paymentDuration" defaultValue="option2" />
+                          <Field type="radio" className="custom-control-input" name="paymentDuration" value="ee" />
                           <span className="custom-control-label">{t("Formation")}</span>
                         </label>
                       </div>
@@ -215,7 +215,7 @@ const Add = () => {
                   <div className="form-group row">
                     <label className="col-md-3 col-form-label">{t("Payment Details")}</label>
                     <div className="col-md-7">
-                      <Field as="textarea" name="paymentDetails" rows={4} className="form-control no-resize" placeholder={t("Please type what you want...")} defaultValue={""} />
+                      <Field as="textarea" name="paymentDetails" rows={4} className="form-control no-resize" placeholder={t("Please type what you want...")}  />
                       {touched.paymentDetails && errors.paymentDetails && <small className="text-danger">{errors.paymentDetails}</small>}
                     </div>
 

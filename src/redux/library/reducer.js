@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getSinglePayment, getPayment, countPayment, editPayment, deletePayment, createPayment } from "./action"
+import { getSingleLibrary , getLibrary , countLibrary , editLibrary , deleteLibrary ,createLibrary } from "./action"
 const initialState = {
-    payments: [],
-    singlePayment: {},
+    library: [],
+    singleLibrary: {},
     count: 0,
     loading: false,
     error: false,
@@ -10,8 +10,8 @@ const initialState = {
 }
 
 
-export const PaymentsReducerSlice = createSlice({
-    name: 'payments',
+export const LibraryReducerSlice = createSlice({
+    name: 'library',
     initialState,
     reducers: {
         // create: (state, action) => {
@@ -34,100 +34,100 @@ export const PaymentsReducerSlice = createSlice({
         // },
     },
     extraReducers: {
-        //getSinglePayment
-        [getSinglePayment.pending]: (state, action) => {
+        //getSingleLibrary
+        [getSingleLibrary.pending]: (state, action) => {
             state.loading = true
         },
 
-        [getSinglePayment.fulfilled]: (state, action) => {
+        [getSingleLibrary.fulfilled]: (state, action) => {
             state.loading = false
             // state.success = action.payload
-            state.singlePayment = action.payload
+            state.singleLibrary = action.payload
         },
 
-        [getSinglePayment.rejected]: (state, action) => {
+        [getSingleLibrary.rejected]: (state, action) => {
             state.loading = false
             state.error = action.payload
         },
 
-        //getPayment
-        [getPayment.pending]: (state, action) => {
+        //getLibrary
+        [getLibrary.pending]: (state, action) => {
             state.loading = true
         },
 
-        [getPayment.fulfilled]: (state, action) => {
+        [getLibrary.fulfilled]: (state, action) => {
             state.loading = false
             // state.success = action.payload
-            state.Payments = action.payload
+            state.Library = action.payload
         },
 
-        [getPayment.rejected]: (state, action) => {
+        [getLibrary.rejected]: (state, action) => {
             state.loading = false
             state.error = action.payload
         },
 
-        //countPayment
-        [countPayment.pending]: (state, action) => {
+        //countLibrary
+        [countLibrary.pending]: (state, action) => {
             state.loading = true
         },
 
-        [countPayment.fulfilled]: (state, action) => {
+        [countLibrary.fulfilled]: (state, action) => {
             state.loading = false
             // state.success = action.payload
             state.count = action.payload
         },
 
-        [countPayment.rejected]: (state, action) => {
+        [countLibrary.rejected]: (state, action) => {
             state.loading = false
             state.error = action.payload
         },
 
-        //editPayment
-        [editPayment.pending]: (state, action) => {
+        //editLibrary
+        [editLibrary.pending]: (state, action) => {
             state.loading = true
         },
 
-        [editPayment.fulfilled]: (state, action) => {
+        [editLibrary.fulfilled]: (state, action) => {
             state.loading = false
             // state.success = action.payload
-            state.Payments = action.payload //chaange
+            state.Library = action.payload //chaange
         },
 
-        [editPayment.rejected]: (state, action) => {
+        [editLibrary.rejected]: (state, action) => {
             state.loading = false
             state.error = action.payload
         },
 
-        //deletePayment
-        [deletePayment.pending]: (state, action) => {
+        //deleteLibrary
+        [deleteLibrary.pending]: (state, action) => {
             state.loading = true
         },
 
-        [deletePayment.fulfilled]: (state, action) => {
+        [deleteLibrary.fulfilled]: (state, action) => {
             state.loading = false
             // state.success = action.payload
-            state.Payments = action.payload // delete one
+            state.Library = action.payload // delete one
             state.count = -1
         },
 
-        [deletePayment.rejected]: (state, action) => {
+        [deleteLibrary.rejected]: (state, action) => {
             state.loading = false
             state.error = action.payload
         },
 
-        //createPayment
-        [createPayment.pending]: (state, action) => {
+        //createLibrary
+        [createLibrary.pending]: (state, action) => {
             state.loading = true
         },
 
-        [createPayment.fulfilled]: (state, action) => {
+        [createLibrary.fulfilled]: (state, action) => {
             state.loading = false
             // state.success = action.payload
-            state.Payments = [...state.Payments, action.payload]
+            state.Library = [...state.Library, action.payload]
             state.count = +1
         },
 
-        [createPayment.rejected]: (state, action) => {
+        [createLibrary.rejected]: (state, action) => {
             state.loading = false
             state.error = action.payload
         },
@@ -136,4 +136,4 @@ export const PaymentsReducerSlice = createSlice({
 
 
 
-export default PaymentsReducerSlice.reducer;
+export default LibraryReducerSlice.reducer;

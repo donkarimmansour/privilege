@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getSingleProfessor, getProfessor, countProfessor, editrofessor, deleteProfessor, createProfessor } from "./action"
+import { getSingleProfessor, getProfessor, countProfessor, editProfessor, deleteProfessor, createProfessor } from "./action"
 const initialState = {
     professors: [],
     singleProfessor: {},
@@ -82,18 +82,18 @@ export const ProfessorsReducerSlice = createSlice({
             state.error = action.payload
         },
 
-        //editrofessor
-        [editrofessor.pending]: (state, action) => {
+        //editProfessor
+        [editProfessor.pending]: (state, action) => {
             state.loading = true
         },
 
-        [editrofessor.fulfilled]: (state, action) => {
+        [editProfessor.fulfilled]: (state, action) => {
             state.loading = false
             // state.success = action.payload
             state.professors = action.payload //chaange
         },
 
-        [editrofessor.rejected]: (state, action) => {
+        [editProfessor.rejected]: (state, action) => {
             state.loading = false
             state.error = action.payload
         },

@@ -111,6 +111,34 @@ const resources = {
        "Date" : "Date" ,
        "Duration" : "Duration" ,
        "Method" : "Method" ,
+
+       //department
+       "Department Basic Info" : "Department Basic Info" ,
+       "Head of Department" : "Head of Department" ,
+       "Brief" : "Brief" ,
+       "Department Name" : "Department Name" ,
+       "Departmen tName field is required" : "Departmen tName field is required" ,
+       "Head of Department field is required" : "Head of Department field is required" ,
+       "Brief field is required" : "Brief field is required" ,
+
+       //coures
+       "Duration" : "Duration" ,
+       "Fees" : "Fees" ,
+       "Students" : "Students" ,
+       "Image" : "Image" ,
+       "Name" : "Name" ,
+       "Description" : "Description" ,
+       "name field is required" : "name field is required" ,
+       "description field is required" : "description field is required" ,
+       "durtion field is required" : "durtion field is required" ,
+       "Details" : "Details" ,
+       "Date" : "Date" ,
+
+       //library
+       "Title" : "Title" ,
+       "Subject" : "Subject" ,
+       "Type" : "Type" ,
+       "password" : "password" ,
        "password" : "password" ,
        "password" : "password" ,
        "password" : "password" ,

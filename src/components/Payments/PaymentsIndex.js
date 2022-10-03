@@ -27,7 +27,7 @@ const tabs = [
       <List />
       <Add />
 
-{/*    
+{/*     
        <div className="tab-pane" id="Fees-Receipt">
           <div className="card">
             <div className="card-header">

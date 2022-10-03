@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getSingleStudent, getStudent, countStudent, editrofessor, deleteStudent, createStudent } from "./action"
+import { getSingleStudent, getStudent, countStudent, editStudent, deleteStudent, createStudent } from "./action"
 const initialState = {
     students: [],
     singleStudent: {},
@@ -82,18 +82,18 @@ export const StudentsReducerSlice = createSlice({
             state.error = action.payload
         },
 
-        //editrofessor
-        [editrofessor.pending]: (state, action) => {
+        //editStudent
+        [editStudent.pending]: (state, action) => {
             state.loading = true
         },
 
-        [editrofessor.fulfilled]: (state, action) => {
+        [editStudent.fulfilled]: (state, action) => {
             state.loading = false
             // state.success = action.payload
             state.Students = action.payload //chaange
         },
 
-        [editrofessor.rejected]: (state, action) => {
+        [editStudent.rejected]: (state, action) => {
             state.loading = false
             state.error = action.payload
         },

@@ -7,12 +7,22 @@ import AuthReducer from "./auth/reducer";
 import ProfessorsReducer from "./professors/reducer";
 import StudentsReducer from "./students/reducer";
 import PaymentsReducer from "./payments/reducer";
+import ChatReducer from "./chat/reducer";
+import DepartmentReducer from "./department/reducer";
+import CoursesReducer from "./courses/reducer";
+import LibraryReducer from "./library/reducer";
+import ExamReducer from "./exam/reducer";
 
 const reducers = combineReducers({
   auth : AuthReducer ,
   professors : ProfessorsReducer ,
   students : StudentsReducer ,
   payments : PaymentsReducer ,
+  chat : ChatReducer ,
+  departments : DepartmentReducer ,
+  courses : CoursesReducer ,
+  library : LibraryReducer ,
+  exam : ExamReducer ,
 })
 
 const persistConfig = { 

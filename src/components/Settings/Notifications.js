@@ -13,7 +13,7 @@ const Notifications = () => {
           <div className="card-body">
             <ul className="list-group">
               <li className="list-group-item">
-                Anyone send me a message
+              use Notifications 
                 <div className="float-right">
                   <label className="custom-control custom-checkbox">
                     <input type="checkbox" className="custom-control-input" />
@@ -21,43 +21,7 @@ const Notifications = () => {
                   </label>
                 </div>
               </li>
-              <li className="list-group-item">
-                Anyone seeing my profile page
-                <div className="float-right">
-                  <label className="custom-control custom-checkbox">
-                    <input type="checkbox" className="custom-control-input" defaultChecked />
-                    <span className="custom-control-label">&nbsp;</span>
-                  </label>
-                </div>
-              </li>
-              <li className="list-group-item">
-                Anyone posts a comment on my post
-                <div className="float-right">
-                  <label className="custom-control custom-checkbox">
-                    <input type="checkbox" className="custom-control-input" defaultChecked />
-                    <span className="custom-control-label">&nbsp;</span>
-                  </label>
-                </div>
-              </li>
-              <li className="list-group-item">
-                Anyone send me a message
-                <div className="float-right">
-                  <label className="custom-control custom-checkbox">
-                    <input type="checkbox" className="custom-control-input" />
-                    <span className="custom-control-label">&nbsp;</span>
-                  </label>
-                </div>
-              </li>
-              <li className="list-group-item">
-                Anyone seeing my profile page
-                <div className="float-right">
-                  <label className="custom-control custom-checkbox">
-                    <input type="checkbox" className="custom-control-input" />
-                    <span className="custom-control-label">&nbsp;</span>
-                  </label>
-                </div>
-              </li>
-            </ul>
+          </ul>
           </div>
         </div>
       </div>

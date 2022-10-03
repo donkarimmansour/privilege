@@ -10,7 +10,7 @@ const Footer = () => {
                 <div className="container-fluid">
                     <div className="row">
                         <div className="col-md-6 col-sm-12">
-                            Copyright © 2022 <a href="#">mmmmmm</a>.
+                            Copyright © 2022 <a href="#">Privilege</a>.
                         </div> 
                         <div className="col-md-6 col-sm-12 text-md-right">
                             <ul className="list-inline mb-0">

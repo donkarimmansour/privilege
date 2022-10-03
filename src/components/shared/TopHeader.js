@@ -1,4 +1,5 @@
 import react from 'react'
+import { Link } from 'react-router-dom'
 
 
 const TopHeader = () => {
@@ -8,7 +9,7 @@ const TopHeader = () => {
         <div id="header_top" className="header_top">
             <div className="container">
                 <div className="hleft">
-                    <a className="header-brand" href="index.html"><i className="fa fa-graduation-cap brand-logo"></i></a>
+                    <Link className="header-brand" to="/"><i className="fa fa-graduation-cap brand-logo"></i></Link>
                     <div className="dropdown">
                         <a href="javascript:void(0)" className="nav-link icon menu_toggle"><i className="fe fe-align-center"></i></a>
                         {/* <a href="page-search.html" className="nav-link icon"><i className="fe fe-search" data-toggle="tooltip" data-placement="right" title="Search..."></i></a> */}

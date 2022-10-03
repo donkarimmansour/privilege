@@ -1,5 +1,5 @@
 import react from 'react'
-import List from '../Departments/List'
+import List from './List'
 import Container from '../shared/Container'
 import Add from './Add'
 
@@ -23,7 +23,7 @@ const tabs = [
     return (
       <Container tabs={tabs} links={links}> 
             <div className="tab-content">
-
+ 
             <List />
          <Add />
         {/* <div className="tab-pane" id="Library-add-Boot">
