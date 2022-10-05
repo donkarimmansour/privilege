@@ -248,11 +248,13 @@ const resources = {
        "Box Shadow" : "Box Shadow" ,
        "RTL Support" : "RTL Support" ,
        "Box Layout" : "Box Layout" ,
-       "password" : "password" ,
-       "password" : "password" ,
-       "password" : "password" ,
-       "password" : "password" ,
-       "password" : "password" ,
+
+       //Notifications
+       "message field is required" : "message field is required" ,
+       "Message" : "Message" ,
+       "Enter your Message" : "Enter your Message" ,
+       "Send" : "Send" ,
+       "All" : "All" ,
        "password" : "password" ,
 
      

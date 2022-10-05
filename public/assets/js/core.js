@@ -1,31 +1,5 @@
 
 
-
-
-    // // Font Setting 
-    // $('.font_setting input:radio').click(function () {
-    //     var others = $("[name='" + this.name + "']").map(function () {
-    //         return this.value
-    //     }).get().join(" ")
-    //     console.log(others)
-    //     $('body').removeClass(others).addClass(this.value)
-    // });  
-
-
-
-
-
-    // "use strict";
-    // // Full Dark mode
-	// $(".setting_switch .btn-darkmode").on('change',function() {
-	// 	if(this.checked) {
-	// 		$('body').addClass('dark-mode');
-	// 	}else{
-	// 		$('body').removeClass('dark-mode');
-	// 	}
-    // });
-
-
     // // Top bar sticky
 	// $(".setting_switch .btn-fixnavbar").on('change',function() {
 	// 	if(this.checked) {

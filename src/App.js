@@ -22,6 +22,7 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { Provider } from "react-redux";
 import React from 'react';
 import './common/i18n';
+import NotificationsIndex from './components/Notifications/NotificationsIndex';
 
 function App() {
 
@@ -39,6 +40,7 @@ function App() {
               <Route element={<StudentsIndex />} path="/students" />
               <Route element={<GroupsIndex />} path="/groups" />
               <Route element={<LevelsIndex />} path="/levels" />
+              <Route element={<NotificationsIndex />} path="/notifications" />
 
               
               <Route element={<DepartmentsIndex />} path="/departments" />

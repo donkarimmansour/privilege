@@ -3,42 +3,151 @@ import { useTranslation } from 'react-i18next';
 import { removeSiblingsClass } from '../../common/funs';
 
 
-const RightSidebar = () => {  
+const RightSidebar = ({refresher , setRefresher}) => {
     const { t } = useTranslation();
-
-
+    
+    //skin Changer
     const skinChanger = (e) => {
         var $body = document.querySelector('body');
         var $this = e
 
         const existTheme = document.querySelector('.choose-skin li.active').getAttribute('data-theme');
 
-        removeSiblingsClass($this.target , "active")
+        removeSiblingsClass($this.target, "active")
 
         $this.target.classList.add('active');
 
         $body.classList.remove('theme-' + existTheme);
         $body.classList.add('theme-' + $this.target.getAttribute('data-theme'));
+        setRefresher(refresher++)
     }
- 
 
-    const fontSetting = (e) => {
+    //Font Settings
+    const fontSetting = (e) => { 
         var $body = document.querySelector('body');
 
         $body.classList.remove('font-montserrat');
         $body.classList.remove('font-muli');
         $body.classList.remove('font-poppins');
         $body.classList.add(e.target.value);
+        setRefresher(refresher++)
     }
- 
+
+    //Full Dark mode
+    const fullDarkMode = (el) => {
+        if (el.target.checked) {
+            document.querySelector('body').classList.add('dark-mode');
+        } else {
+            document.querySelector('body').classList.remove('dark-mode');
+        }
+        setRefresher(refresher++)
+    }
+
+   
+    //Top bar sticky
+    const topBarSticky = (el) => {
+        if (el.target.checked) {
+            document.querySelector('#page_top').classList.add('sticky-top');
+        } else {
+            document.querySelector('#page_top').classList.remove('sticky-top');
+        }
+        setRefresher(refresher++)
+    }
+
+    //icon-color
+    const iconColor = (el) => {
+        if (el.target.checked) {
+            document.querySelector('body').classList.add('iconcolor');
+        } else {
+            document.querySelector('body').classList.remove('iconcolor');
+        }
+        setRefresher(refresher++)
+    }
+
+    //Gradient Color
+    const gradientColor = (el) => {
+        if (el.target.checked) {
+            document.querySelector('body').classList.add('gradient');
+        } else {
+            document.querySelector('body').classList.remove('gradient');
+        }
+        setRefresher(refresher++)
+    }
 
 
-             
+    //Box Shadow
+    const boxShadow = (el) => {
+        if (el.target.checked) {
+            document.querySelector('.card, .btn, .progress').classList.add('box_shadow');
+        } else {
+            document.querySelector('.card, .btn, .progress').classList.remove('box_shadow');
+        }
+        setRefresher(refresher++)
+    }
 
-    return  (
+    //Box Layout
+    const boxLayout = (el) => {
+        if (el.target.checked) {
+            document.querySelector('body').classList.add('boxlayout');
+        } else {
+            document.querySelector('body').classList.remove('boxlayout');
+        }
+        setRefresher(refresher++)
+    }
+
+    //RTL Support
+    const RTLSupport = (el) => {
+        if (el.target.checked) {
+            document.querySelector('body').classList.add('rtl');
+        } else {
+            document.querySelector('body').classList.remove('rtl');
+        }
+        setRefresher(refresher++)
+    }
+
+    //Header Dark
+    const headerDark = (el) => {
+        if (el.target.checked) {
+            document.querySelector('#page_top').classList.add('top_dark');
+        } else {
+            document.querySelector('#page_top').classList.remove('top_dark');
+        }
+        setRefresher(refresher++)
+    }
+
+
+    //Min Sidebar Dark
+    const minSidebarDark = (el) => {
+        if (el.target.checked) {
+            document.querySelector('#header_top').classList.add('dark');
+        } else {
+            document.querySelector('#header_top').classList.remove('dark');
+        }
+        setRefresher(refresher++)
+    }
+
+
+    //Sidebar Dark
+    const sidebarDark = (el) => {
+        if (el.target.checked) {
+            document.querySelector('body').classList.add('sidebar_dark');
+        } else {
+            document.querySelector('body').classList.remove('sidebar_dark');
+        }
+        setRefresher(refresher++)
+    }
+
+
+    // right side bar
+    const rightSideBar = (el) => {
+        document.querySelector('.right_sidebar').classList.toggle('open');
+    }
+
+
+    return (
         // <!-- Start Rightbar setting panel -->
         <div id="rightsidebar" className="right_sidebar">
-            <a href="javascript:void(0)" className="p-3 settingbar float-right"><i className="fa fa-close"></i></a>
+            <a href="javascript:void(0)" className="p-3 settingbar float-right" onClick={rightSideBar}><i className="fa fa-close"></i></a>
             <ul className="nav nav-tabs" role="tablist">
                 <li className="nav-item"><a className="nav-link active" data-toggle="tab" href="#Settings" aria-expanded="true">Settings</a></li>
                 {/* <li className="nav-item"><a className="nav-link" data-toggle="tab" href="#activity" aria-expanded="false">Activity</a></li> */}
@@ -81,70 +190,70 @@ const RightSidebar = () => {
                             <li>
                                 <label className="custom-switch">
                                     <span className="custom-switch-description">{t("Night Mode")}</span>
-                                    <input type="checkbox" name="custom-switch-checkbox" className="custom-switch-input btn-darkmode" />
+                                    <input type="checkbox" name="custom-switch-checkbox" onClick={fullDarkMode} className="custom-switch-input btn-darkmode" />
                                     <span className="custom-switch-indicator"></span>
                                 </label>
                             </li>
                             <li>
                                 <label className="custom-switch">
                                     <span className="custom-switch-description">{t("Fix Navbar top")}</span>
-                                    <input type="checkbox" name="custom-switch-checkbox" className="custom-switch-input btn-fixnavbar" />
+                                    <input type="checkbox" name="custom-switch-checkbox" onClick={topBarSticky} className="custom-switch-input btn-fixnavbar" />
                                     <span className="custom-switch-indicator"></span>
                                 </label>
                             </li>
                             <li>
                                 <label className="custom-switch">
                                     <span className="custom-switch-description">{t("Header Dark")}</span>
-                                    <input type="checkbox" name="custom-switch-checkbox" className="custom-switch-input btn-pageheader" />
+                                    <input type="checkbox" name="custom-switch-checkbox" onClick={headerDark} className="custom-switch-input btn-pageheader" />
                                     <span className="custom-switch-indicator"></span>
                                 </label>
                             </li>
                             <li>
                                 <label className="custom-switch">
                                     <span className="custom-switch-description">{t("Min Sidebar Dark")}</span>
-                                    <input type="checkbox" name="custom-switch-checkbox" className="custom-switch-input btn-min_sidebar" />
+                                    <input type="checkbox" name="custom-switch-checkbox" onClick={minSidebarDark} className="custom-switch-input btn-min_sidebar" />
                                     <span className="custom-switch-indicator"></span>
                                 </label>
                             </li>
                             <li>
                                 <label className="custom-switch">
                                     <span className="custom-switch-description">{t("Sidebar Dark")}</span>
-                                    <input type="checkbox" name="custom-switch-checkbox" className="custom-switch-input btn-sidebar" />
+                                    <input type="checkbox" name="custom-switch-checkbox" onClick={sidebarDark} className="custom-switch-input btn-sidebar" />
                                     <span className="custom-switch-indicator"></span>
                                 </label>
                             </li>
                             <li>
                                 <label className="custom-switch">
                                     <span className="custom-switch-description">{t("Icon Color")}</span>
-                                    <input type="checkbox" name="custom-switch-checkbox" className="custom-switch-input btn-iconcolor" />
+                                    <input type="checkbox" name="custom-switch-checkbox" onClick={iconColor} className="custom-switch-input btn-iconcolor" />
                                     <span className="custom-switch-indicator"></span>
                                 </label>
                             </li>
                             <li>
                                 <label className="custom-switch">
                                     <span className="custom-switch-description">{t("Gradient Color")}</span>
-                                    <input type="checkbox" name="custom-switch-checkbox" className="custom-switch-input btn-gradient" defaultChecked />
+                                    <input type="checkbox" name="custom-switch-checkbox" onClick={gradientColor} className="custom-switch-input btn-gradient" defaultChecked />
                                     <span className="custom-switch-indicator"></span>
                                 </label>
                             </li>
                             <li>
                                 <label className="custom-switch">
                                     <span className="custom-switch-description">{t("Box Shadow")}</span>
-                                    <input type="checkbox" name="custom-switch-checkbox" className="custom-switch-input btn-boxshadow" />
+                                    <input type="checkbox" name="custom-switch-checkbox" onClick={boxShadow} className="custom-switch-input btn-boxshadow" />
                                     <span className="custom-switch-indicator"></span>
                                 </label>
                             </li>
                             <li>
                                 <label className="custom-switch">
                                     <span className="custom-switch-description">{t("RTL Support")}</span>
-                                    <input type="checkbox" name="custom-switch-checkbox" className="custom-switch-input btn-rtl" />
+                                    <input type="checkbox" name="custom-switch-checkbox" onClick={RTLSupport} className="custom-switch-input btn-rtl" />
                                     <span className="custom-switch-indicator"></span>
                                 </label>
                             </li>
                             <li>
                                 <label className="custom-switch">
                                     <span className="custom-switch-description">{t("Box Layout")}</span>
-                                    <input type="checkbox" name="custom-switch-checkbox" className="custom-switch-input btn-boxlayout" />
+                                    <input type="checkbox" name="custom-switch-checkbox" onClick={boxLayout} className="custom-switch-input btn-boxlayout" />
                                     <span className="custom-switch-indicator"></span>
                                 </label>
                             </li>
@@ -152,9 +261,9 @@ const RightSidebar = () => {
                     </div>
 
                 </div>
-              
-            
-           
+
+
+
             </div>
         </div>
     )

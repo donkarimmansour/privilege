@@ -32,6 +32,7 @@ const LeftSidbar = () => {
                         <li><Link to="/exam"><i className="fa fa-list-ul"></i><span>{t("Exam")}</span></Link></li>
                         <li><Link to="/levels"><i className="fa fa-calendar-check-o"></i><span>{t("Levels")}</span></Link></li>
                         <li><Link to="/groups"><i className="fa fa-users"></i><span>{t("Groups")}</span></Link></li>
+                        <li><Link to="/notifications"><i className="fa fa-bell"></i><span>{t("Notifications")}</span></Link></li>
                         <li><Link to="/settings"><i className="fa fa-gear"></i><span>{t("Settings")}</span></Link></li>
                 </ul>
                 </nav>

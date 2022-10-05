@@ -1,4 +1,4 @@
-import react, { useEffect } from 'react'
+import react, { useEffect, useState } from 'react'
 import Header from './Header'
 import TopHeader from './TopHeader'
 import RightSidebar from './RightSidebar'
@@ -11,6 +11,8 @@ import { useNavigate } from 'react-router'
 
 
 const Container = ({children , tabs , links , btns}) => {
+
+    const [refresher , setRefresher] = useState(1)
 
     const navigate =  useNavigate()
 
@@ -42,7 +44,7 @@ const Container = ({children , tabs , links , btns}) => {
                 {/* <!-- Start Main top header --> */}
                 <TopHeader />
                 {/* <!-- Start Rightbar setting panel --> */}
-                <RightSidebar />
+                <RightSidebar refresher={refresher}  setRefresher={setRefresher}/>
 
                 {/* <!-- Start Main leftbar navigation --> */}
                 <LeftSidbar />
