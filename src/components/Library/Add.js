@@ -24,8 +24,8 @@ const Add = () => {
   const initialValues = {
     title: "",
     status: "",
-    type: "",
-    subject: "",
+    level: "",
+    language: "",
   }
 
   const onSubmit = values => {
@@ -36,11 +36,9 @@ const Add = () => {
 
   const ProfessorsAddValidator = yup.object().shape({
     title: yup.string().required(t("title field is required")),
-    subject: yup.string().required(t("subject field is required")),
     status: yup.string().required(t("status field is required")),
-    type: yup.string().required(t("type field is required")),
-   
-   
+    level: yup.string().required(t("level field is required")),
+    language: yup.string().required(t("language field is required")),
   })
 
 
@@ -74,16 +72,45 @@ const Add = () => {
                         <div className="form-group row">
                           <label className="col-md-3 col-form-label">{t("Title")} <span className="text-danger">*</span></label>
                           <div className="col-md-9">
-                            <Field type="text" name="title" className="form-control" placeholder={t("Enter your First Name")} />
+                            <Field type="text" name="title" className="form-control" placeholder={t("Title")} />
                             {touched.title && errors.title && <small className="text-danger">{errors.title}</small>}
                           </div>
                         </div>
 
-                        <div className="form-group row">
+                        {/* <div className="form-group row">
                           <label className="col-md-3 col-form-label">{t("Subject")} <span className="text-danger">*</span></label>
                           <div className="col-md-9">
                             <Field type="text" name="subject" className="form-control" placeholder={t("Enter your Last Name")} />
                             {touched.subject && errors.subject && <small className="text-danger">{errors.subject}</small>}
+                          </div>
+                        </div> */}
+
+
+                         <div className="form-group row">
+                          <label className="col-md-3 col-form-label">{t("Language")} <span className="text-danger">*</span></label>
+                          <div className="col-md-9">
+                            <Field as="select" className="form-control input-height" name="language">
+                              <option value>{t("Select...")}</option>
+                              <option value="france">france</option>
+                              <option value="germany">germany</option>
+                              <option value="english">english</option>
+                            </Field>
+                            {touched.language && errors.language && <small className="text-danger">{errors.language}</small>}
+
+                          </div>
+                        </div>
+
+
+                        <div className="form-group row">
+                          <label className="col-md-3 col-form-label">{t("Level")} <span className="text-danger">*</span></label>
+                          <div className="col-md-9">
+                            <Field as="select" className="form-control input-height" name="level">
+                              <option value>{t("Select...")}</option>
+                              <option value="a1">a1</option>
+                              <option value="a2">a2</option>
+                            </Field>
+                            {touched.level && errors.level && <small className="text-danger">{errors.level}</small>}
+
                           </div>
                         </div>
                   
@@ -104,7 +131,7 @@ const Add = () => {
                           </div>
                         </div>
 
-                        <div className="form-group row">
+                        {/* <div className="form-group row">
                           <label className="col-md-3 col-form-label">{t("Type")} <span className="text-danger">*</span></label>
                           <div className="col-md-9">
                             <Field as="select" className="form-control input-height" name="type">
@@ -117,7 +144,7 @@ const Add = () => {
                             {touched.type && errors.type && <small className="text-danger">{errors.type}</small>}
 
                           </div>
-                        </div>
+                        </div> */}
 
 
                           <div className="col-sm-12">

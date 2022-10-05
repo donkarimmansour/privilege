@@ -10,7 +10,7 @@ import "react-datepicker/dist/react-datepicker.css";
 const Add = () => {
   const { t } = useTranslation();
   //  const dispatch = useDispatch()
-  const { loading, error, success } = useSelector(state => state.courses)
+  const { loading, error, success } = useSelector(state => state.professors)
 
   useEffect(() => {
     if (success) {
@@ -23,7 +23,7 @@ const Add = () => {
 
   const initialValues = {
     name: "",
-    description: "",
+    class: "",
   }
 
   const onSubmit = values => {
@@ -32,21 +32,23 @@ const Add = () => {
   }
 
 
-  const ProfessorsAddValidator = yup.object().shape({
+  const GroupeAddValidator = yup.object().shape({
     name: yup.string().required(t("name field is required")),
-    description: yup.string().required(t("description field is required")),   
+    class: yup.string().required(t("class field is required")),
   })
 
 
 
   return (
-    <div className="tab-pane" id="Courses-add">
+    <div className="tab-pane" id="Student-add">
+
+
 
       {
         <Formik
           initialValues={initialValues}
           onSubmit={onSubmit}
-          validationSchema={ProfessorsAddValidator}>
+          validationSchema={GroupeAddValidator}>
 
           {
             ({ touched, errors, setFieldValue, setFieldTouched, values, isValid }) => (
@@ -67,41 +69,43 @@ const Add = () => {
 
                         <div className="form-group row">
                           <label className="col-md-3 col-form-label">{t("Name")} <span className="text-danger">*</span></label>
+
                           <div className="col-md-9">
                             <Field type="text" name="name" className="form-control" placeholder={t("Enter your Name")} />
                             {touched.name && errors.name && <small className="text-danger">{errors.name}</small>}
                           </div>
+
                         </div>
+   
+
 
                         <div className="form-group row">
-                          <label className="col-md-3 col-form-label">{t("Description")} <span className="text-danger">*</span></label>
+                          <label className="col-md-3 col-form-label">{t("Class")} <span className="text-danger">*</span></label>
                           <div className="col-md-9">
-                            <Field as="textarea" type="text" rows="4" name="description" className="form-control" placeholder={t("Enter your Description")} />
-                            {touched.description && errors.description && <small className="text-danger">{errors.description}</small>}
+                            <Field as="select" className="form-control input-height" name="class">
+                              <option value>{t("Select...")}</option>
+                              <option value="Franch">Franch</option>
+                              <option value="Germany">Germany</option>
+                              <option value="English">English</option>
+                            </Field>
+                            {touched.class && errors.class && <small className="text-danger">{errors.class}</small>}
+
                           </div>
                         </div>
+                  
 
-
-              
-               
-                        <div className="form-group row">
-                          <label className="col-md-3 col-form-label">{t("Image")}</label>
-                          <div className="col-md-9">
-                            <input type="file" className="dropify" />
-                            <small id="fileHelp" className="form-text text-muted">This is some placeholder block-level help text for the above input. It's a bit lighter and easily wraps to a new line.</small>
-                          </div>
-                        </div>
-
-                          <div className="col-sm-12">
+                         <div className="col-sm-12">
                             <button type="submit" className="btn btn-primary" disabled={(!loading && isValid)}>{t("Submit")}</button>
                             <button type="submit" className="btn btn-outline-secondary">{t("Cancel")}</button>
                           </div>
 
-
                       </div>
                     </div>
                   </div>
-                  </div>
+
+
+               
+                </div>
 
 
               </Form>
@@ -117,4 +121,4 @@ const Add = () => {
 
 }
 
-export default Add 
+export default Add

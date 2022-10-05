@@ -19,7 +19,7 @@ const List = () => {
                 {
                         name: "germeny",
                         desk: "germeny b1 ..............",
-                        duration: "6 monthes",
+                        teachers: "25",
                         fees: "$17k",
                         students: "423",
 
@@ -28,7 +28,7 @@ const List = () => {
                 {
                         name: "germeny",
                         desk: "germeny b1 ..............",
-                        duration: "6 monthes",
+                        teachers: "58",
                         fees: "$17k",
                         students: "423",
 
@@ -37,7 +37,7 @@ const List = () => {
                 {
                         name: "germeny",
                         desk: "germeny b1 ..............",
-                        duration: "6 monthes",
+                        teachers: "58",
                         fees: "$17k",
                         students: "423",
 
@@ -46,7 +46,7 @@ const List = () => {
                 {
                         name: "germeny",
                         desk: "germeny b1 ..............",
-                        duration: "6 monthes",
+                        teachers: "77",
                         fees: "$17k",
                         students: "423",
 

@@ -34,10 +34,13 @@ const Add = () => {
     facebook: "",
     twitter: "",
     linkedin: "",
-    registrationDate : "" ,
     class : "" ,
     group : "" ,
     level : "" ,
+    hours : "" ,
+    option : "" ,
+    session : "" ,
+    cin : "" ,
   }
 
   const onSubmit = values => {
@@ -53,8 +56,11 @@ const Add = () => {
     phone: yup.string().required(t("phone field is required")),
     birthday: yup.string().required(t("birthday field is required")),
     class: yup.string().required(t("class field is required")),
-    level: yup.number().required(t("level field is required")).min(1, t("level field is required")),
-    group: yup.number().required(t("group field is required")).min(1, t("group field is required")),
+    option: yup.string().required(t("option field is required")),
+    session: yup.string().required(t("session field is required")),
+    cin: yup.string().required(t("cin field is required")),
+    // level: yup.number().required(t("level field is required")).min(1, t("level field is required")),
+    // group: yup.number().required(t("group field is required")).min(1, t("group field is required")),
     username: yup.string().required(t("username field is required")),
     email: yup.string().required(t("email field is required")).email("email must be email"),
     password: yup.string().required(t("password field is required")),
@@ -107,12 +113,15 @@ const Add = () => {
                             {touched.lastname && errors.lastname && <small className="text-danger">{errors.lastname}</small>}
                           </div>
                         </div>
-                        {/* <div className="form-group row">
-                <label className="col-md-3 col-form-label">Roll No <span className="text-danger">*</span></label>
-                <div className="col-md-9">
-                  <input type="text" className="form-control" />
-                </div>
-              </div> */}
+
+                        <div className="form-group row">
+                          <label className="col-md-3 col-form-label">{t("Cin")} <span className="text-danger">*</span></label>
+                          <div className="col-md-9">
+                            <Field type="text" name="cin" className="form-control" placeholder={t("Enter your Cin")} />
+                            {touched.cin && errors.cin && <small className="text-danger">{errors.cin}</small>}
+                          </div>
+                        </div>
+   
                         <div className="form-group row">
                           <label className="col-md-3 col-form-label">{t("Email")} <span className="text-danger">*</span></label>
                           <div className="col-md-9">
@@ -123,17 +132,39 @@ const Add = () => {
 
 
                         <div className="form-group row">
-                          <label className="col-md-3 col-form-label">{t("Registration Date")} </label>
+                          <label className="col-md-3 col-form-label">{t("Session")} <span className="text-danger">*</span></label>
                           <div className="col-md-9">
+                            <Field as="select" className="form-control input-height" name="session">
+                              <option value>{t("Select...")}</option>
+                              <option value="normale">Normale</option>
+                              <option value="accelerated">Accelerated</option>
+                              <option value="superAccelerated">Super Accelerated</option>
+                            </Field>
+                            {touched.classessions && errors.session && <small className="text-danger">{errors.session}</small>}
 
-                           <DatePicker
-                              selected={(values.registrationDate && new Date(values.registrationDate)) || null}
-                              onChange={val => {
-                                setFieldTouched("registrationDate")
-                                setFieldValue("registrationDate", val);
-                              }} className="form-control" placeholder={t("Enter your Registration Date")} />
+                          </div>
+                        </div>
 
-                            {touched.registrationDate && errors.registrationDate && <small className="text-danger">{errors.registrationDate}</small>}
+
+                        <div className="form-group row">
+                          <label className="col-md-3 col-form-label">{t("Option")} <span className="text-danger">*</span></label>
+                          <div className="col-md-9">
+                            <Field as="select" className="form-control input-height" name="option">
+                              <option value>{t("Select...")}</option>
+                              <option value="day">Day</option>
+                              <option value="evening">Evening</option>
+                              <option value="weekend">Weekend</option>
+                            </Field>
+                            {touched.option && errors.option && <small className="text-danger">{errors.option}</small>}
+
+                          </div>
+                        </div>
+
+                        <div className="form-group row">
+                          <label className="col-md-3 col-form-label">{t("Hours")} <span className="text-danger">*</span></label>
+                          <div className="col-md-9">
+                            <Field type="number" name="hours" className="form-control" placeholder={t("Enter your Hours")} />
+                            {touched.hours && errors.hours && <small className="text-danger">{errors.hours}</small>}
                           </div>
                         </div>
 
@@ -152,7 +183,7 @@ const Add = () => {
                         </div>
 
                         <div className="form-group row">
-                          <label className="col-md-3 col-form-label">{t("Group")} <span className="text-danger">*</span></label>
+                          <label className="col-md-3 col-form-label">{t("Group")} </label>
                           <div className="col-md-9">
                             <Field as="select" className="form-control input-height" name="group">
                               <option value>{t("Select...")}</option>
@@ -167,7 +198,7 @@ const Add = () => {
 
 
                         <div className="form-group row">
-                          <label className="col-md-3 col-form-label">{t("Level")} <span className="text-danger">*</span></label>
+                          <label className="col-md-3 col-form-label">{t("Level")} </label>
                           <div className="col-md-9">
                             <Field as="select" className="form-control input-height" name="level">
                               <option value>{t("Select...")}</option>

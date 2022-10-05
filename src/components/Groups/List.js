@@ -8,7 +8,7 @@ const List = () => {
 
   const { t } = useTranslation();
   const [filters, setFilters] = useState({ name: "", phone: "", date: "", class: "" });
-  const { loading, error, success, students, count } = useSelector(state => state.students)
+  const { loading, error, success, groupes, count } = useSelector(state => state.groupe)
 
   const OnSee = () => { }
   const OnEdit = () => { }
@@ -22,21 +22,17 @@ const List = () => {
 
   const data = [
     {
-      firstname: "Peter Richards",
-      lastname: "jjjjjj",
+      name: "one",
       class: "germany",
-      phone: "+ (916) 369-7180",
-      email: "fff@k.j",
-      createdAtt: "ooo@jj.ko",
+      students: "23",
+      teachers: "2",
 
     },
     {
-      firstname: "Peter Richards",
-      lastname: "jjjjjjj",
-      class: "gemany",
-      phone: "+ (916) 369-7180",
-      email: "ooo@jj.ko",
-      createdAtt: "ooo@jj.ko",
+      name: "two",
+      class: "germany",
+      students: "23",
+      teachers: "2",
     }
 
   ]
@@ -46,30 +42,18 @@ const List = () => {
       <div className="card">
         <div className="card-body">
           <div className="row">
-            <div className="col-lg-2 col-md-4 col-sm-6">
+            <div className="col-md-4 col-sm-6">
               <div className="input-group">
                 <input type="text" className="form-control" onChange={(e) => { handleOnChange(e) }} placeholder={("Name")} />
               </div>
             </div>
-            <div className="col-lg-2 col-md-4 col-sm-6">
+            <div className="col-md-4 col-sm-6">
               <div className="input-group">
-                <input type="text" className="form-control" onChange={(e) => { handleOnChange(e) }} placeholder={t("class")} />
-              </div>
-            </div>
-            <div className="col-lg-4 col-md-4 col-sm-6">
-              <div className="input-group">
-                <input type="text" className="form-control" onChange={(e) => { handleOnChange(e) }} placeholder={t("Phone")} />
+                <input type="text" className="form-control" onChange={(e) => { handleOnChange(e) }} placeholder={t("Class")} />
               </div>
             </div>
 
-            <div className="col-lg-2 col-md-4 col-sm-6">
-              <div className="input-group">
-                <DatePicker onChange={(e) => { handleOnChange(e) }} className="form-control" placeholder={t("Enter your Date of Birth")} />
-                {/* <input data-provide="datepicker" data-date-autoclose="true" className="form-control" placeholder="Admission Date" /> */}
-              </div>
-            </div>
-
-            <div className="col-lg-2 col-md-4 col-sm-6">
+            <div className="col-md-4 col-sm-6">
               <a href="javascript:void(0);" className="btn btn-sm btn-primary btn-block" >{("Search")}</a>
             </div>
           </div>
@@ -81,11 +65,9 @@ const List = () => {
             <tr>
               <th>#.</th>
               <th>{t("Name")}</th>
-              <th />
-              <th>{t("class")}</th>
-              <th>{t("Email")}</th>
-              <th>{t("Phone")}</th>
-              <th>{t("Date")}</th>
+              <th>{t("Class")}</th>
+              <th>{t("Students")}</th>
+              <th>{t("Teachers")}</th>
               <th>{t("Action")}</th>
             </tr>
           </thead>
@@ -98,14 +80,11 @@ const List = () => {
               return (
                 <tr key={si}>
                   <td>{si + 1}</td>
-                  <td className="w60">
-                    <img className="avatar" src="../assets/images/xs/avatar1.jpg" alt="" />
-                  </td>
-                  <td><span className="font-16">{`${s.firstname} ${s.lastname}`}</span></td>
+                 
+                  <td>{s.name}</td>
                   <td>{s.class}</td>
-                  <td>{s.email}</td>
-                  <td>{s.phone}</td>
-                  <td>{s.createdAtt}</td>
+                  <td>{s.students}</td>
+                  <td>{s.teachers}</td>
                   <td>
                     <button type="button" className="btn btn-icon btn-sm" title="View" onclick={() => { OnSee() }}><i className="fa fa-eye" /></button>
                     <button type="button" className="btn btn-icon btn-sm" title="Edit" onclick={() => { OnEdit() }}><i className="fa fa-edit" /></button>

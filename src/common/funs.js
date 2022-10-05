@@ -32,4 +32,8 @@ function makeId(length) {
     return result;
 }
 
-export { ImageVIEW  , ImageDOWNLOAD  , extractDesk  , makeId}  
+const removeSiblingsClass = (el , classe) => {
+    [...el.parentElement.children].forEach(sib => sib.classList.remove(classe))
+}
+
+export { ImageVIEW  , ImageDOWNLOAD  , extractDesk  , makeId , removeSiblingsClass}  

@@ -65,7 +65,6 @@ const University = () => {
                                 </div>
                                 <div className="card-body">
                                     <div className="d-sm-flex justify-content-between">
-                                        <div className="font-12 mb-2"><span>Measure How Fast You’re Growing Monthly Recurring Revenue. <a href="#">Learn More</a></span></div>
                                         <div className="selectgroup w250">
                                             <label className="selectgroup-item">
                                                 <input type="radio" name="intensity" value="low" className="selectgroup-input" defaultChecked />

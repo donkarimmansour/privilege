@@ -49,7 +49,7 @@ const Email = () => {
   })
 
   return (
-    <div className="tab-pane" id="Email_Settings">
+    <div className="tab-pane active" id="Email_Settings">
 
 
       {
@@ -63,18 +63,24 @@ const Email = () => {
               <Form action="#" method="post">
 
                 <div className="card">
+
                   <div className="card-header">
                     <h3 className="card-title">{t("SMTP Email Settings")}</h3>
                   </div>
+
+
                   <div className="card-body">
                     <div className="row">
-                      <div className="col-sm-6">
 
+
+                     <div className="col-sm-6">
+                      <div className="form-group">
                         <label>{t("Email From Address")} <span className="text-danger">*</span></label>
                         <Field type="email" name="email" className="form-control" placeholder={t("Email From Address")} />
                         {touched.email && errors.email && <small className="text-danger">{errors.email}</small>}
                       </div>
-                    </div>
+                     </div>
+
                     <div className="col-sm-6">
                       <div className="form-group">
 
@@ -83,6 +89,7 @@ const Email = () => {
                         {touched.name && errors.name && <small className="text-danger">{errors.name}</small>}
                       </div>
                     </div>
+
                     <div className="col-sm-6">
                       <div className="form-group">
 
@@ -91,6 +98,7 @@ const Email = () => {
                         {touched.host && errors.host && <small className="text-danger">{errors.host}</small>}
                       </div>
                     </div>
+
                     <div className="col-sm-6">
                       <div className="form-group">
 
@@ -99,6 +107,7 @@ const Email = () => {
                         {touched.username && errors.username && <small className="text-danger">{errors.username}</small>}
                       </div>
                     </div>
+
                     <div className="col-sm-6">
                       <div className="form-group">
                         <label>{t("SMTP PASSWORD")} <span className="text-danger">*</span></label>
@@ -106,6 +115,7 @@ const Email = () => {
                         {touched.password && errors.password && <small className="text-danger">{errors.password}</small>}
                       </div>
                     </div>
+
                     <div className="col-sm-6">
                       <div className="form-group">
                         <label>{t("SMTP PORT")}  <span className="text-danger">*</span></label>
@@ -113,7 +123,8 @@ const Email = () => {
                         {touched.port && errors.port && <small className="text-danger">{errors.port}</small>}
                       </div>
                     </div>
-                    <div className="col-sm-6">
+
+                    <div className="col-sm-12">
                       <div className="form-group">
                         <label>{t("SMTP Security")} <span className="text-danger">*</span></label>
                         <Field as="select" name="security" className="form-control">
@@ -129,7 +140,11 @@ const Email = () => {
                     <div className="col-sm-12 m-t-20 text-right">
                       <button type="button"  disabled={(!loading && isValid)} className="btn btn-primary">{t("SAVE")}</button>
                     </div>
+
                   </div>
+                </div>
+
+
                 </div>
 
 

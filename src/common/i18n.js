@@ -11,7 +11,7 @@ const resources = {
       "France" : "France" ,
  
       //form add
-      "First Name" : "First" ,
+      "First Name" : "First Name" ,
       "Enter your First Name" : "Enter your First Name" ,
       "Last Name" : "Last Name" ,
       "Enter your Last Name" : "Enter your Last Name" ,
@@ -79,8 +79,23 @@ const resources = {
        "class field is required" : "class field is required" ,
        "level field is required" : "level field is required" ,
        "group field is required" : "group field is required" ,
+       "cin field is required" : "cin field is required" ,
+       "session field is required" : "session field is required" ,
+       "option field is required" : "option field is required" ,
        "Group" : "Group" ,
        "Level" : "Level" ,
+       "Option" : "Option" ,
+       "Session" : "Session" ,
+       "Normale" : "Normale" ,
+       "Accelerated" : "Accelerated" ,
+       "Super Accelerated" : "Session" ,
+       "Day" : "Day" ,
+       "Evening" : "Evening" ,
+       "Weekend" : "Weekend" ,
+       "Enter your Hours" : "Enter your Hours" ,
+       "Hours" : "Hours" ,
+       "Cin" : "Cin" ,
+       "Enter your Cin" : "Enter your Cin" ,
 
        //student list
        "Name" : "Name" ,
@@ -105,12 +120,18 @@ const resources = {
        "Student Name field is required" : "Student Name field is required" ,
        "Payment Status field is required" : "Payment Status field is required" ,
        "Payment Method field is required" : "Payment Method field is required" ,
-       "Collection Date field is required" : "Collection Date field is required" ,
+       "pending Duration field is required" : "pending Duration field is required" ,
        "Payment Duration field is required" : "Payment Duration field is required" ,
        "Amount field is required" : "Amount field is required" ,
        "Date" : "Date" ,
        "Duration" : "Duration" ,
        "Method" : "Method" ,
+       "Paid" : "Paid" ,
+       "Pending" : "Pending" ,
+       "Cash" : "Cash" ,
+       "Cheque" : "Cheque" ,
+       "Card" : "Card" ,
+       "Other" : "Other" ,
 
        //department
        "Department Basic Info" : "Department Basic Info" ,
@@ -122,7 +143,7 @@ const resources = {
        "Brief field is required" : "Brief field is required" ,
 
        //coures
-       "Duration" : "Duration" ,
+       "Teachers" : "Teachers" ,
        "Fees" : "Fees" ,
        "Students" : "Students" ,
        "Image" : "Image" ,
@@ -137,7 +158,10 @@ const resources = {
        //library
        "Title" : "Title" ,
        "Subject" : "Subject" ,
-       "Type" : "Type" ,
+       "Language" : "Language" ,
+       "language field is required" : "language field is required" ,
+       "status field is required" : "status field is required" ,
+       "title field is required" : "title field is required" ,
 
        //smtp
        "SAVE" : "SAVE" ,
@@ -162,6 +186,73 @@ const resources = {
        //profile
        "Update Profile" : "Update Profile" ,
        "Edit Profile" : "Edit Profile" ,
+
+
+       //auth
+       "Forgot password" : "Forgot password" ,
+       "Enter your email address or username and your password will be reset and emailed to you." : "Enter your email address or username and your password will be reset and emailed to you." ,
+       "Email address" : "Email address" ,
+       "Send me new password" : "Send me new password" ,
+       "Forget it," : "Forget it," ,
+       "Send me Back" : "Send me Back" ,
+       "to the Sign in screen." : "to the Sign in screen." ,
+       "Login to your account" : "Login to your account" ,
+       "Sign in" : "Sign in" ,
+       "I forgot password" : "I forgot password" ,
+       "Enter email or Username" : "Enter email or Username" ,
+       
+
+       //header
+       "left sidebar" : "left sidebar" ,
+       "Dashboard" : "Dashboard" ,
+       "Professors" : "Professors" ,
+       "Teachers" : "Teachers" ,
+       "Departments" : "Departments" ,
+       "Classes" : "Classes" ,
+       "Books" : "Books" ,
+       "Chat App" : "Chat App" ,
+       "Payments" : "Payments" ,
+       "Exam" : "Exam" ,
+       "Levels" : "Levels" ,
+       "Groups" : "Groups" ,
+       "Settings" : "Settings" ,
+       "Privilege" : "Privilege" ,
+
+       //Quick Menus 
+       "Total Revenue" : "Total Revenue" ,
+       "Total Student" : "Total Student" ,
+       "Total Teacher" : "Total Teacher" ,
+       "Department" : "Department" ,
+       "Total Classes" : "Total Classes" ,
+
+       //header
+       "Sign out" : "Sign out" ,
+       "Settings" : "Settings" ,
+       "Profile" : "Profile" ,
+       "Inbox" : "Inbox" ,
+
+       //Right Sidebar
+       "Theme Color" : "Theme Color" ,
+       "Font Style" : "Font Style" ,
+       "Muli Google Font" : "Muli Google Font" ,
+       "Montserrat Google Font" : "Montserrat Google Font" ,
+       "Poppins Google Font" : "Poppins Google Font" ,
+       "General Settings" : "General Settings" ,
+       "Night Mode" : "Night Mode" ,
+       "Fix Navbar top" : "Fix Navbar top" ,
+       "Header Dark" : "Header Dark" ,
+       "Min Sidebar Dark" : "Min Sidebar Dark" ,
+       "Sidebar Dark" : "Sidebar Dark" ,
+       "Icon Color" : "Icon Color" ,
+       "Gradient Color" : "Gradient Color" ,
+       "Box Shadow" : "Box Shadow" ,
+       "RTL Support" : "RTL Support" ,
+       "Box Layout" : "Box Layout" ,
+       "password" : "password" ,
+       "password" : "password" ,
+       "password" : "password" ,
+       "password" : "password" ,
+       "password" : "password" ,
        "password" : "password" ,
 
      

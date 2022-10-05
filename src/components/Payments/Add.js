@@ -23,19 +23,14 @@ const Add = () => {
 
   const initialValues = {
     studentID: "",
-    class: "",
     feesType: "",
     paymentDetails: "",
     paymentMethod: "",
     paymentReference: "",
     paymentStatus: "",
     paymentDuration: "",
-    confirmpassword: "",
-    collectionDate: "",
-    twitter: "",
-    linkedin: "",
-    registrationDate: "",
-    amount: "",
+    amount : 0 ,
+    pending : 0 ,
   }
 
   const onSubmit = values => {
@@ -46,11 +41,10 @@ const Add = () => {
 
   const ProfessorsAddValidator = yup.object().shape({
     studentID: yup.string().required(t("Student Name field is required")),
-    class: yup.string().required(t("class field is required")),
     paymentStatus: yup.string().required(t("Payment Status field is required")),
     paymentMethod: yup.string().required(t("Payment Method field is required")),
     paymentDuration: yup.string().required(t("Payment Duration field is required")),
-    collectionDate: yup.string().required(t("Collection Date field is required")),
+    pending: yup.number().required(t("pending Duration field is required")) ,//.min(1, t("pending field is required")),
     amount: yup.number().required(t("Amount field is required")).min(1, t("Amount field is required")),
   })
 
@@ -108,70 +102,48 @@ const Add = () => {
 
                     </div>
                   </div>
-                  <div className="form-group row">
-                    <label className="col-md-3 col-form-label">{t("Class")} </label>
-                    <div className="col-md-7">
-                      <Field as="select" className="form-control" name="class">
-                        <option value>{t("Select...")}</option>
-                        <option value="Franch">Franch</option>
-                        <option value="English">English</option>
-                        <option value="Germany">Germany</option>
 
-                      </Field>
-                      {touched.collectionDate && errors.collectionDate && <small className="text-danger">{errors.collectionDate}</small>}
-
-                    </div>
-                  </div>
                   <div className="form-group row">
                     <label className="col-md-3 col-form-label">{t("Fees Type")} </label>
                     <div className="col-md-7">
                       <Field as="select" className="form-control" name="feesType">
                         <option value>{t("Select..")}.</option>
-                        <option value="Category 3">ecole</option>
-                        <option value="Category 3">Exam</option>
-                        <option value="Category 3">Library</option>
+                        <option value="Category 3">Center</option>
+                        <option value="Category 3">book</option>
                       </Field>
                       {touched.feesType && errors.feesType && <small className="text-danger">{errors.feesType}</small>}
 
                     </div>
                   </div>
+
                   <div className="form-group row">
                     <label className="col-md-3 col-form-label">{t("Payment Duration")} <span className="text-danger">*</span></label>
                     <div className="col-md-7">
                       <div className="custom-controls-stacked">
                         <label className="custom-control custom-radio custom-control-inline">
-                          <Field type="radio" className="custom-control-input" name="paymentDuration" value="m"  />
+                          <Field type="radio" className="custom-control-input" name="paymentDuration" value="one"  />
                           <span className="custom-control-label">{t("Monthly")}</span>
                         </label>
                         <label className="custom-control custom-radio custom-control-inline">
-                          <Field type="radio" className="custom-control-input" name="paymentDuration" value="ee" />
+                          <Field type="radio" className="custom-control-input" name="paymentDuration" value="two" />
                           <span className="custom-control-label">{t("Formation")}</span>
                         </label>
+                        <label className="custom-control custom-radio custom-control-inline">
+                          <Field type="radio" className="custom-control-input" name="paymentDuration" value="three" />
+                          <span className="custom-control-label">{t("Hours")}</span>
+                        </label>
+
+                        <label className="custom-control custom-radio custom-control-inline">
+                          <Field type="radio" className="custom-control-input" name="paymentDuration" value="four" />
+                          <span className="custom-control-label">{t("No")}</span>
+                        </label>
+
+
                       </div>
                     </div>
 
                     {touched.paymentDuration && errors.paymentDuration && <small className="text-danger">{errors.paymentDuration}</small>}
 
-                  </div>
-                  <div className="form-group row">
-                    <label className="col-md-3 col-form-label">{t("Collection Date")} <span className="text-danger">*</span></label>
-                    <div className="col-md-7">
-
-                      <DatePicker
-                        selected={(values.collectionDate && new Date(values.collectionDate)) || null}
-                        onChange={val => {
-                          setFieldTouched("collectionDate")
-                          setFieldValue("collectionDate", val);
-                        }} className="form-control" placeholder={t("Enter your Date of Birth")} />
-                      {touched.collectionDate && errors.collectionDate && <small className="text-danger">{errors.collectionDate}</small>}
-                    </div>
-                  </div>
-                  <div className="form-group row">
-                    <label className="col-md-3 col-form-label">{t("Amount")} <span className="text-danger">*</span></label>
-                    <div className="col-md-7">
-                      <Field name="amount" type="number" className="form-control" placeholder={t("Amount")} />
-                      {touched.amount && errors.amount && <small className="text-danger">{errors.amount}</small>}
-                    </div>
                   </div>
 
 
@@ -180,12 +152,10 @@ const Add = () => {
                     <div className="col-md-7">
                       <Field as="select" className="form-control" name="paymentMethod">
                         <option value>{t("Select...")}</option>
-                        <option value="Category 1">Cash</option>
-                        <option value="Category 2">Cheque</option>
-                        <option value="Category 3">Credit Card</option>
-                        <option value="Category 4">Debit Card</option>
-                        <option value="Category 5">Netbanking</option>
-                        <option value="Category 6">Other</option>
+                        <option value="Cash">{t('Cash')}</option>
+                        <option value="Cheque">{t('Cheque')}</option>
+                        <option value="Card">{t('Card')}</option>
+                        <option value="Other">{t('Other')}</option>
                       </Field>
                       {touched.paymentMethod && errors.paymentMethod && <small className="text-danger">{errors.paymentMethod}</small>}
 
@@ -196,14 +166,25 @@ const Add = () => {
                     <div className="col-md-7">
                       <Field as="select" className="form-control" name="paymentStatus">
                         <option value>{t("Select...")}</option>
-                        <option value="Category 1">Paid</option>
-                        <option value="Category 2">Unpaid</option>
-                        <option value="Category 3">Pending</option>
+                        <option value="paid">{t('Paid')}</option>
+                        <option value="pending">{t('Pending')}</option>
                       </Field>
                       {touched.paymentStatus && errors.paymentStatus && <small className="text-danger">{errors.paymentStatus}</small>}
 
                     </div>
                   </div>
+
+                  <div className="form-group row">
+                    <label className="col-md-3 col-form-label">{t('Pending')}</label>
+                    <div className="col-md-7">
+                      <Field name="pending" type="number" className="form-control" placeholder={t('Pending')} />
+                      {touched.pending && errors.pending && <small className="text-danger">{errors.pending}</small>}
+
+                    </div>
+                  </div>
+
+
+
                   <div className="form-group row">
                     <label className="col-md-3 col-form-label">{t('Payment Reference')}</label>
                     <div className="col-md-7">

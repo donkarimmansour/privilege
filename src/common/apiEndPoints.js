@@ -35,6 +35,33 @@ const ApiEndpoints = {
   },
 
   
+  Groupes: { 
+    route: `${Host.PREFIX}/groupes`, 
+    create: `/create`, 
+    edit: `/edit`, 
+    delete: `/delete`, 
+    count: `/count`, 
+    list: `/list`, 
+  },
+
+
+  
+  Levels: { 
+    route: `${Host.PREFIX}/levels`, 
+    create: `/create`, 
+    edit: `/edit`, 
+    delete: `/delete`, 
+    count: `/count`, 
+    list: `/list`, 
+  },
+
+  Notifications: { 
+    route: `${Host.PREFIX}/notifications`, 
+    list: `/list`, 
+    create: `/create`, 
+  },
+
+  
   Department: { 
     route: `${Host.PREFIX}/department`, 
     create: `/create`, 

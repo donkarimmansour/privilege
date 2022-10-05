@@ -25,7 +25,7 @@ const { loading, error, success, singleCourse } = useSelector(state => state.cou
 const Course =  {
                 name: "germeny",
                 desk: "germeny b1 ..............",
-                duration: "6 monthes",
+                teachers: "6 monthes",
                 fees: "$17k",
                 students: "423",
                 createdAtt: "12/8/2022",
@@ -56,8 +56,8 @@ const Course =  {
                   </tr>
                   <tr>
                     <td className="w20"><i className="fa fa-calendar text-blue" /></td>
-                    <td className="tx-medium">{t('Duration')}</td>
-                    <td className="text-right">6 Months</td>
+                    <td className="tx-medium">{t('Teachers')}</td>
+                    <td className="text-right">{Course.teachers}</td>
                   </tr>
                   <tr>
                     <td><i className="fa fa-cc-visa text-danger" /></td>

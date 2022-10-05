@@ -84,7 +84,7 @@ const List = () => {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> 
             <div className="table-responsive card">
                 <table className="table table-hover table-vcenter table-striped mb-0 text-nowrap">
                     <thead>
@@ -117,9 +117,9 @@ const List = () => {
                                     <td>{s.phone}</td>
                                     <td>{s.createdAtt}</td>
                                     <td>
-                                        <button type="button" className="btn btn-icon btn-sm" title="View" onclick={() => { OnSee() }}><i className="fa fa-eye" /></button>
-                                        <button type="button" className="btn btn-icon btn-sm" title="Edit" onclick={() => { OnEdit() }}><i className="fa fa-edit" /></button>
-                                        <button type="button" className="btn btn-icon btn-sm js-sweetalert" onclick={() => { OnDelete() }} title="Delete" data-type="confirm"><i className="fa fa-trash-o text-danger" /></button>
+                                        <button type="button" className="btn btn-icon btn-sm" title="View" onClick={() => { OnSee() }}><i className="fa fa-eye" /></button>
+                                        <button type="button" className="btn btn-icon btn-sm" title="Edit" onClick={() => { OnEdit() }}><i className="fa fa-edit" /></button>
+                                        <button type="button" className="btn btn-icon btn-sm js-sweetalert" onClick={() => { OnDelete() }} title="Delete" data-type="confirm"><i className="fa fa-trash-o text-danger" /></button>
                                     </td>
                                 </tr>
                             )

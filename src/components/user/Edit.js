@@ -30,11 +30,11 @@ const Edit = () => {
     }
 
 
-    const ProfessorsAddValidator = yup.object().shape({
+    const ProfileEditValidator = yup.object().shape({
         firstname: yup.string().required(t("firstname field is required")),
         lastname: yup.string().required(t("lastname field is required")),
         phone: yup.string().required(t("phone field is required")),
-        password: yup.string().required(t("password field is required")),
+        // password: yup.string().required(t("password field is required")),
         email: yup.string().required(t("email field is required")).email("email must be email")
     })
 
@@ -46,7 +46,7 @@ const Edit = () => {
         <Formik
                   initialValues={initialValues}
                   onSubmit={onSubmit}
-                  validationSchema={ProfessorsAddValidator}>
+                  validationSchema={ProfileEditValidator}>
         
                   {
                     ({ touched, errors, isValid }) => (
@@ -62,15 +62,6 @@ const Edit = () => {
         
                   <div className="card-body form-horizontal">
                 
-                    <div className="form-group row">
-                      <label className="col-md-3 col-form-label">{t("Username")} <span className="text-danger">*</span></label>
-                      <div className="col-md-7">
-                         <Field type="text" name="username" className="form-control" placeholder={t("Username")} />
-                        {touched.username && errors.username && <small className="text-danger">{errors.username}</small>}
-                      </div>
-                    </div>
-                   
-        
                     <div className="form-group row">
                       <label className="col-md-3 col-form-label">{t("First Name")} <span className="text-danger">*</span></label>
                       <div className="col-md-7">
@@ -88,15 +79,7 @@ const Edit = () => {
                         {touched.lastname && errors.lastname && <small className="text-danger">{errors.lastname}</small>}
                       </div>
                     </div>
-        
-                    <div className="form-group row">
-                      <label className="col-md-3 col-form-label">{t("Last Name")} <span className="text-danger">*</span></label>
-                      <div className="col-md-7">
-                         <Field type="text" name="lastname" className="form-control" placeholder={t("Last Name")} />
-                        {touched.lastname && errors.lastname && <small className="text-danger">{errors.lastname}</small>}
-                      </div>
-                    </div>
-        
+  
         
                     <div className="form-group row">
                       <label className="col-md-3 col-form-label">{t("Email")} <span className="text-danger">*</span></label>

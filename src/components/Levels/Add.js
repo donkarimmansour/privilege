@@ -10,7 +10,7 @@ import "react-datepicker/dist/react-datepicker.css";
 const Add = () => {
   const { t } = useTranslation();
   //  const dispatch = useDispatch()
-  const { loading, error, success } = useSelector(state => state.courses)
+  const { loading, error, success } = useSelector(state => state.professors)
 
   useEffect(() => {
     if (success) {
@@ -23,7 +23,9 @@ const Add = () => {
 
   const initialValues = {
     name: "",
-    description: "",
+    group: "",
+    department: "",
+    position: "",
   }
 
   const onSubmit = values => {
@@ -32,21 +34,25 @@ const Add = () => {
   }
 
 
-  const ProfessorsAddValidator = yup.object().shape({
+  const LevelAddValidator = yup.object().shape({
     name: yup.string().required(t("name field is required")),
-    description: yup.string().required(t("description field is required")),   
+    group: yup.number().required(t("group field is required")).min(1, t("group field is required")),
+    department: yup.number().required(t("department field is required")).min(1, t("department field is required")),
+    position: yup.number().required(t("position field is required")).min(1, t("position field is required")),
   })
 
 
 
   return (
-    <div className="tab-pane" id="Courses-add">
+    <div className="tab-pane" id="Student-add">
+
+
 
       {
         <Formik
           initialValues={initialValues}
           onSubmit={onSubmit}
-          validationSchema={ProfessorsAddValidator}>
+          validationSchema={LevelAddValidator}>
 
           {
             ({ touched, errors, setFieldValue, setFieldTouched, values, isValid }) => (
@@ -67,41 +73,74 @@ const Add = () => {
 
                         <div className="form-group row">
                           <label className="col-md-3 col-form-label">{t("Name")} <span className="text-danger">*</span></label>
+
                           <div className="col-md-9">
                             <Field type="text" name="name" className="form-control" placeholder={t("Enter your Name")} />
                             {touched.name && errors.name && <small className="text-danger">{errors.name}</small>}
                           </div>
+
+                        </div>
+   
+
+                        <div className="form-group row">
+                          <label className="col-md-3 col-form-label">{t("Department")} <span className="text-danger">*</span></label>
+                          <div className="col-md-9">
+                            <Field as="select" className="form-control input-height" name="department">
+                              <option value>{t("Select...")}</option>
+                              <option value="one">one</option>
+                              <option value="two">two</option>
+                              <option value="three">three</option>
+                            </Field>
+                            {touched.department && errors.department && <small className="text-danger">{errors.department}</small>}
+
+                          </div>
                         </div>
 
                         <div className="form-group row">
-                          <label className="col-md-3 col-form-label">{t("Description")} <span className="text-danger">*</span></label>
+                          <label className="col-md-3 col-form-label">{t("Position")} <span className="text-danger">*</span></label>
+
                           <div className="col-md-9">
-                            <Field as="textarea" type="text" rows="4" name="description" className="form-control" placeholder={t("Enter your Description")} />
-                            {touched.description && errors.description && <small className="text-danger">{errors.description}</small>}
+                            <Field type="number" name="position" className="form-control" placeholder={t("Enter your Position")} />
+                            {touched.position && errors.position && <small className="text-danger">{errors.position}</small>}
+                          </div>
+
+
+                        </div>
+
+
+
+                        <div className="form-group row">
+                          <label className="col-md-3 col-form-label">{t("Group")} <span className="text-danger">*</span></label>
+                          <div className="col-md-9">
+                            <Field as="select" className="form-control input-height" name="group">
+                              <option value>{t("Select...")}</option>
+                              <option value="1">1</option>
+                              <option value="2">2</option>
+                              <option value="3">3</option>
+                            </Field>
+                            {touched.group && errors.group && <small className="text-danger">{errors.group}</small>}
+
                           </div>
                         </div>
 
 
-              
-               
-                        <div className="form-group row">
-                          <label className="col-md-3 col-form-label">{t("Image")}</label>
-                          <div className="col-md-9">
-                            <input type="file" className="dropify" />
-                            <small id="fileHelp" className="form-text text-muted">This is some placeholder block-level help text for the above input. It's a bit lighter and easily wraps to a new line.</small>
-                          </div>
-                        </div>
+                    
 
-                          <div className="col-sm-12">
+
+                  
+
+                         <div className="col-sm-12">
                             <button type="submit" className="btn btn-primary" disabled={(!loading && isValid)}>{t("Submit")}</button>
                             <button type="submit" className="btn btn-outline-secondary">{t("Cancel")}</button>
                           </div>
 
-
                       </div>
                     </div>
                   </div>
-                  </div>
+
+
+               
+                </div>
 
 
               </Form>
@@ -117,4 +156,4 @@ const Add = () => {
 
 }
 
-export default Add 
+export default Add

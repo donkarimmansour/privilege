@@ -18,6 +18,8 @@ const Add = () => {
 
         } else if (error) {
 
+
+
         }
     }, [success, error]);
 
@@ -28,8 +30,6 @@ const Add = () => {
         gender: "",
         phone: "",
         birthday: "",
-        department: 0,
-        position: 0,
         username: "",
         email: "",
         password: "",
@@ -55,8 +55,6 @@ const Add = () => {
         phone: yup.string().required(t("phone field is required")),
         birthday: yup.string().required(t("birthday field is required")),
         teach: yup.string().required(t("teach field is required")),
-        // department: yup.number().required(t("department field is required")).min(1, t("department field is required")),
-        // position: yup.number().required(t("position field is required")).min(1, t("position field is required")),
         username: yup.string().required(t("username field is required")),
         email: yup.string().required(t("email field is required")).email("email must be email"),
         password: yup.string().required(t("password field is required")),
@@ -144,23 +142,23 @@ const Add = () => {
                                                         {touched.gender && errors.gender && <small className="text-danger">{errors.gender}</small>}
 
                                                     </div>
-                                                    <div className="col-md-3 col-sm-12">
+
+                                                    <div className="col-md-6 col-sm-12">
+
                                                         <div className="form-group">
-                                                            <label>{t("Department")} </label>
-                                                            <Field type="text" name="department" className="form-control" placeholder={t("Enter your Department")} />
-                                                            {touched.department && errors.department && <small className="text-danger">{errors.department}</small>}
+                                                            <label>{t("Teach")} <span className="text-danger">*</span></label>
+                                                            <Field as="select" name="teach" className="form-control show-tick">
+                                                                <option value="">{t("Select...")}</option>
+                                                                <option value="germany">germany</option>
+                                                                <option value="french">french</option>
+                                                                <option value="english">french</option>
+                                                            </Field>
+
+                                                            {touched.teach && errors.teach && <small className="text-danger">{errors.teach}</small>}
                                                         </div>
 
-                                                    </div>
-                                                    <div className="col-md-3 col-sm-12">
-                                                        <div className="form-group">
-                                                            <label>{t("Position")} </label>
-                                                            <Field type="number" name="position" className="form-control" placeholder={t("Enter your Position")} />
-                                                            {touched.position && errors.position && <small className="text-danger">{errors.position}</small>}
                                                         </div>
-
-
-                                                    </div>
+                                                   
                                                     <div className="col-md-4 col-sm-12">
                                                         <div className="form-group">
                                                             <label>{t("Phone")} <span className="text-danger">*</span></label>
@@ -185,21 +183,7 @@ const Add = () => {
                                                         </div>
                                                     </div>
 
-                                               <div className="col-md-3 col-sm-12">
-
-                                                        <div className="form-group">
-                                                            <label>{t("Teach")} <span className="text-danger">*</span></label>
-                                                            <Field as="select" name="teach" className="form-control show-tick">
-                                                                <option value="">{t("-- Gender --")}</option>
-                                                                <option value="germany">germany</option>
-                                                                <option value="french">french</option>
-                                                                <option value="english">french</option>
-                                                            </Field>
-
-                                                            {touched.teach && errors.teach && <small className="text-danger">{errors.teach}</small>}
-                                                        </div>
-
-                                                    </div>
+                                             
 
                                                     <div className="col-md-9 col-sm-12">
 

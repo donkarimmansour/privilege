@@ -1,7 +1,39 @@
 import react from 'react'
+import { useTranslation } from 'react-i18next';
+import { removeSiblingsClass } from '../../common/funs';
 
 
-const RightSidebar = () => {
+const RightSidebar = () => {  
+    const { t } = useTranslation();
+
+
+    const skinChanger = (e) => {
+        var $body = document.querySelector('body');
+        var $this = e
+
+        const existTheme = document.querySelector('.choose-skin li.active').getAttribute('data-theme');
+
+        removeSiblingsClass($this.target , "active")
+
+        $this.target.classList.add('active');
+
+        $body.classList.remove('theme-' + existTheme);
+        $body.classList.add('theme-' + $this.target.getAttribute('data-theme'));
+    }
+ 
+
+    const fontSetting = (e) => {
+        var $body = document.querySelector('body');
+
+        $body.classList.remove('font-montserrat');
+        $body.classList.remove('font-muli');
+        $body.classList.remove('font-poppins');
+        $body.classList.add(e.target.value);
+    }
+ 
+
+
+             
 
     return  (
         // <!-- Start Rightbar setting panel -->
@@ -14,180 +46,114 @@ const RightSidebar = () => {
             <div className="tab-content">
                 <div role="tabpanel" className="tab-pane vivify fadeIn active" id="Settings" aria-expanded="true">
                     <div className="mb-4">
-                        <h6 className="font-14 font-weight-bold text-muted">Theme Color</h6>
+                        <h6 className="font-14 font-weight-bold text-muted">{t("Theme Color")}</h6>
                         <ul className="choose-skin list-unstyled mb-0">
-                            <li data-theme="azure"><div className="azure"></div></li>
-                            <li data-theme="indigo"><div className="indigo"></div></li>
-                            <li data-theme="purple"><div className="purple"></div></li>
-                            <li data-theme="orange"><div className="orange"></div></li>
-                            <li data-theme="green"><div className="green"></div></li>
-                            <li data-theme="cyan" className="active"><div className="cyan"></div></li>
-                            <li data-theme="blush"><div className="blush"></div></li>
-                            <li data-theme="white"><div className="bg-white"></div></li>
+                            <li onClick={skinChanger} data-theme="azure"><div className="azure"></div></li>
+                            <li onClick={skinChanger} data-theme="indigo"><div className="indigo"></div></li>
+                            <li onClick={skinChanger} data-theme="purple"><div className="purple"></div></li>
+                            <li onClick={skinChanger} data-theme="orange"><div className="orange"></div></li>
+                            <li onClick={skinChanger} data-theme="green"><div className="green"></div></li>
+                            <li onClick={skinChanger} data-theme="cyan" className="active"><div className="cyan"></div></li>
+                            <li onClick={skinChanger} data-theme="blush"><div className="blush"></div></li>
+                            <li onClick={skinChanger} data-theme="white"><div className="bg-white"></div></li>
                         </ul>
                     </div>
                     <div className="mb-4">
-                        <h6 className="font-14 font-weight-bold text-muted">Font Style</h6>
+                        <h6 className="font-14 font-weight-bold text-muted">{t("Font Style")}</h6>
                         <div className="custom-controls-stacked font_setting">
                             <label className="custom-control custom-radio custom-control-inline">
-                                <input type="radio" className="custom-control-input" name="font" value="font-muli" defaultChecked />
-                                <span className="custom-control-label">Muli Google Font</span>
+                                <input type="radio" className="custom-control-input" name="font" value="font-muli" defaultChecked onChange={fontSetting} />
+                                <span className="custom-control-label">{t("Muli Google Font")}</span>
                             </label>
                             <label className="custom-control custom-radio custom-control-inline">
-                                <input type="radio" className="custom-control-input" name="font" value="font-montserrat" />
-                                <span className="custom-control-label">Montserrat Google Font</span>
+                                <input type="radio" className="custom-control-input" name="font" value="font-montserrat" onChange={fontSetting} />
+                                <span className="custom-control-label">{t("Montserrat Google Font")}</span>
                             </label>
                             <label className="custom-control custom-radio custom-control-inline">
-                                <input type="radio" className="custom-control-input" name="font" value="font-poppins" />
-                                <span className="custom-control-label">Poppins Google Font</span>
+                                <input type="radio" className="custom-control-input" name="font" value="font-poppins" onChange={fontSetting} />
+                                <span className="custom-control-label">{t("Poppins Google Font")}</span>
                             </label>
                         </div>
                     </div>
                     <div>
-                        <h6 className="font-14 font-weight-bold mt-4 text-muted">General Settings</h6>
+                        <h6 className="font-14 font-weight-bold mt-4 text-muted">{t("General Settings")}</h6>
                         <ul className="setting-list list-unstyled mt-1 setting_switch">
                             <li>
                                 <label className="custom-switch">
-                                    <span className="custom-switch-description">Night Mode</span>
+                                    <span className="custom-switch-description">{t("Night Mode")}</span>
                                     <input type="checkbox" name="custom-switch-checkbox" className="custom-switch-input btn-darkmode" />
                                     <span className="custom-switch-indicator"></span>
                                 </label>
                             </li>
                             <li>
                                 <label className="custom-switch">
-                                    <span className="custom-switch-description">Fix Navbar top</span>
+                                    <span className="custom-switch-description">{t("Fix Navbar top")}</span>
                                     <input type="checkbox" name="custom-switch-checkbox" className="custom-switch-input btn-fixnavbar" />
                                     <span className="custom-switch-indicator"></span>
                                 </label>
                             </li>
                             <li>
                                 <label className="custom-switch">
-                                    <span className="custom-switch-description">Header Dark</span>
+                                    <span className="custom-switch-description">{t("Header Dark")}</span>
                                     <input type="checkbox" name="custom-switch-checkbox" className="custom-switch-input btn-pageheader" />
                                     <span className="custom-switch-indicator"></span>
                                 </label>
                             </li>
                             <li>
                                 <label className="custom-switch">
-                                    <span className="custom-switch-description">Min Sidebar Dark</span>
+                                    <span className="custom-switch-description">{t("Min Sidebar Dark")}</span>
                                     <input type="checkbox" name="custom-switch-checkbox" className="custom-switch-input btn-min_sidebar" />
                                     <span className="custom-switch-indicator"></span>
                                 </label>
                             </li>
                             <li>
                                 <label className="custom-switch">
-                                    <span className="custom-switch-description">Sidebar Dark</span>
+                                    <span className="custom-switch-description">{t("Sidebar Dark")}</span>
                                     <input type="checkbox" name="custom-switch-checkbox" className="custom-switch-input btn-sidebar" />
                                     <span className="custom-switch-indicator"></span>
                                 </label>
                             </li>
                             <li>
                                 <label className="custom-switch">
-                                    <span className="custom-switch-description">Icon Color</span>
+                                    <span className="custom-switch-description">{t("Icon Color")}</span>
                                     <input type="checkbox" name="custom-switch-checkbox" className="custom-switch-input btn-iconcolor" />
                                     <span className="custom-switch-indicator"></span>
                                 </label>
                             </li>
                             <li>
                                 <label className="custom-switch">
-                                    <span className="custom-switch-description">Gradient Color</span>
+                                    <span className="custom-switch-description">{t("Gradient Color")}</span>
                                     <input type="checkbox" name="custom-switch-checkbox" className="custom-switch-input btn-gradient" defaultChecked />
                                     <span className="custom-switch-indicator"></span>
                                 </label>
                             </li>
                             <li>
                                 <label className="custom-switch">
-                                    <span className="custom-switch-description">Box Shadow</span>
+                                    <span className="custom-switch-description">{t("Box Shadow")}</span>
                                     <input type="checkbox" name="custom-switch-checkbox" className="custom-switch-input btn-boxshadow" />
                                     <span className="custom-switch-indicator"></span>
                                 </label>
                             </li>
                             <li>
                                 <label className="custom-switch">
-                                    <span className="custom-switch-description">RTL Support</span>
+                                    <span className="custom-switch-description">{t("RTL Support")}</span>
                                     <input type="checkbox" name="custom-switch-checkbox" className="custom-switch-input btn-rtl" />
                                     <span className="custom-switch-indicator"></span>
                                 </label>
                             </li>
                             <li>
                                 <label className="custom-switch">
-                                    <span className="custom-switch-description">Box Layout</span>
+                                    <span className="custom-switch-description">{t("Box Layout")}</span>
                                     <input type="checkbox" name="custom-switch-checkbox" className="custom-switch-input btn-boxlayout" />
                                     <span className="custom-switch-indicator"></span>
                                 </label>
                             </li>
                         </ul>
                     </div>
-                    <hr/>
-                    <div className="form-group">
-                        <label className="d-block">Storage <span className="float-right">77%</span></label>
-                        <div className="progress progress-sm">
-                            <div className="progress-bar" role="progressbar" aria-valuenow="77" aria-valuemin="0" aria-valuemax="100" style={{width: "77%"}}></div>
-                        </div>
-                        <button type="button" className="btn btn-primary btn-block mt-3">Upgrade Storage</button>
-                    </div>
+
                 </div>
               
-              
-                {/* <div role="tabpanel" className="tab-pane vivify fadeIn" id="activity" aria-expanded="false">
-                    <ul className="new_timeline mt-3">
-                        <li>
-                            <div className="bullet pink"></div>
-                            <div className="time">11:00am</div>
-                            <div className="desc">
-                                <h3>Attendance</h3>
-                                <h4>Computer Class</h4>
-                            </div>
-                        </li>
-                        <li>
-                            <div className="bullet pink"></div>
-                            <div className="time">11:30am</div>
-                            <div className="desc">
-                                <h3>Added an interest</h3>
-                                <h4>“Volunteer Activities”</h4>
-                            </div>
-                        </li>
-                        <li>
-                            <div className="bullet green"></div>
-                            <div className="time">12:00pm</div>
-                            <div className="desc">
-                                <h3>Developer Team</h3>
-                                <h4>Hangouts</h4>
-                                <ul className="list-unstyled team-info margin-0 p-t-5">                                            
-                                    <li><img src="../assets/images/xs/avatar1.jpg" alt="Avatar" /></li>
-                                    <li><img src="../assets/images/xs/avatar2.jpg" alt="Avatar" /></li>
-                                    <li><img src="../assets/images/xs/avatar3.jpg" alt="Avatar" /></li>
-                                    <li><img src="../assets/images/xs/avatar4.jpg" alt="Avatar" /></li>                                            
-                                </ul>
-                            </div>
-                        </li>
-                        <li>
-                            <div className="bullet green"></div>
-                            <div className="time">2:00pm</div>
-                            <div className="desc">
-                                <h3>Responded to need</h3>
-                                <a href="javascript:void(0)">“In-Kind Opportunity”</a>
-                            </div>
-                        </li>
-                        <li>
-                            <div className="bullet orange"></div>
-                            <div className="time">1:30pm</div>
-                            <div className="desc">
-                                <h3>Lunch Break</h3>
-                            </div>
-                        </li>
-                        <li>
-                            <div className="bullet green"></div>
-                            <div className="time">2:38pm</div>
-                            <div className="desc">
-                                <h3>Finish</h3>
-                                <h4>Go to Home</h4>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-           
-            */}
+            
            
             </div>
         </div>

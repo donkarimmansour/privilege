@@ -10,7 +10,8 @@ const Card = ({course}) => {
   return (
     <div className="card ribbon">
 
-      <div class="ribbon-box orange"><i class="fa fa-star"></i></div>
+      <div className="ribbon-box orange"><i className="fa fa-star"></i></div>
+      
       <Link to="/courses/view"><img className="card-img-top" src="../assets/images/gallery/6.jpg" alt="" /></Link>
       <div className="card-body d-flex flex-column">
         <h5><a href="courses-details.html">{course.name}</a></h5>
@@ -20,9 +21,9 @@ const Card = ({course}) => {
         <table className="table table-striped table-vcenter mb-0">
           <tbody>
                   <tr>
-                  <td className="w20"><i className="fa fa-calendar text-blue" /></td>
-                    <td className="tx-medium">{t('Duration')}</td>
-                    <td className="text-right">{course.duration}</td>
+                  <td className="w20"><i className="fa fa-black-tie text-blue" /></td>
+                    <td className="tx-medium">{t('Teachers')}</td>
+                    <td className="text-right">{course.teachers}</td>
                   </tr>
                   <tr>
                   <td><i className="fa fa-cc-visa text-danger" /></td>

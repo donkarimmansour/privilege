@@ -14,6 +14,9 @@ import LibraryReducer from "./library/reducer";
 import ExamReducer from "./exam/reducer";
 import SmtpReducer from "./smtp/reducer";
 import UserReducer from "./user/reducer";
+import GroupeReducer from "./groupes/reducer";
+import LevelReducer from "./levels/reducer";
+import NotificationsReducer from "./notifications/reducer";
 
 const reducers = combineReducers({
   auth : AuthReducer ,
@@ -27,6 +30,9 @@ const reducers = combineReducers({
   exam : ExamReducer ,
   smtp : SmtpReducer ,
   user : UserReducer ,
+  groupe : GroupeReducer ,
+  level : LevelReducer ,
+  notifications : NotificationsReducer ,
 })
 
 const persistConfig = { 

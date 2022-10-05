@@ -17,7 +17,7 @@ const List = () => {
       class: "germany",
       paymentStatus: "paid",
       paymentMethod: "cash",
-      collectionDate: "1/77/2024",
+      createdAtt: "1/77/2024",
       paymentDuration: "monthly",
       amount: 877,
 
@@ -27,7 +27,7 @@ const List = () => {
       class: "germany",
       paymentStatus: "paid",
       paymentMethod: "cash",
-      collectionDate: "1/77/2024",
+      createdAtt: "1/77/2024",
       paymentDuration: "monthly",
       amount: 877,
     }
@@ -61,7 +61,7 @@ const List = () => {
                       <td>{pi + 1}</td>
                       <td>{`${p.studentID.firstname} ${p.studentID.lastname}`}</td>
                       <td>{p.paymentMethod}</td>
-                      <td>{p.collectionDate}</td>
+                      <td>{p.createdAtt}</td>
                       <td>{p.class}</td>
                       <td>{p.paymentDuration}</td>
                       <td><span className="tag tag-green">{p.paymentStatus}</span></td>

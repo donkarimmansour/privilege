@@ -1,12 +1,10 @@
 import react, { useEffect } from 'react'
 import Header from './Header'
 import TopHeader from './TopHeader'
-import QuickMenus from './QuickMenus'
 import RightSidebar from './RightSidebar'
 import LeftSidbar from './LeftSidbar'
 import Loader from './Loader'
 import Footer from './Footer'
-import ThemePanel from './ThemePanel'
 import Breadcrumb from './Breadcrumb'
 import { useNavigate } from 'react-router'
 
@@ -18,13 +16,22 @@ const Container = ({children , tabs , links , btns}) => {
 
     useEffect(() => {
 
-      setTimeout(() => {
-        document.querySelector(".page-loader-wrapper").style.visibility = "hidden";
-        document.querySelector(".page-loader-wrapper").style.opacity = 0;
-        document.querySelector(".page-loader-wrapper").style.transition = "visibility 0s 2s, opacity 2s linear";
-      }, 50);
+        setTimeout(() => {
+            document.querySelector(".page-loader-wrapper").style.visibility = "hidden";
+            document.querySelector(".page-loader-wrapper").style.opacity = 0;
+            document.querySelector(".page-loader-wrapper").style.transition = "visibility 0s 2s, opacity 2s linear";
+        }, 50);
 
-    } , [navigate])
+
+        const ww = document.body.clientWidth;
+        if (ww < 1530) {
+            document.querySelector('body').classList.add('close_rightbar');
+        } else if (ww >= 1531) {
+            document.querySelector('body').classList.remove('close_rightbar');
+        };
+
+
+    }, [navigate])
 
 
 
@@ -36,10 +43,7 @@ const Container = ({children , tabs , links , btns}) => {
                 <TopHeader />
                 {/* <!-- Start Rightbar setting panel --> */}
                 <RightSidebar />
-                {/* <!-- Start Theme panel do not add in project --> */}
-                <ThemePanel />
-                {/* <!-- Start Quick menu with more functio --> */}
-                <QuickMenus />
+
                 {/* <!-- Start Main leftbar navigation --> */}
                 <LeftSidbar />
                 {/* <!-- Start project content area --> */}

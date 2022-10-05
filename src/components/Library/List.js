@@ -26,15 +26,15 @@ const List = () => {
     {
       title: "lllll",
       status: "in stock",
-      type: "cd",
-      subject: "mm mmm",
+      level: "a1",
+      language: "franch",
 
     },
     {
       title: "lllll",
       status: "in stock",
-      type: "cd",
-      subject: "mm mmm",
+      level: "a2",
+      language: "germany",
     }
 
   ]
@@ -48,9 +48,10 @@ const List = () => {
                 <tr>
                   <th>#</th>
                   <th>{("Title")}</th>
-                  <th>{("Subject")}</th>
-                  <th>{("Type")}</th>
+                  <th>{("Language")}</th>
+                  <th>{("Level")}</th>
                   <th>{("Status")}</th>
+                  <th>{("Action")}</th>
                 </tr>
               </thead>
               <tbody>
@@ -62,8 +63,8 @@ const List = () => {
                       <td>{li + 1}</td>
 
                       <td>{l.title}</td>
-                      <td>{l.subject}</td>
-                      <td>{l.type}</td>
+                      <td>{l.language}</td>
+                      <td>{l.level}</td>
                       <td>{l.status}</td>
                       <td>
                         <button type="button" className="btn btn-icon btn-sm" title="View" onclick={() => { OnSee() }}><i className="fa fa-eye" /></button>
