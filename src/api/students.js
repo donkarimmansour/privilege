@@ -19,6 +19,14 @@ const deleteApi = async (id , token) => {
     return  await axios.put(`${Host.BACKEND}${ApiEndpoints.Students.route}${ApiEndpoints.Students.edit}/${id}` , data , {headers : {...config.headers , ...token}})
  }
 
+ const editProfileApi = async (id , data , token) => { 
+   return  await axios.put(`${Host.BACKEND}${ApiEndpoints.Students.route}${ApiEndpoints.Students.profileEdit}/${id}` , data , {headers : {...config.headers , ...token}})
+}
+
+ const editImageApi = async (id , data , token) => { 
+   return  await axios.put(`${Host.BACKEND}${ApiEndpoints.Students.route}${ApiEndpoints.Students.image}/${id}` , data , {headers : {...config.headers , ...token}})
+}
+
  const getApi = async (filter , token) => {
     return  await axios.get(`${Host.BACKEND}${ApiEndpoints.Students.route}${ApiEndpoints.Students.list}` , {headers : {...config.headers , ...token} , params : filter} )
  }
@@ -29,7 +37,7 @@ const deleteApi = async (id , token) => {
 }
 
 
-
-export {createApi , editApi  , deleteApi , getApi , countApi}
+ 
+export {createApi , editApi  , deleteApi , getApi , countApi , editImageApi , editProfileApi}
 
 

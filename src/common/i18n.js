@@ -96,12 +96,14 @@ const resources = {
        "Hours" : "Hours" ,
        "Cin" : "Cin" ,
        "Enter your Cin" : "Enter your Cin" ,
+       "gender field is required" : "gender field is required" ,
 
        //student list
        "Name" : "Name" ,
        "Admission Date" : "Admission Date" ,
        "Action" : "Action" ,
        "Search" : "Search" ,
+       "Generate" : "Generate" ,
 
        //payment add 
        "Add Library" : "Add Library" ,
@@ -255,6 +257,18 @@ const resources = {
        "Enter your Message" : "Enter your Message" ,
        "Send" : "Send" ,
        "All" : "All" ,
+
+       //alers
+       "Added" : "Added" ,
+       "Not Added" : "Not Added" ,
+       "Removed" : "Removed" ,
+       "Updated" : "Updated" ,
+       "Not Updated" : "Not Updated" ,
+       "Uploaded" : "Uploaded" ,
+       "Deleted" : "Deleted" ,
+       "Created" : "Created" ,
+       "Error" : "Error" ,
+       "Success" : "Success" ,
        "password" : "password" ,
 
      

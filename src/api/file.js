@@ -7,12 +7,11 @@ const config = {
     }  
 }
 
-const Create = async (data , con) => {
-  return  await  axios.post(`${Host.BACKEND}${ApiEndpoints.File.route}${ApiEndpoints.File.createSingleFile}` 
-  , data , { headers :  {...config.headers , ...con } })
+const CreateSingleFile = async (data , token) => {
+  return  await  axios.post(`${Host.BACKEND}${ApiEndpoints.File.route}${ApiEndpoints.File.createSingleFile}`  , data , { headers :  {...config.headers , ...token } })
 }  
 
 
 export {
- Create
+  CreateSingleFile
 }

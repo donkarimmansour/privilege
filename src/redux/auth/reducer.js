@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { signupUser, signinUser, resetPassword, forgotPassword } from "./action"
+import { signinUser , forgotPassword , getMe} from "./action"
 
 const initialState = {
     user: null,
@@ -15,66 +15,57 @@ export const AuthReducerSlice = createSlice({
     name: 'auth',
     initialState,
     reducers: {
-        setCredentials: (state, action) => {
-            const { user, token } = action.payload
-            state.user = user
-            state.token = token
-            state.isLoggedIn = true
-        },
-        logOut: (state, action) => {
+        logOut: (state) => {
             state.user = null
             state.token = null
             state.isLoggedIn = false
+        }, 
+        cleanAlerts: (state) => {
+            state.loading = false
+            state.success = false
+            state.error = false
         },
+
     },
     extraReducers: {
         //signinUser
-        [signinUser.pending]: (state, action) => {
+        [signinUser.pending]: (state) => {
             state.loading = true
         },
 
-        [signinUser.fulfilled]: (state, action) => {
-            state.loading = false
-            state.success = action.payload
-        },
+        // [signinUser.fulfilled]: (state, action) => {
+        //     state.loading = true
+        //     //state.success = action.payload
+        //    // state.token = action.payload.TOKEN
+        // },
 
         [signinUser.rejected]: (state, action) => {
             state.loading = false
             state.error = action.payload
         },
 
-        //signupUser
-        [signupUser.pending]: (state, action) => {
+        //getMe
+        [getMe.pending]: (state) => {
             state.loading = true
         },
 
-        [signupUser.fulfilled]: (state, action) => {
+        [getMe.fulfilled]: (state, action) => {
             state.loading = false
-            state.success = action.payload
+
+            state.token = action.meta.arg.TOKEN
+            action.payload.password = ""
+            state.user = action.payload
+            state.isLoggedIn = true            
         },
 
-        [signupUser.rejected]: (state, action) => {
+        [getMe.rejected]: (state, action) => {
             state.loading = false
             state.error = action.payload
         },
 
-        //resetPassword
-        [resetPassword.pending]: (state, action) => {
-            state.loading = true
-        },
 
-        [resetPassword.fulfilled]: (state, action) => {
-            state.loading = false
-            state.success = action.payload
-        },
-
-        [resetPassword.rejected]: (state, action) => {
-            state.loading = false
-            state.error = action.payload
-        },
-
-        //forgotPassword
-        [forgotPassword.pending]: (state, action) => {
+          //forgotPassword
+          [forgotPassword.pending]: (state) => {
             state.loading = true
         },
 
@@ -90,7 +81,7 @@ export const AuthReducerSlice = createSlice({
     }
 })
 
-export const { setCredentials, logOut, defaultState } = AuthReducerSlice.actions;
+export const { cleanAlerts , logOut} = AuthReducerSlice.actions;
 
 
 export default AuthReducerSlice.reducer;

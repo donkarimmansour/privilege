@@ -1,24 +1,35 @@
 import react, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom'
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { checkString, ImageVIEW } from '../../common/funs';
+import swal from 'sweetalert';
+import { logOut } from '../../redux/auth/reducer';
+import { useNavigate } from 'react-router-dom'
 
 const Header = () => {
     const { t, i18n } = useTranslation();
+    const dispatch = useDispatch()
+    const { loading, error, success, notifications, count } = useSelector(state => state.notifications)
+    const { user } = useSelector(state => state.auth)
+    const navigate = useNavigate()
 
-    console.log(i18n.language);
+    //console.log(i18n.language);
     //i18n.changeLanguage("fr")
 
-    //  const dispatch = useDispatch()
-    const { loading, error, success, notifications, count } = useSelector(state => state.notifications)
 
-    useEffect(() => {
-        if (success) {
+    //alerts
+    // useEffect(() => {
+    //     if (success) {
+    //         swal(t("Success"), t(checkString(success)), "success");
 
-        } else if (error) {
+    //     } else if (error) {
+    //        // swal(t("Error"), t(checkString(error)), "error");
+    //     }
 
-        }
-    }, [success, error]);
+    //    // dispatch(cleanAlerts())
+
+    // }, [success, error]);
 
 
     const data = [
@@ -41,6 +52,12 @@ const Header = () => {
 
 
     ]
+
+    const logout = () => {
+        dispatch(logOut())
+        navigate("/login")
+    }
+
 
 
 
@@ -98,13 +115,13 @@ const Header = () => {
                             </div>
                             <div className="dropdown d-flex">
                                 <a href="javascript:void(0)" className="chip ml-3" data-toggle="dropdown">
-                                    <span className="avatar" style={{ backgroundImage: "url(../assets/images/xs/avatar5.jpg)" }}></span> karim</a>
+                                    <span className="avatar" style={{ backgroundImage: `url(${ImageVIEW(user.image)})` }}></span> karim</a>
                                 <div className="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
                                     <Link className="dropdown-item" to="/profile"><i className="dropdown-icon fe fe-user"></i> {t("Profile")}</Link>
                                     <Link className="dropdown-item" to="/settings"><i className="dropdown-icon fe fe-settings"></i> {t("Settings")}</Link>
                                     <Link className="dropdown-item" to="/chatapp"><span className="float-right"><span className="badge badge-primary">6</span></span><i className="dropdown-icon fe fe-mail"></i> {t("Inbox")}</Link>
                                     <div className="dropdown-divider"></div>
-                                    <Link className="dropdown-item" to="/login.html"><i className="dropdown-icon fe fe-log-out"></i> {t("Sign out")}</Link>
+                                    <a className="dropdown-item" to="javascript:void(0);" onClick={logout} > <i className="dropdown-icon fe fe-log-out"></i> {t("Sign out")}</a>
                                 </div>
                             </div>
                         </div>

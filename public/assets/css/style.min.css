@@ -14510,3 +14510,12 @@ svg {
 .theme-blush.gradient .btn-primary {
     background: linear-gradient(145deg, #2185d0, #de5d83)
 }
+
+
+.loading{
+    position: absolute;
+    z-index: 9999;
+    right: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}

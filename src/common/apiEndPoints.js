@@ -8,11 +8,9 @@ const Host = {
 const ApiEndpoints = {
  
   Auth: { 
-    route: `${Host.PREFIX}/user`, 
-    signup: `/signup`, 
+    route: `${Host.PREFIX}/auth`, 
     signin: `/signin`, 
     forgot: `/forgot-password`, 
-    reset: `/reset-password`, 
     me: `/me`, 
   },
 
@@ -32,6 +30,9 @@ const ApiEndpoints = {
     delete: `/delete`, 
     count: `/count`, 
     list: `/list`, 
+    image: `/image`, 
+    profileEdit: `/profileEdit`, 
+
   },
 
   

@@ -3,11 +3,11 @@ import { ApiEndpoints, Host } from "../common/apiEndPoints"
 
 //ImageLink
 const ImageVIEW = (img) => {
-    return `${Host.BACKEND}${ApiEndpoints.FileEndpoints.route}${ApiEndpoints.FileEndpoints.getSingleFileView}/${img}/view`
+    return `${Host.BACKEND}${ApiEndpoints.File.route}${ApiEndpoints.File.getSingleFileView}/${img}/view`
 }
 
 const ImageDOWNLOAD = (img) => {
-    return `${Host.BACKEND}${ApiEndpoints.FileEndpoints.route}${ApiEndpoints.FileEndpoints.getSingleFileDownload}/${img}/download`
+    return `${Host.BACKEND}${ApiEndpoints.File.route}${ApiEndpoints.File.getSingleFileDownload}/${img}/download`
 }
 
 
@@ -36,4 +36,8 @@ const removeSiblingsClass = (el , classe) => {
     [...el.parentElement.children].forEach(sib => sib.classList.remove(classe))
 }
 
-export { ImageVIEW  , ImageDOWNLOAD  , extractDesk  , makeId , removeSiblingsClass}  
+const checkString = msg => typeof msg == "string" ? msg : msg[0]
+
+const loader = () => <div className="loading"> <div className="spinner-border" style={{ width: "3rem", height: "3rem" }} role="loading"> <span className="sr-only">Loading...</span> </div> </div>
+
+export { ImageVIEW  , ImageDOWNLOAD  , extractDesk  , makeId , removeSiblingsClass , checkString , loader}  

@@ -1,5 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getSingleStudent, getStudent, countStudent, editStudent, deleteStudent, createStudent } from "./action"
+import { getSingleStudent, getStudent, countStudent, editStudent, deleteStudent, createStudent, editStudentImage , editStudentProfile  } from "./action"
+
+
 const initialState = {
     students: [],
     singleStudent: {},
@@ -14,34 +16,22 @@ export const StudentsReducerSlice = createSlice({
     name: 'students',
     initialState,
     reducers: {
-        // create: (state, action) => {
-
-        // },
-        // delete: (state, action) => {
-
-        // },
-        // edit: (state, action) => {
-
-        // },
-        // count: (state, action) => {
-
-        // },
-        // get: (state, action) => {
-
-        // },
-        // getSingle: (state, action) => {
-
-        // },
+        cleanAlerts: (state) => {
+            state.loading = false
+            state.success = false
+            state.error = false
+        },
     },
     extraReducers: {
         //getSingleStudent
-        [getSingleStudent.pending]: (state, action) => {
+        [getSingleStudent.pending]: (state) => {
             state.loading = true
         },
 
         [getSingleStudent.fulfilled]: (state, action) => {
             state.loading = false
             // state.success = action.payload
+            action.payload.password = ""
             state.singleStudent = action.payload
         },
 
@@ -51,14 +41,14 @@ export const StudentsReducerSlice = createSlice({
         },
 
         //getStudent
-        [getStudent.pending]: (state, action) => {
+        [getStudent.pending]: (state) => {
             state.loading = true
         },
 
         [getStudent.fulfilled]: (state, action) => {
             state.loading = false
             // state.success = action.payload
-            state.Students = action.payload
+            state.students = action.payload
         },
 
         [getStudent.rejected]: (state, action) => {
@@ -67,7 +57,7 @@ export const StudentsReducerSlice = createSlice({
         },
 
         //countStudent
-        [countStudent.pending]: (state, action) => {
+        [countStudent.pending]: (state) => {
             state.loading = true
         },
 
@@ -83,14 +73,18 @@ export const StudentsReducerSlice = createSlice({
         },
 
         //editStudent
-        [editStudent.pending]: (state, action) => {
+        [editStudent.pending]: (state) => {
             state.loading = true
         },
 
-        [editStudent.fulfilled]: (state, action) => {
+        [editStudent.fulfilled]: (state , action) => {
+            
             state.loading = false
-            // state.success = action.payload
-            state.Students = action.payload //chaange
+            state.success = "Updated"
+            
+            const editIndex = state.students.findIndex(s => s._id === state.singleStudent._id)
+            state.students[editIndex] = { ...state.students[editIndex] , ...action.meta.arg}
+
         },
 
         [editStudent.rejected]: (state, action) => {
@@ -98,15 +92,39 @@ export const StudentsReducerSlice = createSlice({
             state.error = action.payload
         },
 
+
+         //editStudentImage
+         [editStudentImage.pending]: (state) => {
+            state.loading = true
+        },
+
+        [editStudentImage.fulfilled]: (state, action) => {
+            
+            state.loading = false
+            state.success = "Uploaded"
+            
+            const editImageIndex = state.students.findIndex(s => s._id === state.singleStudent._id)
+            state.students[editImageIndex].image = action.payload
+
+            //*i need to update image here for profile to
+        },
+
+        [editStudentImage.rejected]: (state, action) => {
+            state.loading = false
+            state.error = action.payload
+        },
+
+
+
         //deleteStudent
-        [deleteStudent.pending]: (state, action) => {
+        [deleteStudent.pending]: (state) => {
             state.loading = true
         },
 
         [deleteStudent.fulfilled]: (state, action) => {
             state.loading = false
-            // state.success = action.payload
-            state.Students = action.payload // delete one
+            state.success = "Deleted"
+            state.students = state.students.filter(s => s._id !== action.meta.arg) 
             state.count = -1
         },
 
@@ -116,24 +134,47 @@ export const StudentsReducerSlice = createSlice({
         },
 
         //createStudent
-        [createStudent.pending]: (state, action) => {
+        [createStudent.pending]: (state) => {
             state.loading = true
         },
 
         [createStudent.fulfilled]: (state, action) => {
+
             state.loading = false
-            // state.success = action.payload
-            state.Students = [...state.Students, action.payload]
+            state.success = "Created"
+            state.students = [...state.students,  {...action.meta.arg ,  "_id" : action.payload}]
             state.count = +1
+
         },
 
         [createStudent.rejected]: (state, action) => {
             state.loading = false
             state.error = action.payload
         },
+
+
+
+        //editStudentProfile
+        [editStudentProfile.pending]: (state) => {
+            state.loading = true
+        },
+
+        [editStudentProfile.fulfilled]: (state, action) => {
+
+            state.loading = false
+            state.success = "Updated"
+            state.user = {...state.user , ...action.meta.arg}
+        },
+
+        [editStudentProfile.rejected]: (state, action) => {
+            state.loading = false
+            state.error = action.payload
+        },
+
     }
 })
 
 
 
+export const { cleanAlerts } = StudentsReducerSlice.actions; 
 export default StudentsReducerSlice.reducer; 

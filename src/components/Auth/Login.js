@@ -5,48 +5,72 @@ import * as yup from 'yup'
 import { useDispatch, useSelector } from "react-redux";
 import "react-datepicker/dist/react-datepicker.css";
 import { Link } from 'react-router-dom';
-
-
+import { signinUser } from '../../redux/auth/action';
+import { checkString, loader } from '../../common/funs';
+import { cleanAlerts } from '../../redux/auth/reducer';
+import swal from 'sweetalert';
+import { useNavigate } from 'react-router-dom'
 
 
 const Login = () => {
 
-  const { t } = useTranslation();
 
-  // const dispatch = useDispatch()
-  const { loading, error, success, profile } = useSelector(state => state.user)
+  const { loading, error, success, isLoggedIn } = useSelector(state => state.auth)
+  const navigate = useNavigate()
 
   useEffect(() => {
-    if (success) { } else if (error) { }
-  }, [success, error]);
+    
+    if(isLoggedIn){
+      navigate("/")
+    }
+  } , [isLoggedIn])
+
+  const { t } = useTranslation();
+  const dispatch = useDispatch()
 
 
-  const initialValues = {
-    firstname: "",
-    lastname: "",
-    phone: "",
-    email: "",
-    password: ""
-  }
+    //alerts
+    useEffect(() => {
+      if (success) { 
+       // swal(t("Added"), t(checkString(success)) , "success");
+       navigate("/")
+  
+      } else if (error) {
+        swal(t("Error"), t(checkString(error)) , "error");
+      }
+  
+      dispatch(cleanAlerts())
+      
+    }, [success, error]);
 
-  const onSubmit = values => { // dispatch(set_contact())
-    console.log(values);
-  }
+    
+
+      //formik initial
+      const initialValues = {
+        email: "",
+        password: "" ,
+        role: "student"
+      }
+
+    //initial yup Scheme
+    const LoginValidator = yup.object().shape({
+      email: yup.string().required(t("email field is required")) ,
+      password: yup.string().required(t("password field is required")) ,
+      role: yup.string().required(t("role field is required"))
+    })
 
 
-  const LoginValidator = yup.object().shape({
-    firstname: yup.string().required(t("firstname field is required")),
-    lastname: yup.string().required(t("lastname field is required")),
-    phone: yup.string().required(t("phone field is required")),
-    // password: yup.string().required(t("password field is required")),
-    email: yup.string().required(t("email field is required")).email("email must be email")
-  })
-
-
+    //submit form
+    const onSubmit = values => { 
+      dispatch(signinUser({ ...values }))
+    }
+  
 
   return (
     <>
       <div className="auth option2">
+
+      {loading && loader()}
 
         <div className="auth_left">
 
@@ -67,19 +91,26 @@ const Login = () => {
                           <a className="header-brand" href="index.html"><i className="fa fa-graduation-cap brand-logo" /></a>
                           <div className="card-title mt-3">{t("Login to your account")}</div>
                         </div>
-                        <div className="form-group">
-                          <input type="email" name="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder={t("Enter email or Username")} />
-                          {touched.email && errors.email && <small className="text-danger">{errors.email}</small>}
 
+                        <div className="form-group">
+                          <Field as="select" name="role" className="form-control"  placeholder={t("Select you role")} >
+                            <option value="student">Student</option>
+                            </Field>
+                          {touched.role && errors.role && <small className="text-danger">{errors.role}</small>}
+                        </div>
+
+                        <div className="form-group">
+                          <Field type="text" name="email" className="form-control"  placeholder={t("Enter email or Username")} />
+                          {touched.email && errors.email && <small className="text-danger">{errors.email}</small>}
                         </div>
                         <div className="form-group">
                           <label className="form-label"><Link to="/forgotpassword" className="float-right small">{t("I forgot password")}</Link></label>
-                          <input type="password" name="password" className="form-control" id="exampleInputPassword1" placeholder={t("Password")} />
+                          <Field type="password" name="password" className="form-control"  placeholder={t("Password")} />
                           {touched.password && errors.password && <small className="text-danger">{errors.password}</small>}
 
                         </div>
                         <div className="text-center">
-                          <a href="index.html" className="btn btn-primary btn-block" >{t("Sign in")}</a>
+                          <button disabled={(loading || !isValid)} className="btn btn-primary btn-block" >{t("Sign in")}</button>
                         </div>
                       </div>
                     </div>
