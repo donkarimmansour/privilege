@@ -33,7 +33,7 @@ const Add = () => {
     console.log(values);
   }
 
-
+ 
   const ProfessorsAddValidator = yup.object().shape({
     title: yup.string().required(t("title field is required")),
     status: yup.string().required(t("status field is required")),

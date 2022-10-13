@@ -177,7 +177,7 @@ const Add = ({ editStudentId }) => {
         if (!editStudentId || editStudentId === "") {
           swal(t("Uploaded"), t("Uploaded"), "success");
         } else {
-          dispatch(editStudentImage({ image: data.msg , type : "init" }))
+          dispatch(editStudentImage({ image: data.msg , type : "" }))
         }
 
 

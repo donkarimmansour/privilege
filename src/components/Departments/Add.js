@@ -23,7 +23,7 @@ const Add = () => {
 
 
   const initialValues = {
-    brief: "",
+    brief: "", 
     headOfDepartment: "",
     departmentName: "",
 
@@ -36,7 +36,7 @@ const Add = () => {
 
 
   const ProfessorsAddValidator = yup.object().shape({
-    departmentName: yup.string().required(t("Departmen tName field is required")),
+    departmentName: yup.string().required(t("Department Name field is required")),
     headOfDepartment: yup.string().required(t("Head of Department field is required")),
     // brief: yup.string().required(t("Brief field is required")),
 

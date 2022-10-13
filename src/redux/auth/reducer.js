@@ -25,6 +25,9 @@ export const AuthReducerSlice = createSlice({
             state.success = false
             state.error = false
         },
+        updateProfileImage: (state , action) => {
+            state.user.image =  action.payload
+        },
 
     },
     extraReducers: {
@@ -81,7 +84,7 @@ export const AuthReducerSlice = createSlice({
     }
 })
 
-export const { cleanAlerts , logOut} = AuthReducerSlice.actions;
+export const { cleanAlerts , logOut , updateProfileImage} = AuthReducerSlice.actions;
 
 
 export default AuthReducerSlice.reducer;

@@ -2,22 +2,9 @@ import react, { useEffect, useState } from 'react'
 import List from './List'
 import Container from '../shared/Container'
 import Add from './Add'
-import { useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
 
 
 const StudentsIndex = () => {
-
-  const { isLoggedIn } = useSelector(state => state.auth)
-  const navigate = useNavigate()
-
-  useEffect(() => {
-    
-    if(!isLoggedIn){
-      navigate("/login")
-    }
-  } , [isLoggedIn])
-
 
   const [editStudentId , setEditStudentId] = useState("")
 
@@ -36,7 +23,7 @@ const tabs = [
     return (
       <Container tabs={tabs} links={links}> 
 
-      <div className="tab-content">
+         <div className="tab-content">
 
          <List setEditStudentId={setEditStudentId} />
          <Add editStudentId={editStudentId} />

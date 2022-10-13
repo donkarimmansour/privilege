@@ -1,5 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { createApi, editApi, deleteApi, getApi, countApi, editImageApi, editProfileApi } from "../../api/students";
+import { updateProfileImage } from "../auth/reducer";
 
 const createStudent = createAsyncThunk("students/create", async (args, StudentsApi) => {
     const { rejectWithValue, getState } = StudentsApi
@@ -52,14 +53,21 @@ const editStudentProfile = createAsyncThunk("students/edit", async (args, Studen
 
 
 const editStudentImage = createAsyncThunk("students/editimage", async (args, StudentsApi) => {
-    const { rejectWithValue, getState } = StudentsApi
+    const { rejectWithValue, getState , dispatch } = StudentsApi
     const { token } = getState().auth
     const { image , type } = args
-    const id =  type === "init" ? getState().students.singleStudent._id : getState().auth.user._id
+
+    const id = type === "profile" ? getState().auth.user._id : getState().students.singleStudent._id
+
     const authorization = { "Authorization": `bearer ${token}` }
 
     try {
         const res = await editImageApi(id, {image}, authorization )
+
+        if(type === "profile"){
+            dispatch(updateProfileImage(res.data.msg))
+        }
+
         return res.data.msg
 
     } catch (err) {

@@ -1,27 +1,10 @@
-import { useEffect } from 'react'
-import { useTranslation } from 'react-i18next'
-import { useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
 import Container from '../shared/Container'
 import Calender from './Calender'
 import Edit from './Edit'
 
 
 
-const Profile = () => {
-  const { t } = useTranslation();
-
-  const { isLoggedIn } = useSelector(state => state.auth)
-  const navigate = useNavigate()
-
-  useEffect(() => {
-
-    if (!isLoggedIn) {
-      navigate("/login")
-    }
-  }, [isLoggedIn])
-
-
+const Profile = () => { 
 
   const links = [
     { name: "Ericsson", url: "#" },

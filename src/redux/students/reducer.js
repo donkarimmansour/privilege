@@ -103,10 +103,11 @@ export const StudentsReducerSlice = createSlice({
             state.loading = false
             state.success = "Uploaded"
             
-            const editImageIndex = state.students.findIndex(s => s._id === state.singleStudent._id)
-            state.students[editImageIndex].image = action.payload
-
-            //*i need to update image here for profile to
+            if(action.meta.arg.type !== "profile"){
+                const editImageIndex = state.students.findIndex(s => s._id === state.singleStudent._id)
+                state.students[editImageIndex].image = action.payload
+            }
+           
         },
 
         [editStudentImage.rejected]: (state, action) => {

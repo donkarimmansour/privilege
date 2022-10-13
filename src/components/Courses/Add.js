@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-
+ 
 const Add = () => {
   const { t } = useTranslation();
   //  const dispatch = useDispatch()
@@ -88,7 +88,6 @@ const Add = () => {
                           <label className="col-md-3 col-form-label">{t("Image")}</label>
                           <div className="col-md-9">
                             <input type="file" className="dropify" />
-                            <small id="fileHelp" className="form-text text-muted">This is some placeholder block-level help text for the above input. It's a bit lighter and easily wraps to a new line.</small>
                           </div>
                         </div>
 

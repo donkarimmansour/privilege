@@ -31,13 +31,13 @@ const Add = () => {
   const onSubmit = values => {
     // dispatch(set_contact())
     console.log(values);
-  }
+  } 
 
 
   const LevelAddValidator = yup.object().shape({
     name: yup.string().required(t("name field is required")),
-    group: yup.number().required(t("group field is required")).min(1, t("group field is required")),
-    department: yup.number().required(t("department field is required")).min(1, t("department field is required")),
+    group: yup.number().required(t("group field is required")) ,//.min(1, t("group field is required")),
+    department: yup.number().required(t("department field is required")) ,//.min(1, t("department field is required")),
     position: yup.number().required(t("position field is required")).min(1, t("position field is required")),
   })
 

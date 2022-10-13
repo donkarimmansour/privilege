@@ -36,7 +36,7 @@ const Add = () => {
   const onSubmit = values => {
     // dispatch(set_contact())
     console.log(values);
-  }
+  } 
 
 
   const ProfessorsAddValidator = yup.object().shape({

@@ -140,7 +140,7 @@ const resources = {
        "Head of Department" : "Head of Department" ,
        "Brief" : "Brief" ,
        "Department Name" : "Department Name" ,
-       "Departmen tName field is required" : "Departmen tName field is required" ,
+       "Department Name field is required" : "Department Name field is required" ,
        "Head of Department field is required" : "Head of Department field is required" ,
        "Brief field is required" : "Brief field is required" ,
 

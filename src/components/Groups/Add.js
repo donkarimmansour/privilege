@@ -27,7 +27,7 @@ const Add = () => {
   }
 
   const onSubmit = values => {
-    // dispatch(set_contact())
+    // dispatch(set_contact()) 
     console.log(values);
   }
 
