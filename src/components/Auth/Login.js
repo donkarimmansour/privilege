@@ -94,8 +94,9 @@ const Login = () => {
 
                         <div className="form-group">
                           <Field as="select" name="role" className="form-control"  placeholder={t("Select you role")} >
-                            <option value="student">Student</option>
-                            </Field>
+                            <option value="student">{t("Student")}</option>
+                            <option value="teacher">{t("Teacher")}</option>
+                           </Field>
                           {touched.role && errors.role && <small className="text-danger">{errors.role}</small>}
                         </div>
 

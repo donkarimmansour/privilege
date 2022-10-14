@@ -1,83 +1,91 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { createApi , editApi  , deleteApi , getApi , countApi } from "../../api/department";
 
-const createDepartment =  createAsyncThunk("department/create" , async (args , departmentApi) => {
-    const { rejectWithValue , getState } = departmentApi
+const createDepartment =  createAsyncThunk("Department/create" , async (args , DepartmentsApi) => {
+    const { rejectWithValue , getState } = DepartmentsApi
     const { token } = getState().auth
+ 
+    const authorization = { "Authorization": `bearer ${token}` }
 
-    try {
-     const res = await  createApi(args , token)
-     const data = res.json()
-     return data
+    try { 
+        const res = await createApi(args, authorization)
+        return res.data.msg
     } catch (err) {
-        return rejectWithValue(err.message)
+        return rejectWithValue(err.response.data.msg)
     }
 })
 
 
-const editDepartment =  createAsyncThunk("department/edit" , async (args , departmentApi) => {
-    const { rejectWithValue , getState } = departmentApi
+const editDepartment =  createAsyncThunk("Department/edit" , async (args , DepartmentsApi) => {
+    const { rejectWithValue , getState } = DepartmentsApi
     const { token } = getState().auth
     const { _id } = getState().departments.singleDepartment
+    const authorization = { "Authorization": `bearer ${token}` }
 
     try {
-     const res = await  editApi(_id , args , token)
-     const data = res.json()
-     return data
+        const res = await editApi(_id, args, authorization )
+        return res.data.msg
+
     } catch (err) {
-        return rejectWithValue(err.message)
+        return rejectWithValue(err.response.data.msg)
     }
 })
 
-const deleteDepartment =  createAsyncThunk("department/delete" , async (args , departmentApi) => {
-    const { rejectWithValue , getState } = departmentApi
+const deleteDepartment =  createAsyncThunk("Department/delete" , async (args , DepartmentsApi) => {
+    const { rejectWithValue , getState } = DepartmentsApi
     const { token } = getState().auth
+    const authorization = { "Authorization": `bearer ${token}` }
 
     try {
-     const res = await  deleteApi(args , token)
-     const data = res.json()
-     return data
+        const res = await deleteApi(args, authorization )
+        return res.data.msg
     } catch (err) {
-        return rejectWithValue(err.message)
+        return rejectWithValue(err.response.data.msg)
     }
 })
 
-const getDepartment =  createAsyncThunk("department/get" , async (args , departmentApi) => {
-    const { rejectWithValue , getState } = departmentApi
+const getDepartment =  createAsyncThunk("Department/get" , async (args , DepartmentsApi) => {
+    const { rejectWithValue , getState } = DepartmentsApi
     const { token } = getState().auth
 
+    const authorization = { "Authorization": `bearer ${token}` }
+
     try {
-     const res = await  getApi(args , token)
-     const data = res.json()
-     return data    
+        const res = await getApi(args, authorization )
+        return res.data.msg
+
     } catch (err) {
-        return rejectWithValue(err.message)
+        return rejectWithValue(err.response.data.msg)
     }
 })
 
-const countDepartment =  createAsyncThunk("department/count" , async (args , departmentApi) => {
-    const { rejectWithValue , getState } = departmentApi
+const countDepartment =  createAsyncThunk("Department/count" , async (args , DepartmentsApi) => {
+    const { rejectWithValue , getState } = DepartmentsApi
     const { token } = getState().auth
 
+ 
+    const authorization = { "Authorization": `bearer ${token}` }
+
     try {
-     const res = await  countApi(args , token)
-     const data = res.json()
-     return data    
+        const res = await countApi(args, authorization )
+        return res.data.msg
     } catch (err) {
-        return rejectWithValue(err.message)
+        return rejectWithValue(err.response.data.msg)
     }
 })
 
-const getSingleDepartment =  createAsyncThunk("department/getSingle" , async (args , departmentApi) => {
-    const { rejectWithValue , getState } = departmentApi
+const getSingleDepartment =  createAsyncThunk("Department/getSingle" , async (args , DepartmentsApi) => {
+    const { rejectWithValue , getState } = DepartmentsApi
     const { token } = getState().auth
 
+    const authorization = { "Authorization": `bearer ${token}` }
+
     try {
-     const res = await  getApi(args , token)
-     const data = res.json()
-     return data    
+        const res = await getApi(args, authorization )
+        return res.data.msg[0]
+        
     } catch (err) {
-        return rejectWithValue(err.message)
+        return rejectWithValue(err.response.data.msg)
     }
 })
 

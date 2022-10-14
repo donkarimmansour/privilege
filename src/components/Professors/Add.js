@@ -1,57 +1,37 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import { Field, Formik, Form } from "formik"
 import * as yup from 'yup'
 import { useDispatch, useSelector } from "react-redux";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import myClassnames from 'classnames';
+import { checkString, loader } from '../../common/funs';
+import swal from 'sweetalert';
+import { createProfessor, editProfessor, editProfessorImage, getSingleProfessor } from '../../redux/professors/action';
+import { cleanAlerts } from '../../redux/professors/reducer';
+import { CreateSingleFile } from '../../api/file';
+import { getCourse } from '../../redux/courses/action';
 
-
-const Add = () => {
+const Add = ({ editProfessorId, setEditProfessorId }) => {
 
     const { t } = useTranslation();
-    //  const dispatch = useDispatch()
+    const dispatch = useDispatch()
     const { loading, error, success, singleProfessor } = useSelector(state => state.professors)
+    const { token } = useSelector(state => state.auth)
+    const { courses } = useSelector(state => state.courses)
 
-    useEffect(() => {
-        if (success) {
+    const [generateData, setGenerateData] = useState({})
+    const [Lloading, setLLoading] = useState(false)
+    const [profileImage, setProfileImage] = useState(null)
 
-        } else if (error) {
-
-
-
-        }
-    }, [success, error]);
-
-
-    const initialValues = {
-        firstname: "",
-        lastname: "",
-        gender: "",
-        phone: "",
-        birthday: "",
-        username: "",
-        email: "",
-        password: "",
-        confirmpassword: "",
-        facebook: "",
-        twitter: "",
-        linkedin: "",
-        note: "",
-        website: "",
-        teach: "",
-    }
-
-    const onSubmit = values => {
-        // dispatch(set_contact())
-        console.log(values); 
-    }
-
-
-    const ProfessorsAddValidator = yup.object().shape({
+    //yup Scheme 
+    const [initialScheme, setInitialScheme] = useState({
+        isAccountActivated: yup.string().required(t("type is required")),
         firstname: yup.string().required(t("firstname field is required")),
         lastname: yup.string().required(t("lastname field is required")),
-        gender: yup.string().oneOf(["male", "female"], t("you must select male or female")),
+        //gender: yup.string().oneOf(["male", "female"], t("you must select male or female")),
+        gender: yup.string().required(t("you must select male or female")),
         phone: yup.string().required(t("phone field is required")),
         birthday: yup.string().required(t("birthday field is required")),
         teach: yup.string().required(t("teach field is required")),
@@ -64,18 +44,169 @@ const Add = () => {
                     return this.parent.password === value
                 }),
     })
- 
+
+
+    //formik initial
+    const [initialValues, setInitialValues] = useState({
+        birthday: new Date(),
+        firstname: "",
+        lastname: "",
+        gender: "",
+        phone: "",
+        username: "",
+        email: "",
+        password: "",
+        confirmpassword: "",
+        facebook: "",
+        twitter: "",
+        linkedin: "",
+        note: "",
+        website: "",
+        teach: "",
+        isAccountActivated: "no",
+    })
+
+
+    //alerts
+    useEffect(() => {
+        if (success) {
+            swal(t("Success"), t(checkString(success)), "success");
+
+        } else if (error) {
+            swal(t("Error"), t(checkString(error)), "error");
+        }
+
+        dispatch(cleanAlerts())
+
+    }, [success, error]);
+
+
+    //get Professor data
+    useEffect(() => {
+        if (editProfessorId && editProfessorId !== "") {
+            dispatch(getSingleProfessor({ filter: { _id: editProfessorId } }))
+        }
+    }, [editProfessorId])
+
+
+    //update Professor data
+    useEffect(() => {
+        if (singleProfessor && singleProfessor._id) {
+
+            setInitialValues(singleProfessor)
+            setProfileImage(singleProfessor.image)
+            delete initialScheme.password
+            delete initialScheme.confirmpassword
+            setInitialScheme({ ...initialScheme })
+        }
+    }, [singleProfessor])
+
+    //get classes data
+    useEffect(() => {
+        dispatch(getCourse({ sort: { _id: -1 } }))
+    }, [dispatch])
+
+    //back to list
+    const OnCancel = (evt) => {
+        setEditProfessorId("")
+        evt.target.closest(".tab-pane").classList.remove("active")
+        evt.target.closest(".tab-content").children[0].classList.add("active")
+    }
+
+
+
+    //check for Generate username and password
+    const canGenerate = () => {
+        return generateData && generateData.firstname && generateData.lastname && generateData.firstname !== "" && generateData.lastname !== ""
+    }
+
+    //Generate username and password
+    const Generate = () => {
+        setInitialValues({
+            ...generateData, username: `${generateData.firstname}-${generateData.lastname}`,
+            confirmpassword: `${generateData.firstname}-${generateData.lastname}-123`,
+            password: `${generateData.firstname}-${generateData.lastname}-123`
+        })
+
+
+        delete initialScheme.username
+        delete initialScheme.password
+        delete initialScheme.confirmpassword
+        setInitialScheme({ ...initialScheme })
+
+
+    }
+
+    //submit form
+    const onSubmit = values => {
+
+        if (editProfessorId && editProfessorId !== "") {//if edit  
+            dispatch(editProfessor({ ...values, image: profileImage }))
+
+        } else {//if add
+            if (!profileImage) {
+                dispatch(createProfessor({ ...values }))
+            } else {
+                dispatch(createProfessor({ ...values, image: profileImage }))
+            }
+        }
+
+    }
+
+
+    //initial yup Scheme
+    const teacherAddValidator = yup.object().shape(initialScheme)
+
+    //upload image
+    const uploadImage = (e) => {
+
+        if (e.target.files && e.target.files[0]) {
+            const img = e.target.files[0];
+
+
+            const formData = new FormData();
+            formData.append('image', img);
+
+            setLLoading(true)
+
+            const authorization = { "Authorization": `bearer ${token}` }
+
+            CreateSingleFile(formData, authorization).then(({ data }) => { //add token here
+                setLLoading(false)
+
+
+                setProfileImage(data.msg)
+
+                if (!editProfessorId || editProfessorId === "") {
+                    swal(t("Uploaded"), t("Uploaded"), "success");
+                } else {
+                    dispatch(editProfessorImage({ image: data.msg, type: "" }))
+                }
+
+
+            }).catch(err => {
+                console.log("api err ", err.response.data);
+                swal(t("Not Updated"), typeof err.response.data.msg == "string" ? t(err.response.data.msg) : t(err.response.data.msg[0]), "error");
+                setLLoading(false)
+            })
+
+
+        }
+    }
 
 
     return (
         <div className="tab-pane" id="pro-add">
 
+            {(loading || Lloading) && loader()}
 
             {
                 <Formik
                     initialValues={initialValues}
                     onSubmit={onSubmit}
-                    validationSchema={ProfessorsAddValidator}>
+                    validationSchema={teacherAddValidator}
+                    enableReinitialize={true}
+                    innerRef={(data) => (data ? setGenerateData(data.values) : setGenerateData({}))} >
 
                     {
                         ({ touched, errors, setFieldValue, setFieldTouched, values, isValid }) => (
@@ -83,7 +214,7 @@ const Add = () => {
                             <Form action="#" method="post">
                                 <div className="row clearfix">
 
-                                    <div className="col-lg-8 col-md-12 col-sm-12">
+                                    <div className="col-lg-8 col-md-12 col-sm-12  order-lg-1 order-md-2">
                                         <div className="card">
                                             <div className="card-header">
                                                 <h3 className="card-title">{t("Basic Information")}</h3>
@@ -130,7 +261,7 @@ const Add = () => {
 
                                                     </div>
 
-                                                
+
 
                                                     <div className="col-md-3 col-sm-12">
                                                         <label>{t("Gender")} <span className="text-danger">*</span></label>
@@ -149,16 +280,18 @@ const Add = () => {
                                                             <label>{t("Teach")} <span className="text-danger">*</span></label>
                                                             <Field as="select" name="teach" className="form-control show-tick">
                                                                 <option value="">{t("Select...")}</option>
-                                                                <option value="germany">germany</option>
-                                                                <option value="french">french</option>
-                                                                <option value="english">french</option>
+
+                                                                {courses && courses.length > 0 && courses.map((c, ci) => {
+                                                                    return <option key={ci} value={c._id}>{c.name}</option>
+                                                                })}
+
                                                             </Field>
 
                                                             {touched.teach && errors.teach && <small className="text-danger">{errors.teach}</small>}
                                                         </div>
 
-                                                        </div>
-                                                   
+                                                    </div>
+
                                                     <div className="col-md-4 col-sm-12">
                                                         <div className="form-group">
                                                             <label>{t("Phone")} <span className="text-danger">*</span></label>
@@ -183,13 +316,41 @@ const Add = () => {
                                                         </div>
                                                     </div>
 
-                                             
+
+
+                                                    <div className="col-sm-12">
+
+                                                      <div className="form-group row">
+                                                        <label className="col-md-3">{t("is Account Activated")} <span className="text-danger">*</span></label>
+
+                                                        <div className="col-md-7">
+                                                            <div className="custom-controls-stacked">
+
+                                                                <label className="custom-control custom-radio custom-control-inline">
+                                                                    <Field type="radio" className="custom-control-input" name="isAccountActivated" value="yes" />
+                                                                    <span className="custom-control-label">{t("Yes")}</span>
+                                                                </label>
+
+                                                                <label className="custom-control custom-radio custom-control-inline">
+                                                                    <Field type="radio" className="custom-control-input" name="isAccountActivated" value="no" />
+                                                                    <span className="custom-control-label">{t("No")}</span>
+                                                                </label>
+
+
+                                                            </div>
+                                                        </div>
+                                                        {touched.isAccountActivated && errors.isAccountActivated && <small className="text-danger">{errors.isAccountActivated}</small>}
+
+                                                        </div>
+                                                    </div>
+
+
+
 
                                                     <div className="col-md-9 col-sm-12">
 
                                                         <div className="form-group mt-2 mb-3">
-                                                            <input type="file" className="dropify" onChange={(e) => { }} />
-                                                            <small id="fileHelp" className="form-text text-muted">This is some placeholder block-level help text for the above Field. It's a bit lighter and easily wraps to a new line.</small>
+                                                            <input type="file" className="dropify" onChange={(e) => { uploadImage(e) }} />
                                                         </div>
 
                                                     </div>
@@ -206,8 +367,8 @@ const Add = () => {
                                                     </div>
 
                                                     <div className="col-sm-12">
-                                                        <button type="submit" className="btn btn-primary" disabled={(!loading && isValid)}>{t("Submit")}</button>
-                                                        <button type="submit" className="btn btn-outline-secondary">{t("Cancel")}</button>
+                                                        <button type="submit" className="btn btn-primary" disabled={(loading || !isValid)}>{t("Submit")}</button>
+                                                        <button type="button" className="btn btn-outline-secondary" onClick={(e) => { OnCancel(e) }}>{t("Cancel")}</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -216,7 +377,7 @@ const Add = () => {
 
 
 
-                                    <div className="col-lg-4 col-md-12 col-sm-12">
+                                    <div className="col-lg-4 col-md-12 col-sm-12 order-lg-2 order-md-1">
                                         <div className="card">
                                             <div className="card-header">
                                                 <h3 className="card-title">{t("Account Information")}</h3>
@@ -235,26 +396,28 @@ const Add = () => {
                                                         </div>
 
                                                     </div>
-                                                    <div className="col-md-6 col-sm-12">
+
+                                                    <div className={myClassnames("col-sm-12", { "col-md-6": !editProfessorId || editProfessorId === "" })}>
                                                         <div className="form-group">
                                                             <label>{t("Password")} <span className="text-danger">*</span></label>
                                                             <Field type="text" name="password" className="form-control" placeholder={t("Enter your Password")} />
                                                             {touched.password && errors.password && <small className="text-danger">{errors.password}</small>}
                                                         </div>
-
                                                     </div>
-                                                    <div className="col-md-6 col-sm-12">
+
+                                                    {(!editProfessorId || editProfessorId === "") && <> <div className="col-sm-12 col-md-6" >
                                                         <div className="form-group">
                                                             <label>{t("Confirm Password")} <span className="text-danger">*</span></label>
                                                             <Field type="text" name="confirmpassword" className="form-control" placeholder={t("Enter your Confirm Password")} />
                                                             {touched.confirmpassword && errors.confirmpassword && <small className="text-danger">{errors.confirmpassword}</small>}
                                                         </div>
-
                                                     </div>
-                                                    {/* <div className="col-sm-12">
-                                                        <button type="submit" className="btn btn-primary" disabled={(!loading && isValid)}>{t("Submit")}</button>
-                                                        <button type="submit" className="btn btn-outline-secondary">{t("Cancel")}</button>
-                                                    </div> */}
+
+                                                        <div className="col-sm-12">
+                                                            <button type="button" className="btn btn-primary" onClick={Generate} disabled={(loading || !canGenerate())}>{t("Generate")}</button>
+                                                        </div> </>}
+
+
                                                 </div>
                                             </div>
                                         </div>
@@ -277,7 +440,7 @@ const Add = () => {
                                                 <div className="form-group">
                                                     <label>{t("Twitter")}</label>
                                                     <Field type="text" name="twitter" className="form-control" placeholder={t("Enter your Twitter")} />
-                                                    {touched.twitter && errors.Twitter && <small className="text-danger">{errors.Twitter}</small>}
+                                                    {touched.twitter && errors.twitter && <small className="text-danger">{errors.twitter}</small>}
                                                 </div>
 
                                                 <div className="form-group">
@@ -286,9 +449,6 @@ const Add = () => {
                                                     {touched.linkedin && errors.linkedin && <small className="text-danger">{errors.linkedin}</small>}
                                                 </div>
 
-
-                                                {/* <button type="submit" className="btn btn-primary">Submit</button>
-                                                <button type="submit" className="btn btn-outline-secondary">Cancel</button> */}
                                             </div>
                                         </div>
                                     </div>

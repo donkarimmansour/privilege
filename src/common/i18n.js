@@ -269,6 +269,13 @@ const resources = {
        "Created" : "Created" ,
        "Error" : "Error" ,
        "Success" : "Success" ,
+
+       //alerts
+       "You will not be able to recover this data" : "You will not be able to recover this data" ,
+       "Are you sure?" : "Are you sure?" ,
+       "password" : "password" ,
+       "password" : "password" ,
+       "password" : "password" ,
        "password" : "password" ,
 
      

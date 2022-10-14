@@ -9,6 +9,7 @@ import { checkString, ImageVIEW, loader } from '../../common/funs';
 import { cleanAlerts } from '../../redux/auth/reducer';
 import { editStudentImage, editStudentProfile } from '../../redux/students/action';
 import { CreateSingleFile } from '../../api/file';
+import { editProfessorImage, editProfessorProfile } from '../../redux/professors/action';
 
 
 const Edit = () => {
@@ -62,7 +63,8 @@ const Edit = () => {
     password: "" ,
     facebook: "" ,
     twitter: "" ,
-    linkedin: "" 
+    linkedin: "" ,
+    website: "" ,
   })
 
   //submit form
@@ -71,7 +73,8 @@ const Edit = () => {
     if (user.role === "student") {
       dispatch(editStudentProfile(values))
 
-    } else if (7 > 8) {
+    } else if (user.role === "teacher") {
+      dispatch(editProfessorProfile(values))
 
     }
 
@@ -98,8 +101,9 @@ const Edit = () => {
 
           if (user.role === "student") {
             dispatch(editStudentImage({ image: data.msg , type : "profile" }))
-          } else if (7 > 8) {
-      
+          } else if (user.role === "teacher") {
+            dispatch(editProfessorImage({ image: data.msg , type : "profile" }))
+
           }
   
         }).catch(err => {
@@ -200,6 +204,16 @@ const Edit = () => {
                     {touched.twitter && errors.twitter && <small className="text-danger">{errors.twitter}</small>}
                   </div>
                   </div>
+
+                  {user && user.role === "teacher" &&
+                    <div className="form-group row">
+                      <label className="col-md-3 col-form-label">{t("Website")}</label>
+                      <div className="col-md-7">
+                        <Field type="text" name="website" className="form-control" placeholder={t("Enter your Website")} />
+                        {touched.website && errors.website && <small className="text-danger">{errors.website}</small>}
+                      </div>
+                    </div>
+                  }
 
                   <div className="form-group row">
                     <label className="col-md-3 col-form-label">{t("Linkedin")}</label>

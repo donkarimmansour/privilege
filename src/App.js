@@ -53,12 +53,12 @@ function App() {
               <Route element={<SettingsIndex />} path="/settings" />
               <Route element={<Profile />} path="/profile" />
               <Route element={<ExamIndex />} path="/exam" />
-              <Route element={<View />} path="/courses/view" />
+              <Route element={<View />} path="/courses/view/:id" />
 
               <Route element={<Login />} path="/login" />
               <Route element={<ForgotPassword />} path="/forgotPassword" />
               <Route element={<P500 />} path="/500" />
-              <Route element={<P404 />} path="/404" />
+              <Route element={<P404 />} path="*" />
 
             </Routes>
 

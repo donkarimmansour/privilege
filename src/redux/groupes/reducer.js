@@ -13,25 +13,12 @@ const initialState = {
 export const GroupesReducerSlice = createSlice({
     name: 'groupes',
     initialState,
-    reducers: {
-        // create: (state, action) => {
-
-        // },
-        // delete: (state, action) => {
-
-        // },
-        // edit: (state, action) => {
-
-        // },
-        // count: (state, action) => {
-
-        // },
-        // get: (state, action) => {
-
-        // },
-        // getSingle: (state, action) => {
-
-        // },
+    reducers: { 
+        cleanAlerts: (state) => {
+            state.loading = false
+            state.success = false
+            state.error = false
+        },
     },
     extraReducers: {
         //getSingleGroupe
@@ -83,14 +70,16 @@ export const GroupesReducerSlice = createSlice({
         },
 
         //editGroupe
-        [editGroupe.pending]: (state, action) => {
+        [editGroupe.pending]: (state) => {
             state.loading = true
         },
 
         [editGroupe.fulfilled]: (state, action) => {
             state.loading = false
-            // state.success = action.payload
-            state.groupes = action.payload //chaange
+            state.success = "Updated"
+            
+            const editIndex = state.groupes.findIndex(s => s._id === state.singleGroupe._id)
+            state.groupes[editIndex] = { ...state.groupes[editIndex] , ...action.meta.arg}
         },
 
         [editGroupe.rejected]: (state, action) => {
@@ -105,8 +94,8 @@ export const GroupesReducerSlice = createSlice({
 
         [deleteGroupe.fulfilled]: (state, action) => {
             state.loading = false
-            // state.success = action.payload
-            state.groupes = action.payload // delete one
+            state.success = "Deleted"
+            state.groupes = state.groupes.filter(s => s._id !== action.meta.arg) 
             state.count = -1
         },
 
@@ -122,8 +111,8 @@ export const GroupesReducerSlice = createSlice({
 
         [createGroupe.fulfilled]: (state, action) => {
             state.loading = false
-            // state.success = action.payload
-            state.groupes = [...state.groupes, action.payload]
+            state.success = "Created"
+            state.groupes = [...state.groupes,  {...action.meta.arg ,  "_id" : action.payload}]
             state.count = +1
         },
 
@@ -135,5 +124,5 @@ export const GroupesReducerSlice = createSlice({
 })
 
 
-
+export const { cleanAlerts } = GroupesReducerSlice.actions; 
 export default GroupesReducerSlice.reducer; 

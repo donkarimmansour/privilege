@@ -1,83 +1,91 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { createApi , editApi  , deleteApi , getApi , countApi } from "../../api/payments";
 
-const createPayment =  createAsyncThunk("payments/create" , async (args , PaymentsApi) => {
+const createPayment =  createAsyncThunk("Payment/create" , async (args , PaymentsApi) => {
     const { rejectWithValue , getState } = PaymentsApi
     const { token } = getState().auth
 
+    const authorization = { "Authorization": `bearer ${token}` }
+
     try {
-     const res = await  createApi(args , token)
-     const data = res.json()
-     return data
+        const res = await createApi(args, authorization)
+        return res.data.msg 
     } catch (err) {
-        return rejectWithValue(err.message)
+        return rejectWithValue(err.response.data.msg)
     }
 })
 
 
-const editPayment =  createAsyncThunk("payments/edit" , async (args , PaymentsApi) => {
+const editPayment =  createAsyncThunk("Payment/edit" , async (args , PaymentsApi) => {
     const { rejectWithValue , getState } = PaymentsApi
     const { token } = getState().auth
     const { _id } = getState().payments.singlePayment
+    const authorization = { "Authorization": `bearer ${token}` }
 
     try {
-     const res = await  editApi(_id , args , token)
-     const data = res.json()
-     return data
+        const res = await editApi(_id, args, authorization )
+        return res.data.msg
+
     } catch (err) {
-        return rejectWithValue(err.message)
+        return rejectWithValue(err.response.data.msg)
     }
 })
 
-const deletePayment =  createAsyncThunk("payments/delete" , async (args , PaymentsApi) => {
+const deletePayment =  createAsyncThunk("Payment/delete" , async (args , PaymentsApi) => {
     const { rejectWithValue , getState } = PaymentsApi
     const { token } = getState().auth
+    const authorization = { "Authorization": `bearer ${token}` }
 
     try {
-     const res = await  deleteApi(args , token)
-     const data = res.json()
-     return data
+        const res = await deleteApi(args, authorization )
+        return res.data.msg
     } catch (err) {
-        return rejectWithValue(err.message)
+        return rejectWithValue(err.response.data.msg)
     }
 })
 
-const getPayment =  createAsyncThunk("payments/get" , async (args , PaymentsApi) => {
+const getPayment =  createAsyncThunk("Payment/get" , async (args , PaymentsApi) => {
     const { rejectWithValue , getState } = PaymentsApi
     const { token } = getState().auth
 
+    const authorization = { "Authorization": `bearer ${token}` }
+
     try {
-     const res = await  getApi(args , token)
-     const data = res.json()
-     return data    
+        const res = await getApi(args, authorization )
+        return res.data.msg
+
     } catch (err) {
-        return rejectWithValue(err.message)
+        return rejectWithValue(err.response.data.msg)
     }
 })
 
-const countPayment =  createAsyncThunk("payments/count" , async (args , PaymentsApi) => {
+const countPayment =  createAsyncThunk("Payment/count" , async (args , PaymentsApi) => {
     const { rejectWithValue , getState } = PaymentsApi
     const { token } = getState().auth
 
+ 
+    const authorization = { "Authorization": `bearer ${token}` }
+
     try {
-     const res = await  countApi(args , token)
-     const data = res.json()
-     return data    
+        const res = await countApi(args, authorization )
+        return res.data.msg
     } catch (err) {
-        return rejectWithValue(err.message)
+        return rejectWithValue(err.response.data.msg)
     }
 })
 
-const getSinglePayment =  createAsyncThunk("payments/getSingle" , async (args , PaymentsApi) => {
+const getSinglePayment =  createAsyncThunk("Payment/getSingle" , async (args , PaymentsApi) => {
     const { rejectWithValue , getState } = PaymentsApi
     const { token } = getState().auth
 
+    const authorization = { "Authorization": `bearer ${token}` }
+
     try {
-     const res = await  getApi(args , token)
-     const data = res.json()
-     return data    
+        const res = await getApi(args, authorization )
+        return res.data.msg[0]
+        
     } catch (err) {
-        return rejectWithValue(err.message)
+        return rejectWithValue(err.response.data.msg)
     }
 })
 

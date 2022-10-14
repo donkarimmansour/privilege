@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { getSingleLibrary , getLibrary , countLibrary , editLibrary , deleteLibrary ,createLibrary } from "./action"
 const initialState = {
-    library: [],
+    libraries: [],
     singleLibrary: {},
     count: 0,
     loading: false,
@@ -9,33 +9,20 @@ const initialState = {
     success: false,
 }
 
-
+ 
 export const LibraryReducerSlice = createSlice({
     name: 'library',
     initialState,
     reducers: {
-        // create: (state, action) => {
-
-        // },
-        // delete: (state, action) => {
-
-        // },
-        // edit: (state, action) => {
-
-        // },
-        // count: (state, action) => {
-
-        // },
-        // get: (state, action) => {
-
-        // },
-        // getSingle: (state, action) => {
-
-        // },
+        cleanAlerts: (state) => {
+            state.loading = false
+            state.success = false
+            state.error = false
+        },
     },
     extraReducers: {
         //getSingleLibrary
-        [getSingleLibrary.pending]: (state, action) => {
+        [getSingleLibrary.pending]: (state) => {
             state.loading = true
         },
 
@@ -51,14 +38,14 @@ export const LibraryReducerSlice = createSlice({
         },
 
         //getLibrary
-        [getLibrary.pending]: (state, action) => {
+        [getLibrary.pending]: (state) => {
             state.loading = true
         },
 
         [getLibrary.fulfilled]: (state, action) => {
             state.loading = false
             // state.success = action.payload
-            state.Library = action.payload
+            state.libraries = action.payload
         },
 
         [getLibrary.rejected]: (state, action) => {
@@ -67,7 +54,7 @@ export const LibraryReducerSlice = createSlice({
         },
 
         //countLibrary
-        [countLibrary.pending]: (state, action) => {
+        [countLibrary.pending]: (state) => {
             state.loading = true
         },
 
@@ -83,14 +70,16 @@ export const LibraryReducerSlice = createSlice({
         },
 
         //editLibrary
-        [editLibrary.pending]: (state, action) => {
+        [editLibrary.pending]: (state) => {
             state.loading = true
         },
 
         [editLibrary.fulfilled]: (state, action) => {
             state.loading = false
-            // state.success = action.payload
-            state.Library = action.payload //chaange
+            state.success = "Updated"
+            
+            const editIndex = state.libraries.findIndex(s => s._id === state.singleLibrary._id)
+            state.libraries[editIndex] = { ...state.libraries[editIndex] , ...action.meta.arg}
         },
 
         [editLibrary.rejected]: (state, action) => {
@@ -105,8 +94,8 @@ export const LibraryReducerSlice = createSlice({
 
         [deleteLibrary.fulfilled]: (state, action) => {
             state.loading = false
-            // state.success = action.payload
-            state.Library = action.payload // delete one
+            state.success = "Deleted"
+            state.libraries = state.libraries.filter(s => s._id !== action.meta.arg) 
             state.count = -1
         },
 
@@ -122,8 +111,8 @@ export const LibraryReducerSlice = createSlice({
 
         [createLibrary.fulfilled]: (state, action) => {
             state.loading = false
-            // state.success = action.payload
-            state.Library = [...state.Library, action.payload]
+            state.success = "Created"
+            state.libraries = [...state.libraries,  {...action.meta.arg ,  "_id" : action.payload}]
             state.count = +1
         },
 
@@ -135,5 +124,6 @@ export const LibraryReducerSlice = createSlice({
 })
 
 
+export const { cleanAlerts } = LibraryReducerSlice.actions; 
 
 export default LibraryReducerSlice.reducer;

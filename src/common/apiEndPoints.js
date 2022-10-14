@@ -21,6 +21,8 @@ const ApiEndpoints = {
     delete: `/delete`, 
     count: `/count`, 
     list: `/list`, 
+    image: `/image` ,
+    profileEdit: `/profileEdit`, 
   },
 
   Students: { 
@@ -79,6 +81,7 @@ const ApiEndpoints = {
     delete: `/delete`, 
     count: `/count`, 
     list: `/list`, 
+    image: `/image` ,
   },
 
   Exam: { 

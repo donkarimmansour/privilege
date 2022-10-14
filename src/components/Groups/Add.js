@@ -1,57 +1,103 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import { Field, Formik, Form } from "formik"
 import * as yup from 'yup'
 import { useDispatch, useSelector } from "react-redux";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+import { checkString , loader } from '../../common/funs';
+import swal from 'sweetalert';
+import { createGroupe, editGroupe, getSingleGroupe } from '../../redux/groupes/action';
+import { cleanAlerts } from '../../redux/groupes/reducer';
+import { getCourse } from '../../redux/courses/action';
+
+const Add = ({ editGroupeId , setEditGroupeId}) => {
+  const { t } = useTranslation();  
+  const dispatch = useDispatch()
+  const { loading, error, success, singleGroupe } = useSelector(state => state.groupe)
+  const { courses  } = useSelector(state => state.courses)
 
 
-const Add = () => {
-  const { t } = useTranslation();
-  //  const dispatch = useDispatch()
-  const { loading, error, success } = useSelector(state => state.professors)
+  //get groupe data
+  useEffect(() => {
+    if (editGroupeId && editGroupeId !== "") {
+      dispatch(getSingleGroupe({ filter: { _id: editGroupeId } }))
+    }
+  }, [editGroupeId])
 
+    //update groupe data
+    useEffect(() => {
+      if (singleGroupe && singleGroupe._id) {
+        setInitialValues(singleGroupe)
+      }
+    }, [singleGroupe])
+  
+    //get classes data
+    useEffect(() => {
+        dispatch(getCourse({sort : {_id : -1}}))
+    }, [dispatch])
+
+
+  //alerts
   useEffect(() => {
     if (success) {
+      swal(t("Success"), t(checkString(success)), "success");
 
     } else if (error) {
-
+      swal(t("Error"), t(checkString(error)), "error");
     }
+
+     dispatch(cleanAlerts())
+
   }, [success, error]);
 
+  //back to list
+  const OnCancel = (evt) => {
+    setEditGroupeId("")
+    evt.target.closest(".tab-pane").classList.remove("active")
+    evt.target.closest(".tab-content").children[0].classList.add("active")
+  }
 
-  const initialValues = {
+  //formik initial
+  const [initialValues, setInitialValues] = useState({
     name: "",
-    class: "",
-  }
-
-  const onSubmit = values => {
-    // dispatch(set_contact()) 
-    console.log(values);
-  }
-
-
-  const GroupeAddValidator = yup.object().shape({
-    name: yup.string().required(t("name field is required")),
-    class: yup.string().required(t("class field is required")),
+    className: "",
   })
 
 
 
-  return (
-    <div className="tab-pane" id="Student-add">
+  //initial yup Scheme
+  const GroupeAddValidator = yup.object().shape({
+    name: yup.string().required(t("name field is required")),
+    className: yup.string().required(t("class field is required")),
+  })
 
+
+  //submit form 
+  const onSubmit = values => {
+    if (editGroupeId && editGroupeId !== "") {//if edit  
+      dispatch(editGroupe(values))
+    } else {//if add
+      dispatch(createGroupe(values))
+
+    }
+  }
+
+
+
+  return (
+    <div className="tab-pane" id="Groupe-add">
+
+    {loading && loader()}
 
 
       {
         <Formik
           initialValues={initialValues}
           onSubmit={onSubmit}
-          validationSchema={GroupeAddValidator}>
+          validationSchema={GroupeAddValidator}
+          enableReinitialize={true}>
 
           {
-            ({ touched, errors, setFieldValue, setFieldTouched, values, isValid }) => (
+            ({ touched, errors , isValid }) => (
 
               <Form action="#" method="post">
 
@@ -76,35 +122,37 @@ const Add = () => {
                           </div>
 
                         </div>
-   
+
 
 
                         <div className="form-group row">
                           <label className="col-md-3 col-form-label">{t("Class")} <span className="text-danger">*</span></label>
                           <div className="col-md-9">
-                            <Field as="select" className="form-control input-height" name="class">
-                              <option value>{t("Select...")}</option>
-                              <option value="Franch">Franch</option>
-                              <option value="Germany">Germany</option>
-                              <option value="English">English</option>
+                            <Field as="select" className="form-control input-height" name="className">
+                              <option value="">{t("Select...")}</option>
+
+                              {courses && courses.length > 0 && courses.map((c , ci) => {
+                                return <option key={ci} value={c._id}>{c.name}</option>
+                              })}
+
                             </Field>
-                            {touched.class && errors.class && <small className="text-danger">{errors.class}</small>}
+                            {touched.className && errors.className && <small className="text-danger">{errors.className}</small>}
 
                           </div>
                         </div>
-                  
 
-                         <div className="col-sm-12">
-                            <button type="submit" className="btn btn-primary" disabled={(!loading && isValid)}>{t("Submit")}</button>
-                            <button type="submit" className="btn btn-outline-secondary">{t("Cancel")}</button>
-                          </div>
+
+                        <div className="col-sm-12">
+                          <button type="submit" className="btn btn-primary" disabled={(loading || !isValid)}>{t("Submit")}</button>
+                          <button type="button" className="btn btn-outline-secondary" onClick={(e) => {OnCancel(e)}}>{t("Cancel")}</button>
+                        </div>
 
                       </div>
                     </div>
                   </div>
 
 
-               
+ 
                 </div>
 
 

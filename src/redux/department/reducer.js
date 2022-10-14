@@ -7,31 +7,18 @@ const initialState = {
     loading: false,
     error: false,
     success: false,
-}
+} 
 
 
 export const DepartmentReducerSlice = createSlice({
     name: 'department',
     initialState,
     reducers: {
-        // create: (state, action) => {
-
-        // },
-        // delete: (state, action) => {
-
-        // },
-        // edit: (state, action) => {
-
-        // },
-        // count: (state, action) => {
-
-        // },
-        // get: (state, action) => {
-
-        // },
-        // getSingle: (state, action) => {
-
-        // },
+        cleanAlerts: (state) => {
+            state.loading = false
+            state.success = false
+            state.error = false
+        },
     },
     extraReducers: {
         //getSingleDepartment
@@ -58,7 +45,7 @@ export const DepartmentReducerSlice = createSlice({
         [getDepartment.fulfilled]: (state, action) => {
             state.loading = false
             // state.success = action.payload
-            state.department = action.payload
+            state.departments = action.payload
         },
 
         [getDepartment.rejected]: (state, action) => {
@@ -89,8 +76,10 @@ export const DepartmentReducerSlice = createSlice({
 
         [editDepartment.fulfilled]: (state, action) => {
             state.loading = false
-            // state.success = action.payload
-            state.departments = action.payload //chaange
+            state.success = "Updated"
+            
+            const editIndex = state.departments.findIndex(s => s._id === state.singleDepartment._id)
+            state.departments[editIndex] = { ...state.departments[editIndex] , ...action.meta.arg}
         },
 
         [editDepartment.rejected]: (state, action) => {
@@ -105,8 +94,8 @@ export const DepartmentReducerSlice = createSlice({
 
         [deleteDepartment.fulfilled]: (state, action) => {
             state.loading = false
-            // state.success = action.payload
-            state.departments = action.payload // delete one
+            state.success = "Deleted"
+            state.departments = state.departments.filter(s => s._id !== action.meta.arg) 
             state.count = -1
         },
 
@@ -122,8 +111,8 @@ export const DepartmentReducerSlice = createSlice({
 
         [createDepartment.fulfilled]: (state, action) => {
             state.loading = false
-            // state.success = action.payload
-            state.departments = [...state.departments, action.payload]
+            state.success = "Created"
+            state.departments = [...state.departments,  {...action.meta.arg ,  "_id" : action.payload}]
             state.count = +1
         },
 
@@ -135,5 +124,5 @@ export const DepartmentReducerSlice = createSlice({
 })
 
 
-
+export const { cleanAlerts } = DepartmentReducerSlice.actions; 
 export default DepartmentReducerSlice.reducer;

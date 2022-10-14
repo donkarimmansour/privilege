@@ -1,20 +1,19 @@
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next';
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
 import { useDispatch, useSelector } from 'react-redux';
 import { countStudent, deleteStudent, getStudent } from '../../redux/students/action';
 import swal from 'sweetalert';
-import { checkString, loader } from '../../common/funs';
+import { checkString, ImageVIEW, loader } from '../../common/funs';
 import { cleanAlerts } from '../../redux/students/reducer';
+import moment from "moment";
 
-const List = ({setEditStudentId}) => {
+const List = ({setEditStudentId}) => { 
 
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const [filters, setFilters] = useState({ name: "", phone: "", email: "", class: "" });
+  const [filters, setFilters] = useState({ lastname: "", phone: "", email: "", firstname: "" });
   const { loading, error, success, students, count } = useSelector(state => state.students)
-
+ 
 
   //handle Search
   useEffect(() => {
@@ -49,10 +48,10 @@ const List = ({setEditStudentId}) => {
 
   //delete student
   const OnDelete = (_id) => {
-
+ 
     swal({
-      title: "Are you sure?",
-      text: "You will not be able to recover this imaginary file!",
+      title: t("Are you sure?"),
+      text: t("You will not be able to recover this data"),
       type: "warning",
       showCancelButton: true,
       confirmButtonColor: "#dc3545",
@@ -82,18 +81,18 @@ const List = ({setEditStudentId}) => {
 
      for (const key in filters) {
       if(filters[key] !== ""){
-        filter.push( { [key] : { $regex: filters[key] , $options : "i" } })
+           filter.push( { [key] : { $regex: filters[key] , $options : "i" } })
+        
       }
      }
 
      if(filter.length > 0){
        filter = { $or : filter }
      }else{
-       filter = { name : { $ne : "xxxlxxxx"}  } 
+       filter = { lastname : { $ne : "xxxlxxxx"}  } 
      } 
     
-
-    dispatch(getStudent({filter , sort : {_id : -1}}))
+    dispatch(getStudent({filter , sort : {_id : -1} , expend : "all"}))
     dispatch(countStudent(filter))
      
   }
@@ -108,31 +107,29 @@ const List = ({setEditStudentId}) => {
       <div className="card">
         <div className="card-body">
           <div className="row">
-            <div className="col-lg-2 col-md-4 col-sm-6">
+
+            <div className="col-md-3 col-sm-6">
               <div className="input-group">
-                <input type="text" name="name" className="form-control" onChange={(e) => { handleOnChange(e) }} placeholder={("Name")} />
+                <input type="text" name="firstname" className="form-control" onChange={(e) => { handleOnChange(e) }} placeholder={t("class")} />
               </div>
             </div>
-            <div className="col-lg-2 col-md-4 col-sm-6">
+         
+            <div className="col-md-3 col-sm-6">
               <div className="input-group">
-                <input type="text" name="class" className="form-control" onChange={(e) => { handleOnChange(e) }} placeholder={t("class")} />
-              </div>
-            </div>
-            <div className="col-lg-4 col-md-4 col-sm-6">
-              <div className="input-group">
-                <input type="text" name="phone" className="form-control" onChange={(e) => { handleOnChange(e) }} placeholder={t("Phone")} />
+                <input type="text" name="lastname" className="form-control" onChange={(e) => { handleOnChange(e) }} placeholder={t("Last Name")} />
               </div>
             </div>
 
-            <div className="col-lg-2 col-md-4 col-sm-6">
+            <div className="col-md-3 col-sm-6">
               <div className="input-group">
               <input type="text" name="email" className="form-control" onChange={(e) => { handleOnChange(e) }} placeholder={t("Emall")} />
               </div>
             </div>
 
-            <div className="col-lg-2 col-md-4 col-sm-6">
+            <div className="col-md-3 col-sm-6">
               <a href="javascript:void(0);" onClick={handleSearch} className="btn btn-sm btn-primary btn-block" >{("Search")}</a>
             </div>
+
           </div>
         </div>
       </div>
@@ -160,13 +157,13 @@ const List = ({setEditStudentId}) => {
                 <tr key={si}>
                   <td>{si + 1}</td>
                   <td className="w60">
-                    <img className="avatar" src="../assets/images/xs/avatar1.jpg" alt="" />
+                    <img className="avatar" src={ImageVIEW(s.image)} alt="" />
                   </td>
                   <td><span className="font-16">{`${s.firstname} ${s.lastname}`}</span></td>
-                  <td>{s.className}</td>
+                  <td>{s.className?.name}</td>
                   <td>{s.email}</td>
                   <td>{s.phone}</td>
-                  <td>{s.createdAtt}</td>
+                  <td>{moment(s.updatedAt).format("DD/MM/YYYY")}</td>
                   <td>
                     <button type="button" className="btn btn-icon btn-sm" title="Edit" onClick={(e) => { OnEdit(s._id , e) }}><i className="fa fa-edit" /></button>
                     <button type="button" className="btn btn-icon btn-sm" onClick={() => { OnDelete(s._id) }} title="Delete" data-type="confirm"><i className="fa fa-trash-o text-danger" /></button>

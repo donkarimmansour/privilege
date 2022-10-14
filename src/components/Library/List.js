@@ -1,45 +1,78 @@
-import { useState } from 'react'
+import { useEffect } from 'react' 
 import { useTranslation } from 'react-i18next';
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { countLibrary, deleteLibrary, getLibrary } from '../../redux/library/action';
+import { checkString, loader } from '../../common/funs';
+import { cleanAlerts } from '../../redux/library/reducer';
+import swal from 'sweetalert';
 
-const List = () => {
+const List = ({setEditLibraryId}) => {
 
   const { t } = useTranslation();
-  const [filters, setFilters] = useState({ name: "", phone: "", date: "", class: "" });
-  const { loading, error, success, students, count } = useSelector(state => state.students)
+  const dispatch = useDispatch();
+  const { loading, error, success, libraries, _count } = useSelector(state => state.library)
 
-  const OnSee = () => { }
-  const OnEdit = () => { }
-  const OnDelete = () => { }
 
-  
-  const handleOnChange = (e) => {
-    const { name, value } = e
-    setFilters({ ...filters, [name]: value })
+  //handle init
+  useEffect(() => {
+    dispatch(getLibrary({sort : {_id : -1}}))
+    dispatch(countLibrary({}))
+  }, [dispatch])
+
+
+  //alerts
+  useEffect(() => {
+    if (success) {
+      swal(t("Success"), t(checkString(success)) , "success");
+
+    } else if (error) {
+      swal(t("Error"), t(checkString(error)), "error");
+    }
+
+    dispatch(cleanAlerts())
+
+  }, [success, error]);
+
+
+
+
+  //send to edit section
+  const OnEdit = (_id , evt) => {
+    setEditLibraryId(_id)
+
+    evt.target.closest(".tab-pane").classList.remove("active")
+    evt.target.closest(".tab-content").children[1].classList.add("active")
+     
+  }
+
+  //delete student
+  const OnDelete = (_id) => {
+
+    swal({
+      title: t("Are you sure?"),
+      text: t("You will not be able to recover this data"),
+      type: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#dc3545",
+      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: "No, cancel plx!",
+      closeOnConfirm: false,
+      closeOnCancel: false
+    }).then(isConfirm => {
+      if (isConfirm) {
+        dispatch(deleteLibrary(_id))
+      }
+    });
+
 
   }
 
 
-  const data = [
-    {
-      title: "lllll",
-      status: "in stock",
-      level: "a1",
-      language: "franch",
-
-    },
-    {
-      title: "lllll",
-      status: "in stock",
-      level: "a2",
-      language: "germany",
-    }
-
-  ]
   return (
     <div className="tab-pane active" id="Library-all">
+
+    {loading && loader()}
+
       <div className="card">
         <div className="card-body">
           <div className="table-responsive">
@@ -57,7 +90,7 @@ const List = () => {
               <tbody>
 
 
-                {data.length > 0 && data.map((l, li) => {
+                {libraries.length > 0 && libraries.map((l, li) => {
                   return (
                     <tr key={li}>
                       <td>{li + 1}</td>
@@ -67,9 +100,8 @@ const List = () => {
                       <td>{l.level}</td>
                       <td>{l.status}</td>
                       <td>
-                        <button type="button" className="btn btn-icon btn-sm" title="View" onclick={() => { OnSee() }}><i className="fa fa-eye" /></button>
-                        <button type="button" className="btn btn-icon btn-sm" title="Edit" onclick={() => { OnEdit() }}><i className="fa fa-edit" /></button>
-                        <button type="button" className="btn btn-icon btn-sm js-sweetalert" onclick={() => { OnDelete() }} title="Delete" data-type="confirm"><i className="fa fa-trash-o text-danger" /></button>
+                        <button type="button" className="btn btn-icon btn-sm" title="Edit" onClick={(e) => { OnEdit(l._id , e)  }}><i className="fa fa-edit" /></button>
+                        <button type="button" className="btn btn-icon btn-sm" onClick={() => { OnDelete(l._id) }} title="Delete" data-type="confirm"><i className="fa fa-trash-o text-danger" /></button>
                       </td>
                     </tr>
                   )

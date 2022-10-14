@@ -15,7 +15,6 @@ const StudentsIndex = () => {
 
 const tabs = [
     {name : "List View" , id : "#Student-all"} ,
-    // {name : "Profile" , id : "#Student-profile"} ,
     {name : "Add" , id : "#Student-add"} 
 ]
  
@@ -26,7 +25,7 @@ const tabs = [
          <div className="tab-content">
 
          <List setEditStudentId={setEditStudentId} />
-         <Add editStudentId={editStudentId} />
+         <Add editStudentId={editStudentId} setEditStudentId={setEditStudentId}/>
         
      
          </div>

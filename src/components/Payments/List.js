@@ -1,42 +1,78 @@
-import react from 'react'
+import moment from 'moment';
+import react, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import swal from 'sweetalert';
+import { checkString, loader } from '../../common/funs';
+import { countPayment , deletePayment, getPayment } from '../../redux/payments/action';
+import { cleanAlerts } from '../../redux/payments/reducer'
+import myClassnames from 'classnames';
 
 
-const List = () => {
+const List = ({setEditPaymentId}) => {
+
   const { t } = useTranslation();
+  const dispatch = useDispatch();
+   const { loading, error, success, payments, _count } = useSelector(state => state.payments)
 
 
-  //  const dispatch = useDispatch()
-  const { loading, error, success, payments, count } = useSelector(state => state.payments)
+  //handle Search
+  useEffect(() => {
+    dispatch(getPayment({ sort : {_id : -1} , expend : "all"}))
+    dispatch(countPayment({}))
+  }, [dispatch])
 
-  const data = [
-    {
 
-      studentID: { firstname: "Peter Richards", lastname: "jjjjjj" },
-      class: "germany",
-      paymentStatus: "paid",
-      paymentMethod: "cash",
-      createdAtt: "1/77/2024",
-      paymentDuration: "monthly",
-      amount: 877,
+  //alerts
+  useEffect(() => {
+    if (success) {
+      swal(t("Success"), t(checkString(success)) , "success");
 
-    },
-    {
-      studentID: { firstname: "Peter Richards", lastname: "jjjjjj" },
-      class: "germany",
-      paymentStatus: "paid",
-      paymentMethod: "cash",
-      createdAtt: "1/77/2024",
-      paymentDuration: "monthly",
-      amount: 877,
+    } else if (error) {
+      swal(t("Error"), t(checkString(error)), "error");
     }
 
-  ]
+    dispatch(cleanAlerts())
+
+  }, [success, error]);
+
+ //send to edit section
+ const OnEdit = (_id , evt) => { 
+  setEditPaymentId(_id)
+
+  evt.target.closest(".tab-pane").classList.remove("active")
+  evt.target.closest(".tab-content").children[1].classList.add("active")
+   
+}
+
+//delete student
+const OnDelete = (_id) => {
+
+  swal({
+    title: t("Are you sure?"),
+    text: t("You will not be able to recover this data"),
+    type: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#dc3545",
+    confirmButtonText: "Yes, delete it!",
+    cancelButtonText: "No, cancel plx!",
+    closeOnConfirm: false,
+    closeOnCancel: false
+  }).then(isConfirm => {
+    if (isConfirm) {
+      dispatch(deletePayment(_id))
+    }
+  });
+
+
+}
+
 
 
   return (
     <div className="tab-pane active" id="Fees-all">
+            {loading && loader()}
+
       <div className="card">
         <div className="card-body">
           <div className="table-responsive">
@@ -47,26 +83,30 @@ const List = () => {
                   <th>{t("Student Name")}</th>
                   <th>{t("Method")}</th>
                   <th>{t("Date")}</th>
-                  <th>{t("Class")}</th>
                   <th>{t("Duration")}</th>
                   <th>{t("Status")}</th>
                   <th>{t("Amount")}</th>
+                  <th>{t("Action")}</th>
+
                 </tr>
               </thead>
               <tbody>
 
-                {data.length > 0 && data.map((p, pi) => {
+                {payments.length > 0 && payments.map((p, pi) => {
                   return (
                     <tr key={pi}>
                       <td>{pi + 1}</td>
                       <td>{`${p.studentID.firstname} ${p.studentID.lastname}`}</td>
                       <td>{p.paymentMethod}</td>
-                      <td>{p.createdAtt}</td>
-                      <td>{p.class}</td>
+                      <td>{moment(p.updatedAt).format("DD/MM/YYYY")}</td>
                       <td>{p.paymentDuration}</td>
-                      <td><span className="tag tag-green">{p.paymentStatus}</span></td>
+                      <td><span className={myClassnames("tag" , {"tag-green" : p.paymentStatus === "paid"} , {"tag-orange" : p.paymentStatus !== "paid"})}>{p.paymentStatus}</span></td>
                       <td>{p.amount}</td>
-                    </tr>
+                      <td>
+                        <button type="button" className="btn btn-icon btn-sm" title="Edit" onClick={(e) => { OnEdit(p._id , e) }}><i className="fa fa-edit" /></button>
+                         <button type="button" className="btn btn-icon btn-sm" onClick={() => { OnDelete(p._id) }} title="Delete" data-type="confirm"><i className="fa fa-trash-o text-danger" /></button>
+                     </td>
+                    </tr> 
                   )
                 })}
               </tbody>

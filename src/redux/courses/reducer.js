@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getSingleCourse , getCourse , countCourse , editCourse , deleteCourse ,createCourse } from "./action"
+import { getSingleCourse , getCourse , countCourse , editCourse , deleteCourse ,createCourse , editCourseImage } from "./action"
+
 const initialState = {
     courses: [],
     singleCours: {},
@@ -8,41 +9,29 @@ const initialState = {
     error: false,
     success: false,
 }
-
+ 
 
 export const CourseReducerSlice = createSlice({
     name: 'course',
     initialState,
     reducers: {
-        // create: (state, action) => {
- 
-        // },
-        // delete: (state, action) => {
-
-        // },
-        // edit: (state, action) => {
-
-        // },
-        // count: (state, action) => {
-
-        // },
-        // get: (state, action) => {
-
-        // },
-        // getSingle: (state, action) => {
-
-        // },
+        cleanAlerts: (state) => {
+            state.loading = false
+            state.success = false
+            state.error = false
+        },
     },
     extraReducers: {
         //getSingleCourse
-        [getSingleCourse.pending]: (state, action) => {
+        [getSingleCourse.pending]: (state) => {
             state.loading = true
         },
 
         [getSingleCourse.fulfilled]: (state, action) => {
             state.loading = false
             // state.success = action.payload
-            state.singleCourses = action.payload
+            action.payload.password = ""
+            state.singleCourse = action.payload
         },
 
         [getSingleCourse.rejected]: (state, action) => {
@@ -51,7 +40,7 @@ export const CourseReducerSlice = createSlice({
         },
 
         //getCourse
-        [getCourse.pending]: (state, action) => {
+        [getCourse.pending]: (state) => {
             state.loading = true
         },
 
@@ -67,7 +56,7 @@ export const CourseReducerSlice = createSlice({
         },
 
         //countCourse
-        [countCourse.pending]: (state, action) => {
+        [countCourse.pending]: (state) => {
             state.loading = true
         },
 
@@ -83,14 +72,18 @@ export const CourseReducerSlice = createSlice({
         },
 
         //editCourse
-        [editCourse.pending]: (state, action) => {
+        [editCourse.pending]: (state) => {
             state.loading = true
         },
 
-        [editCourse.fulfilled]: (state, action) => {
+        [editCourse.fulfilled]: (state , action) => {
+            
             state.loading = false
-            // state.success = action.payload
-            state.courses = action.payload //chaange
+            state.success = "Updated"
+            
+            const editIndex = state.courses.findIndex(s => s._id === state.singleCourse._id)
+            state.courses[editIndex] = { ...state.courses[editIndex] , ...action.meta.arg}
+
         },
 
         [editCourse.rejected]: (state, action) => {
@@ -98,15 +91,40 @@ export const CourseReducerSlice = createSlice({
             state.error = action.payload
         },
 
+
+         //editCourseImage
+         [editCourseImage.pending]: (state) => {
+            state.loading = true
+        },
+
+        [editCourseImage.fulfilled]: (state, action) => {
+            
+            state.loading = false
+            state.success = "Uploaded"
+            
+            if(action.meta.arg.type !== "profile"){
+                const editImageIndex = state.courses.findIndex(s => s._id === state.singleCourse._id)
+                state.courses[editImageIndex].image = action.payload
+            }
+           
+        },
+
+        [editCourseImage.rejected]: (state, action) => {
+            state.loading = false
+            state.error = action.payload
+        },
+
+
+
         //deleteCourse
-        [deleteCourse.pending]: (state, action) => {
+        [deleteCourse.pending]: (state) => {
             state.loading = true
         },
 
         [deleteCourse.fulfilled]: (state, action) => {
             state.loading = false
-            // state.success = action.payload
-            state.courses = action.payload // delete one
+            state.success = "Deleted"
+            state.courses = state.courses.filter(s => s._id !== action.meta.arg) 
             state.count = -1
         },
 
@@ -116,24 +134,27 @@ export const CourseReducerSlice = createSlice({
         },
 
         //createCourse
-        [createCourse.pending]: (state, action) => {
+        [createCourse.pending]: (state) => {
             state.loading = true
         },
 
         [createCourse.fulfilled]: (state, action) => {
+
             state.loading = false
-            // state.success = action.payload
-            state.courses = [...state.courses, action.payload]
+            state.success = "Created"
+            state.courses = [...state.courses,  {...action.meta.arg ,  "_id" : action.payload}]
             state.count = +1
+
         },
 
         [createCourse.rejected]: (state, action) => {
             state.loading = false
             state.error = action.payload
         },
+
     }
 })
 
-
+export const { cleanAlerts } = CourseReducerSlice.actions; 
 
 export default CourseReducerSlice.reducer;

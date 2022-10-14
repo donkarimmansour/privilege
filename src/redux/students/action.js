@@ -16,7 +16,7 @@ const createStudent = createAsyncThunk("students/create", async (args, StudentsA
         return rejectWithValue(err.response.data.msg)
     }
 })
-
+ 
 
 const editStudent = createAsyncThunk("students/edit", async (args, StudentsApi) => {
     const { rejectWithValue, getState } = StudentsApi
@@ -51,7 +51,7 @@ const editStudentProfile = createAsyncThunk("students/edit", async (args, Studen
     }
 })
 
-
+ 
 const editStudentImage = createAsyncThunk("students/editimage", async (args, StudentsApi) => {
     const { rejectWithValue, getState , dispatch } = StudentsApi
     const { token } = getState().auth

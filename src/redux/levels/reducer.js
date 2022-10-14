@@ -8,30 +8,17 @@ const initialState = {
     error: false,
     success: false,
 }
-
+ 
 
 export const LevelsReducerSlice = createSlice({
     name: 'levels',
     initialState,
     reducers: {
-        // create: (state, action) => {
-
-        // },
-        // delete: (state, action) => {
-
-        // },
-        // edit: (state, action) => {
-
-        // },
-        // count: (state, action) => {
-
-        // },
-        // get: (state, action) => {
-
-        // },
-        // getSingle: (state, action) => {
-
-        // },
+        cleanAlerts: (state) => {
+            state.loading = false
+            state.success = false
+            state.error = false
+        },
     },
     extraReducers: {
         //getSingleLevel
@@ -83,14 +70,16 @@ export const LevelsReducerSlice = createSlice({
         },
 
         //editLevel
-        [editLevel.pending]: (state, action) => {
+        [editLevel.pending]: (state) => {
             state.loading = true
         },
 
         [editLevel.fulfilled]: (state, action) => {
             state.loading = false
-            // state.success = action.payload
-            state.levels = action.payload //chaange
+            state.success = "Updated"
+            
+            const editIndex = state.levels.findIndex(s => s._id === state.singleLevel._id)
+            state.levels[editIndex] = { ...state.levels[editIndex] , ...action.meta.arg}
         },
 
         [editLevel.rejected]: (state, action) => {
@@ -105,8 +94,8 @@ export const LevelsReducerSlice = createSlice({
 
         [deleteLevel.fulfilled]: (state, action) => {
             state.loading = false
-            // state.success = action.payload
-            state.levels = action.payload // delete one
+            state.success = "Deleted"
+            state.levels = state.levels.filter(s => s._id !== action.meta.arg) 
             state.count = -1
         },
 
@@ -122,8 +111,8 @@ export const LevelsReducerSlice = createSlice({
 
         [createLevel.fulfilled]: (state, action) => {
             state.loading = false
-            // state.success = action.payload
-            state.levels = [...state.levels, action.payload]
+            state.success = "Created"
+            state.levels = [...state.levels,  {...action.meta.arg ,  "_id" : action.payload}]
             state.count = +1
         },
 
@@ -135,5 +124,6 @@ export const LevelsReducerSlice = createSlice({
 })
 
 
+export const { cleanAlerts } = LevelsReducerSlice.actions; 
 
 export default LevelsReducerSlice.reducer; 

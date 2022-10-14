@@ -25,11 +25,16 @@ const deleteApi = async (id , token) => {
 
 
  const countApi = async (filter , token) => {
-   return  await axios.get(`${Host.BACKEND}${ApiEndpoints.Professors.route}${ApiEndpoints.Professors.count}` , {headers : {...config.headers , ...token} , params : filter } )
+   return  await axios.get(`${Host.BACKEND}${ApiEndpoints.Course.route}${ApiEndpoints.Course.count}` , {headers : {...config.headers , ...token} , params : filter } )
+}
+
+
+const editImageApi = async (id , data , token) => { 
+   return  await axios.put(`${Host.BACKEND}${ApiEndpoints.Course.route}${ApiEndpoints.Course.image}/${id}` , data , {headers : {...config.headers , ...token}})
 }
 
 
 
-export {createApi , editApi  , deleteApi , getApi , countApi}
+export {createApi , editApi  , deleteApi , getApi , countApi , editImageApi}
 
 

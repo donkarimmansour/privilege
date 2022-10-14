@@ -14,24 +14,11 @@ export const PaymentsReducerSlice = createSlice({
     name: 'payments',
     initialState,
     reducers: {
-        // create: (state, action) => {
-
-        // },
-        // delete: (state, action) => {
-
-        // },
-        // edit: (state, action) => {
-
-        // },
-        // count: (state, action) => {
-
-        // },
-        // get: (state, action) => {
-
-        // },
-        // getSingle: (state, action) => {
-
-        // },
+        cleanAlerts: (state) => {
+            state.loading = false
+            state.success = false
+            state.error = false
+        },
     },
     extraReducers: {
         //getSinglePayment
@@ -58,7 +45,7 @@ export const PaymentsReducerSlice = createSlice({
         [getPayment.fulfilled]: (state, action) => {
             state.loading = false
             // state.success = action.payload
-            state.Payments = action.payload
+            state.payments = action.payload
         },
 
         [getPayment.rejected]: (state, action) => {
@@ -83,14 +70,16 @@ export const PaymentsReducerSlice = createSlice({
         },
 
         //editPayment
-        [editPayment.pending]: (state, action) => {
+        [editPayment.pending]: (state) => {
             state.loading = true
         },
 
         [editPayment.fulfilled]: (state, action) => {
             state.loading = false
-            // state.success = action.payload
-            state.Payments = action.payload //chaange
+            state.success = "Updated"
+            
+            const editIndex = state.payments.findIndex(s => s._id === state.singlePayment._id)
+            state.payments[editIndex] = { ...state.payments[editIndex] , ...action.meta.arg}
         },
 
         [editPayment.rejected]: (state, action) => {
@@ -105,8 +94,8 @@ export const PaymentsReducerSlice = createSlice({
 
         [deletePayment.fulfilled]: (state, action) => {
             state.loading = false
-            // state.success = action.payload
-            state.Payments = action.payload // delete one
+            state.success = "Deleted"
+            state.payments = state.payments.filter(s => s._id !== action.meta.arg) 
             state.count = -1
         },
 
@@ -122,8 +111,8 @@ export const PaymentsReducerSlice = createSlice({
 
         [createPayment.fulfilled]: (state, action) => {
             state.loading = false
-            // state.success = action.payload
-            state.Payments = [...state.Payments, action.payload]
+            state.success = "Created"
+            state.payments = [...state.payments,  {...action.meta.arg ,  "_id" : action.payload}]
             state.count = +1
         },
 
@@ -134,6 +123,7 @@ export const PaymentsReducerSlice = createSlice({
     }
 })
 
+export const { cleanAlerts } = PaymentsReducerSlice.actions; 
 
 
 export default PaymentsReducerSlice.reducer;

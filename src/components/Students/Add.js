@@ -9,17 +9,24 @@ import { createStudent, editStudent, editStudentImage, getSingleStudent } from '
 import swal from 'sweetalert';
 import { CreateSingleFile } from '../../api/file';
 import myClassnames from 'classnames';
-import { checkString, loader } from '../../common/funs';
 import { cleanAlerts } from '../../redux/students/reducer';
+import { checkString, loader } from '../../common/funs';
+import { getCourse } from '../../redux/courses/action';
+import { getGroupe } from '../../redux/groupes/action';
+import { getLevel } from '../../redux/levels/action';
 
-
-const Add = ({ editStudentId }) => {
+const Add = ({ editStudentId, setEditStudentId }) => {
 
   const { t } = useTranslation();
   const dispatch = useDispatch()
 
   const { singleStudent, loading, error, success } = useSelector(state => state.students)
   const { token } = useSelector(state => state.auth)
+  const { courses } = useSelector(state => state.courses)
+  const { levels } = useSelector(state => state.level)
+  const { groupes } = useSelector(state => state.groupe)
+
+
 
   const [generateData, setGenerateData] = useState({})
   const [Lloading, setLLoading] = useState(false)
@@ -29,11 +36,11 @@ const Add = ({ editStudentId }) => {
   const [initialScheme, setInitialScheme] = useState({
     firstname: yup.string().required(t("firstname field is required")),
     lastname: yup.string().required(t("lastname field is required")),
-    // gender: yup.string().oneOf(["male", "female"], t("you must select male or female")),
+    //gender: yup.string().oneOf(["male", "female"], t("you must select male or female")),
     gender: yup.string().required(t("gender field is required")),
     phone: yup.string().required(t("phone field is required")),
     birthday: yup.string().required(t("birthday field is required")),
-   // className: yup.string().required(t("class field is required")),
+    className: yup.string().required(t("class field is required")),
     option: yup.string().required(t("option field is required")),
     session: yup.string().required(t("session field is required")),
     cin: yup.string().required(t("cin field is required")),
@@ -50,7 +57,7 @@ const Add = ({ editStudentId }) => {
         }),
   })
 
-  
+
   //formik initial
   const [initialValues, setInitialValues] = useState({
     firstname: "",
@@ -79,14 +86,14 @@ const Add = ({ editStudentId }) => {
   //alerts
   useEffect(() => {
     if (success) {
-      swal(t("Success"), t(checkString(success)) , "success");
+      swal(t("Success"), t(checkString(success)), "success");
 
     } else if (error) {
-      swal(t("Error"), t(checkString(error)) , "error");
+      swal(t("Error"), t(checkString(error)), "error");
     }
 
     dispatch(cleanAlerts())
-    
+
   }, [success, error]);
 
 
@@ -111,18 +118,32 @@ const Add = ({ editStudentId }) => {
   }, [singleStudent])
 
 
+
+  //get classes and groupes and levels data
+  useEffect(() => {
+    dispatch(getCourse({ sort: { _id: -1 } }))
+    dispatch(getGroupe({ sort: { _id: -1 } }))
+    dispatch(getLevel({ sort: { _id: -1 } }))
+  }, [dispatch])
+
+  //back to list
+  const OnCancel = (evt) => {
+    setEditStudentId("")
+    evt.target.closest(".tab-pane").classList.remove("active")
+    evt.target.closest(".tab-content").children[0].classList.add("active")
+  }
+
   //check for Generate username and password
   const canGenerate = () => {
-    return generateData && generateData.firstname && generateData.lastname && generateData.className
-      && generateData.firstname !== "" && generateData.lastname !== "" && generateData.className !== "";
+    return generateData && generateData.firstname && generateData.lastname && generateData.firstname !== "" && generateData.lastname !== ""
   }
 
   //Generate username and password
   const Generate = () => {
     setInitialValues({
       ...generateData, username: `${generateData.firstname}-${generateData.lastname}`,
-      confirmpassword: `${generateData.className}${generateData.firstname}-${generateData.lastname}-123`,
-      password: `${generateData.className}${generateData.firstname}-${generateData.lastname}-123`
+      confirmpassword: `${generateData.firstname}-${generateData.lastname}-123`,
+      password: `${generateData.firstname}-${generateData.lastname}-123`
     })
 
 
@@ -133,6 +154,7 @@ const Add = ({ editStudentId }) => {
 
 
   }
+
 
   //submit form
   const onSubmit = values => {
@@ -157,7 +179,7 @@ const Add = ({ editStudentId }) => {
   //upload image
   const uploadImage = (e) => {
 
-    if (e.target.files && e.target.files[0]) { 
+    if (e.target.files && e.target.files[0]) {
       const img = e.target.files[0];
 
 
@@ -168,7 +190,7 @@ const Add = ({ editStudentId }) => {
 
       const authorization = { "Authorization": `bearer ${token}` }
 
-      CreateSingleFile(formData , authorization).then(({ data }) => { //add token here
+      CreateSingleFile(formData, authorization).then(({ data }) => { //add token here
         setLLoading(false)
 
 
@@ -177,7 +199,7 @@ const Add = ({ editStudentId }) => {
         if (!editStudentId || editStudentId === "") {
           swal(t("Uploaded"), t("Uploaded"), "success");
         } else {
-          dispatch(editStudentImage({ image: data.msg , type : "" }))
+          dispatch(editStudentImage({ image: data.msg, type: "" }))
         }
 
 
@@ -299,9 +321,11 @@ const Add = ({ editStudentId }) => {
                           <div className="col-md-9">
                             <Field as="select" className="form-control input-height" name="className">
                               <option value="">{t("Select...")}</option>
-                              <option value="Franch">Franch</option>
-                              <option value="Germany">Germany</option>
-                              <option value="English">English</option>
+
+                              {courses && courses.length > 0 && courses.map((c, ci) => {
+                                return <option key={ci} value={c._id}>{c.name}</option>
+                              })}
+
                             </Field>
                             {touched.className && errors.className && <small className="text-danger">{errors.className}</small>}
 
@@ -313,9 +337,9 @@ const Add = ({ editStudentId }) => {
                           <div className="col-md-9">
                             <Field as="select" className="form-control input-height" name="group">
                               <option value="">{t("Select...")}</option>
-                              <option value="1">1</option>
-                              <option value="2">2</option>
-                              <option value="3">3</option>
+                              {groupes && groupes.length > 0 && groupes.map((g, gi) => {
+                                return <option key={gi} value={g._id}>{g.name}</option>
+                              })}
                             </Field>
                             {touched.group && errors.group && <small className="text-danger">{errors.group}</small>}
 
@@ -323,14 +347,17 @@ const Add = ({ editStudentId }) => {
                         </div>
 
 
+
                         <div className="form-group row">
                           <label className="col-md-3 col-form-label">{t("Level")} </label>
                           <div className="col-md-9">
                             <Field as="select" className="form-control input-height" name="level">
                               <option value="">{t("Select...")}</option>
-                              <option value="A">A</option>
-                              <option value="B">B</option>
-                              <option value="C">C</option>
+
+                              {levels && levels.length > 0 && levels.map((l, li) => {
+                                return <option key={li} value={l._id}>{l.name}</option>
+                              })}
+
                             </Field>
                             {touched.level && errors.level && <small className="text-danger">{errors.level}</small>}
 
@@ -374,29 +401,29 @@ const Add = ({ editStudentId }) => {
                         </div>
 
 
-                   <div className="form-group row">
-                    <label className="col-md-3 col-form-label">{t("is Account Activated")} <span className="text-danger">*</span></label>
-                   
-                    <div className="col-md-7">
-                      <div className="custom-controls-stacked">
-                       
-                        <label className="custom-control custom-radio custom-control-inline">
-                          <Field type="radio" className="custom-control-input" name="isAccountActivated" value="yes" />
-                          <span className="custom-control-label">{t("Yes")}</span>
-                        </label>
+                        <div className="form-group row">
+                          <label className="col-md-3 col-form-label">{t("is Account Activated")} <span className="text-danger">*</span></label>
 
-                        <label className="custom-control custom-radio custom-control-inline">
-                          <Field type="radio" className="custom-control-input" name="isAccountActivated" value="no" />
-                          <span className="custom-control-label">{t("No")}</span>
-                        </label>
+                          <div className="col-md-7">
+                            <div className="custom-controls-stacked">
+
+                              <label className="custom-control custom-radio custom-control-inline">
+                                <Field type="radio" className="custom-control-input" name="isAccountActivated" value="yes" />
+                                <span className="custom-control-label">{t("Yes")}</span>
+                              </label>
+
+                              <label className="custom-control custom-radio custom-control-inline">
+                                <Field type="radio" className="custom-control-input" name="isAccountActivated" value="no" />
+                                <span className="custom-control-label">{t("No")}</span>
+                              </label>
 
 
-                      </div>
-                    </div>
+                            </div>
+                          </div>
 
-                    {touched.isAccountActivated && errors.isAccountActivated && <small className="text-danger">{errors.isAccountActivated}</small>}
+                          {touched.isAccountActivated && errors.isAccountActivated && <small className="text-danger">{errors.isAccountActivated}</small>}
 
-                  </div>
+                        </div>
 
 
                         <div className="form-group row">
@@ -409,14 +436,14 @@ const Add = ({ editStudentId }) => {
 
                         <div className="form-group row">
                           <button type="submit" className="btn btn-primary" disabled={(loading || !isValid)}>{t("Submit")}</button>
-                          <button type="submit" className="btn btn-outline-secondary">{t("Cancel")}</button>
+                          <button type="button" className="btn btn-outline-secondary" onClick={(e) => { OnCancel(e) }}>{t("Cancel")}</button>
                         </div>
 
                       </div>
                     </div>
                   </div>
-                 
-                 
+
+
                   <div className="col-lg-4 col-md-12 col-sm-12 order-lg-2 order-md-1">
                     <div className="card">
                       <div className="card-header">
@@ -456,7 +483,7 @@ const Add = ({ editStudentId }) => {
                             <div className="col-sm-12">
                               <button type="button" className="btn btn-primary" onClick={Generate} disabled={(loading || !canGenerate())}>{t("Generate")}</button>
                             </div> </>}
-                         
+
 
                         </div>
                       </div>
@@ -494,8 +521,8 @@ const Add = ({ editStudentId }) => {
                       </div>
                     </div>
                   </div>
-               
-               
+
+
                 </div>
 
 

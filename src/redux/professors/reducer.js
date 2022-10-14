@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getSingleProfessor, getProfessor, countProfessor, editProfessor, deleteProfessor, createProfessor } from "./action"
+import { getSingleProfessor, getProfessor, countProfessor, editProfessor, deleteProfessor, createProfessor , editProfessorImage , editProfessorProfile } from "./action"
 const initialState = {
     professors: [],
     singleProfessor: {},
@@ -12,36 +12,24 @@ const initialState = {
 
 export const ProfessorsReducerSlice = createSlice({
     name: 'professors', 
-    initialState,
+    initialState, 
     reducers: {
-        // create: (state, action) => {
-
-        // },
-        // delete: (state, action) => {
-
-        // },
-        // edit: (state, action) => {
-
-        // },
-        // count: (state, action) => {
-
-        // },
-        // get: (state, action) => {
-
-        // },
-        // getSingle: (state, action) => {
-
-        // },
+        cleanAlerts: (state) => {
+            state.loading = false
+            state.success = false
+            state.error = false
+        },
     },
     extraReducers: {
         //getSingleProfessor
-        [getSingleProfessor.pending]: (state, action) => {
+        [getSingleProfessor.pending]: (state) => {
             state.loading = true
         },
 
         [getSingleProfessor.fulfilled]: (state, action) => {
             state.loading = false
             // state.success = action.payload
+            action.payload.password = ""
             state.singleProfessor = action.payload
         },
 
@@ -51,7 +39,7 @@ export const ProfessorsReducerSlice = createSlice({
         },
 
         //getProfessor
-        [getProfessor.pending]: (state, action) => {
+        [getProfessor.pending]: (state) => {
             state.loading = true
         },
 
@@ -67,7 +55,7 @@ export const ProfessorsReducerSlice = createSlice({
         },
 
         //countProfessor
-        [countProfessor.pending]: (state, action) => {
+        [countProfessor.pending]: (state) => {
             state.loading = true
         },
 
@@ -83,14 +71,18 @@ export const ProfessorsReducerSlice = createSlice({
         },
 
         //editProfessor
-        [editProfessor.pending]: (state, action) => {
+        [editProfessor.pending]: (state) => {
             state.loading = true
         },
 
-        [editProfessor.fulfilled]: (state, action) => {
+        [editProfessor.fulfilled]: (state , action) => {
+            
             state.loading = false
-            // state.success = action.payload
-            state.professors = action.payload //chaange
+            state.success = "Updated"
+            
+            const editIndex = state.professors.findIndex(s => s._id === state.singleProfessor._id)
+            state.professors[editIndex] = { ...state.professors[editIndex] , ...action.meta.arg}
+
         },
 
         [editProfessor.rejected]: (state, action) => {
@@ -98,15 +90,40 @@ export const ProfessorsReducerSlice = createSlice({
             state.error = action.payload
         },
 
+
+         //editProfessorImage
+         [editProfessorImage.pending]: (state) => {
+            state.loading = true
+        },
+
+        [editProfessorImage.fulfilled]: (state, action) => {
+            
+            state.loading = false
+            state.success = "Uploaded"
+            
+            if(action.meta.arg.type !== "profile"){
+                const editImageIndex = state.professors.findIndex(s => s._id === state.singleProfessor._id)
+                state.professors[editImageIndex].image = action.payload
+            }
+           
+        },
+
+        [editProfessorImage.rejected]: (state, action) => {
+            state.loading = false
+            state.error = action.payload
+        },
+
+
+
         //deleteProfessor
-        [deleteProfessor.pending]: (state, action) => {
+        [deleteProfessor.pending]: (state) => {
             state.loading = true
         },
 
         [deleteProfessor.fulfilled]: (state, action) => {
             state.loading = false
-            // state.success = action.payload
-            state.professors = action.payload // delete one
+            state.success = "Deleted"
+            state.professors = state.professors.filter(s => s._id !== action.meta.arg) 
             state.count = -1
         },
 
@@ -116,25 +133,46 @@ export const ProfessorsReducerSlice = createSlice({
         },
 
         //createProfessor
-        [createProfessor.pending]: (state, action) => {
+        [createProfessor.pending]: (state) => {
             state.loading = true
         },
 
         [createProfessor.fulfilled]: (state, action) => {
+
             state.loading = false
-            // state.success = action.payload
-            state.professors = [...state.professors, action.payload]
+            state.success = "Created"
+            state.professors = [...state.professors,  {...action.meta.arg ,  "_id" : action.payload}]
             state.count = +1
+
         },
 
         [createProfessor.rejected]: (state, action) => {
             state.loading = false
             state.error = action.payload
         },
+
+
+        //editProfessorProfile
+        [editProfessorProfile.pending]: (state) => {
+            state.loading = true
+        },
+
+        [editProfessorProfile.fulfilled]: (state, action) => {
+
+            state.loading = false
+            state.success = "Updated"
+            state.user = {...state.user , ...action.meta.arg}
+        },
+
+        [editProfessorProfile.rejected]: (state, action) => {
+            state.loading = false
+            state.error = action.payload
+        },
+
     }
 })
 
-export const { setCredentials, logOut, defaultState } = ProfessorsReducerSlice.actions;
+export const { cleanAlerts } = ProfessorsReducerSlice.actions;
 
 
 export default ProfessorsReducerSlice.reducer;

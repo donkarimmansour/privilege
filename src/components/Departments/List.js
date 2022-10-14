@@ -1,22 +1,59 @@
-import react, { useState } from 'react'
+import react, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import swal from 'sweetalert';
+import { checkString, loader } from '../../common/funs';
+import { cleanAlerts } from '../../redux/department/reducer';
+import { countDepartment, deleteDepartment, getDepartment } from '../../redux/department/action';
 
 
-const List = () => {
-
+const List = ({setEditDepartmentId}) => {
+  
+  
   const { t } = useTranslation();
-  const [filters, setFilters] = useState({ name: "", phone: "", date: "", class: "" });
-  const { loading, error, success, departments, count } = useSelector(state => state.departments)
+  const dispatch = useDispatch();
 
-  const OnSee = () => { }
-  const OnEdit = () => { }
-  const OnDelete = () => { 
+  const { loading, error, success, departments, _count } = useSelector(state => state.departments)
+
+
+  //handle Search
+  useEffect(() => {
+    dispatch(getDepartment({ sort : {_id : -1}}))
+    dispatch(countDepartment({}))
+  }, [dispatch])
+
+
+  //alerts
+  useEffect(() => {
+    if (success) {
+      swal(t("Success"), t(checkString(success)) , "success");
+
+    } else if (error) {
+      swal(t("Error"), t(checkString(error)), "error");
+    }
+
+    dispatch(cleanAlerts())
+
+  }, [success, error]);
+
+
+
+
+  //send to edit section
+  const OnEdit = (_id , evt) => {
+    setEditDepartmentId(_id)
+
+    evt.target.closest(".tab-pane").classList.remove("active")
+    evt.target.closest(".tab-content").children[1].classList.add("active")
+     
+  }
+
+  //delete student
+  const OnDelete = (_id) => {
 
     swal({
-      title: "Are you sure?",
-      text: "You will not be able to recover this imaginary file!",
+      title: t("Are you sure?"),
+      text: t("You will not be able to recover this data"),
       type: "warning",
       showCancelButton: true,
       confirmButtonColor: "#dc3545",
@@ -24,44 +61,22 @@ const List = () => {
       cancelButtonText: "No, cancel plx!",
       closeOnConfirm: false,
       closeOnCancel: false
-  }).then(isConfirm => {
+    }).then(isConfirm => {
       if (isConfirm) {
-          swal("Deleted!", "Your imaginary file has been deleted.", "success");
-      } else {
-          swal("Cancelled", "Your imaginary file is safe :)", "error");
+        dispatch(deleteDepartment(_id))
       }
-  });
+    });
+
 
   }
-
-
-  const data = [
-    {
-      headOfDepartment: "1",
-      departmentName: "one",
-
-    },
-    {
-      headOfDepartment: "8",
-      departmentName: "two",
-    } ,
-    {
-      headOfDepartment: "4",
-      departmentName: "thee",
-
-    },
-    {
-      headOfDepartment: "3",
-      departmentName: "uuuu",
-    }
-
-  ]
 
 
   
  
   return (
     <div className="tab-pane active" id="Dep-all">
+            {loading && loader()}
+
       <div className="table-responsive">
         <div className="table-responsive card">
           <table className="table table-hover table-striped table-vcenter text-nowrap mb-0">
@@ -75,7 +90,7 @@ const List = () => {
             </thead>
             <tbody>
 
-              {data.length > 0 && data.map((d, di) => {
+              {departments.length > 0 && departments.map((d, di) => {
                 return (
                   <tr key={di}>
                     <td>{di + 1}</td>
@@ -83,9 +98,8 @@ const List = () => {
                     <td>{d.departmentName}</td>
                     <td>{d.headOfDepartment}</td>
                     <td>
-                      <button type="button" className="btn btn-icon btn-sm" title="View" onclick={() => { OnSee() }}><i className="fa fa-eye" /></button>
-                      <button type="button" className="btn btn-icon btn-sm" title="Edit" onclick={() => { OnEdit() }}><i className="fa fa-edit" /></button>
-                      <button type="button" className="btn btn-icon btn-sm" onClick={() => { OnDelete() }} title="Delete"><i className="fa fa-trash-o text-danger" /></button>
+                      <button type="button" className="btn btn-icon btn-sm" title="Edit" onClick={(e) => { OnEdit(d._id , e) }}><i className="fa fa-edit" /></button>
+                      <button type="button" className="btn btn-icon btn-sm" onClick={() => { OnDelete(d._id) }} title="Delete"><i className="fa fa-trash-o text-danger" /></button>
                     </td>
                   </tr>
                 )

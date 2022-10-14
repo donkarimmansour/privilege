@@ -1,56 +1,97 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import { Field, Formik, Form } from "formik"
 import * as yup from 'yup'
 import { useDispatch, useSelector } from "react-redux";
-import "react-datepicker/dist/react-datepicker.css";
+import { checkString, loader } from '../../common/funs';
+import swal from 'sweetalert';
+import { cleanAlerts } from '../../redux/department/reducer';
+import { createDepartment, editDepartment, getSingleDepartment } from '../../redux/department/action';
 
 
 
-const Add = () => {
+const Add = ({editDepartmentId ,   setEditDepartmentId}) => {
 
   const { t } = useTranslation();
-  //  const dispatch = useDispatch()
+  const dispatch = useDispatch()
   const { loading, error, success, singleDepartment } = useSelector(state => state.departments)
 
+  //get department data
+  useEffect(() => {
+    if (editDepartmentId && editDepartmentId !== "") {
+      dispatch(getSingleDepartment({ filter: { _id: editDepartmentId } }))
+    }
+  }, [editDepartmentId]) 
+
+   //update department data
+   useEffect(() => {
+    if (singleDepartment && singleDepartment._id) {
+      setInitialValues(singleDepartment)
+    }
+  }, [singleDepartment])
+
+
+
+  //alerts
   useEffect(() => {
     if (success) {
+      swal(t("Success"), t(checkString(success)), "success");
 
     } else if (error) {
-
+      swal(t("Error"), t(checkString(error)), "error");
     }
+
+     dispatch(cleanAlerts())
+
   }, [success, error]);
 
+   //back to list
+   const OnCancel = (evt) => {
+    setEditDepartmentId("")
+    evt.target.closest(".tab-pane").classList.remove("active")
+    evt.target.closest(".tab-content").children[0].classList.add("active")
+  }
 
-  const initialValues = {
-    brief: "", 
+
+  //formik initial
+  const [initialValues, setInitialValues] = useState({
+    brief: "",
     headOfDepartment: "",
     departmentName: "",
-
-  }
-
-  const onSubmit = values => {
-    // dispatch(set_contact())
-    console.log(values);
-  }
-
-
-  const ProfessorsAddValidator = yup.object().shape({
-    departmentName: yup.string().required(t("Department Name field is required")),
-    headOfDepartment: yup.string().required(t("Head of Department field is required")),
-    // brief: yup.string().required(t("Brief field is required")),
-
   })
+
+
+
+  //initial yup Scheme
+   const departmentAddValidator = yup.object().shape({
+     departmentName: yup.string().required(t("Department Name field is required")),
+     headOfDepartment: yup.string().required(t("Head of Department field is required")),
+  //   // brief: yup.string().required(t("Brief field is required")),
+  })
+
+
+   //submit form 
+   const onSubmit = values => {
+    if (editDepartmentId && editDepartmentId !== "") {//if edit  
+       dispatch(editDepartment(values)) 
+    }else{//if add
+       dispatch(createDepartment(values)) 
+
+    }
+  }
+
 
 
   return (
     <div className="tab-pane" id="Dep-add">
+      {loading && loader()}
 
       {
         <Formik
           initialValues={initialValues}
           onSubmit={onSubmit}
-          validationSchema={ProfessorsAddValidator}>
+          validationSchema={departmentAddValidator}
+          enableReinitialize={true}>
 
           {
             ({ touched, errors, isValid }) => (
@@ -95,8 +136,8 @@ const Add = () => {
                         </div>
 
                         <div className="col-sm-12">
-                          <button type="submit" className="btn btn-primary" disabled={(!loading && isValid)}>{t("Submit")}</button>
-                          <button type="submit" className="btn btn-outline-secondary btn-default">{t("Cancel")}</button>
+                          <button type="submit" className="btn btn-primary" disabled={(loading || !isValid)}>{t("Submit")}</button>
+                          <button type="button" className="btn btn-outline-secondary btn-default" onClick={(e) => {OnCancel(e)}}>{t("Cancel")}</button>
 
                         </div>
 
