@@ -5915,17 +5915,17 @@
     background-color: rgba(102, 106, 109, 0.1);
     color: #666A6D
 }
-@media screen and(max-width: 1024px) {
+@media screen and (max-width: 1024px) {
     .hidden-md {
         display: none
     }
 }
-@media screen and(max-width: 992px) {
+@media screen and (max-width: 992px) {
     .hidden-sm {
         display: none
     }
 }
-@media screen and(max-width: 767px) {
+@media screen and (max-width: 767px) {
     .hidden-xs {
         display: none
     }
@@ -6067,7 +6067,7 @@ body.rtl #header_top {
     left: auto;
     right: 0
 }
-@media screen and(max-width: 1200px) {
+@media screen and (max-width: 1200px) {
     body.rtl #header_top {
         border-right: 0;
         border-left: 1px solid rgba(0, 40, 100, 0.12)
@@ -6081,12 +6081,12 @@ body.rtl #left-sidebar {
     border-left: 1px solid #E6E9ED;
     text-align: right
 }
-@media screen and(max-width: 1200px) {
+@media screen and (max-width: 1200px) {
     body.rtl #left-sidebar {
         right: -280px
     }
 }
-@media screen and(max-width: 767px) {
+@media screen and (max-width: 767px) {
     body.rtl #left-sidebar {
         padding-top: 65px;
         padding-right: 20px
@@ -6147,13 +6147,13 @@ body.rtl .page {
     right: 280px;
     left: auto
 }
-@media screen and(max-width: 1200px) {
+@media screen and (max-width: 1200px) {
     body.rtl .page {
         right: 60px;
         width: calc(100% - 60px)
     }
 }
-@media screen and(max-width: 767px) {
+@media screen and (max-width: 767px) {
     body.rtl .page {
         right: 0;
         width: 100%
@@ -6302,7 +6302,7 @@ body.rtl.offcanvas-active .page {
     right: 60px;
     width: calc(100% - 60px)
 }
-@media screen and(max-width: 767px) {
+@media screen and (max-width: 767px) {
     body.rtl.offcanvas-active .page {
         right: 0;
         width: 100%
@@ -6602,7 +6602,7 @@ a:hover {
 .form-horizontal .col-form-label {
     text-align: right
 }
-@media screen and(max-width: 767px) {
+@media screen and (max-width: 767px) {
     .form-horizontal .col-form-label {
         text-align: left
     }
@@ -6672,12 +6672,12 @@ a:hover {
     background: transparent;
     border: 0
 }
-@media screen and(max-width: 992px) {
+@media screen and (max-width: 992px) {
     .sm-hide {
         display: none !important
     }
 }
-@media screen and(max-width: 767px) {
+@media screen and (max-width: 767px) {
     .xs-hide {
         display: none !important
     }
@@ -6685,7 +6685,7 @@ a:hover {
         margin-top: 15px
     }
 }
-@media screen and(max-width: 640px) {
+@media screen and (max-width: 640px) {
     #News .media {
         display: block
     }
@@ -6712,18 +6712,18 @@ a:hover {
     position: relative;
     background: #fff
 }
-@media screen and(max-width: 1540px) {
+@media screen and (max-width: 1540px) {
     .page {
         width: calc(100% - 280px)
     }
 }
-@media screen and(max-width: 1200px) {
+@media screen and (max-width: 1200px) {
     .page {
         left: 60px;
         width: calc(100% - 60px)
     }
 }
-@media screen and(max-width: 767px) {
+@media screen and (max-width: 767px) {
     .page {
         padding: 56px 0 0;
         width: 100% !important;
@@ -6737,7 +6737,7 @@ a:hover {
 .page .section-body {
     padding: 0 20px
 }
-@media screen and(max-width: 767px) {
+@media screen and (max-width: 767px) {
     .page .section-light,
     .page .section-dark,
     .page .section-white,
@@ -6764,7 +6764,7 @@ a:hover {
 .page-content {
     margin: 0.75rem 0
 }
-@media screen and(max-width: 768px) {
+@media screen and (max-width: 768px) {
     .page-content {
         margin: 1.5rem 0
     }
@@ -6781,7 +6781,7 @@ a:hover {
     align-items: center;
     width: 49%
 }
-@media screen and(max-width: 992px) {
+@media screen and (max-width: 992px) {
     .page-header .left {
         width: 100%
     }
@@ -6824,20 +6824,21 @@ a:hover {
     box-shadow: 0 0 0 rgba(67, 74, 84, 0.9);
     animation: pulse 2s infinite
 }
-@media screen and(max-width: 992px) {
+@media screen and (max-width: 992px) {
     .page-header {
         display: block
     }
     .page-header .right {
         margin-top: 15px;
-        justify-content: space-between
+        /* justify-content: space-between */
+        justify-content: flex-end
     }
     .page-header .right .nav-pills .nav-link {
         padding-left: 0;
         padding-right: 15px
     }
 }
-@media screen and(max-width: 767px) {
+@media screen and (max-width: 767px) {
     .page-header .left {
         display: flex;
         align-items: center;
@@ -6845,7 +6846,7 @@ a:hover {
         width: 100%
     }
 }
-@media screen and(max-width: 767px) {
+@media screen and (max-width: 767px) {
     .header-action {
         display: none
     }
@@ -6868,14 +6869,14 @@ a:hover {
     border-top: 1px solid !important;
     border-radius: 0 !important
 }
-@media screen and(max-width: 992px) {
+/* @media screen and (max-width: 992px) {
     .page-header-tab .nav-item:nth-child(2),
     .page-header-tab .nav-item:nth-child(3),
     .page-header-tab .nav-item:nth-child(5) {
         display: none
     }
-}
-@media screen and(max-width: 640px) {
+} */
+@media screen and (max-width: 640px) {
     .page-header-tab .nav-item:nth-child(7) {
         display: none
     }
@@ -6923,7 +6924,7 @@ a:hover {
 .close_rightbar .page {
     width: calc(100% - 280px)
 }
-@media screen and(max-width: 1200px) {
+@media screen and (max-width: 1200px) {
     .close_rightbar .page {
         width: calc(100% - 60px)
     }
@@ -6941,7 +6942,7 @@ a:hover {
     background: #fff;
     border-right: 1px solid rgba(0, 40, 100, 0.12)
 }
-@media screen and(max-width: 767px) {
+@media screen and (max-width: 767px) {
     .offcanvas-active #header_top {
         border-right: 0
     }
@@ -6950,14 +6951,14 @@ a:hover {
     left: -280px ;
   
 }
-@media screen and(max-width: 1200px) {
+@media screen and (max-width: 1200px) {
     .offcanvas-active #left-sidebar {
         left: 0;
         position: fixed;
         z-index: 99
     }
 }
-@media screen and(max-width: 767px) {
+@media screen and (max-width: 767px) {
     .offcanvas-active #left-sidebar {
         left: 0;
         position: fixed
@@ -6967,7 +6968,7 @@ a:hover {
     left: 60px;
     width: calc(100% - 60px)
 }
-@media screen and(max-width: 767px) {
+@media screen and (max-width: 767px) {
     .offcanvas-active .page {
         left: 0;
         width: 100%
@@ -7004,12 +7005,12 @@ a:hover {
     width: calc(100% - 400px);
     text-align: center
 }
-@media screen and(max-width: 767px) {
+@media screen and (max-width: 767px) {
     .auth .auth_right {
         display: none
     }
 }
-@media screen and(max-width: 1024px) {
+@media screen and (max-width: 1024px) {
     .auth .auth_right {
         width: 380px
     }
@@ -7097,13 +7098,13 @@ a:hover {
     justify-content: space-between;
     text-align: center
 }
-@media screen and(max-width: 1200px) {
+@media screen and (max-width: 1200px) {
     #header_top {
         background: #fff;
         border-right: 1px solid rgba(0, 40, 100, 0.12)
     }
 }
-@media screen and(max-width: 767px) {
+@media screen and (max-width: 767px) {
     #header_top {
         border-bottom: 1px solid rgba(0, 40, 100, 0.12);
         background: #f8f9fa;
@@ -7132,7 +7133,7 @@ a:hover {
     width: 34px;
     height: 34px
 }
-@media screen and(max-width: 640px) {
+@media screen and (max-width: 640px) {
     #header_top .header-brand {
         margin: 0 15px 0 0
     }
@@ -7160,7 +7161,7 @@ a:hover {
 #header_top .nav-link .avatar {
     border: 2px solid #fff
 }
-@media screen and(max-width: 640px) {
+@media screen and (max-width: 640px) {
     #header_top .nav-link.app_inbox {
         display: none
     }
@@ -7178,7 +7179,7 @@ a:hover {
     top: 50px !important;
     left: 50px !important
 }
-@media screen and(max-width: 767px) {
+@media screen and (max-width: 767px) {
     #header_top .hright .dropdown-menu {
         top: 0 !important;
         left: auto !important
@@ -7378,7 +7379,7 @@ a:hover {
 .metismenu.grid>li>a:hover {
     letter-spacing: normal
 }
-@media screen and(max-width: 767px) {
+@media screen and (max-width: 767px) {
     .metismenu.grid > li > a {
         width: 115px
     }
@@ -7395,7 +7396,7 @@ a:hover {
     text-align: center;
     font-size: 13px
 }
-@media screen and(max-width: 767px) {
+@media screen and (max-width: 767px) {
     .metismenu.grid > li > a span {
         width: 100%
     }
@@ -7440,12 +7441,12 @@ a:hover {
     padding: 20px 15px 20px 75px ;
     height: 100vh ;
 }
-@media screen and(max-width: 1200px) {
+@media screen and (max-width: 1200px) {
     #left-sidebar {
         left: -280px
     }
 }
-@media screen and(max-width: 767px) {
+@media screen and (max-width: 767px) {
     #left-sidebar {
         padding-top: 65px;
         padding-left: 20px
@@ -7462,7 +7463,7 @@ a:hover {
     overflow-y: auto;
     margin-right: -15px
 }
-@media screen and(max-width: 767px) {
+@media screen and (max-width: 767px) {
     #left-sidebar .sidebar-nav {
         padding-bottom: 40px;
         height: calc(100vh - 97px)
@@ -7487,7 +7488,7 @@ a:hover {
     flex-direction: column;
     height: 100vh
 }
-@media screen and(max-width: 767px) {
+@media screen and (max-width: 767px) {
     .header_top > .container {
         flex-direction: row;
         height: 55px
@@ -7518,7 +7519,7 @@ a:hover {
     padding-bottom: 28px;
     padding-top: 10px
 }
-@media screen and(max-width: 767px) {
+@media screen and (max-width: 767px) {
     .user_div > .nav-tabs .nav-item a {
         padding-bottom: 10px;
         padding-top: 0
@@ -7528,7 +7529,7 @@ a:hover {
     height: calc(100vh - 109px);
     overflow-y: auto
 }
-@media screen and(max-width: 767px) {
+@media screen and (max-width: 767px) {
     .user_div {
         top: 56px;
         height: calc(100vh - 56px)
@@ -7593,7 +7594,7 @@ a:hover {
     padding: 1.25rem 0;
     color: #9aa0ac
 }
-@media screen and(max-width: 767px) {
+@media screen and (max-width: 767px) {
     .footer {
         text-align: center
     }
@@ -8298,7 +8299,7 @@ img {
         border: none
     }
 }
-@media screen and(max-width: 992px) {
+@media screen and (max-width: 992px) {
     .card-columns {
         column-count: 2
     }
@@ -8316,7 +8317,7 @@ img {
         padding: 0
     }
 }
-@media screen and(max-width: 767px) {
+@media screen and (max-width: 767px) {
     .card-body {
         padding: 15px
     }
@@ -8340,7 +8341,7 @@ img {
     display: flex;
     align-items: center
 }
-@media screen and(max-width: 767px) {
+@media screen and (max-width: 767px) {
     .card-header {
         padding: 15px
     }
@@ -11890,7 +11891,7 @@ a.tag-addon:hover {
 .wizard_validation .wizard .steps > ul > li {
     width: auto !important
 }
-@media screen and(max-width: 767px) {
+@media screen and (max-width: 767px) {
     .wizard > .steps > ul > li {
         width: 100%;
         margin-bottom: 2px
@@ -11930,7 +11931,7 @@ a.tag-addon:hover {
 .right_sidebar::-webkit-scrollbar {
     width: 0
 }
-@media screen and(max-width: 767px) {
+@media screen and (max-width: 767px) {
     .right_sidebar {
         padding-bottom: 40px
     }
@@ -12570,7 +12571,7 @@ svg {
 .chat_app .chat_windows ul::-webkit-scrollbar {
     width: 0
 }
-@media screen and(max-width: 767px) {
+@media screen and (max-width: 767px) {
     .chat_app .chat_windows ul {
         height: calc(100vh - 260px)
     }
@@ -12593,7 +12594,7 @@ svg {
     width: max-content;
     padding: 8px 15px
 }
-@media screen and(max-width: 992px) {
+@media screen and (max-width: 992px) {
     .chat_app .chat_windows .message p {
         width: fit-content
     }
@@ -12613,12 +12614,12 @@ svg {
     -moz-border-radius: 60px 60px 0 60px;
     border-radius: 60px 60px 0 60px
 }
-@media screen and(max-width: 767px) {
+@media screen and (max-width: 767px) {
     .chat_app .chat_windows .my-message .message {
         width: calc(100% - 0)
     }
 }
-@media screen and(max-width: 767px) {
+@media screen and (max-width: 767px) {
     .chat_app .chat_windows .other-message .message {
         width: calc(100% - 70px)
     }
@@ -12675,12 +12676,12 @@ svg {
 .chat_app .chat_list.open {
     right: 0
 }
-@media screen and(max-width: 1023px) {
+@media screen and (max-width: 1023px) {
     .chat_app .chat_list {
         right: -320px
     }
 }
-@media screen and(max-width: 767px) {
+@media screen and (max-width: 767px) {
     .chat_app .chat_list {
         display: none
     }
@@ -12698,7 +12699,7 @@ svg {
 .chat_app .chat_list_btn {
     display: none
 }
-@media screen and(max-width: 992px) {
+@media screen and (max-width: 992px) {
     .chat_app .chat_list_btn {
         display: block
     }
@@ -12882,7 +12883,7 @@ svg {
     padding: 20px 30px;
     position: relative
 }
-@media screen and(max-width: 767px) {
+@media screen and (max-width: 767px) {
     .timeline_item {
         padding-right: 0
     }
@@ -12974,22 +12975,22 @@ svg {
 .inbox .msg {
     width: 800px
 }
-@media screen and(max-width: 1440px) {
+@media screen and (max-width: 1440px) {
     .inbox .msg {
         width: 600px
     }
 }
-@media screen and(max-width: 1024px) {
+@media screen and (max-width: 1024px) {
     .inbox .msg {
         width: 510px
     }
 }
-@media screen and(max-width: 992px) {
+@media screen and (max-width: 992px) {
     .inbox .msg {
         width: 350px
     }
 }
-@media screen and(max-width: 767px) {
+@media screen and (max-width: 767px) {
     .inbox .msg {
         width: 220px
     }
@@ -13005,7 +13006,7 @@ svg {
     border-radius: 0.1875rem;
     max-width: 63px
 }
-@media screen and(max-width: 640px) {
+@media screen and (max-width: 640px) {
     .inbox .detail .detail-header small,
     .inbox .detail .detail-header span {
         display: none
@@ -13017,7 +13018,7 @@ svg {
 .inbox .detail .mail-cnt {
     padding: 20px 15px
 }
-@media screen and(max-width: 640px) {
+@media screen and (max-width: 640px) {
     .inbox .detail .mail-cnt {
         padding: 20px 0
     }
@@ -13050,7 +13051,7 @@ svg {
     overflow: hidden;
     width: 220px
 }
-@media screen and(max-width: 668px) {
+@media screen and (max-width: 668px) {
     .file_folder a {
         width: 100%;
         display: block
@@ -13853,7 +13854,7 @@ svg {
 .dark-mode #header_top .nav-link {
     color: #7d8490
 }
-@media screen and(max-width: 767px) {
+@media screen and (max-width: 767px) {
     .dark-mode #header_top > .container {
         border-bottom: 1px solid #7d8490
     }
@@ -14442,7 +14443,7 @@ svg {
 .theme-cyan.gradient #header_top {
     background: transparent
 }
-@media screen and(max-width: 1200px) {
+@media screen and (max-width: 1200px) {
     .theme-cyan.gradient #header_top {
         background: linear-gradient(145deg, #00b5ad, #17a2b8)
     }

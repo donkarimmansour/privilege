@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getSingleProfessor, getProfessor, countProfessor, editProfessor, deleteProfessor, createProfessor , editProfessorImage , editProfessorProfile } from "./action"
+import { getSingleProfessor, getProfessor, countProfessor, editProfessor, deleteProfessor, createProfessor , editProfessorImage  } from "./action"
 const initialState = {
     professors: [],
     singleProfessor: {},
@@ -151,23 +151,6 @@ export const ProfessorsReducerSlice = createSlice({
             state.error = action.payload
         },
 
-
-        //editProfessorProfile
-        [editProfessorProfile.pending]: (state) => {
-            state.loading = true
-        },
-
-        [editProfessorProfile.fulfilled]: (state, action) => {
-
-            state.loading = false
-            state.success = "Updated"
-            state.user = {...state.user , ...action.meta.arg}
-        },
-
-        [editProfessorProfile.rejected]: (state, action) => {
-            state.loading = false
-            state.error = action.payload
-        },
 
     }
 })

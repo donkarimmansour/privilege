@@ -12,7 +12,7 @@ const Profile = () => {
   ]
 
   const tabs = [
-    { name: "Calendar", id: "#pills-calendar" },
+    // { name: "Calendar", id: "#pills-calendar" },
     { name: "Profile", id: "#pills-profile" }
   ]
 
@@ -24,7 +24,7 @@ const Profile = () => {
         <div className="col-md-12">
           <div className="tab-content" id="pills-tabContent">
 
-            <Calender />
+            {/* <Calender /> */}
 
             <Edit />
 

@@ -13,7 +13,7 @@ const List = () => {
   const OnDelete = () => { }
 
 
-
+ 
   const data = [
     {
       class : "r" ,

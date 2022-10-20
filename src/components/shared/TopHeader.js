@@ -1,8 +1,13 @@
 import react from 'react'
 import { Link } from 'react-router-dom'
+import { logOut } from '../../redux/auth/reducer';
+import { useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux';
 
 
 const TopHeader = () => {
+    const navigate = useNavigate()
+    const dispach = useDispatch()
 
     // Menu toggle
     const menuToggle = (el) => {
@@ -14,6 +19,13 @@ const TopHeader = () => {
     const rightSideBar = (el) => {
         document.querySelector('.right_sidebar').classList.toggle('open');
     }
+
+    const logout = () => {
+        dispach(logOut())
+        navigate("/login")
+    }
+
+
 
 
     return (
@@ -29,7 +41,7 @@ const TopHeader = () => {
                     </div>
                 </div>
                 <div className="hright">
-                    <a href="login.html" className="nav-link icon settingbar"><i className="fe fe-power"></i></a>
+                    <a href="javascript:void(0);" onClick={logout} className="nav-link icon settingbar"><i className="fe fe-power"></i></a>
                 </div>
             </div>
         </div>

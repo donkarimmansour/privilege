@@ -1,7 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { getExam , createExam  } from "./action"
+
 const initialState = {
-    exam: [],
+    exam: {},
     loading: false,
     error: false,
     success: false,
@@ -11,29 +12,16 @@ const initialState = {
 export const ExamReducerSlice = createSlice({
     name: 'exam',
     initialState,
-    reducers: {
-        // create: (state, action) => {
-
-        // },
-        // delete: (state, action) => {
-
-        // },
-        // edit: (state, action) => {
-
-        // },
-        // count: (state, action) => {
-
-        // },
-        // get: (state, action) => {
-
-        // },
-        // getSingle: (state, action) => {
-
-        // },
+    reducers: { 
+        cleanAlerts: (state) => {
+            state.loading = false
+            state.success = false
+            state.error = false
+        },
     },
     extraReducers: {
         //getExam
-        [getExam.pending]: (state, action) => {
+        [getExam.pending]: (state) => {
             state.loading = true
         },
 
@@ -51,14 +39,13 @@ export const ExamReducerSlice = createSlice({
     
 
         //createExam
-        [createExam.pending]: (state, action) => {
+        [createExam.pending]: (state) => {
             state.loading = true
         },
 
         [createExam.fulfilled]: (state, action) => {
             state.loading = false
-            // state.success = action.payload
-            state.exam = [...state.exam, action.payload]
+            state.success = action.payload
         },
 
         [createExam.rejected]: (state, action) => {
@@ -68,6 +55,6 @@ export const ExamReducerSlice = createSlice({
     }
 })
 
-
+export const { cleanAlerts } = ExamReducerSlice.actions; 
 
 export default ExamReducerSlice.reducer;

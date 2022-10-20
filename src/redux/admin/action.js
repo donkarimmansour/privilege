@@ -1,14 +1,13 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { createApi, editApi, deleteApi, getApi, countApi, editImageApi } from "../../api/students";
-
+import { createApi, editApi, deleteApi, getApi, countApi, editImageApi } from "../../api/admin";
 import { updateProfileImage } from "../auth/reducer";
 
-const createStudent = createAsyncThunk("students/create", async (args, StudentsApi) => {
-    const { rejectWithValue, getState } = StudentsApi
+const createAdmin = createAsyncThunk("admins/create", async (args, AdminsApi) => {
+    const { rejectWithValue, getState } = AdminsApi
     const { token } = getState().auth
 
-    const authorization = { "Authorization": `bearer ${token}` } 
- 
+    const authorization = { "Authorization": `bearer ${token}` }
+
     try {
         const res = await createApi(args, authorization)
         return res.data.msg
@@ -19,10 +18,11 @@ const createStudent = createAsyncThunk("students/create", async (args, StudentsA
 })
  
 
-const editStudent = createAsyncThunk("students/edit", async (args, StudentsApi) => {
-    const { rejectWithValue, getState } = StudentsApi
+const editAdmin = createAsyncThunk("admins/edit", async (args, AdminsApi) => {
+    
+    const { rejectWithValue, getState } = AdminsApi
    const { token } = getState().auth
-    const { _id } = getState().students.singleStudent
+    const { _id } = getState().admins.singleAdmin
 
     const authorization = { "Authorization": `bearer ${token}` }
 
@@ -37,12 +37,12 @@ const editStudent = createAsyncThunk("students/edit", async (args, StudentsApi) 
 
 
  
-const editStudentImage = createAsyncThunk("students/editimage", async (args, StudentsApi) => {
-    const { rejectWithValue, getState , dispatch } = StudentsApi
+const editAdminImage = createAsyncThunk("admins/editimage", async (args, AdminsApi) => {
+    const { rejectWithValue, getState , dispatch } = AdminsApi
     const { token } = getState().auth
     const { image , type } = args
 
-    const id = type === "profile" ? getState().auth.user._id : getState().students.singleStudent._id
+    const id = type === "profile" ? getState().auth.user._id : getState().admins.singleAdmin._id
 
     const authorization = { "Authorization": `bearer ${token}` }
 
@@ -60,8 +60,8 @@ const editStudentImage = createAsyncThunk("students/editimage", async (args, Stu
     }
 })
 
-const deleteStudent = createAsyncThunk("students/delete", async (args, StudentsApi) => {
-    const { rejectWithValue, getState } = StudentsApi
+const deleteAdmin = createAsyncThunk("admins/delete", async (args, AdminsApi) => {
+    const { rejectWithValue, getState } = AdminsApi
     const { token } = getState().auth
     const authorization = { "Authorization": `bearer ${token}` }
 
@@ -74,8 +74,8 @@ const deleteStudent = createAsyncThunk("students/delete", async (args, StudentsA
     }
 })
 
-const getStudent = createAsyncThunk("students/get", async (args, StudentsApi) => {
-    const { rejectWithValue, getState } = StudentsApi
+const getAdmin = createAsyncThunk("admins/get", async (args, AdminsApi) => {
+    const { rejectWithValue, getState } = AdminsApi
     const { token } = getState().auth
 
     const authorization = { "Authorization": `bearer ${token}` }
@@ -90,8 +90,8 @@ const getStudent = createAsyncThunk("students/get", async (args, StudentsApi) =>
     }
 })
 
-const countStudent = createAsyncThunk("students/count", async (args, StudentsApi) => {
-    const { rejectWithValue, getState } = StudentsApi
+const countAdmin = createAsyncThunk("admins/count", async (args, AdminsApi) => {
+    const { rejectWithValue, getState } = AdminsApi
     const { token } = getState().auth
 
     const authorization = { "Authorization": `bearer ${token}` }
@@ -105,8 +105,8 @@ const countStudent = createAsyncThunk("students/count", async (args, StudentsApi
     }
 })
 
-const getSingleStudent = createAsyncThunk("students/getSingle", async (args, StudentsApi) => {
-    const { rejectWithValue, getState } = StudentsApi
+const getSingleAdmin = createAsyncThunk("admins/getSingle", async (args, AdminsApi) => {
+    const { rejectWithValue, getState } = AdminsApi
     const { token } = getState().auth
 
     const authorization = { "Authorization": `bearer ${token}` }
@@ -121,4 +121,4 @@ const getSingleStudent = createAsyncThunk("students/getSingle", async (args, Stu
 })
 
 
-export { getSingleStudent, getStudent, countStudent, editStudent, deleteStudent, createStudent  , editStudentImage }
+export { getSingleAdmin, getAdmin, countAdmin, editAdmin, deleteAdmin, createAdmin  , editAdminImage }

@@ -37,6 +37,18 @@ const ApiEndpoints = {
 
   },
 
+  Admins : { 
+    route: `${Host.PREFIX}/admins`, 
+    create: `/create`, 
+    edit: `/edit`, 
+    delete: `/delete`, 
+    count: `/count`, 
+    list: `/list`, 
+    image: `/image`, 
+    profileEdit: `/profileEdit`, 
+
+  },
+
   
   Groupes: { 
     route: `${Host.PREFIX}/groupes`, 

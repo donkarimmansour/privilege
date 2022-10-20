@@ -25,10 +25,10 @@ const HomeIndex = () => {
             
             <div className="tab-content">
                 <div className="tab-pane fade show active" id="admin-Dashboard" role="tabpanel">
-                    <div className="row clearfix">
+                    {/* <div className="row clearfix">
                        <University />
 
-                    </div>                
+                    </div>                 */}
                     <div className="row clearfix row-deck">
                        
                         <Exam />

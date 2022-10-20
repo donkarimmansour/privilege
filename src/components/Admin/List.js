@@ -1,27 +1,24 @@
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next';
-import "react-datepicker/dist/react-datepicker.css";
 import { useDispatch, useSelector } from 'react-redux';
-import { checkString, ImageVIEW, loader } from '../../common/funs';
-import { deleteProfessor, getProfessor } from '../../redux/professors/action';
-import { countStudent } from '../../redux/students/action';
 import swal from 'sweetalert';
-import { cleanAlerts } from '../../redux/professors/reducer';
-import moment from 'moment';
+import { checkString, ImageVIEW, loader } from '../../common/funs';
+import { cleanAlerts } from '../../redux/students/reducer';
+import moment from "moment"; 
 import ReactPaginate from "react-paginate";
+import { countAdmin, deleteAdmin, getAdmin } from '../../redux/admin/action';
 
-const List = ({ setEditProfessorId }) => {
+const List = ({setEditAdminId}) => { 
 
- 
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const [filters, setFilters] = useState({ lastname: "", phone: "", email: "", firstname: "" });
-  const { loading, error, success, professors, count } = useSelector(state => state.professors)
+  const { loading, error, success, admins, count } = useSelector(state => state.admins)
   const [pageCount, setPageCount] = useState(0);
   const [pageCurrent, setPageCurrent] = useState(1);
   const limit = 20
 
-  //handle Search
+  //handle Search 
   useEffect(() => {
     handleSearch()
   }, [dispatch , pageCurrent])
@@ -30,7 +27,7 @@ const List = ({ setEditProfessorId }) => {
   //alerts
   useEffect(() => {
     if (success) {
-      swal(t("Success"), t(checkString(success)), "success");
+      swal(t("Success"), t(checkString(success)) , "success");
 
     } else if (error) {
       swal(t("Error"), t(checkString(error)), "error");
@@ -44,17 +41,17 @@ const List = ({ setEditProfessorId }) => {
 
 
   //send to edit section
-  const OnEdit = (_id, evt) => {
-    setEditProfessorId(_id)
+  const OnEdit = (_id , evt) => {
+    setEditAdminId(_id)
 
     evt.target.closest(".tab-pane").classList.remove("active")
     evt.target.closest(".tab-content").children[1].classList.add("active")
-
+     
   }
 
   //delete student
   const OnDelete = (_id) => {
-
+ 
     swal({
       title: t("Are you sure?"),
       text: t("You will not be able to recover this data"),
@@ -67,7 +64,7 @@ const List = ({ setEditProfessorId }) => {
       closeOnCancel: false
     }).then(isConfirm => {
       if (isConfirm) {
-        dispatch(deleteProfessor(_id))
+        dispatch(deleteAdmin(_id))
       }
     });
 
@@ -83,25 +80,26 @@ const List = ({ setEditProfessorId }) => {
 
   //handle Search
   const handleSearch = () => {
-    let filter = []
+      let filter = []
 
-    for (const key in filters) {
-      if (filters[key] !== "") {
-        filter.push({ [key]: { $regex: filters[key], $options: "i" } })
+     for (const key in filters) {
+      if(filters[key] !== ""){
+           filter.push( { [key] : { $regex: filters[key] , $options : "i" } })
+        
       }
-    }
+     }
 
-    if (filter.length > 0) {
-      filter = { $or: filter }
-    } else {
-      filter = { lastname: { $ne: "xxxlxxxx" } }
-    }
+     if(filter.length > 0){
+       filter = { $or : filter }
+     }else{
+       filter = { lastname : { $ne : "xxxlxxxx"}  } 
+     } 
+    
 
-
-    const skip = (pageCurrent === 1) ? 0 : (pageCurrent - 1) * limit
-    dispatch(getProfessor({ filter, sort: { _id: -1 }, expend: "all"  , skip : skip , limit : limit}))
-    dispatch(countStudent(filter))
-
+     const skip = (pageCurrent === 1) ? 0 : (pageCurrent - 1) * limit
+    dispatch(getAdmin({filter , sort : {_id : -1}  , skip : skip , limit : limit}))
+    dispatch(countAdmin(filter))
+     
   }
 
 
@@ -123,9 +121,10 @@ const List = ({ setEditProfessorId }) => {
 
 
   return (
-    <div className="tab-pane active" id="pro-all">
+    <div className="tab-pane active" id="Admin-all">
 
-      {loading && loader()}
+       {loading && loader()}
+
 
       <div className="card">
         <div className="card-body">
@@ -133,10 +132,10 @@ const List = ({ setEditProfessorId }) => {
 
             <div className="col-md-3 col-sm-6">
               <div className="input-group">
-                <input type="text" name="firstname" className="form-control" onChange={(e) => { handleOnChange(e) }} placeholder={t("First Name")} />
+                <input type="text" name="firstname" className="form-control" onChange={(e) => { handleOnChange(e) }} placeholder={t("class")} />
               </div>
             </div>
-
+         
             <div className="col-md-3 col-sm-6">
               <div className="input-group">
                 <input type="text" name="lastname" className="form-control" onChange={(e) => { handleOnChange(e) }} placeholder={t("Last Name")} />
@@ -145,7 +144,7 @@ const List = ({ setEditProfessorId }) => {
 
             <div className="col-md-3 col-sm-6">
               <div className="input-group">
-                <input type="text" name="email" className="form-control" onChange={(e) => { handleOnChange(e) }} placeholder={t("Emall")} />
+              <input type="text" name="email" className="form-control" onChange={(e) => { handleOnChange(e) }} placeholder={t("Emall")} />
               </div>
             </div>
 
@@ -154,7 +153,6 @@ const List = ({ setEditProfessorId }) => {
             </div>
 
           </div>
-
         </div>
       </div>
       <div className="table-responsive card">
@@ -164,10 +162,10 @@ const List = ({ setEditProfessorId }) => {
               <th>#.</th>
               <th>{t("Name")}</th>
               <th />
-              <th>{t("Teach")}</th>
+              <th>{t("Role")}</th>
               <th>{t("Email")}</th>
               <th>{t("Phone")}</th>
-              <th>{t("Admission Date")}</th>
+              <th>{t("Date")}</th>
               <th>{t("Action")}</th>
             </tr>
           </thead>
@@ -176,21 +174,21 @@ const List = ({ setEditProfessorId }) => {
           <tbody>
 
 
-            {professors.length > 0 && professors.map((p, pi) => {
+            {admins.length > 0 && admins.map((a, ai) => {
               return (
-                <tr key={pi}>
-                  <td>{pi + 1}</td>
+                <tr key={ai}>
+                  <td>{ai + 1}</td>
                   <td className="w60">
-                    <img className="avatar" src={ImageVIEW(p.image)} alt="" />
+                    <img className="avatar" src={ImageVIEW(a.image)} alt="" />
                   </td>
-                  <td><span className="font-16">{`${p.firstname} ${p.lastname}`}</span></td>
-                  <td>{p.teach.name}</td>
-                  <td>{p.email}</td>
-                  <td>{p.phone}</td>
-                  <td>{moment(p.updatedAt).format("DD/MM/YYYY")}</td>
+                  <td><span className="font-16">{`${a.firstname} ${a.lastname}`}</span></td>
+                  <td>{a.role}</td>
+                  <td>{a.email}</td>
+                  <td>{a.phone}</td>
+                  <td>{moment(a.updatedAt).format("DD/MM/YYYY")}</td>
                   <td>
-                    <button type="button" className="btn btn-icon btn-sm" title="Edit" onClick={(e) => { OnEdit(p._id, e) }}><i className="fa fa-edit" /></button>
-                    <button type="button" className="btn btn-icon btn-sm" onClick={() => { OnDelete(p._id) }} title="Delete" data-type="confirm"><i className="fa fa-trash-o text-danger" /></button>
+                    <button type="button" className="btn btn-icon btn-sm" title="Edit" onClick={(e) => { OnEdit(a._id , e) }}><i className="fa fa-edit" /></button>
+                    <button type="button" className="btn btn-icon btn-sm" onClick={() => { OnDelete(a._id) }} title="Delete" data-type="confirm"><i className="fa fa-trash-o text-danger" /></button>
                   </td>
                 </tr>
               )
@@ -222,7 +220,6 @@ const List = ({ setEditProfessorId }) => {
         activeClassName={"active"}
         // activeLinkClassName={"active"}
       />
-
 
     </div>
 

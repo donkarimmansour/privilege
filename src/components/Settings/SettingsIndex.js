@@ -20,7 +20,7 @@ const tabs = [
             <Email /> 
            </div>
       </Container>
-    )
+    ) 
 
 }
 

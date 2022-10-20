@@ -23,6 +23,8 @@ import { Provider } from "react-redux";
 import React from 'react';
 import './common/i18n';
 import NotificationsIndex from './components/Notifications/NotificationsIndex';
+import Test from './components/Exam/Test';
+import AdminsIndex from './components/Admin/AdminsIndex';
 
 function App() {
 
@@ -49,11 +51,14 @@ function App() {
               <Route element={<LibraryIndex />} path="/library" />
               <Route element={<LevelsIndex />} path="/levels" />
               <Route element={<PaymentsIndex />} path="/payments" />
+              <Route element={<AdminsIndex />} path="/admins" />
               
               <Route element={<SettingsIndex />} path="/settings" />
               <Route element={<Profile />} path="/profile" />
               <Route element={<ExamIndex />} path="/exam" />
               <Route element={<View />} path="/courses/view/:id" />
+
+              <Route element={<Test />} path="/test" />
 
               <Route element={<Login />} path="/login" />
               <Route element={<ForgotPassword />} path="/forgotPassword" />

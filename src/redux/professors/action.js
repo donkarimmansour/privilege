@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { createApi, editApi, deleteApi, getApi, countApi, editImageApi, editProfileApi } from "../../api/professors";
+import { createApi, editApi, deleteApi, getApi, countApi, editImageApi } from "../../api/professors";
 import { updateProfileImage } from "../auth/reducer"; 
 
 const createProfessor = createAsyncThunk("professors/create", async (args, ProfessorsApi) => {
@@ -34,22 +34,6 @@ const editProfessor = createAsyncThunk("professors/edit", async (args, Professor
     }
 })
 
-
-const editProfessorProfile = createAsyncThunk("professors/edit", async (args, ProfessorsApi) => {
-    const { rejectWithValue, getState } = ProfessorsApi
-    const { token } = getState().auth
-    const { _id } = getState().auth.user
-
-    const authorization = { "Authorization": `bearer ${token}` }
-
-    try {
-        const res = await editProfileApi(_id, args, authorization )
-        return res.data.msg
-
-    } catch (err) {
-        return rejectWithValue(err.response.data.msg)
-    }
-})
 
 
 const editProfessorImage = createAsyncThunk("professors/editimage", async (args, ProfessorsApi) => {
@@ -136,4 +120,4 @@ const getSingleProfessor = createAsyncThunk("professors/getSingle", async (args,
 })
  
 
-export { getSingleProfessor, getProfessor, countProfessor, editProfessor, deleteProfessor, createProfessor  , editProfessorImage , editProfessorProfile }
+export { getSingleProfessor, getProfessor, countProfessor, editProfessor, deleteProfessor, createProfessor  , editProfessorImage  }

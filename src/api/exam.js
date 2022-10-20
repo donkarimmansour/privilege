@@ -7,8 +7,8 @@ const config = {
     } 
       
 }
-const createApi = async (data) => {
-   return  await axios.post(`${Host.BACKEND}${ApiEndpoints.Exam.route}${ApiEndpoints.Exam.create}` , data , {headers : {...config.headers}})
+const createApi = async (data , token) => {
+   return  await axios.post(`${Host.BACKEND}${ApiEndpoints.Exam.route}${ApiEndpoints.Exam.create}` , data , {headers : {...config.headers , ...token}})
 }
  
  const getApi = async (filter , token) => {

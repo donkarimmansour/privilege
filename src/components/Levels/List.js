@@ -5,21 +5,24 @@ import { cleanAlerts } from '../../redux/levels/reducer';
 import { checkString, loader } from '../../common/funs';
 import { countLevel, deleteLevel, getLevel } from '../../redux/levels/action';
 import swal from 'sweetalert';
+import ReactPaginate from "react-paginate";
 
 const List = ({setEditLevelId}) => { 
 
   
   const { t } = useTranslation();
   const dispatch = useDispatch();
-
+  const [pageCount, setPageCount] = useState(0);
+  const [pageCurrent, setPageCurrent] = useState(1);
+  const limit = 20
   const [filters, setFilters] = useState({ name: ""});
-   const { loading, error, success, levels, _count } = useSelector(state => state.level)
+   const { loading, error, success, levels, count } = useSelector(state => state.level)
 
 
   //handle Search
   useEffect(() => {
     handleSearch()
-  }, [dispatch])
+  }, [dispatch , pageCurrent])
 
 
   //alerts
@@ -92,12 +95,27 @@ const List = ({setEditLevelId}) => {
        filter = { name : { $ne : "xxxlxxxx"}  } 
      } 
     
-
-    dispatch(getLevel({filter , sort : {_id : -1} , expend : "all" }))
+     const skip = (pageCurrent === 1) ? 0 : (pageCurrent - 1) * limit
+    dispatch(getLevel({filter , sort : {_id : -1} , expend : "all"  , skip : skip , limit : limit}))
     dispatch(countLevel(filter))
      
   }
 
+    //handle paginate
+    const handlePageClick = async (data) => {
+      setPageCurrent(data.selected + 1)
+    };
+ 
+ 
+ 
+   useEffect(() => {
+     if (count && typeof count === "number") {
+       setPageCount(Math.ceil(count / limit));
+     } else {
+       setPageCount(0);
+     }
+ 
+   }, [count]);
 
   return (
     <div className="tab-pane active" id="Level-all">
@@ -117,7 +135,7 @@ const List = ({setEditLevelId}) => {
               <a href="javascript:void(0);" onClick={handleSearch} className="btn btn-sm btn-primary btn-block" >{("Search")}</a>
             </div>
           </div>
-        </div>
+        </div> 
       </div>
       <div className="table-responsive card">
         <table className="table table-hover table-vcenter table-striped mb-0 text-nowrap">
@@ -157,6 +175,28 @@ const List = ({setEditLevelId}) => {
           </tbody>
         </table>
       </div>
+
+      <ReactPaginate
+        previousLabel={"previous"}
+        nextLabel={"next"}
+        breakLabel={"..."}
+        pageCount={pageCount}
+        marginPagesDisplayed={1}
+        pageRangeDisplayed={2}
+        onPageChange={handlePageClick}
+        containerClassName={"pagination"}
+        pageLinkClassName={"page-link"}
+        previousLinkClassName={"page-link"}
+        nextLinkClassName={"page-link"}
+        breakLinkClassName={"page-link"}
+        pageClassName={"page-item"}
+        previousClassName={"page-item"}
+        nextClassName={"page-item"}
+        breakClassName={"page-item"}
+        activeClassName={"active"}
+        // activeLinkClassName={"active"}
+      />
+
     </div>
 
 

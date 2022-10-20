@@ -93,8 +93,11 @@ const ForgotPassword = () => {
                        
                         <div className="form-group">
                           <Field as="select" name="role" className="form-control"  placeholder={t("Select you role")} >
-                            <option value="student">Student</option>
+                            <option value="student">{t("Student")}</option>
+                            <option value="teacher">{t("Teacher")}</option>
+                            <option value="admin">{t("Admin")}</option>
                             </Field>
+
                           {touched.role && errors.role && <small className="text-danger">{errors.role}</small>}
                         </div>
                        
@@ -106,7 +109,7 @@ const ForgotPassword = () => {
 
                         
                         <div className="text-center">
-                          <button type="submit" className="btn btn-primary btn-block">{t("Send me new password")}</button>
+                          <button type="submit" disabled={(loading || !isValid)} className="btn btn-primary btn-block">{t("Send me new password")}</button>
                           <div className="text-muted mt-4">{t("Forget it,")} <Link to="/login">{t("Send me Back")}</Link> {t("to the Sign in screen.")}</div>
                         </div>
                       </div>

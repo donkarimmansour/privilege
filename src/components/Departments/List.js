@@ -5,28 +5,33 @@ import swal from 'sweetalert';
 import { checkString, loader } from '../../common/funs';
 import { cleanAlerts } from '../../redux/department/reducer';
 import { countDepartment, deleteDepartment, getDepartment } from '../../redux/department/action';
+import ReactPaginate from "react-paginate";
 
 
-const List = ({setEditDepartmentId}) => {
-  
-  
+const List = ({ setEditDepartmentId }) => {
+
+
   const { t } = useTranslation();
   const dispatch = useDispatch();
+  const [pageCount, setPageCount] = useState(0);
+  const [pageCurrent, setPageCurrent] = useState(1);
+  const limit = 20
+  const { loading, error, success, departments, count } = useSelector(state => state.departments)
 
-  const { loading, error, success, departments, _count } = useSelector(state => state.departments)
 
-
-  //handle Search
+  //handle init
   useEffect(() => {
-    dispatch(getDepartment({ sort : {_id : -1}}))
+    const skip = (pageCurrent === 1) ? 0 : (pageCurrent - 1) * limit
+
+    dispatch(getDepartment({ sort: { _id: -1 }, skip: skip, limit: limit }))
     dispatch(countDepartment({}))
-  }, [dispatch])
+  }, [dispatch, pageCurrent])
 
 
   //alerts
   useEffect(() => {
     if (success) {
-      swal(t("Success"), t(checkString(success)) , "success");
+      swal(t("Success"), t(checkString(success)), "success");
 
     } else if (error) {
       swal(t("Error"), t(checkString(error)), "error");
@@ -40,12 +45,12 @@ const List = ({setEditDepartmentId}) => {
 
 
   //send to edit section
-  const OnEdit = (_id , evt) => {
+  const OnEdit = (_id, evt) => {
     setEditDepartmentId(_id)
 
     evt.target.closest(".tab-pane").classList.remove("active")
     evt.target.closest(".tab-content").children[1].classList.add("active")
-     
+
   }
 
   //delete student
@@ -71,11 +76,25 @@ const List = ({setEditDepartmentId}) => {
   }
 
 
-  
- 
+  //handle paginate
+  const handlePageClick = async (data) => {
+    setPageCurrent(data.selected + 1)
+  };
+
+
+
+  useEffect(() => {
+    if (count && typeof count === "number") {
+      setPageCount(Math.ceil(count / limit));
+    } else {
+      setPageCount(0);
+    }
+
+  }, [count]);
+
   return (
     <div className="tab-pane active" id="Dep-all">
-            {loading && loader()}
+      {loading && loader()}
 
       <div className="table-responsive">
         <div className="table-responsive card">
@@ -98,7 +117,7 @@ const List = ({setEditDepartmentId}) => {
                     <td>{d.departmentName}</td>
                     <td>{d.headOfDepartment}</td>
                     <td>
-                      <button type="button" className="btn btn-icon btn-sm" title="Edit" onClick={(e) => { OnEdit(d._id , e) }}><i className="fa fa-edit" /></button>
+                      <button type="button" className="btn btn-icon btn-sm" title="Edit" onClick={(e) => { OnEdit(d._id, e) }}><i className="fa fa-edit" /></button>
                       <button type="button" className="btn btn-icon btn-sm" onClick={() => { OnDelete(d._id) }} title="Delete"><i className="fa fa-trash-o text-danger" /></button>
                     </td>
                   </tr>
@@ -109,6 +128,28 @@ const List = ({setEditDepartmentId}) => {
           </table>
         </div>
       </div>
+
+      <ReactPaginate
+        previousLabel={"previous"}
+        nextLabel={"next"}
+        breakLabel={"..."}
+        pageCount={pageCount}
+        marginPagesDisplayed={1}
+        pageRangeDisplayed={2}
+        onPageChange={handlePageClick}
+        containerClassName={"pagination"}
+        pageLinkClassName={"page-link"}
+        previousLinkClassName={"page-link"}
+        nextLinkClassName={"page-link"}
+        breakLinkClassName={"page-link"}
+        pageClassName={"page-item"}
+        previousClassName={"page-item"}
+        nextClassName={"page-item"}
+        breakClassName={"page-item"}
+        activeClassName={"active"}
+      // activeLinkClassName={"active"}
+      />
+
     </div>
 
 

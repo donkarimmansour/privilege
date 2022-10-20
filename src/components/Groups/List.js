@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { checkString, loader } from '../../common/funs';
 import swal from 'sweetalert';
 import { countGroupe, deleteGroupe, getGroupe } from '../../redux/groupes/action';
+import ReactPaginate from "react-paginate";
 
 const List = ({setEditGroupeId}) => {
 
@@ -12,13 +13,16 @@ const List = ({setEditGroupeId}) => {
   const dispatch = useDispatch();
 
   const [filters, setFilters] = useState({ name: "" });
-  const { loading, error, success, groupes, _count } = useSelector(state => state.groupe)
-
+  const { loading, error, success, groupes, count } = useSelector(state => state.groupe)
+  const [pageCount, setPageCount] = useState(0);
+  const [pageCurrent, setPageCurrent] = useState(1);
+  const limit = 20
+ 
 
   //handle Search
   useEffect(() => {
     handleSearch()
-  }, [dispatch])
+  }, [dispatch , pageCurrent])
 
 
   //alerts
@@ -68,6 +72,23 @@ const List = ({setEditGroupeId}) => {
 
   }
 
+  //handle paginate
+  const handlePageClick = async (data) => {
+     setPageCurrent(data.selected + 1)
+   };
+
+
+
+  useEffect(() => {
+    if (count && typeof count === "number") {
+      setPageCount(Math.ceil(count / limit));
+    } else {
+      setPageCount(0);
+    }
+
+  }, [count]);
+
+
   //handle form input change
   const handleOnChange = (e) => {
     const { name, value } = e.target
@@ -91,8 +112,8 @@ const List = ({setEditGroupeId}) => {
        filter = { name : { $ne : "xxxlxxxx"}  } 
      } 
     
-
-    dispatch(getGroupe({filter , sort : {_id : -1}, expend : "all"}))
+    const skip = (pageCurrent === 1) ? 0 : (pageCurrent - 1) * limit
+    dispatch(getGroupe({filter , sort : {_id : -1}, expend : "all" , skip : skip , limit : limit}))
     dispatch(countGroupe(filter))
      
   }
@@ -153,6 +174,28 @@ const List = ({setEditGroupeId}) => {
           </tbody>
         </table>
       </div>
+
+      <ReactPaginate
+        previousLabel={"previous"}
+        nextLabel={"next"}
+        breakLabel={"..."}
+        pageCount={pageCount}
+        marginPagesDisplayed={1}
+        pageRangeDisplayed={2}
+        onPageChange={handlePageClick}
+        containerClassName={"pagination"}
+        pageLinkClassName={"page-link"}
+        previousLinkClassName={"page-link"}
+        nextLinkClassName={"page-link"}
+        breakLinkClassName={"page-link"}
+        pageClassName={"page-item"}
+        previousClassName={"page-item"}
+        nextClassName={"page-item"}
+        breakClassName={"page-item"}
+        activeClassName={"active"}
+        // activeLinkClassName={"active"}
+      />
+
     </div>
 
 

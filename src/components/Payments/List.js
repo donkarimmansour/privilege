@@ -1,32 +1,37 @@
 import moment from 'moment';
-import react, { useEffect } from 'react'
+import react, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import swal from 'sweetalert';
 import { checkString, loader } from '../../common/funs';
-import { countPayment , deletePayment, getPayment } from '../../redux/payments/action';
+import { countPayment, deletePayment, getPayment } from '../../redux/payments/action';
 import { cleanAlerts } from '../../redux/payments/reducer'
 import myClassnames from 'classnames';
+import ReactPaginate from "react-paginate";
 
 
-const List = ({setEditPaymentId}) => {
+const List = ({ setEditPaymentId }) => {
 
   const { t } = useTranslation();
   const dispatch = useDispatch();
-   const { loading, error, success, payments, _count } = useSelector(state => state.payments)
+  const { loading, error, success, payments, count } = useSelector(state => state.payments)
+  const [pageCount, setPageCount] = useState(0);
+  const [pageCurrent, setPageCurrent] = useState(1);
+  const limit = 20
 
-
-  //handle Search
+  //handle init
   useEffect(() => {
-    dispatch(getPayment({ sort : {_id : -1} , expend : "all"}))
+    const skip = (pageCurrent === 1) ? 0 : (pageCurrent - 1) * limit
+
+    dispatch(getPayment({ sort: { _id: -1 }, expend: "all", skip: skip, limit: limit }))
     dispatch(countPayment({}))
-  }, [dispatch])
+  }, [dispatch, pageCurrent])
 
 
   //alerts
   useEffect(() => {
     if (success) {
-      swal(t("Success"), t(checkString(success)) , "success");
+      swal(t("Success"), t(checkString(success)), "success");
 
     } else if (error) {
       swal(t("Error"), t(checkString(error)), "error");
@@ -36,42 +41,57 @@ const List = ({setEditPaymentId}) => {
 
   }, [success, error]);
 
- //send to edit section
- const OnEdit = (_id , evt) => { 
-  setEditPaymentId(_id)
+  //send to edit section
+  const OnEdit = (_id, evt) => {
+    setEditPaymentId(_id)
 
-  evt.target.closest(".tab-pane").classList.remove("active")
-  evt.target.closest(".tab-content").children[1].classList.add("active")
-   
-}
+    evt.target.closest(".tab-pane").classList.remove("active")
+    evt.target.closest(".tab-content").children[1].classList.add("active")
 
-//delete student
-const OnDelete = (_id) => {
+  }
 
-  swal({
-    title: t("Are you sure?"),
-    text: t("You will not be able to recover this data"),
-    type: "warning",
-    showCancelButton: true,
-    confirmButtonColor: "#dc3545",
-    confirmButtonText: "Yes, delete it!",
-    cancelButtonText: "No, cancel plx!",
-    closeOnConfirm: false,
-    closeOnCancel: false
-  }).then(isConfirm => {
-    if (isConfirm) {
-      dispatch(deletePayment(_id))
+  //delete student
+  const OnDelete = (_id) => {
+
+    swal({
+      title: t("Are you sure?"),
+      text: t("You will not be able to recover this data"),
+      type: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#dc3545",
+      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: "No, cancel plx!",
+      closeOnConfirm: false,
+      closeOnCancel: false
+    }).then(isConfirm => {
+      if (isConfirm) {
+        dispatch(deletePayment(_id))
+      }
+    });
+
+
+  }
+
+
+  //handle paginate
+  const handlePageClick = async (data) => {
+    setPageCurrent(data.selected + 1)
+  };
+
+
+
+  useEffect(() => {
+    if (count && typeof count === "number") {
+      setPageCount(Math.ceil(count / limit));
+    } else {
+      setPageCount(0);
     }
-  });
 
-
-}
-
-
+  }, [count]);
 
   return (
     <div className="tab-pane active" id="Fees-all">
-            {loading && loader()}
+      {loading && loader()}
 
       <div className="card">
         <div className="card-body">
@@ -100,13 +120,13 @@ const OnDelete = (_id) => {
                       <td>{p.paymentMethod}</td>
                       <td>{moment(p.updatedAt).format("DD/MM/YYYY")}</td>
                       <td>{p.paymentDuration}</td>
-                      <td><span className={myClassnames("tag" , {"tag-green" : p.paymentStatus === "paid"} , {"tag-orange" : p.paymentStatus !== "paid"})}>{p.paymentStatus}</span></td>
+                      <td><span className={myClassnames("tag", { "tag-green": p.paymentStatus === "paid" }, { "tag-orange": p.paymentStatus !== "paid" })}>{p.paymentStatus}</span></td>
                       <td>{p.amount}</td>
                       <td>
-                        <button type="button" className="btn btn-icon btn-sm" title="Edit" onClick={(e) => { OnEdit(p._id , e) }}><i className="fa fa-edit" /></button>
-                         <button type="button" className="btn btn-icon btn-sm" onClick={() => { OnDelete(p._id) }} title="Delete" data-type="confirm"><i className="fa fa-trash-o text-danger" /></button>
-                     </td>
-                    </tr> 
+                        <button type="button" className="btn btn-icon btn-sm" title="Edit" onClick={(e) => { OnEdit(p._id, e) }}><i className="fa fa-edit" /></button>
+                        <button type="button" className="btn btn-icon btn-sm" onClick={() => { OnDelete(p._id) }} title="Delete" data-type="confirm"><i className="fa fa-trash-o text-danger" /></button>
+                      </td>
+                    </tr>
                   )
                 })}
               </tbody>
@@ -114,9 +134,31 @@ const OnDelete = (_id) => {
           </div>
         </div>
       </div>
+
+      <ReactPaginate
+        previousLabel={"previous"}
+        nextLabel={"next"}
+        breakLabel={"..."}
+        pageCount={pageCount}
+        marginPagesDisplayed={1}
+        pageRangeDisplayed={2}
+        onPageChange={handlePageClick}
+        containerClassName={"pagination"}
+        pageLinkClassName={"page-link"}
+        previousLinkClassName={"page-link"}
+        nextLinkClassName={"page-link"}
+        breakLinkClassName={"page-link"}
+        pageClassName={"page-item"}
+        previousClassName={"page-item"}
+        nextClassName={"page-item"}
+        breakClassName={"page-item"}
+        activeClassName={"active"}
+      // activeLinkClassName={"active"}
+      />
+
     </div>
 
-  )
+  ) 
 
 }
 export default List

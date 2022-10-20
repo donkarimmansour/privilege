@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { createCourse, editCourse, editCourseImage, getSingleCourse } from '../../redux/courses/action';
 import { checkString, loader } from '../../common/funs';
 import swal from 'sweetalert';
-import { cleanAlerts } from '../../redux/courses/reducer';
+import { cleanAlerts } from '../../redux/courses/reducer'; 
 import { CreateSingleFile } from '../../api/file';
 
  
@@ -116,7 +116,7 @@ const Add = ({ editCourseId , setEditCourseId}) => {
 
       }).catch(err => {
         console.log("api err ", err.response.data);
-        swal(t("Not Updated"), typeof err.response.data.msg == "string" ? t(err.response.data.msg) : t(err.response.data.msg[0]), "error");
+        swal(t("Not Updated"), t(checkString(err.response.data.msg)) , "error");
         setLLoading(false)
       })
 

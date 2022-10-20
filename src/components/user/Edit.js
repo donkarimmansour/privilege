@@ -5,11 +5,13 @@ import * as yup from 'yup'
 import { useDispatch, useSelector } from "react-redux";
 import "react-datepicker/dist/react-datepicker.css";
 import swal from 'sweetalert';
-import { checkString, ImageVIEW, loader } from '../../common/funs';
+import { checkString, loader } from '../../common/funs';
 import { cleanAlerts } from '../../redux/auth/reducer';
-import { editStudentImage, editStudentProfile } from '../../redux/students/action';
+import { editStudentImage } from '../../redux/students/action';
 import { CreateSingleFile } from '../../api/file';
-import { editProfessorImage, editProfessorProfile } from '../../redux/professors/action';
+import { editProfessorImage } from '../../redux/professors/action';
+import { editAdminImage } from '../../redux/admin/action';
+import { editProfile } from '../../redux/auth/action';
 
 
 const Edit = () => {
@@ -30,6 +32,7 @@ const Edit = () => {
 
   //alerts
   useEffect(() => {
+
     if (success) {
       swal(t("Success"), t(checkString(success)), "success");
 
@@ -69,15 +72,7 @@ const Edit = () => {
 
   //submit form
   const onSubmit = values => {
-
-    if (user.role === "student") {
-      dispatch(editStudentProfile(values))
-
-    } else if (user.role === "teacher") {
-      dispatch(editProfessorProfile(values))
-
-    }
-
+      dispatch(editProfile({...values , type : user.role}))
   }
 
 
@@ -103,8 +98,10 @@ const Edit = () => {
             dispatch(editStudentImage({ image: data.msg , type : "profile" }))
           } else if (user.role === "teacher") {
             dispatch(editProfessorImage({ image: data.msg , type : "profile" }))
-
+          } else if (user.role === "admin") {
+            dispatch(editAdminImage({ image: data.msg , type : "profile" }))
           }
+
   
         }).catch(err => {
           console.log("api err ", err.response.data);
@@ -118,7 +115,7 @@ const Edit = () => {
 
  // http://localhost:3005/v1/api/file/get-single-file/6346f07516be53eb99fb37e9/view
 
-  return (<div className="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+  return (<div className="tab-pane fade show active" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
 
 
        {(loading || Lloading) && loader()}

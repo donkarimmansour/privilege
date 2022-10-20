@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { signinUser , forgotPassword , getMe} from "./action"
+import { signinUser , forgotPassword , getMe , editProfile} from "./action"
 
 const initialState = {
     user: null,
@@ -28,6 +28,14 @@ export const AuthReducerSlice = createSlice({
         updateProfileImage: (state , action) => {
             state.user.image =  action.payload
         },
+        updateProfileTest: (state , action) => {
+            state.user.tested =  action.payload
+        },
+        
+        // updateWholeProfile: (state , action) => {
+        //     state.user = {...state.user , ...action.payload}  
+        //     state.success = "Updated"
+        // },
 
     },
     extraReducers: {
@@ -81,10 +89,27 @@ export const AuthReducerSlice = createSlice({
             state.loading = false
             state.error = action.payload
         },
+
+
+        //editProfile
+        [editProfile.pending]: (state) => {
+            state.loading = true
+        },
+
+        [editProfile.fulfilled]: (state, action) => {
+            state.loading = false
+            state.success = "Updated"
+            state.user = {...state.user , ...action.meta.arg}
+        },
+
+        [editProfile.rejected]: (state, action) => {
+            state.loading = false
+            state.error = action.payload
+        },
     }
 })
 
-export const { cleanAlerts , logOut , updateProfileImage} = AuthReducerSlice.actions;
+export const { cleanAlerts , logOut , updateProfileImage , updateProfileTest} = AuthReducerSlice.actions;
 
 
 export default AuthReducerSlice.reducer;

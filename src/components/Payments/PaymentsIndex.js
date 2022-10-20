@@ -14,7 +14,7 @@ const PaymentsIndex = () => {
     {name : "Fees" , url : "#"} ,
 ]
 
-const tabs = [
+const tabs = [ 
     {name : "List" , id : "#Fees-all"} ,
     {name : "Add Fees" , id : "#Fees-add"}
 ]

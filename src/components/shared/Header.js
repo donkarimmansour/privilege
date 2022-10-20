@@ -86,7 +86,7 @@ const Header = () => {
 
 
 
-                            <div className="dropdown d-flex">
+                            {/* <div className="dropdown d-flex">
                                 <a className="nav-link icon d-none d-md-flex btn btn-default btn-icon ml-1" data-toggle="dropdown"><i className="fa fa-bell"></i><span className="badge badge-primary nav-unread"></span></a>
                                 <div className="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
                                     <ul className="list-unstyled feeds_widget">
@@ -113,17 +113,21 @@ const Header = () => {
                                     </ul>
                                 </div>
                             </div>
+                           
+                            */}
+
+
                             <div className="dropdown d-flex">
                                 <a href="javascript:void(0)" className="chip ml-3" data-toggle="dropdown">
                                     <span className="avatar" style={{ backgroundImage: `url(${ImageVIEW(user.image)})` }}></span> karim</a>
                                 <div className="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
                                     <Link className="dropdown-item" to="/profile"><i className="dropdown-icon fe fe-user"></i> {t("Profile")}</Link>
                                     <Link className="dropdown-item" to="/settings"><i className="dropdown-icon fe fe-settings"></i> {t("Settings")}</Link>
-                                    <Link className="dropdown-item" to="/chatapp"><span className="float-right"><span className="badge badge-primary">6</span></span><i className="dropdown-icon fe fe-mail"></i> {t("Inbox")}</Link>
+                                    {/* <Link className="dropdown-item" to="/chatapp"><span className="float-right"><span className="badge badge-primary">6</span></span><i className="dropdown-icon fe fe-mail"></i> {t("Inbox")}</Link> */}
                                     <div className="dropdown-divider"></div>
-                                    <a className="dropdown-item" to="javascript:void(0);" onClick={logout} > <i className="dropdown-icon fe fe-log-out"></i> {t("Sign out")}</a>
+                                    <a className="dropdown-item" href="javascript:void(0);" onClick={logout} > <i className="dropdown-icon fe fe-log-out"></i> {t("Sign out")}</a>
                                 </div>
-                            </div>
+                            </div> 
                         </div>
                     </div>
                 </div>

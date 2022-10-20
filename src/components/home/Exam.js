@@ -1,71 +1,21 @@
-import react from 'react'
+import react, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { getExam } from '../../redux/exam/action';
+import ReactHTMLTableToExcel from 'react-html-table-to-excel';
+import moment from 'moment';
+import { ImageVIEW } from '../../common/funs';
 
 
 const Exam = () => {
-
-
+    const dispatch = useDispatch(); 
     const { t } = useTranslation();
     const { loading, error, success, exam } = useSelector(state => state.exam)
 
-
-
-    const data = [
-        {
-            question: "It is a long established fact that...",
-            durtion: "78s",
-            replay: "mm",
-            status: "field",
-            date: {
-                start: "Start: 3 Jun 2019",
-                end: "End: 15 Jun 2019"
-            },
-            studentID: { firstname: "Peter Richards", lastname: "jjjjjj" },
-            class: "germany",
-
-        },
-        {
-            question: "It is a long established fact that...",
-            durtion: "78s",
-            replay: "mm",
-            status: "field",
-            date: {
-                start: "Start: 3 Jun 2019",
-                end: "End: 15 Jun 2019"
-            },
-            studentID: { firstname: "Peter Richards", lastname: "jjjjjj" },
-            class: "germany",
-
-        },
-        {
-            question: "It is a long established fact that...",
-            durtion: "78s",
-            replay: "mm",
-            status: "field",
-            date: {
-                start: "Start: 3 Jun 2019",
-                end: "End: 15 Jun 2019"
-            },
-            studentID: { firstname: "Peter Richards", lastname: "jjjjjj" },
-            class: "germany",
-
-        },
-        {
-            question: "It is a long established fact that...",
-            durtion: "78s",
-            replay: "mm",
-            status: "field",
-            date: {
-                start: "Start: 3 Jun 2019",
-                end: "End: 15 Jun 2019"
-            },
-            studentID: { firstname: "Peter Richards", lastname: "jjjjjj" },
-            class: "germany",
-
-        }
-
-    ]
+       //handle data
+    useEffect(() => {
+        dispatch(getExam({ sort : {_id : -1} , expend : "all"}))
+    }, [dispatch])
 
 
     return (
@@ -76,51 +26,40 @@ const Exam = () => {
 
                 </div>
                 <div className="table-responsive" style={{ height: "310px" }}>
-                    <table className="table card-table table-vcenter text-nowrap table-striped mb-0">
+                    <table className="table card-table table-vcenter text-nowrap table-striped mb-0" id="table-to-xls-exams">
                         <tbody>
-
-
-
 
                             <tr>
                                 <th>{t("No.")}</th>
                                 <th>{t("Name")}</th>
                                 <th></th>
-                                <th>{t("question")}</th>
-                                <th>{t("Durtion")}</th>
-                                <th>{t("Replay")}</th>
-                                <th>{t("Status")}</th>
+                                <th>{t("Rate")}</th>
+                                <th>{t("Activated")}</th>
                                 <th>{t("Date")}</th>
                             </tr>
 
-                            {data.length > 0 && data.map((e, ei) => {
-                                return (
-                                    <tr key={ei}>
-                                        <td>{ei + 1}</td>
+                            {exam && exam.length > 0 && exam.map((ex, exi) => {
+                                  return (
+                                    <tr key={exi}>
+
+                                        <td>{exi + 1}</td>
                                         <td className="w40">
                                             <div className="avatar">
-                                                <img className="avatar" src="../assets/images/xs/avatar1.jpg" alt="avatar" />
+                                                <img className="avatar" src={ImageVIEW(ex.studentID?.image)} alt="avatar" />
                                             </div>
                                         </td>
                                         <td>
-                                            <div>{`${e.studentID.firstname} ${e.studentID.lastname}`}</div>
-                                            <div className="text-muted">{e.class}</div>
-                                        </td>
-                                        <td><span>{e.question}</span></td>
-                                        <td>{e.durtion}</td>
-                                        <td>{e.replay}</td>
-                                        <td>{e.status}</td>
-                                        <td>
-                                            <div className="text-info">{e.date.start}</div>
-                                            <div className="text-pink">{e.date.end}</div>
+                                            <div>{`${ex.studentID?.firstname} ${ex.studentID?.lastname}`}</div>
+                                            <div className="text-muted">{ex.studentID?.className?.name}</div>
                                         </td>
 
+                                          <td>{ex.rate}</td>
+                                          <td>{ex.studentID?.isAccountActivated ? 'yes' : 'no'}</td>
+                                          <td>{moment(ex.updatedAt).format("DD/MM/YYYY")}</td>
 
                                     </tr>
                                 )
-                            })}
-
-
+                                }) }
 
 
                         </tbody>
@@ -129,7 +68,15 @@ const Exam = () => {
                 <div className="card-footer d-flex justify-content-between">
                     <div className="font-14"><span>Measure How Fast You’re Growing Monthly Recurring Revenue. <a href="#">View All</a></span></div>
                     <div>
-                        <button type="button" className="btn btn-primary">Export</button>
+                        {/* <button type="button" className="btn btn-primary">Export</button> */}
+
+                        <ReactHTMLTableToExcel  className='btn btn-primary'
+                            // id="table-xls-button"
+                            table="table-to-xls-exams"
+                            filename="exams"
+                            sheet="exams"
+                            buttonText={t("Export")} />
+
                     </div>
                 </div>
             </div>

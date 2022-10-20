@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import { Field, Formik, Form } from "formik"
 import * as yup from 'yup'
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux"; 
 import { checkString, loader } from '../../common/funs';
 import swal from 'sweetalert';
 import { cleanAlerts } from '../../redux/payments/reducer';

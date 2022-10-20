@@ -13,10 +13,10 @@ import CoursesReducer from "./courses/reducer";
 import LibraryReducer from "./library/reducer";
 import ExamReducer from "./exam/reducer";
 import SmtpReducer from "./smtp/reducer";
-import UserReducer from "./user/reducer";
 import GroupeReducer from "./groupes/reducer";
 import LevelReducer from "./levels/reducer";
 import NotificationsReducer from "./notifications/reducer";
+import AdminsReducer from "./admin/reducer";
 
 const reducers = combineReducers({
   auth : AuthReducer ,
@@ -29,10 +29,10 @@ const reducers = combineReducers({
   library : LibraryReducer ,
   exam : ExamReducer ,
   smtp : SmtpReducer ,
-  user : UserReducer ,
   groupe : GroupeReducer ,
   level : LevelReducer ,
   notifications : NotificationsReducer ,
+  admins : AdminsReducer ,
 })
 
 const persistConfig = { 

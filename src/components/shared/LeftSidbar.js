@@ -22,17 +22,18 @@ const LeftSidbar = () => {
                 <nav className="sidebar-nav">
                  <ul className="metismenu"> 
                         <li className="active"><Link to="/"><i className="fa fa-dashboard"></i><span>{t("Dashboard")}</span></Link></li>
+                        <li><Link to="/admins"><i className="fa fa-lock"></i><span>{t("Admins")}</span></Link></li>
                         <li><Link to="/professors"><i className="fa fa-black-tie"></i><span>{t("Teachers")}</span></Link></li>
                         <li><Link to="/students"><i className="fa fa-user"></i><span>{t("Students")}</span></Link></li>
                         <li><Link to="/departments"><i className="fa fa-building"></i><span>{t("Departments")}</span></Link></li>
                         <li><Link to="/courses"><i className="fa fa-graduation-cap"></i><span>{t("Classes")}</span></Link></li>                        
                         <li><Link to="/library"><i className="fa fa-book"></i><span>{t("Books")}</span></Link></li>
-                        <li><Link to="/chatapp"><i className="fa fa-comments-o"></i><span>{t("Chat App")}</span></Link></li>
+                        {/* <li><Link to="/chatapp"><i className="fa fa-comments-o"></i><span>{t("Chat App")}</span></Link></li> */}
                         <li><Link to="/payments"><i className="fa fa-credit-card"></i><span>{t("Payments")}</span></Link></li>
                         <li><Link to="/exam"><i className="fa fa-list-ul"></i><span>{t("Exam")}</span></Link></li>
                         <li><Link to="/levels"><i className="fa fa-calendar-check-o"></i><span>{t("Levels")}</span></Link></li>
                         <li><Link to="/groups"><i className="fa fa-users"></i><span>{t("Groups")}</span></Link></li>
-                        <li><Link to="/notifications"><i className="fa fa-bell"></i><span>{t("Notifications")}</span></Link></li>
+                        {/* <li><Link to="/notifications"><i className="fa fa-bell"></i><span>{t("Notifications")}</span></Link></li> */}
                         <li><Link to="/settings"><i className="fa fa-gear"></i><span>{t("Settings")}</span></Link></li>
                 </ul>
                 </nav>

@@ -12,28 +12,15 @@ export const SmtpReducerSlice = createSlice({
     name: 'exam',
     initialState,
     reducers: {
-        // create: (state, action) => {
-
-        // },
-        // delete: (state, action) => {
-
-        // },
-        // edit: (state, action) => {
-
-        // },
-        // count: (state, action) => {
-
-        // },
-        // get: (state, action) => {
-
-        // },
-        // getSingle: (state, action) => {
-
-        // },
+        cleanAlerts: (state) => {
+            state.loading = false
+            state.success = false
+            state.error = false
+        },
     },
     extraReducers: {
         //getSmtp
-        [getSmtp.pending]: (state, action) => {
+        [getSmtp.pending]: (state) => {
             state.loading = true
         },
 
@@ -51,14 +38,14 @@ export const SmtpReducerSlice = createSlice({
     
 
         //editSmtp
-        [editSmtp.pending]: (state, action) => {
+        [editSmtp.pending]: (state) => {
             state.loading = true
         },
 
         [editSmtp.fulfilled]: (state, action) => {
             state.loading = false
-            // state.success = action.payload
-            state.smtp = [...state.smtp, action.payload]
+            state.success = action.payload
+            state.smtp = {...state.smtp, ...action.meta.arg}
         },
 
         [editSmtp.rejected]: (state, action) => {
@@ -69,5 +56,6 @@ export const SmtpReducerSlice = createSlice({
 })
 
 
+export const { cleanAlerts } = SmtpReducerSlice.actions;
 
 export default SmtpReducerSlice.reducer;

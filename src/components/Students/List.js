@@ -5,7 +5,8 @@ import { countStudent, deleteStudent, getStudent } from '../../redux/students/ac
 import swal from 'sweetalert';
 import { checkString, ImageVIEW, loader } from '../../common/funs';
 import { cleanAlerts } from '../../redux/students/reducer';
-import moment from "moment";
+import moment from "moment"; 
+import ReactPaginate from "react-paginate";
 
 const List = ({setEditStudentId}) => { 
 
@@ -13,12 +14,14 @@ const List = ({setEditStudentId}) => {
   const dispatch = useDispatch();
   const [filters, setFilters] = useState({ lastname: "", phone: "", email: "", firstname: "" });
   const { loading, error, success, students, count } = useSelector(state => state.students)
- 
+  const [pageCount, setPageCount] = useState(0);
+  const [pageCurrent, setPageCurrent] = useState(1);
+  const limit = 20
 
-  //handle Search
+  //handle Search 
   useEffect(() => {
     handleSearch()
-  }, [dispatch])
+  }, [dispatch , pageCurrent])
 
 
   //alerts
@@ -92,10 +95,29 @@ const List = ({setEditStudentId}) => {
        filter = { lastname : { $ne : "xxxlxxxx"}  } 
      } 
     
-    dispatch(getStudent({filter , sort : {_id : -1} , expend : "all"}))
+
+     const skip = (pageCurrent === 1) ? 0 : (pageCurrent - 1) * limit
+    dispatch(getStudent({filter , sort : {_id : -1} , expend : "all" , skip : skip , limit : limit}))
     dispatch(countStudent(filter))
      
   }
+
+
+    //handle paginate
+    const handlePageClick = async (data) => {
+      setPageCurrent(data.selected + 1)
+    };
+ 
+ 
+ 
+   useEffect(() => {
+     if (count && typeof count === "number") {
+       setPageCount(Math.ceil(count / limit));
+     } else {
+       setPageCount(0);
+     }
+ 
+   }, [count]);
 
 
   return (
@@ -176,6 +198,29 @@ const List = ({setEditStudentId}) => {
           </tbody>
         </table>
       </div>
+
+
+      <ReactPaginate
+        previousLabel={"previous"}
+        nextLabel={"next"}
+        breakLabel={"..."}
+        pageCount={pageCount}
+        marginPagesDisplayed={1}
+        pageRangeDisplayed={2}
+        onPageChange={handlePageClick}
+        containerClassName={"pagination"}
+        pageLinkClassName={"page-link"}
+        previousLinkClassName={"page-link"}
+        nextLinkClassName={"page-link"}
+        breakLinkClassName={"page-link"}
+        pageClassName={"page-item"}
+        previousClassName={"page-item"}
+        nextClassName={"page-item"}
+        breakClassName={"page-item"}
+        activeClassName={"active"}
+        // activeLinkClassName={"active"}
+      />
+
     </div>
 
 

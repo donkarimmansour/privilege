@@ -1,26 +1,50 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import { Field, Formik, Form } from "formik"
 import * as yup from 'yup'
 import { useDispatch, useSelector } from "react-redux";
 import "react-datepicker/dist/react-datepicker.css";
+import { checkString, loader } from '../../common/funs';
+import { editSmtp, getSmtp } from '../../redux/smtp/action';
+import { cleanAlerts } from '../../redux/smtp/reducer';
+import swal from 'sweetalert';
 
 const Email = () => {
 
   const { t } = useTranslation();
-  //  const dispatch = useDispatch()
+  const dispatch = useDispatch()
   const { loading, error, success, smtp } = useSelector(state => state.smtp)
 
+  //get payment data
+  useEffect(() => {
+      dispatch(getSmtp())
+  }, [dispatch])
+
+  
+  //update smtp data
+  useEffect(() => {
+    if (smtp && smtp._id) {
+      setInitialValues(smtp)
+    }
+  }, [smtp])
+
+
+  //alerts
   useEffect(() => {
     if (success) {
+      swal(t("Success"), t(checkString(success)), "success");
 
     } else if (error) {
-
+      swal(t("Error"), t(checkString(error)), "error");
     }
+
+     dispatch(cleanAlerts())
+
   }, [success, error]);
 
 
-  const initialValues = {
+  //formik initial
+  const [initialValues, setInitialValues] = useState({
     host: "",
     username: "",
     port: 587,
@@ -28,16 +52,12 @@ const Email = () => {
     name: "",
     security: "",
     password: "",
-
-  }
-
-  const onSubmit = values => {
-    // dispatch(set_contact())
-    console.log(values);
-  }
+  })
 
 
-  const ProfessorsAddValidator = yup.object().shape({
+
+  //initial yup Scheme
+  const SmtpValidator = yup.object().shape({
     host: yup.string().required(t("host field is required")),
     username: yup.string().required(t("username field is required")),
     port: yup.number().required(t("port field is required")).min(1, t("port field is required")),
@@ -45,18 +65,24 @@ const Email = () => {
     name: yup.string().required(t("name field is required")),
     security: yup.string().required(t("security field is required")),
     password: yup.string().required(t("password field is required")),
-
   })
+
+  //submit form
+  const onSubmit = values => {
+      dispatch(editSmtp(values))
+  }
 
   return (
     <div className="tab-pane active" id="Email_Settings">
+       {loading && loader()}
 
 
       {
         <Formik
           initialValues={initialValues}
           onSubmit={onSubmit}
-          validationSchema={ProfessorsAddValidator}>
+          validationSchema={SmtpValidator}
+          enableReinitialize={true}>
 
           {
             ({ touched, errors, isValid }) => (
@@ -138,7 +164,7 @@ const Email = () => {
                     </div>
 
                     <div className="col-sm-12 m-t-20 text-right">
-                      <button type="button"  disabled={(!loading && isValid)} className="btn btn-primary">{t("SAVE")}</button>
+                      <button type="submit" disabled={(loading || !isValid)} className="btn btn-primary">{t("SAVE")}</button>
                     </div>
 
                   </div>

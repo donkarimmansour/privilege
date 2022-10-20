@@ -1,49 +1,24 @@
-import react from 'react'
+import moment from 'moment';
+import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { getPayment } from '../../redux/payments/action';
+import myClassnames from 'classnames';
 
 
 const StudentList = () => {
 
-
-    const { t } = useTranslation();
-    // const { loading, error, success, students, count } = useSelector(state => state.students)
-    const { loading, error, success, payments, count } = useSelector(state => state.payments)
-
-    const OnSee = () => { }
-    const OnEdit = () => { }
-    const OnDelete = () => { }
-    const handleOnChange = (e) => {
-        const { name, value } = e
-        // setFilters({ ...filters, [name]: value })
-
-    }
-
-
-    const data = [
-        {
-            firstname: "Peter Richards",
-            lastname: "jjjjjj",
-            createdAtt: "ooo@jj.ko",
-            class: "germany",
-            paymentStatus: "paid",
-            teacher : "kk mm" 
-
-        },
-        {
-            firstname: "Peter Richards",
-            lastname: "jjjjjj",
-            createdAtt: "ooo@jj.ko",
-            class: "germany",
-            paymentStatus: "paid",
-            teacher : "kk mm" 
-
-        }
-
-    ]
-
-
-
+     const { t } = useTranslation();
+     const dispatch = useDispatch();
+     const { payments} = useSelector(state => state.payments)
+  
+  
+    //handle data
+    useEffect(() => {
+      dispatch(getPayment({ sort : {_id : -1} , expend : "all"}))
+    }, [dispatch])
+  
+  
 
     return (
         <div className="row">
@@ -64,28 +39,30 @@ const StudentList = () => {
                                     <tr>
                                         <th>{t("No")}</th>
                                         <th>{t("Name")}</th>
-                                        <th>{t("Assigned Professor")}</th>
-                                        <th>{t("ADMISSION DATE")}</th>
-                                        <th>{t("Fees")}</th>
                                         <th>{t("Class")}</th>
+                                        <th>{t("Method")}</th>
+                                        <th>{t("Duration")}</th>
+                                        <th>{t("Amount")}</th>
+                                        <th>{t("Status")}</th>
+                                        <th>{t("DATE")}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
 
 
-                                    {data.length > 0 && data.map((s, si) => {
+                                    {payments.length > 0 && payments.map((p, pi) => {
                                         return (
-                                            <tr key={si}>
-                                                <td>{si + 1}</td>
+                                            <tr key={pi}>
 
-                                                <td>{`${s.firstname} ${s.lastname}`}</td>
-                                                <td>{s.teacher}</td>
-                                                <td>{s.createdAtt}</td>
-                                                <td>
-                                                    <span className="tag tag-success">{s.paymentStatus}</span>
-                                                </td>
-                                                <td>{s.class}</td>
+                                                <td>{pi + 1}</td>
 
+                                                <td>{`${p.studentID.firstname} ${p.studentID.lastname}`}</td>
+                                                <td>{p.studentID.className?.name}</td>
+                                                <td>{p.paymentMethod}</td>
+                                                <td>{p.paymentDuration}</td>
+                                                <td>{p.amount}</td>
+                                                <td><span className={myClassnames("tag", { "tag-green": p.paymentStatus === "paid" }, { "tag-orange": p.paymentStatus !== "paid" })}>{p.paymentStatus}</span></td>
+                                                <td>{moment(p.updatedAt).format("DD/MM/YYYY")}</td>
 
                                             </tr>
                                         )
