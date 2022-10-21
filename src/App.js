@@ -28,7 +28,6 @@ import AdminsIndex from './components/Admin/AdminsIndex';
 
 function App() {
 
-
  
   return (
 

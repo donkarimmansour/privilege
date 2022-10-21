@@ -10,12 +10,13 @@ import { createExam } from "../../redux/exam/action";
 import { checkString, loader } from "../../common/funs";
 import { cleanAlerts } from "../../redux/exam/reducer";
 import { updateProfileTest } from "../../redux/auth/reducer";
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Test = () => { 
 
   const dispatch = useDispatch()
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const [quizzes, setQuizzes] = useState([])
   const [currentQuiz, setCurrentQuiz] = useState({ question: "", answer: "", status: false, type: "", text: "" })
   const [currentChoose, setCurrentChoose] = useState(0)
@@ -26,9 +27,11 @@ const Test = () => {
 
   useEffect(() => {
     if ( user.tested === "yes" ) {
-        <Navigate  to="/" />
+      console.log(22);
+
+        navigate("/") 
     }
-  }, [])
+  }, [user?.tested])
 
   useEffect(() => {
     if (English && English.length > 0) {

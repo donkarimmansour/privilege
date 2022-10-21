@@ -434,12 +434,12 @@ const Add = ({ editStudentId, setEditStudentId }) => {
                             <div className="custom-controls-stacked">
 
                               <label className="custom-control custom-radio custom-control-inline">
-                                <Field type="radio" className="custom-control-input" name="tested" value="yes" disabled={(!editStudentId || editStudentId === "")}/>
+                                <Field type="radio" className="custom-control-input" name="tested" value="yes" disabled={true}/>
                                 <span className="custom-control-label">{t("Yes")}</span>
                               </label>
 
                               <label className="custom-control custom-radio custom-control-inline">
-                                <Field type="radio" className="custom-control-input" name="tested" value="no" disabled={(!editStudentId || editStudentId === "")}/>
+                                <Field type="radio" className="custom-control-input" name="tested" value="no" disabled={true}/>
                                 <span className="custom-control-label">{t("No")}</span>
                               </label>
 

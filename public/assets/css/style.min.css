@@ -7459,7 +7459,7 @@ a:hover {
     margin-top: 5px
 }
 #left-sidebar .sidebar-nav {
-    height: calc(100vh - 128px);
+    /* height: calc(100vh - 128px); */
     overflow-y: auto;
     margin-right: -15px
 }

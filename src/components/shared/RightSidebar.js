@@ -1,7 +1,8 @@
 import react from 'react'
 import { useTranslation } from 'react-i18next';
 import { removeSiblingsClass } from '../../common/funs';
-
+import { getLocalStorage, setLocalStorage } from '../../common/localStorage';
+import myClassname from "classnames";
 
 const RightSidebar = ({refresher , setRefresher}) => {
     const { t } = useTranslation();
@@ -19,7 +20,9 @@ const RightSidebar = ({refresher , setRefresher}) => {
 
         $body.classList.remove('theme-' + existTheme);
         $body.classList.add('theme-' + $this.target.getAttribute('data-theme'));
-        setRefresher(refresher++)
+
+        setLocalStorage("skinChanger", 'theme-' + $this.target.getAttribute('data-theme') )
+        setRefresher(refresher + 1)
     }
 
     //Font Settings
@@ -30,7 +33,9 @@ const RightSidebar = ({refresher , setRefresher}) => {
         $body.classList.remove('font-muli');
         $body.classList.remove('font-poppins');
         $body.classList.add(e.target.value);
-        setRefresher(refresher++)
+
+        setLocalStorage("fontSetting", e.target.value)
+        setRefresher(refresher + 1)
     }
 
     //Full Dark mode
@@ -40,7 +45,8 @@ const RightSidebar = ({refresher , setRefresher}) => {
         } else {
             document.querySelector('body').classList.remove('dark-mode');
         }
-        setRefresher(refresher++)
+        setLocalStorage("fullDarkMode", getLocalStorage("fullDarkMode") === "true" ? "false" : "true")
+        setRefresher(refresher + 1)
     }
 
    
@@ -51,7 +57,8 @@ const RightSidebar = ({refresher , setRefresher}) => {
         } else {
             document.querySelector('#page_top').classList.remove('sticky-top');
         }
-        setRefresher(refresher++)
+        setLocalStorage("topBarSticky", getLocalStorage("topBarSticky") === "true" ? "false" : "true")
+        setRefresher(refresher + 1)
     }
 
     //icon-color
@@ -61,7 +68,8 @@ const RightSidebar = ({refresher , setRefresher}) => {
         } else {
             document.querySelector('body').classList.remove('iconcolor');
         }
-        setRefresher(refresher++)
+        setLocalStorage("iconColor", getLocalStorage("iconColor") === "true" ? "false" : "true")
+        setRefresher(refresher + 1)
     }
 
     //Gradient Color
@@ -71,7 +79,8 @@ const RightSidebar = ({refresher , setRefresher}) => {
         } else {
             document.querySelector('body').classList.remove('gradient');
         }
-        setRefresher(refresher++)
+        setLocalStorage("gradientColor", getLocalStorage("gradientColor") === "true" ? "false" : "true")
+        setRefresher(refresher + 1)
     }
 
 
@@ -82,7 +91,8 @@ const RightSidebar = ({refresher , setRefresher}) => {
         } else {
             document.querySelector('.card, .btn, .progress').classList.remove('box_shadow');
         }
-        setRefresher(refresher++)
+        setLocalStorage("boxShadow", getLocalStorage("boxShadow") === "true" ? "false" : "true")
+        setRefresher(refresher + 1)
     }
 
     //Box Layout
@@ -92,7 +102,8 @@ const RightSidebar = ({refresher , setRefresher}) => {
         } else {
             document.querySelector('body').classList.remove('boxlayout');
         }
-        setRefresher(refresher++)
+        setLocalStorage("boxLayout", getLocalStorage("boxLayout") === "true" ? "false" : "true")
+        setRefresher(refresher + 1)
     }
 
     //RTL Support
@@ -102,7 +113,9 @@ const RightSidebar = ({refresher , setRefresher}) => {
         } else {
             document.querySelector('body').classList.remove('rtl');
         }
-        setRefresher(refresher++)
+
+        setLocalStorage("RTLSupport", getLocalStorage("RTLSupport") === "true" ? "false" : "true")
+        setRefresher(refresher + 1)
     }
 
     //Header Dark
@@ -112,7 +125,9 @@ const RightSidebar = ({refresher , setRefresher}) => {
         } else {
             document.querySelector('#page_top').classList.remove('top_dark');
         }
-        setRefresher(refresher++)
+
+        setLocalStorage("headerDark", getLocalStorage("headerDark") === "true" ? "false" : "true")
+        setRefresher(refresher + 1)
     }
 
 
@@ -123,7 +138,8 @@ const RightSidebar = ({refresher , setRefresher}) => {
         } else {
             document.querySelector('#header_top').classList.remove('dark');
         }
-        setRefresher(refresher++)
+        setLocalStorage("minSidebarDark", getLocalStorage("minSidebarDark") === "true" ? "false" : "true")
+        setRefresher(refresher + 1)
     }
 
 
@@ -134,7 +150,8 @@ const RightSidebar = ({refresher , setRefresher}) => {
         } else {
             document.querySelector('body').classList.remove('sidebar_dark');
         }
-        setRefresher(refresher++)
+        setLocalStorage("sidebarDark", getLocalStorage("sidebarDark") === "true" ? "false" : "true")
+        setRefresher(refresher + 1)
     }
 
 
@@ -142,6 +159,10 @@ const RightSidebar = ({refresher , setRefresher}) => {
     const rightSideBar = (el) => {
         document.querySelector('.right_sidebar').classList.toggle('open');
     }
+
+
+
+
 
 
     return (
@@ -157,29 +178,29 @@ const RightSidebar = ({refresher , setRefresher}) => {
                     <div className="mb-4">
                         <h6 className="font-14 font-weight-bold text-muted">{t("Theme Color")}</h6>
                         <ul className="choose-skin list-unstyled mb-0">
-                            <li onClick={skinChanger} data-theme="azure"><div className="azure"></div></li>
-                            <li onClick={skinChanger} data-theme="indigo"><div className="indigo"></div></li>
-                            <li onClick={skinChanger} data-theme="purple"><div className="purple"></div></li>
-                            <li onClick={skinChanger} data-theme="orange"><div className="orange"></div></li>
-                            <li onClick={skinChanger} data-theme="green"><div className="green"></div></li>
-                            <li onClick={skinChanger} data-theme="cyan" className="active"><div className="cyan"></div></li>
-                            <li onClick={skinChanger} data-theme="blush"><div className="blush"></div></li>
-                            <li onClick={skinChanger} data-theme="white"><div className="bg-white"></div></li>
+                            <li className={myClassname({ "active" : getLocalStorage("skinChanger") === "theme-azure"})} onClick={skinChanger} data-theme="azure"><div className="azure"></div></li>
+                            <li className={myClassname({ "active" : getLocalStorage("skinChanger") === "theme-indigo"})} onClick={skinChanger} data-theme="indigo"><div className="indigo"></div></li>
+                            <li className={myClassname({ "active" : getLocalStorage("skinChanger") === "theme-purple"})} onClick={skinChanger} data-theme="purple"><div className="purple"></div></li>
+                            <li className={myClassname({ "active" : getLocalStorage("skinChanger") === "theme-orange"})} onClick={skinChanger} data-theme="orange"><div className="orange"></div></li>
+                            <li className={myClassname({ "active" : getLocalStorage("skinChanger") === "theme-green"})} onClick={skinChanger} data-theme="green"><div className="green"></div></li>
+                            <li className={myClassname({ "active" : getLocalStorage("skinChanger") === "theme-cyan"})} onClick={skinChanger} data-theme="cyan"><div className="cyan"></div></li>
+                            <li className={myClassname({ "active" : getLocalStorage("skinChanger") === "theme-blush"})} onClick={skinChanger} data-theme="blush"><div className="blush"></div></li>
+                            <li className={myClassname({ "active" : getLocalStorage("skinChanger") === "theme-white"})} onClick={skinChanger} data-theme="white"><div className="bg-white"></div></li>
                         </ul>
                     </div>
                     <div className="mb-4">
                         <h6 className="font-14 font-weight-bold text-muted">{t("Font Style")}</h6>
                         <div className="custom-controls-stacked font_setting">
                             <label className="custom-control custom-radio custom-control-inline">
-                                <input type="radio" className="custom-control-input" name="font" value="font-muli" defaultChecked onChange={fontSetting} />
+                                <input type="radio" className="custom-control-input" name="font" value="font-muli" defaultChecked={getLocalStorage("fontSetting") === "font-muli" ? true : false } onChange={fontSetting} />
                                 <span className="custom-control-label">{t("Muli Google Font")}</span>
                             </label>
                             <label className="custom-control custom-radio custom-control-inline">
-                                <input type="radio" className="custom-control-input" name="font" value="font-montserrat" onChange={fontSetting} />
+                                <input type="radio" className="custom-control-input" name="font" value="font-montserrat" defaultChecked={getLocalStorage("fontSetting") === "font-montserrat" ? true : false } onChange={fontSetting} />
                                 <span className="custom-control-label">{t("Montserrat Google Font")}</span>
                             </label>
                             <label className="custom-control custom-radio custom-control-inline">
-                                <input type="radio" className="custom-control-input" name="font" value="font-poppins" onChange={fontSetting} />
+                                <input type="radio" className="custom-control-input" name="font" value="font-poppins" defaultChecked={getLocalStorage("fontSetting") === "font-poppins" ? true : false } onChange={fontSetting} />
                                 <span className="custom-control-label">{t("Poppins Google Font")}</span>
                             </label>
                         </div>
@@ -190,70 +211,70 @@ const RightSidebar = ({refresher , setRefresher}) => {
                             <li>
                                 <label className="custom-switch">
                                     <span className="custom-switch-description">{t("Night Mode")}</span>
-                                    <input type="checkbox" name="custom-switch-checkbox" onClick={fullDarkMode} className="custom-switch-input btn-darkmode" />
+                                    <input type="checkbox" name="custom-switch-checkbox" defaultChecked={getLocalStorage("fullDarkMode") === "true" ? true : false } onClick={fullDarkMode} className="custom-switch-input btn-darkmode" />
                                     <span className="custom-switch-indicator"></span>
                                 </label>
                             </li>
                             <li>
                                 <label className="custom-switch">
                                     <span className="custom-switch-description">{t("Fix Navbar top")}</span>
-                                    <input type="checkbox" name="custom-switch-checkbox" onClick={topBarSticky} className="custom-switch-input btn-fixnavbar" />
+                                    <input type="checkbox" name="custom-switch-checkbox" defaultChecked={getLocalStorage("topBarSticky") === "true" ? true : false } onClick={topBarSticky} className="custom-switch-input btn-fixnavbar" />
                                     <span className="custom-switch-indicator"></span>
                                 </label>
                             </li>
                             <li>
                                 <label className="custom-switch">
                                     <span className="custom-switch-description">{t("Header Dark")}</span>
-                                    <input type="checkbox" name="custom-switch-checkbox" onClick={headerDark} className="custom-switch-input btn-pageheader" />
+                                    <input type="checkbox" name="custom-switch-checkbox" defaultChecked={getLocalStorage("headerDark") === "true" ? true : false } onClick={headerDark} className="custom-switch-input btn-pageheader" />
                                     <span className="custom-switch-indicator"></span>
                                 </label>
                             </li>
                             <li>
                                 <label className="custom-switch">
                                     <span className="custom-switch-description">{t("Min Sidebar Dark")}</span>
-                                    <input type="checkbox" name="custom-switch-checkbox" onClick={minSidebarDark} className="custom-switch-input btn-min_sidebar" />
+                                    <input type="checkbox" name="custom-switch-checkbox" defaultChecked={getLocalStorage("minSidebarDark") === "true" ? true : false } onClick={minSidebarDark} className="custom-switch-input btn-min_sidebar" />
                                     <span className="custom-switch-indicator"></span>
                                 </label>
                             </li>
                             <li>
                                 <label className="custom-switch">
                                     <span className="custom-switch-description">{t("Sidebar Dark")}</span>
-                                    <input type="checkbox" name="custom-switch-checkbox" onClick={sidebarDark} className="custom-switch-input btn-sidebar" />
+                                    <input type="checkbox" name="custom-switch-checkbox" defaultChecked={getLocalStorage("sidebarDark") === "true" ? true : false } onClick={sidebarDark} className="custom-switch-input btn-sidebar" />
                                     <span className="custom-switch-indicator"></span>
                                 </label>
                             </li>
                             <li>
                                 <label className="custom-switch">
                                     <span className="custom-switch-description">{t("Icon Color")}</span>
-                                    <input type="checkbox" name="custom-switch-checkbox" onClick={iconColor} className="custom-switch-input btn-iconcolor" />
+                                    <input type="checkbox" name="custom-switch-checkbox" defaultChecked={getLocalStorage("iconColor") === "true" ? true : false } onClick={iconColor} className="custom-switch-input btn-iconcolor" />
                                     <span className="custom-switch-indicator"></span>
                                 </label>
                             </li>
                             <li>
                                 <label className="custom-switch">
                                     <span className="custom-switch-description">{t("Gradient Color")}</span>
-                                    <input type="checkbox" name="custom-switch-checkbox" onClick={gradientColor} className="custom-switch-input btn-gradient" defaultChecked />
+                                    <input type="checkbox" name="custom-switch-checkbox" defaultChecked={getLocalStorage("gradientColor") === "true" ? true : false } onClick={gradientColor} className="custom-switch-input btn-gradient" defaultChecked />
                                     <span className="custom-switch-indicator"></span>
                                 </label>
                             </li>
                             <li>
                                 <label className="custom-switch">
                                     <span className="custom-switch-description">{t("Box Shadow")}</span>
-                                    <input type="checkbox" name="custom-switch-checkbox" onClick={boxShadow} className="custom-switch-input btn-boxshadow" />
+                                    <input type="checkbox" name="custom-switch-checkbox" defaultChecked={getLocalStorage("boxShadow") === "true" ? true : false } onClick={boxShadow} className="custom-switch-input btn-boxshadow" />
                                     <span className="custom-switch-indicator"></span>
                                 </label>
                             </li>
                             <li>
                                 <label className="custom-switch">
                                     <span className="custom-switch-description">{t("RTL Support")}</span>
-                                    <input type="checkbox" name="custom-switch-checkbox" onClick={RTLSupport} className="custom-switch-input btn-rtl" />
+                                    <input type="checkbox" name="custom-switch-checkbox" defaultChecked={getLocalStorage("RTLSupport") === "true" ? true : false } onClick={RTLSupport} className="custom-switch-input btn-rtl" />
                                     <span className="custom-switch-indicator"></span>
                                 </label>
                             </li>
                             <li>
                                 <label className="custom-switch">
                                     <span className="custom-switch-description">{t("Box Layout")}</span>
-                                    <input type="checkbox" name="custom-switch-checkbox" onClick={boxLayout} className="custom-switch-input btn-boxlayout" />
+                                    <input type="checkbox" name="custom-switch-checkbox" defaultChecked={getLocalStorage("boxLayout") === "true" ? true : false } onClick={boxLayout} className="custom-switch-input btn-boxlayout" />
                                     <span className="custom-switch-indicator"></span>
                                 </label>
                             </li>

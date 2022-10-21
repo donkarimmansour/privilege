@@ -22,7 +22,7 @@ const Exam = () => {
         <div className="col-md-12">
             <div className="card">
                 <div className="card-header">
-                    <h3 className="card-title">Exam Toppers</h3>
+                    <h3 className="card-title">{t("Exams")}</h3>
 
                 </div>
                 <div className="table-responsive" style={{ height: "310px" }}>
@@ -45,7 +45,7 @@ const Exam = () => {
                                         <td>{exi + 1}</td>
                                         <td className="w40">
                                             <div className="avatar">
-                                                <img className="avatar" src={ImageVIEW(ex.studentID?.image)} alt="avatar" />
+                                                <img className="avatar" src={ImageVIEW(ex.studentID?.image)} alt="a" />
                                             </div>
                                         </td>
                                         <td>
@@ -66,7 +66,7 @@ const Exam = () => {
                     </table>
                 </div>
                 <div className="card-footer d-flex justify-content-between">
-                    <div className="font-14"><span>Measure How Fast You’re Growing Monthly Recurring Revenue. <a href="#">View All</a></span></div>
+                    {/* <div className="font-14"><span>Measure How Fast You’re Growing Monthly Recurring Revenue. <a href="#">View All</a></span></div> */}
                     <div>
                         {/* <button type="button" className="btn btn-primary">Export</button> */}
 

@@ -6,11 +6,12 @@ import { checkString, ImageVIEW } from '../../common/funs';
 import swal from 'sweetalert';
 import { logOut } from '../../redux/auth/reducer';
 import { useNavigate } from 'react-router-dom'
+import { getLocalStorage, setLocalStorage } from '../../common/localStorage';
 
-const Header = () => {
+const Header = ({refresher , setRefresher}) => {
     const { t, i18n } = useTranslation();
     const dispatch = useDispatch()
-    const { loading, error, success, notifications, count } = useSelector(state => state.notifications)
+    // const { loading, error, success, notifications, count } = useSelector(state => state.notifications)
     const { user } = useSelector(state => state.auth)
     const navigate = useNavigate()
 
@@ -59,7 +60,23 @@ const Header = () => {
     }
 
 
+    const myChangeLanguage = (lang) => {
+        i18n.changeLanguage(lang) 
+        setLocalStorage("lang", lang)
 
+        if (lang === "ar") {
+             if (!getLocalStorage("RTLSupport") || getLocalStorage("RTLSupport") === "false") {
+                 setLocalStorage("RTLSupport", "true")
+                 setRefresher(refresher + 1)
+             }
+         } else {
+             if (!getLocalStorage("RTLSupport") || getLocalStorage("RTLSupport") === "true") {
+                 setLocalStorage("RTLSupport", "false")
+                 setRefresher(refresher + 1)
+             }
+         }
+       
+     }
 
 
     return (
@@ -77,9 +94,11 @@ const Header = () => {
                             <div className="dropdown d-flex">
                                 <a className="nav-link icon d-none d-md-flex btn btn-default btn-icon ml-1" data-toggle="dropdown"><i className="fa fa-language"></i></a>
                                 <div className="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                                    <a className="dropdown-item" href="#en" onClick={() => { i18n.changeLanguage("en") }}><img className="w20 mr-2" src="../assets/images/flags/us.svg" alt="" />{t("English")}</a>
+                                    <a className="dropdown-item" href="#en" onClick={() => { myChangeLanguage("en") }}><img className="w20 mr-2" src="../assets/images/flags/us.svg" alt="" />{t("English")}</a>
                                     <div className="dropdown-divider"></div>
-                                    <a className="dropdown-item" href="#fr" onClick={() => { i18n.changeLanguage("fr") }}><img className="w20 mr-2" src="../assets/images/flags/bl.svg" alt="" />{t("France")}</a>
+                                    <a className="dropdown-item" href="#fr" onClick={() => { myChangeLanguage("fr") }}><img className="w20 mr-2" src="../assets/images/flags/bl.svg" alt="" />{t("France")}</a>
+                                    <div className="dropdown-divider"></div>
+                                    <a className="dropdown-item" href="#fr" onClick={() => { myChangeLanguage("ar") }}><img className="w20 mr-2" src="../assets/images/flags/ma.svg" alt="" />{t("Arabic")}</a>
                                 </div>
 
                             </div>
