@@ -27,8 +27,6 @@ const Test = () => {
 
   useEffect(() => {
     if ( user.tested === "yes" ) {
-      console.log(22);
-
         navigate("/") 
     }
   }, [user?.tested])
@@ -36,7 +34,7 @@ const Test = () => {
   useEffect(() => {
     if (English && English.length > 0) {
 
-      setQuizzes(English.slice(0, 2))
+      setQuizzes(English.slice(0, 5))
       setCurrentQuiz({ ...English[0], id: 1 })
     }
 

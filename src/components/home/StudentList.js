@@ -56,8 +56,8 @@ const StudentList = () => {
 
                                                 <td>{pi + 1}</td>
 
-                                                <td>{`${p.studentID.firstname} ${p.studentID.lastname}`}</td>
-                                                <td>{p.studentID.className?.name}</td>
+                                                <td>{`${p?.studentID?.firstname} ${p?.studentID?.lastname}`}</td>
+                                                <td>{p?.studentID?.className?.name}</td>
                                                 <td>{p.paymentMethod}</td>
                                                 <td>{p.paymentDuration}</td>
                                                 <td>{p.amount}</td>

@@ -56,7 +56,7 @@ const Calender = () => {
 
 
   return (
-    <div className="tab-pane fade" id="pills-calendar" role="tabpanel" aria-labelledby="pills-calendar-tab">
+    <div className="tab-pane fade " id="pills-calendar" role="tabpanel" aria-labelledby="pills-calendar-tab">
       <div className="card">
         <div className="card-body">
           {/* <div id="calendar" /> */}

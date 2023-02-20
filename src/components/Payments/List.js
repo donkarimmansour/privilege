@@ -116,7 +116,7 @@ const List = ({ setEditPaymentId }) => {
                   return (
                     <tr key={pi}>
                       <td>{pi + 1}</td>
-                      <td>{`${p.studentID.firstname} ${p.studentID.lastname}`}</td>
+                      <td>{`${p?.studentID?.firstname} ${p?.studentID?.lastname}`}</td>
                       <td>{p.paymentMethod}</td>
                       <td>{moment(p.updatedAt).format("DD/MM/YYYY")}</td>
                       <td>{p.paymentDuration}</td>

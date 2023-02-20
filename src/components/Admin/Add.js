@@ -13,7 +13,7 @@ import { checkString, loader } from '../../common/funs';
 import { createAdmin, editAdmin, editAdminImage, getSingleAdmin } from '../../redux/admin/action';
 
 const Add = ({ editAdminId, setEditAdminId }) => {
-
+  
   const { t } = useTranslation();
   const dispatch = useDispatch()
 

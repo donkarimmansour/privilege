@@ -150,8 +150,8 @@ const Add = ({ editPaymentId , setEditPaymentId}) => {
                     <div className="col-md-7">
                       <Field as="select" className="form-control" name="feesType">
                         <option value="">{t("Select..")}.</option>
-                        <option value="Category 3">Center</option>
-                        <option value="Category 3">book</option>
+                        <option value="language">Language</option>
+                        <option value="book">Book</option>
                       </Field>
                       {touched.feesType && errors.feesType && <small className="text-danger">{errors.feesType}</small>}
 
@@ -162,14 +162,13 @@ const Add = ({ editPaymentId , setEditPaymentId}) => {
                     <label className="col-md-3 col-form-label">{t("Payment Duration")} <span className="text-danger">*</span></label>
                     <div className="col-md-7">
                       <div className="custom-controls-stacked">
-                        <label className="custom-control custom-radio custom-control-inline">
-                          <Field type="radio" className="custom-control-input" name="paymentDuration" value="one"  />
-                          <span className="custom-control-label">{t("Monthly")}</span>
-                        </label>
+                
+
                         <label className="custom-control custom-radio custom-control-inline">
                           <Field type="radio" className="custom-control-input" name="paymentDuration" value="two" />
-                          <span className="custom-control-label">{t("Formation")}</span>
+                          <span className="custom-control-label">{t("Book")}</span>
                         </label>
+
                         <label className="custom-control custom-radio custom-control-inline">
                           <Field type="radio" className="custom-control-input" name="paymentDuration" value="three" />
                           <span className="custom-control-label">{t("Hours")}</span>
