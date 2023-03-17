@@ -168,7 +168,7 @@ const RightSidebar = ({refresher , setRefresher}) => {
     return (
         // <!-- Start Rightbar setting panel -->
         <div id="rightsidebar" className="right_sidebar">
-            <a href="javascript:void(0)" className="p-3 settingbar float-right" onClick={rightSideBar}><i className="fa fa-close"></i></a>
+            <a href="#!" className="p-3 settingbar float-right" onClick={rightSideBar}><i className="fa fa-close"></i></a>
             <ul className="nav nav-tabs" role="tablist">
                 <li className="nav-item"><a className="nav-link active" data-toggle="tab" href="#Settings" aria-expanded="true">Settings</a></li>
                 {/* <li className="nav-item"><a className="nav-link" data-toggle="tab" href="#activity" aria-expanded="false">Activity</a></li> */}

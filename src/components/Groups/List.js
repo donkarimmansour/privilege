@@ -113,7 +113,7 @@ const List = ({setEditGroupeId}) => {
      } 
     
     const skip = (pageCurrent === 1) ? 0 : (pageCurrent - 1) * limit
-    dispatch(getGroupe({filter , sort : {_id : -1}, expend : "all" , skip : skip , limit : limit}))
+    dispatch(getGroupe({filter , sort : {name : 1} , skip : skip , limit : limit}))
     dispatch(countGroupe(filter))
      
   }
@@ -135,10 +135,10 @@ const List = ({setEditGroupeId}) => {
             </div>
 
             <div className="col-sm-6">
-              <a href="javascript:void(0);" onClick={handleSearch} className="btn btn-sm btn-primary btn-block" >{("Search")}</a>
+              <a href="#!;" onClick={handleSearch} className="btn btn-sm btn-primary btn-block" >{("Search")}</a>
             </div>
           </div>
-        </div>
+        </div> 
       </div>
       <div className="table-responsive card">
         <table className="table table-hover table-vcenter table-striped mb-0 text-nowrap">
@@ -146,30 +146,35 @@ const List = ({setEditGroupeId}) => {
             <tr>
               <th>#.</th>
               <th>{t("Name")}</th>
+              <th>{t("Level")}</th>
+              <th>{t("Department")}</th>
+              <th>{t("Position")}</th>
               <th>{t("Class")}</th>
+              <th>{t('Students')}</th>
               <th>{t("Action")}</th>
             </tr>
           </thead>
-
+          
 
           <tbody>
 
-
-            {groupes.length > 0 && groupes.map((g, gi) => {
+          {groupes.length > 0 && groupes.map((g, gi) => {
               return (
                 <tr key={gi}>
-                  <td>{gi + 1}</td> 
-                 
+                  <td>{gi + 1}</td>
                   <td>{g.name}</td>
-                  <td>{g.className.name}</td>
+                  <td>{g?.levels?.name}</td>
+                  <td>{g?.department?.departmentName}</td>
+                  <td>{g.position}</td>
+                  <td>{g?.className?.name}</td>
+                  <td>{g.studentsCount}</td>
                   <td>
                     <button type="button" className="btn btn-icon btn-sm" title="Edit" onClick={(e) => { OnEdit(g._id , e) }}><i className="fa fa-edit" /></button>
-                    <button type="button" className="btn btn-icon btn-sm js-sweetalert" onClick={() => { OnDelete(g._id) }} title="Delete" data-type="confirm"><i className="fa fa-trash-o text-danger" /></button>
+                    <button type="button" className="btn btn-icon btn-sm" onClick={() => { OnDelete(g._id) }} title="Delete" data-type="confirm"><i className="fa fa-trash-o text-danger" /></button>
                   </td>
                 </tr>
               )
             })}
-
 
           </tbody>
         </table>

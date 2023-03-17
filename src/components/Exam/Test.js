@@ -110,13 +110,10 @@ const Test = () => {
     const failureAnswers = quizTest.filter(q => !q.status).length
  
     const rate = Math.floor(((quizzes.length - failureAnswers) / failureAnswers) * 100)
-    // console.log((quizzes.length - failureAnswers));
-    // console.log(((quizzes.length - failureAnswers) / failureAnswers));
-    // console.log(rate);
 
     swal("done", `your dagre is : ${rate}`, "success")
-       
-    dispatch(createExam({rate , exam : quizTest}))
+ 
+    dispatch(createExam({rate , exam : quizTest, successed: (quizTest.length - failureAnswers), quizzes: quizTest.length}))
     
   };
 
@@ -186,16 +183,18 @@ const Test = () => {
 
                       {currentQuiz.type === "complate" ?
                         <>
-                          <p>{t("In this section you must choose the word or phrase which best completes each sentence")}</p>
+                          <p className="p-2">{t("In this section you must choose the word or phrase which best completes each sentence")}</p>
 
-                          <div className="question_title py-3 text-uppercase">
-                            <h1>{currentQuiz.text}</h1>
+                          <div className="question_title text-uppercase px-2">
+                            <h1>{currentQuiz.question}</h1>
                           </div>
 
-                          <p>{currentQuiz.question}</p>
+                          <div className="question_title text-uppercase p-2">
+                            <h6>{currentQuiz.text}</h6>
+                          </div>
                         </> :
 
-                        <div className="question_title py-3 text-uppercase">
+                        <div className="question_title p-2 text-uppercase">
                           <h1>{currentQuiz.question}</h1>
                         </div>
                       }

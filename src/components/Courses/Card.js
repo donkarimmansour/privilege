@@ -25,17 +25,17 @@ const Card = ({course , OnEdit , OnDelete}) => {
                   <tr>
                   <td className="w20"><i className="fa fa-black-tie text-blue" /></td>
                     <td className="tx-medium">{t('Teachers')}</td>
-                    <td className="text-right">{course.teachers}</td>
+                    <td className="text-right">{course.teachersCount}</td>
                   </tr>
-                  <tr>
+                  {/* <tr>
                   <td><i className="fa fa-cc-visa text-danger" /></td>
                     <td className="tx-medium">{t('Fees')}</td>
                     <td className="text-right">{course.fees}</td>
-                  </tr>
+                  </tr> */}
                   <tr>
                   <td><i className="fa fa-users text-warning" /></td>
                     <td className="tx-medium">{t('Students')}</td>
-                    <td className="text-right">{course.students}</td>
+                    <td className="text-right">{course.studentsCount}</td>
                   </tr>
           </tbody>
         </table>

@@ -7,14 +7,16 @@ import { checkString , loader } from '../../common/funs';
 import swal from 'sweetalert';
 import { createGroupe, editGroupe, getSingleGroupe } from '../../redux/groupes/action';
 import { cleanAlerts } from '../../redux/groupes/reducer';
-import { getCourse } from '../../redux/courses/action';
+import { getGroupe } from '../../redux/groupes/action';
+import { getDepartment } from '../../redux/department/action';
+
 
 const Add = ({ editGroupeId , setEditGroupeId}) => {
   const { t } = useTranslation();  
   const dispatch = useDispatch()
   const { loading, error, success, singleGroupe } = useSelector(state => state.groupe)
-  const { courses  } = useSelector(state => state.courses)
-
+  const { groupes } = useSelector(state => state.groupe)
+  const { departments } = useSelector(state => state.departments)
 
   //get groupe data
   useEffect(() => {
@@ -26,15 +28,16 @@ const Add = ({ editGroupeId , setEditGroupeId}) => {
     //update groupe data
     useEffect(() => {
       if (singleGroupe && singleGroupe._id) {
-        setInitialValues(singleGroupe)
-      }
-    }, [singleGroupe])
-  
-    //get classes data
-    useEffect(() => {
-        dispatch(getCourse({sort : {_id : -1}}))
-    }, [dispatch])
+        setInitialValues({...singleGroupe, level: singleGroupe.level._id, department: singleGroupe.department._id})
 
+      }
+    }, [singleGroupe]) 
+  
+  //get groupes and departments data
+  useEffect(() => {
+    dispatch(getGroupe({ sort: { _id: -1 } }))
+    dispatch(getDepartment({ sort: { _id: -1 } }))
+  }, [dispatch])
 
   //alerts
   useEffect(() => {
@@ -59,7 +62,9 @@ const Add = ({ editGroupeId , setEditGroupeId}) => {
   //formik initial
   const [initialValues, setInitialValues] = useState({
     name: "",
-    className: "",
+    group: "",
+    department: "",
+    position: "",
   })
 
 
@@ -67,7 +72,10 @@ const Add = ({ editGroupeId , setEditGroupeId}) => {
   //initial yup Scheme
   const GroupeAddValidator = yup.object().shape({
     name: yup.string().required(t("name field is required")),
-    className: yup.string().required(t("class field is required")),
+    level: yup.string().required(t("level field is required")) ,//.min(1, t("group field is required")),
+    department: yup.string().required(t("department field is required")) ,//.min(1, t("department field is required")),
+    position: yup.number().required(t("position field is required")).min(1, t("position field is required")),
+   
   })
 
 
@@ -126,20 +134,53 @@ const Add = ({ editGroupeId , setEditGroupeId}) => {
 
 
                         <div className="form-group row">
-                          <label className="col-md-3 col-form-label">{t("Class")} <span className="text-danger">*</span></label>
+                          <label className="col-md-3 col-form-label">{t("Department")} <span className="text-danger">*</span></label>
                           <div className="col-md-9">
-                            <Field as="select" className="form-control input-height" name="className">
+                            <Field as="select" className="form-control input-height" name="department">
                               <option value="">{t("Select...")}</option>
-
-                              {courses && courses.length > 0 && courses.map((c , ci) => {
-                                return <option key={ci} value={c._id}>{c.name}</option>
+                              
+                              {departments && departments.length > 0 && departments.map((d , di) => {
+                                return <option key={di} value={d._id}>{d.departmentName}</option>
                               })}
+                             
 
                             </Field>
-                            {touched.className && errors.className && <small className="text-danger">{errors.className}</small>}
+                            {touched.department && errors.department && <small className="text-danger">{errors.department}</small>}
 
                           </div>
                         </div>
+
+                        <div className="form-group row">
+                          <label className="col-md-3 col-form-label">{t("Position")} <span className="text-danger">*</span></label>
+
+                          <div className="col-md-9">
+                            <Field type="number" name="position" className="form-control" placeholder={t("Enter your Position")} />
+                            {touched.position && errors.position && <small className="text-danger">{errors.position}</small>}
+                          </div>
+
+
+                        </div>
+
+
+
+                        <div className="form-group row">
+                          <label className="col-md-3 col-form-label">{t("Group")} <span className="text-danger">*</span></label>
+                          <div className="col-md-9">
+                            <Field as="select" className="form-control input-height" name="group">
+                              <option value="">{t("Select...")}</option>
+
+                              {groupes && groupes.length > 0 && groupes.map((g , gi) => {
+                                return <option key={gi} value={g._id}>{g.name}</option>
+                              })}
+                             
+                            </Field>
+                            {touched.group && errors.group && <small className="text-danger">{errors.group}</small>}
+
+                          </div>
+                        </div>
+
+
+
 
 
                         <div className="col-sm-12">

@@ -149,7 +149,7 @@ const List = ({setEditStudentId}) => {
             </div>
 
             <div className="col-md-3 col-sm-6">
-              <a href="javascript:void(0);" onClick={handleSearch} className="btn btn-sm btn-primary btn-block" >{("Search")}</a>
+              <a href="#!;" onClick={handleSearch} className="btn btn-sm btn-primary btn-block" >{("Search")}</a>
             </div>
 
           </div>

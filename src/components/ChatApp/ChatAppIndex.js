@@ -37,10 +37,10 @@ const ChatAppIndex = () => {
             <div className="card-header bline">
               <h3 className="card-title">Friends Group <small>Last seen: 2 hours ago</small></h3>
               <div className="card-options">
-                <a href="javascript:void(0)" className="p-1 chat_list_btn"><i className="fa fa-align-right" /></a>
-                <a href="javascript:void(0)" className="p-1"><i className="fa fa-plus" /></a>
-                <a href="javascript:void(0)" className="p-1"><i className="fa fa-cog" /></a>
-                <a href="javascript:void(0)" className="p-1"><i className="fa fa-refresh" /></a>
+                <a href="#!" className="p-1 chat_list_btn"><i className="fa fa-align-right" /></a>
+                <a href="#!" className="p-1"><i className="fa fa-plus" /></a>
+                <a href="#!" className="p-1"><i className="fa fa-cog" /></a>
+                <a href="#!" className="p-1"><i className="fa fa-refresh" /></a>
               </div>
             </div>
             <div className="card-body chat_windows">
@@ -64,7 +64,7 @@ const ChatAppIndex = () => {
                   <div className="message">
                     <p className="bg-light-gray">Project has been already finished and I have results to show you.</p>
                     <div className="file_folder">
-                      <a href="javascript:void(0);">
+                      <a href="#!;">
                         <div className="icon">
                           <i className="fa fa-file-excel-o text-success" />
                         </div>
@@ -73,7 +73,7 @@ const ChatAppIndex = () => {
                           <small>Size: 68KB</small>
                         </div>
                       </a>
-                      <a href="javascript:void(0);">
+                      <a href="#!;">
                         <div className="icon">
                           <i className="fa fa-file-word-o text-primary" />
                         </div>
@@ -123,9 +123,9 @@ const ChatAppIndex = () => {
                 </li>
               </ul> 
               <div className="chat-message clearfix">
-                <a href="javascript:void(0);"><i className="icon-camera" /></a>
-                <a href="javascript:void(0);"><i className="icon-camcorder" /></a>
-                <a href="javascript:void(0);"><i className="icon-paper-plane" /></a>
+                <a href="#!;"><i className="icon-camera" /></a>
+                <a href="#!;"><i className="icon-camcorder" /></a>
+                <a href="#!;"><i className="icon-paper-plane" /></a>
                 <div className="input-group mb-0">
                   <input type="text" className="form-control" placeholder="Enter text here..." />
                 </div>

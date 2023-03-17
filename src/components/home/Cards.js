@@ -51,7 +51,7 @@ const Cards = () => {
             <div className="card">
                 <div className="card-body  ribbon">
                 <div className="ribbon-box green" data-toggle="tooltip" title="New Professors">{coursesCount}</div>
-                    <Link to="/app-contact" className="my_sort_cut text-muted">
+                    <Link to="/courses" className="my_sort_cut text-muted">
                         <i className="fa fa-address-book"></i>
                         <span>{t("Classes")}</span>
                     </Link>
@@ -62,7 +62,7 @@ const Cards = () => {
             <div className="card">
                 <div className="card-body ribbon">
                     <div className="ribbon-box green" data-toggle="tooltip" title="New Students">{studentsCount}</div>
-                    <Link to="/Students" className="my_sort_cut text-muted">
+                    <Link to="/students" className="my_sort_cut text-muted">
                         <i className="fa fa-user-circle-o"></i>
                         <span>{t("Students")}</span>
                     </Link>
@@ -73,9 +73,9 @@ const Cards = () => {
             <div className="card">
                 <div className="card-body ribbon">
                 <div className="ribbon-box green" data-toggle="tooltip" title="New Professors">{departmentCount}</div>
-                    <Link to="/app-filemanager" className="my_sort_cut text-muted">
+                    <Link to="/departments" className="my_sort_cut text-muted">
                         <i className="fa fa-folder"></i>
-                        <span>{t("Departments")}</span>
+                        <span>{t("departments")}</span>
                     </Link>
                 </div>
             </div>
@@ -84,7 +84,7 @@ const Cards = () => {
             <div className="card">
                 <div className="card-body  ribbon">
                 <div className="ribbon-box green" data-toggle="tooltip" title="New Professors">{levelCount}</div>
-                    <Link to="/library" className="my_sort_cut text-muted">
+                    <Link to="/levels" className="my_sort_cut text-muted">
                         <i className="fa fa-book"></i>
                         <span>{t("Levels")}</span>
                     </Link>
@@ -95,7 +95,7 @@ const Cards = () => {
             <div className="card">
                 <div className="card-body  ribbon">
                 <div className="ribbon-box green" data-toggle="tooltip" title="New Professors">{groupeCount}</div>
-                    <Link to="/holiday" className="my_sort_cut text-muted">
+                    <Link to="/groups" className="my_sort_cut text-muted">
                         <i className="fa fa-bullhorn"></i>
                         <span>{t("Groups")}</span>
                     </Link>

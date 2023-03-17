@@ -46,18 +46,18 @@ const HomeIndex = () => {
                                 <div className="card-header">
                                     <h3 className="card-title">Quick Mail</h3>
                                     <div className="card-options">
-                                        <a href="javascript:void(0)" className="card-options-remove" data-toggle="card-remove"><i className="fe fe-x"></i></a>
+                                        <a href="#!" className="card-options-remove" data-toggle="card-remove"><i className="fe fe-x"></i></a>
                                         <div className="item-action dropdown ml-2">
-                                            <a href="javascript:void(0)" data-toggle="dropdown"><i className="fe fe-more-vertical"></i></a>
+                                            <a href="#!" data-toggle="dropdown"><i className="fe fe-more-vertical"></i></a>
                                             <div className="dropdown-menu dropdown-menu-right">
-                                                <a href="javascript:void(0)" className="dropdown-item"><i className="dropdown-icon fa fa-eye"></i> View Details </a>
-                                                <a href="javascript:void(0)" className="dropdown-item"><i className="dropdown-icon fa fa-share-alt"></i> Share </a>
-                                                <a href="javascript:void(0)" className="dropdown-item"><i className="dropdown-icon fa fa-cloud-download"></i> Download</a>
+                                                <a href="#!" className="dropdown-item"><i className="dropdown-icon fa fa-eye"></i> View Details </a>
+                                                <a href="#!" className="dropdown-item"><i className="dropdown-icon fa fa-share-alt"></i> Share </a>
+                                                <a href="#!" className="dropdown-item"><i className="dropdown-icon fa fa-cloud-download"></i> Download</a>
                                                 <div className="dropdown-divider"></div>
-                                                <a href="javascript:void(0)" className="dropdown-item"><i className="dropdown-icon fa fa-copy"></i> Copy to</a>
-                                                <a href="javascript:void(0)" className="dropdown-item"><i className="dropdown-icon fa fa-folder"></i> Move to</a>
-                                                <a href="javascript:void(0)" className="dropdown-item"><i className="dropdown-icon fa fa-edit"></i> Rename</a>
-                                                <a href="javascript:void(0)" className="dropdown-item"><i className="dropdown-icon fa fa-trash"></i> Delete</a>
+                                                <a href="#!" className="dropdown-item"><i className="dropdown-icon fa fa-copy"></i> Copy to</a>
+                                                <a href="#!" className="dropdown-item"><i className="dropdown-icon fa fa-folder"></i> Move to</a>
+                                                <a href="#!" className="dropdown-item"><i className="dropdown-icon fa fa-edit"></i> Rename</a>
+                                                <a href="#!" className="dropdown-item"><i className="dropdown-icon fa fa-trash"></i> Delete</a>
                                             </div>
                                         </div>
                                     </div>
@@ -97,18 +97,18 @@ const HomeIndex = () => {
                                 <div className="card-header">
                                     <h3 className="card-title">University Stats</h3>
                                     <div className="card-options">
-                                        <a href="javascript:void(0)" className="card-options-remove" data-toggle="card-remove"><i className="fe fe-x"></i></a>
+                                        <a href="#!" className="card-options-remove" data-toggle="card-remove"><i className="fe fe-x"></i></a>
                                         <div className="item-action dropdown ml-2">
-                                            <a href="javascript:void(0)" data-toggle="dropdown"><i className="fe fe-more-vertical"></i></a>
+                                            <a href="#!" data-toggle="dropdown"><i className="fe fe-more-vertical"></i></a>
                                             <div className="dropdown-menu dropdown-menu-right">
-                                                <a href="javascript:void(0)" className="dropdown-item"><i className="dropdown-icon fa fa-eye"></i> View Details </a>
-                                                <a href="javascript:void(0)" className="dropdown-item"><i className="dropdown-icon fa fa-share-alt"></i> Share </a>
-                                                <a href="javascript:void(0)" className="dropdown-item"><i className="dropdown-icon fa fa-cloud-download"></i> Download</a>                                            
+                                                <a href="#!" className="dropdown-item"><i className="dropdown-icon fa fa-eye"></i> View Details </a>
+                                                <a href="#!" className="dropdown-item"><i className="dropdown-icon fa fa-share-alt"></i> Share </a>
+                                                <a href="#!" className="dropdown-item"><i className="dropdown-icon fa fa-cloud-download"></i> Download</a>                                            
                                                 <div className="dropdown-divider"></div>
-                                                <a href="javascript:void(0)" className="dropdown-item"><i className="dropdown-icon fa fa-copy"></i> Copy to</a>
-                                                <a href="javascript:void(0)" className="dropdown-item"><i className="dropdown-icon fa fa-folder"></i> Move to</a>
-                                                <a href="javascript:void(0)" className="dropdown-item"><i className="dropdown-icon fa fa-edit"></i> Rename</a>
-                                                <a href="javascript:void(0)" className="dropdown-item"><i className="dropdown-icon fa fa-trash"></i> Delete</a>
+                                                <a href="#!" className="dropdown-item"><i className="dropdown-icon fa fa-copy"></i> Copy to</a>
+                                                <a href="#!" className="dropdown-item"><i className="dropdown-icon fa fa-folder"></i> Move to</a>
+                                                <a href="#!" className="dropdown-item"><i className="dropdown-icon fa fa-edit"></i> Rename</a>
+                                                <a href="#!" className="dropdown-item"><i className="dropdown-icon fa fa-trash"></i> Delete</a>
                                             </div>
                                         </div>
                                     </div>

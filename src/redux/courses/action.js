@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { createApi, editApi, deleteApi, getApi, countApi, editImageApi } from "../../api/courses";
+import { createApi, editApi, deleteApi, getApi, countApi, editImageApi, getExtraApi } from "../../api/courses";
 
 const createCourse = createAsyncThunk("Courses/create", async (args, CoursesApi) => {
     const { rejectWithValue, getState } = CoursesApi
@@ -15,6 +15,7 @@ const createCourse = createAsyncThunk("Courses/create", async (args, CoursesApi)
         return rejectWithValue(err.response.data.msg)
     }
 })
+
  
 
 const editCourse = createAsyncThunk("Courses/edit", async (args, CoursesApi) => {
@@ -82,6 +83,8 @@ const getCourse = createAsyncThunk("Courses/get", async (args, CoursesApi) => {
         return rejectWithValue(err.response.data.msg)
     }
 })
+
+
 
 const countCourse = createAsyncThunk("Courses/count", async (args, CoursesApi) => {
     const { rejectWithValue, getState } = CoursesApi

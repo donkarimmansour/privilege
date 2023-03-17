@@ -68,7 +68,7 @@ const List = () => {
 
           <span className="text_ellipsis xs-hide">There are many variations of passages of Lorem Ipsum available</span>
           <div className="card-options">
-            <a className="text-muted" href="javascript:void(0)" onClick={OnDelete}><i className="fa fa-trash" /></a>                                        
+            <a className="text-muted" href="#!" onClick={OnDelete}><i className="fa fa-trash" /></a>                                        
             <a className="text-muted" href="app-emailveiw.html" onClick={OnSee}><i className="fa fa-eye" /></a>
           </div>
         </div>                            
@@ -80,7 +80,7 @@ const List = () => {
                   <div className="mr-3"><img src="../assets/images/xs/avatar3.jpg" alt="" /></div>
                 </div>
                 <div className="media-body">
-                  <p className="mb-0"><strong className="text-muted mr-1">From:</strong><a href="javascript:void(0);">info@gmail.com</a></p>
+                  <p className="mb-0"><strong className="text-muted mr-1">From:</strong><a href="#!;">info@gmail.com</a></p>
                   <p className="mb-0"><strong className="text-muted mr-1">To:</strong>Me </p>                                        
                 </div>
               </div>

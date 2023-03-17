@@ -30,7 +30,7 @@ const forgotPassword =  createAsyncThunk("auth/forgotPassword" , async (args , A
         return rejectWithValue(err.response.data.msg)
     }
 })
-
+ 
 
 const getMe =  createAsyncThunk("auth/me" , async (args , AuthApi) => {
     const { rejectWithValue } = AuthApi
@@ -61,7 +61,7 @@ const editProfile = createAsyncThunk("auth/editprofile", async (args, AdminsApi)
         let res = {}   
         
         if(args.type === "teacher"){
-            res = await editStudentProfileApi(_id, args, authorization )      
+            res = await editTeacherProfileApi(_id, args, authorization )      
         }else if(args.type === "student"){
             res = await editStudentProfileApi(_id, args, authorization )      
         }else if(args.type === "admin"){

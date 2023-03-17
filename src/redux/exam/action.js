@@ -7,7 +7,8 @@ const createExam =  createAsyncThunk("smtp/edit" , async (args , examApi) => {
     const authorization = { "Authorization": `bearer ${token}` }
 
     try {
-     const res = await  createApi({exam : [...args.exam] , rate : args.rate , studentID : user._id} , authorization)
+    // const res = await  createApi({exam : [...args.exam] , rate : args.rate , studentID : user._id} , authorization)
+     const res = await  createApi({...args, studentID : user._id} , authorization)
      return res.data.msg
      
     } catch (err) {

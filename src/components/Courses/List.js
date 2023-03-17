@@ -21,7 +21,8 @@ const List = ({ setEditCourseId }) => {
   useEffect(() => {
     const skip = (pageCurrent === 1) ? 0 : (pageCurrent - 1) * limit
 
-    dispatch(getCourse({ sort: { _id: -1 }, skip: skip, limit: limit }))
+   dispatch(getCourse({ sort: { _id: -1 }, skip: skip, limit: limit }))
+
     dispatch(countCourse({}))
   }, [dispatch, pageCurrent])
 

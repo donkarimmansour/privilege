@@ -8,14 +8,16 @@ import swal from 'sweetalert';
 import { cleanAlerts } from '../../redux/payments/reducer';
 import { createPayment, editPayment, getSinglePayment } from '../../redux/payments/action';
 import { getStudent } from '../../redux/students/action';
+import { AsyncTypeahead } from 'react-bootstrap-typeahead';
+import 'react-bootstrap-typeahead/css/Typeahead.css';
 
 const Add = ({ editPaymentId , setEditPaymentId}) => {
 
-
+ 
   const { t } = useTranslation();
   const dispatch = useDispatch()
   const { loading, error, success, singlePayment } = useSelector(state => state.payments)
-  const { students } = useSelector(state => state.students)
+  const { students, loading: loadingStud, error: errorStud, success: successStud } = useSelector(state => state.students)
 
   //get payment data
   useEffect(() => {
@@ -32,10 +34,24 @@ const Add = ({ editPaymentId , setEditPaymentId}) => {
     }
   }, [singlePayment])
 
-  //get classes and groupes and levels data
+  //get Students
   useEffect(() => {
-    dispatch(getStudent({ sort: { _id: -1 } }))
+    dispatch(getStudent({ sort: { _id: -1 }}))
   }, [dispatch])
+
+  //get Students
+  const handleSearch = (query) => {
+    dispatch(getStudent({
+      sort: { _id: -1 }, filter: {
+        $or: [
+          { firstname: { $regex: query, $options: "i" } },
+          { lastname: { $regex: query, $options: "i" } },
+          { username: { $regex: query, $options: "i" } }
+        ]
+      }
+    }))
+  }
+
 
   //back to list
   const OnCancel = (evt) => {
@@ -48,16 +64,16 @@ const Add = ({ editPaymentId , setEditPaymentId}) => {
 
   //alerts
   useEffect(() => {
-    if (success) {
-      swal(t("Success"), t(checkString(success)), "success");
+    if (success || successStud) {
+      swal(t("Success"), t(checkString(success || successStud)), "success");
 
-    } else if (error) {
-      swal(t("Error"), t(checkString(error)), "error");
+    } else if (error || errorStud) {
+      swal(t("Error"), t(checkString(error || errorStud)), "error");
     }
 
      dispatch(cleanAlerts())
 
-  }, [success, error]);
+  }, [success, successStud, error, errorStud]);
 
 
   //formik initial
@@ -87,16 +103,16 @@ const Add = ({ editPaymentId , setEditPaymentId}) => {
 
   //submit form
   const onSubmit = values => {
+
     if (editPaymentId && editPaymentId !== "") {//if edit  
       dispatch(editPayment(values))
     } else {//if add
       dispatch(createPayment(values))
-
     }
+
   }
 
-
-
+  const filterBy = () => true
 
 
   return (
@@ -125,22 +141,37 @@ const Add = ({ editPaymentId , setEditPaymentId}) => {
             enableReinitialize={true}>
 
             {
-              ({ touched, errors, isValid }) => (
-                  
+              ({ touched, errors, isValid, setFieldValue, setFieldTouched, values }) => (
+
                 <Form action="#" method="post" className="card-body">
 
                   <div className="form-group row">
                     <label className="col-md-3 col-form-label">{t("Student Name")}  <span className="text-danger">*</span></label>
                     <div className="col-md-7">
-                      <Field as="select" className="form-control" name="studentID">
-                        <option value="">{t("Select...")}</option>
+    
+                      {students && students.length &&
 
-                        {students && students.length > 0 && students.map((l, li) => {
-                          return <option key={li} value={l._id}>{`${l.firstname} ${l.lastname}`}</option>
-                        })}
+                        <AsyncTypeahead id="studentID"
+                          caseSensitive={false}
+                          filterBy={filterBy}
+                          onChange={selected => {
+                            setFieldTouched("studentID")
+                            setFieldValue("studentID", selected[0]?._id || "" )
+                          }}
+                          labelKey={(option) => `${option.firstname} ${option.lastname} (${option.username})`}
+                          minLength={1}
+                          size={"lg"}
+                          options={students}
+                          placeholder={t("Select...")}
+                          isLoading={loadingStud}
+                          onSearch={handleSearch}
+                          renderMenuItemChildren={(option) => (
+                              <p key={option._id}>{`${option.firstname} ${option.lastname} (${option.username})`}</p>
+                          )}
+                        />
+                      }
+                       {touched.studentID && errors.studentID && <small className="text-danger">{errors.studentID}</small>} 
 
-                      </Field>
-                      {touched.studentID && errors.studentID && <small className="text-danger">{errors.studentID}</small>}
 
                     </div>
                   </div>
@@ -165,38 +196,38 @@ const Add = ({ editPaymentId , setEditPaymentId}) => {
                 
 
                         <label className="custom-control custom-radio custom-control-inline">
-                          <Field type="radio" className="custom-control-input" name="paymentDuration" value="two" />
+                          <Field type="radio" className="custom-control-input" name="paymentDuration" value="book" />
                           <span className="custom-control-label">{t("Book")}</span>
                         </label>
 
                         <label className="custom-control custom-radio custom-control-inline">
-                          <Field type="radio" className="custom-control-input" name="paymentDuration" value="three" />
+                          <Field type="radio" className="custom-control-input" name="paymentDuration" value="hours" />
                           <span className="custom-control-label">{t("Hours")}</span>
                         </label>
 
                         <label className="custom-control custom-radio custom-control-inline">
-                          <Field type="radio" className="custom-control-input" name="paymentDuration" value="four" />
+                          <Field type="radio" className="custom-control-input" name="paymentDuration" value="no" />
                           <span className="custom-control-label">{t("No")}</span>
                         </label>
 
 
                       </div>
+                   
+                      {touched.paymentDuration && errors.paymentDuration && <small className="text-danger">{errors.paymentDuration}</small>}
+
                     </div>
-
-                    {touched.paymentDuration && errors.paymentDuration && <small className="text-danger">{errors.paymentDuration}</small>}
-
                   </div>
-
+ 
 
                   <div className="form-group row">
                     <label className="col-md-3 col-form-label">{t('Payment Method')} <span className="text-danger">*</span></label>
                     <div className="col-md-7">
                       <Field as="select" className="form-control" name="paymentMethod">
                         <option value>{t("Select...")}</option>
-                        <option value="Cash">{t('Cash')}</option>
-                        <option value="Cheque">{t('Cheque')}</option>
-                        <option value="Card">{t('Card')}</option>
-                        <option value="Other">{t('Other')}</option>
+                        <option value="cash">{t('Cash')}</option>
+                        <option value="cheque">{t('Cheque')}</option>
+                        <option value="card">{t('Card')}</option>
+                        <option value="other">{t('Other')}</option>
                       </Field>
                       {touched.paymentMethod && errors.paymentMethod && <small className="text-danger">{errors.paymentMethod}</small>}
 

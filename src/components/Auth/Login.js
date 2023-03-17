@@ -19,7 +19,7 @@ const Login = () => {
   const navigate = useNavigate()
 
   useEffect(() => {
-    
+
     if(isLoggedIn){
       navigate("/")
     }

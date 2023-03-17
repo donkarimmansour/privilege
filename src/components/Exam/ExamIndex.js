@@ -18,7 +18,6 @@ const ExamIndex = () => {
           <div className="tab-content">
             <div className="tab-pane active" id="TaskBoard-all">
                 <List />
-         
             </div>
        
           </div>

@@ -30,7 +30,6 @@ export const CourseReducerSlice = createSlice({
         [getSingleCourse.fulfilled]: (state, action) => {
             state.loading = false
             // state.success = action.payload
-            action.payload.password = ""
             state.singleCourse = action.payload
         },
 
@@ -38,6 +37,7 @@ export const CourseReducerSlice = createSlice({
             state.loading = false
             state.error = action.payload
         },
+
 
         //getCourse
         [getCourse.pending]: (state) => {

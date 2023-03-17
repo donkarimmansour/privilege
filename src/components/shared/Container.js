@@ -59,9 +59,6 @@ const Container = ({ children, tabs, links, btns }) => {
      // $body.classList.add(classes.join(" "));
       $body.className = classes.join(" ")
 
-      console.log(refresher);
-
-
     }, [refresher]);
   
 

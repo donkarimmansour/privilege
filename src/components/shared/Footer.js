@@ -20,7 +20,7 @@ const Footer = () => {
                         </div> 
                         <div className="col-md-6 col-sm-12 text-md-right">
                             <ul className="list-inline mb-0">
-                                <li className="list-inline-item"><a href="javascript:void(0)" className="btn btn-outline-primary btn-sm">Beta</a></li>
+                                <li className="list-inline-item"><a href="#!" className="btn btn-outline-primary btn-sm">Beta</a></li>
                             </ul>
                         </div>
                     </div>

@@ -14,7 +14,7 @@ import { checkString, loader } from '../../common/funs';
 import { getCourse } from '../../redux/courses/action';
 import { getGroupe } from '../../redux/groupes/action';
 import { getLevel } from '../../redux/levels/action';
-
+ 
 const Add = ({ editStudentId, setEditStudentId }) => {
 
   const { t } = useTranslation();
@@ -31,6 +31,9 @@ const Add = ({ editStudentId, setEditStudentId }) => {
   const [generateData, setGenerateData] = useState({})
   const [Lloading, setLLoading] = useState(false)
   const [profileImage, setProfileImage] = useState(null)
+  const [levelID, setLevelID] = useState(null)
+  const [classID, setClassID] = useState(null)
+
 
   //yup Scheme
   const [initialScheme, setInitialScheme] = useState({
@@ -123,9 +126,23 @@ const Add = ({ editStudentId, setEditStudentId }) => {
   //get classes and groupes and levels data
   useEffect(() => {
     dispatch(getCourse({ sort: { _id: -1 } }))
-    dispatch(getGroupe({ sort: { _id: -1 } }))
-    dispatch(getLevel({ sort: { _id: -1 } }))
+   // dispatch(getGroupe({ sort: { _id: -1 } }))
+   // dispatch(getLevel({ sort: { _id: -1 } }))
   }, [dispatch])
+
+
+  //get groupes data
+  useEffect(() => {
+    classID && classID.length > 10 && dispatch(getLevel({ sort: { _id: -1 } , filter: {className: classID}}))
+  }, [classID])
+
+
+  //get levels data
+  useEffect(() => {
+    levelID && levelID.length > 10 && dispatch(getGroupe({ sort: { _id: -1 } , filter: {level: levelID}}))
+  }, [levelID])
+
+
 
   //back to list
   const OnCancel = (evt) => {
@@ -320,29 +337,22 @@ const Add = ({ editStudentId, setEditStudentId }) => {
                         <div className="form-group row">
                           <label className="col-md-3 col-form-label">{t("Class")} <span className="text-danger">*</span></label>
                           <div className="col-md-9">
-                            <Field as="select" className="form-control input-height" name="className">
+
+                            <Field as="select" className="form-control input-height" name="className" value={values.className} 
+                              onChange={val => {
+                                setFieldTouched("className")
+                                setFieldValue("className", val.target.value)
+                                setClassID(val.target.value)
+                              }}>
+
                               <option value="">{t("Select...")}</option>
 
                               {courses && courses.length > 0 && courses.map((c, ci) => {
-                                return <option key={ci} value={c._id}>{c.name}</option>
+                                return <option key={ci} mm="444" value={c._id}>{c.name}</option>
                               })}
 
                             </Field>
                             {touched.className && errors.className && <small className="text-danger">{errors.className}</small>}
-
-                          </div>
-                        </div>
-
-                        <div className="form-group row">
-                          <label className="col-md-3 col-form-label">{t("Group")} </label>
-                          <div className="col-md-9">
-                            <Field as="select" className="form-control input-height" name="group">
-                              <option value="">{t("Select...")}</option>
-                              {groupes && groupes.length > 0 && groupes.map((g, gi) => {
-                                return <option key={gi} value={g._id}>{g.name}</option>
-                              })}
-                            </Field>
-                            {touched.group && errors.group && <small className="text-danger">{errors.group}</small>}
 
                           </div>
                         </div>
@@ -352,7 +362,12 @@ const Add = ({ editStudentId, setEditStudentId }) => {
                         <div className="form-group row">
                           <label className="col-md-3 col-form-label">{t("Level")} </label>
                           <div className="col-md-9">
-                            <Field as="select" className="form-control input-height" name="level">
+                            <Field as="select" className="form-control input-height" name="level" value={values.level} 
+                             onChange={val => {
+                              setFieldTouched("level")
+                              setFieldValue("level", val.target.value)
+                              setLevelID(val.target.value)
+                            }}>
                               <option value="">{t("Select...")}</option>
 
                               {levels && levels.length > 0 && levels.map((l, li) => {
@@ -361,6 +376,22 @@ const Add = ({ editStudentId, setEditStudentId }) => {
 
                             </Field>
                             {touched.level && errors.level && <small className="text-danger">{errors.level}</small>}
+
+                          </div>
+                        </div>
+
+
+                        <div className="form-group row">
+                          <label className="col-md-3 col-form-label">{t("Group")} </label>
+                          <div className="col-md-9">
+                            <Field as="select" className="form-control input-height" name="group">
+
+                              <option value="">{t("Select...")}</option>
+                              {groupes && groupes.length > 0 && groupes.map((g, gi) => {
+                                return <option key={gi} value={g._id}>{g.name}</option>
+                              })}
+                            </Field>
+                            {touched.group && errors.group && <small className="text-danger">{errors.group}</small>}
 
                           </div>
                         </div>

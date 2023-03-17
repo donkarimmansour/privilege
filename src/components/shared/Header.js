@@ -12,7 +12,7 @@ const Header = ({refresher , setRefresher}) => {
     const { t, i18n } = useTranslation();
     const dispatch = useDispatch()
     // const { loading, error, success, notifications, count } = useSelector(state => state.notifications)
-    const { user } = useSelector(state => state.auth)
+    const { isLoggedIn, user } = useSelector(state => state.auth)
     const navigate = useNavigate()
 
     //console.log(i18n.language);
@@ -137,14 +137,14 @@ const Header = ({refresher , setRefresher}) => {
 
 
                             <div className="dropdown d-flex">
-                                <a href="javascript:void(0)" className="chip ml-3" data-toggle="dropdown">
+                                <a href="#!" className="chip ml-3" data-toggle="dropdown">
                                     <span className="avatar" style={{ backgroundImage: `url(${ImageVIEW(user.image)})` }}></span> karim</a>
                                 <div className="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
                                     <Link className="dropdown-item" to="/profile"><i className="dropdown-icon fe fe-user"></i> {t("Profile")}</Link>
-                                    <Link className="dropdown-item" to="/settings"><i className="dropdown-icon fe fe-settings"></i> {t("Settings")}</Link>
+                                    { isLoggedIn && user.role === "admin" &&  <Link className="dropdown-item" to="/settings"><i className="dropdown-icon fe fe-settings"></i> {t("Settings")}</Link> }
                                     {/* <Link className="dropdown-item" to="/chatapp"><span className="float-right"><span className="badge badge-primary">6</span></span><i className="dropdown-icon fe fe-mail"></i> {t("Inbox")}</Link> */}
                                     <div className="dropdown-divider"></div>
-                                    <a className="dropdown-item" href="javascript:void(0);" onClick={logout} > <i className="dropdown-icon fe fe-log-out"></i> {t("Sign out")}</a>
+                                    <a className="dropdown-item" href="#!;" onClick={logout} > <i className="dropdown-icon fe fe-log-out"></i> {t("Sign out")}</a>
                                 </div>
                             </div> 
                         </div>

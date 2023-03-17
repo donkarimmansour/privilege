@@ -91,7 +91,7 @@ const English = [
     },
 
     {
-        "type": "normal",
+        "type": "complate",
         "text": `Scotland
         Scotland is the north part of the island of Great Britain. The Atlantic Ocean is on the west and the
         North Sea on the east. Some people (6) ......... Scotland speak a different language called Gaelic.
@@ -117,12 +117,6 @@ const English = [
             }
         ]
     },
-
-
-
-
-
-
 
 
 

@@ -35,6 +35,9 @@ const List = () => {
 
   }, [success, error]);
 
+  
+  console.log(exam)
+
 
   return (
     <div className="table-responsive">

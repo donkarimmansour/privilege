@@ -1,8 +1,8 @@
-import react, { useEffect } from 'react'
+import react, { useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { getExam } from '../../redux/exam/action';
-import ReactHTMLTableToExcel from 'react-html-table-to-excel';
+import { DownloadTableExcel } from 'react-export-table-to-excel';
 import moment from 'moment';
 import { ImageVIEW } from '../../common/funs';
 
@@ -10,6 +10,7 @@ import { ImageVIEW } from '../../common/funs';
 const Exam = () => {
     const dispatch = useDispatch(); 
     const { t } = useTranslation();
+    const tableRef = useRef(null)
     const { loading, error, success, exam } = useSelector(state => state.exam)
 
        //handle data
@@ -26,7 +27,7 @@ const Exam = () => {
 
                 </div>
                 <div className="table-responsive" style={{ height: "310px" }}>
-                    <table className="table card-table table-vcenter text-nowrap table-striped mb-0" id="table-to-xls-exams">
+                    <table className="table card-table table-vcenter text-nowrap table-striped mb-0" ref={tableRef}>
                         <tbody>
 
                             <tr>
@@ -70,12 +71,16 @@ const Exam = () => {
                     <div>
                         {/* <button type="button" className="btn btn-primary">Export</button> */}
 
-                        <ReactHTMLTableToExcel  className='btn btn-primary'
-                            // id="table-xls-button"
-                            table="table-to-xls-exams"
+                        <DownloadTableExcel
+                            className='btn btn-primary'
                             filename="exams"
                             sheet="exams"
-                            buttonText={t("Export")} />
+                            currentTableRef={tableRef.current}>
+
+                            <button>{t("Export")}</button>
+
+                        </DownloadTableExcel>
+
 
                     </div>
                 </div>
