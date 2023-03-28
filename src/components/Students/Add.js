@@ -6,12 +6,16 @@ import { useDispatch, useSelector } from "react-redux";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { createStudent, editStudent, editStudentImage, getSingleStudent } from '../../redux/students/action';
+import { getSingleBill } from '../../redux/bills/action';
 import swal from 'sweetalert';
 import { CreateSingleFile } from '../../api/file';
 import myClassnames from 'classnames';
 import { cleanAlerts } from '../../redux/students/reducer';
+import { cleanAlerts as cleanLanguagesAlerts } from '../../redux/languages/reducer';
+import { cleanAlerts as cleanGroupesAlerts } from '../../redux/groupes/reducer';
+import { cleanAlerts as cleanLevelsAlerts } from '../../redux/levels/reducer';
 import { checkString, loader } from '../../common/funs';
-import { getCourse } from '../../redux/courses/action';
+import { getLanguage } from '../../redux/languages/action';
 import { getGroupe } from '../../redux/groupes/action';
 import { getLevel } from '../../redux/levels/action';
  
@@ -21,19 +25,21 @@ const Add = ({ editStudentId, setEditStudentId }) => {
   const dispatch = useDispatch()
 
   const { singleStudent, loading, error, success } = useSelector(state => state.students)
-  const { token } = useSelector(state => state.auth)
-  const { courses } = useSelector(state => state.courses)
-  const { levels } = useSelector(state => state.level)
-  const { groupes } = useSelector(state => state.groupe)
+  const { success:successLG, loading:loadingLG, error:errorLG, languages } = useSelector(state => state.languages)
+  const { success:successLV, loading:loadingLV, error:errorLV, levels } = useSelector(state => state.level)
+  const { success:successGR, loading:loadingGR, error:errorGR, groupes } = useSelector(state => state.groupe)
+  const { token, user } = useSelector(state => state.auth)
+  const { singleBill } = useSelector(state => state.bills)
 
 
 
   const [generateData, setGenerateData] = useState({})
   const [Lloading, setLLoading] = useState(false)
   const [profileImage, setProfileImage] = useState(null)
-  const [levelID, setLevelID] = useState(null)
-  const [classID, setClassID] = useState(null)
-
+  const [groupeFilter, setGroupeFilter] = useState({option: null, session: null, language: null, level: null, })
+  const [languageFilter, setLanguageFilter] = useState(null)
+  const [sessionAmount, setSessionAmount] = useState(0)//
+  const [sessions, setSessions] = useState({})
 
   //yup Scheme
   const [initialScheme, setInitialScheme] = useState({
@@ -43,11 +49,11 @@ const Add = ({ editStudentId, setEditStudentId }) => {
     gender: yup.string().required(t("gender field is required")),
     phone: yup.string().required(t("phone field is required")),
     birthday: yup.string().required(t("birthday field is required")),
-    className: yup.string().required(t("class field is required")),
+    language: yup.string().required(t("language field is required")),
     option: yup.string().required(t("option field is required")),
     session: yup.string().required(t("session field is required")),
     cin: yup.string().required(t("cin field is required")),
-    isAccountActivated: yup.string().required(t("type is required")),
+    isAccountActivated: yup.string().required(t("type field is required")),
     // level: yup.number().required(t("level field is required")).min(1, t("level field is required")),
     // group: yup.number().required(t("group field is required")).min(1, t("group field is required")),
     username: yup.string().required(t("username field is required")),
@@ -75,7 +81,7 @@ const Add = ({ editStudentId, setEditStudentId }) => {
     facebook: "",
     twitter: "",
     linkedin: "",
-    className: "",
+    language: "",
     group: "",
     level: "",
     hours: 0,
@@ -83,28 +89,32 @@ const Add = ({ editStudentId, setEditStudentId }) => {
     session: "",
     cin: "",
     isAccountActivated: "no",
-    tested: "no",
+    tested: "no"
   })
 
 
   //alerts
   useEffect(() => {
-    if (success) {
-      swal(t("Success"), t(checkString(success)), "success");
+    if (success || successGR || successLG || successLV) {
+      swal(t("Success"), t(checkString(success || successGR || successLG || successLV)), "success");
 
-    } else if (error) {
-      swal(t("Error"), t(checkString(error)), "error");
+    } else if (error || errorGR || errorLG || errorLV) {
+      swal(t("Error"), t(checkString(error || errorGR || errorLG || errorLV)), "error");
     }
 
     dispatch(cleanAlerts())
+    dispatch(cleanGroupesAlerts())
+    dispatch(cleanLanguagesAlerts())
+    dispatch(cleanLevelsAlerts())
 
-  }, [success, error]);
+  }, [success, successGR, successLG, successLV, error, errorGR, errorLG, errorLV]);
 
 
   //get student data
   useEffect(() => {
     if (editStudentId && editStudentId !== "") {
-      dispatch(getSingleStudent({ filter: { _id: editStudentId } }))
+      dispatch(getSingleStudent({ filter: { _id: editStudentId }, expend: "all" }))
+      dispatch(getSingleBill({ filter: { studentID: editStudentId }}))
     }
   }, [editStudentId])
 
@@ -112,35 +122,61 @@ const Add = ({ editStudentId, setEditStudentId }) => {
   //update student data
   useEffect(() => {
     if (singleStudent && singleStudent._id) {
-
-      setInitialValues(singleStudent)
+      setInitialValues({...singleStudent, language: singleStudent.language?._id, level: singleStudent.level?._id, group: singleStudent.group?._id})
       setProfileImage(singleStudent.image)
+
       delete initialScheme.password
       delete initialScheme.confirmpassword
-      setInitialScheme({ ...initialScheme })
+    
+      setInitialScheme({ ...initialScheme})
+      setSessions(singleStudent.language.session)
+      setGroupeFilter({option: singleStudent.option, session: singleStudent.session, language: singleStudent.language?._id, level: singleStudent.level?._id || null })
+      setLanguageFilter(singleStudent.language?._id || null)
     }
   }, [singleStudent])
+ 
+    //update student amount
+    useEffect(() => {
+      if (editStudentId && editStudentId !== "") {
+          setSessionAmount(singleBill?.amount || 0)
+      }
+    }, [singleBill])
 
 
 
-  //get classes and groupes and levels data
+  //get Languages
   useEffect(() => {
-    dispatch(getCourse({ sort: { _id: -1 } }))
-   // dispatch(getGroupe({ sort: { _id: -1 } }))
-   // dispatch(getLevel({ sort: { _id: -1 } }))
+    dispatch(getLanguage({ sort: { _id: -1 } }))
   }, [dispatch])
-
-
-  //get groupes data
-  useEffect(() => {
-    classID && classID.length > 10 && dispatch(getLevel({ sort: { _id: -1 } , filter: {className: classID}}))
-  }, [classID])
 
 
   //get levels data
   useEffect(() => {
-    levelID && levelID.length > 10 && dispatch(getGroupe({ sort: { _id: -1 } , filter: {level: levelID}}))
-  }, [levelID])
+    if(languageFilter && languageFilter.length > 10){
+      dispatch(getLevel({ sort: { _id: -1 } , filter: {language: languageFilter}}))
+    }
+  }, [languageFilter])
+
+
+  //get groupes data
+  useEffect(() => { 
+    groupeFilter && groupeFilter.session && groupeFilter.option && groupeFilter.language && groupeFilter.level
+    && dispatch(getGroupe({ sort: { _id: -1 } , filter: {...groupeFilter} }))
+  }, [groupeFilter])
+
+
+
+    //get session price
+    useEffect(() => {
+
+      if(languages && languages.length > 0 && languageFilter && languageFilter.length > 10){
+          const index = languages.findIndex(l => l._id === languageFilter)          
+          setSessions(languages[index].session)
+
+      }else{
+        setSessions([])
+      }
+    }, [languages, languageFilter])
 
 
 
@@ -149,6 +185,9 @@ const Add = ({ editStudentId, setEditStudentId }) => {
     setEditStudentId("")
     evt.target.closest(".tab-pane").classList.remove("active")
     evt.target.closest(".tab-content").children[0].classList.add("active")
+
+    document.querySelectorAll(".page .nav-tabs .nav-item .nav-link")[1].classList.remove("active")
+    document.querySelectorAll(".page .nav-tabs .nav-item .nav-link")[0].classList.add("active")
   }
 
   //check for Generate username and password
@@ -177,14 +216,29 @@ const Add = ({ editStudentId, setEditStudentId }) => {
   //submit form
   const onSubmit = values => {
 
+    const actions = {
+      fullName: `${user.firstname} ${user.lastname}`,
+      action: `${editStudentId && editStudentId !== "" ? "edit" : "add"}`,
+      role: `${user.role}`
+    }
+
+    const newVals = {
+      ...values,
+      level: (values.level.length > 10) ? values.level : null,
+      group: (values.group.length > 10) ? values.group : null,
+      amount: sessionAmount,
+      actions
+    }
+  
     if (editStudentId && editStudentId !== "") {//if edit  
-      dispatch(editStudent({ ...values, image: profileImage }))
+      dispatch(editStudent({ ...newVals , image: profileImage }))
 
     } else {//if add
       if (!profileImage) {
-        dispatch(createStudent({ ...values }))
+        dispatch(createStudent({ ...newVals }))
       } else {
-        dispatch(createStudent({ ...values, image: profileImage }))
+
+        dispatch(createStudent({ ...newVals, image: profileImage }))
       }
     }
 
@@ -200,9 +254,16 @@ const Add = ({ editStudentId, setEditStudentId }) => {
     if (e.target.files && e.target.files[0]) {
       const img = e.target.files[0];
 
+      const actions = {
+        fullName: `${user.firstname} ${user.lastname}`,
+        action: `${editStudentId && editStudentId !== "" ? "edit" : "add"}`,
+        role: `${user.role}`
+      }  
+
 
       const formData = new FormData();
       formData.append('image', img);
+      formData.append('actions', actions);
 
       setLLoading(true)
 
@@ -231,10 +292,11 @@ const Add = ({ editStudentId, setEditStudentId }) => {
     }
   }
 
-  return (
-    <div className="tab-pane" id="Student-add">
 
-      {(loading || Lloading) && loader()}
+  return (
+    <div className="tab-pane" id="student-add">
+
+      {(loading || Lloading || loadingGR || loadingLG || loadingLV ) && loader()}
 
 
       {
@@ -268,14 +330,14 @@ const Add = ({ editStudentId, setEditStudentId }) => {
                         <div className="form-group row">
                           <label className="col-md-3 col-form-label">{t("First Name")} <span className="text-danger">*</span></label>
                           <div className="col-md-9">
-                            <Field type="text" name="firstname" className="form-control" placeholder={t("Enter your First Name")} />
+                            <Field type="text" name="firstname" className="form-control" placeholder={t("First Name")} />
                             {touched.firstname && errors.firstname && <small className="text-danger">{errors.firstname}</small>}
                           </div>
                         </div>
                         <div className="form-group row">
                           <label className="col-md-3 col-form-label">{t("Last Name")} <span className="text-danger">*</span></label>
                           <div className="col-md-9">
-                            <Field type="text" name="lastname" className="form-control" placeholder={t("Enter your Last Name")} />
+                            <Field type="text" name="lastname" className="form-control" placeholder={t("Last Name")} />
                             {touched.lastname && errors.lastname && <small className="text-danger">{errors.lastname}</small>}
                           </div>
                         </div>
@@ -283,7 +345,7 @@ const Add = ({ editStudentId, setEditStudentId }) => {
                         <div className="form-group row">
                           <label className="col-md-3 col-form-label">{t("Cin")} <span className="text-danger">*</span></label>
                           <div className="col-md-9">
-                            <Field type="text" name="cin" className="form-control" placeholder={t("Enter your Cin")} />
+                            <Field type="text" name="cin" className="form-control" placeholder={t("Cin")} />
                             {touched.cin && errors.cin && <small className="text-danger">{errors.cin}</small>}
                           </div>
                         </div>
@@ -291,20 +353,55 @@ const Add = ({ editStudentId, setEditStudentId }) => {
                         <div className="form-group row">
                           <label className="col-md-3 col-form-label">{t("Email")} <span className="text-danger">*</span></label>
                           <div className="col-md-9">
-                            <Field type="text" name="email" className="form-control" placeholder={t("Enter your Email")} />
+                            <Field type="text" name="email" className="form-control" placeholder={t("Email")} />
                             {touched.email && errors.email && <small className="text-danger">{errors.email}</small>}
                           </div>
                         </div>
 
 
                         <div className="form-group row">
+                          <label className="col-md-3 col-form-label">{t("Language")} <span className="text-danger">*</span></label>
+                          <div className="col-md-9">
+
+                            <Field as="select" className="form-control input-height" name="language" value={values.language} 
+                              onChange={val => {
+                                setFieldTouched("language")
+                                setFieldValue("language", val.target.value)
+                                setGroupeFilter({...groupeFilter, language: val.target.value})
+                                setLanguageFilter(val.target.value)
+                              }}>
+
+                              <option value="">{t("Select...")}</option>
+
+                              {languages && languages.length > 0 && languages.map((c, ci) => {
+                                return <option key={ci} value={c._id}>{c.name}</option>
+                              })}
+
+                            </Field>
+                            {touched.language && errors.language && <small className="text-danger">{errors.language}</small>}
+
+                          </div>
+                        </div>
+
+
+
+                        <div className="form-group row">
                           <label className="col-md-3 col-form-label">{t("Session")} <span className="text-danger">*</span></label>
                           <div className="col-md-9">
-                            <Field as="select" className="form-control input-height" name="session">
+                            <Field as="select" className="form-control input-height" name="session" value={values.session}
+                              onChange={val => {
+                                setFieldTouched("session")
+                                setFieldValue("session", val.target.value)
+                                setGroupeFilter({...groupeFilter, session: val.target.value})
+                                setSessionAmount(sessions[val.target.value])
+                              }}>
+
                               <option value="">{t("Select...")}</option>
-                              <option value="normale">Normale</option>
-                              <option value="accelerated">Accelerated</option>
-                              <option value="superAccelerated">Super Accelerated</option>
+
+                              {sessions && sessions.normale > 0  && <option  value="normale">{`${t('Normale')} (${sessions.normale})`}</option>}
+                              {sessions && sessions.accelerated > 0  && <option  value="accelerated">{`${t('Accelerated')} (${sessions.accelerated})`}</option>}
+                              {sessions && sessions.superAccelerated > 0  && <option value="superAccelerated">{`${t('Super Accelerated')} (${sessions.superAccelerated})`}</option>}
+
                             </Field>
                             {touched.session && errors.session && <small className="text-danger">{errors.session}</small>}
 
@@ -315,7 +412,13 @@ const Add = ({ editStudentId, setEditStudentId }) => {
                         <div className="form-group row">
                           <label className="col-md-3 col-form-label">{t("Option")} <span className="text-danger">*</span></label>
                           <div className="col-md-9">
-                            <Field as="select" className="form-control input-height" name="option">
+                            <Field as="select" className="form-control input-height" name="option" value={values.option} 
+                             onChange={val => {
+                               setFieldTouched("option")
+                               setFieldValue("option", val.target.value)
+                               setGroupeFilter({...groupeFilter, option: val.target.value})
+                              }}>
+
                               <option value="">{t("Select...")}</option>
                               <option value="day">Day</option>
                               <option value="evening">Evening</option>
@@ -326,48 +429,17 @@ const Add = ({ editStudentId, setEditStudentId }) => {
                           </div>
                         </div>
 
-                        <div className="form-group row">
-                          <label className="col-md-3 col-form-label">{t("Hours")} </label>
-                          <div className="col-md-9">
-                            <Field type="number" name="hours" className="form-control" placeholder={t("Enter your Hours")} />
-                            {touched.hours && errors.hours && <small className="text-danger">{errors.hours}</small>}
-                          </div>
-                        </div>
-
-                        <div className="form-group row">
-                          <label className="col-md-3 col-form-label">{t("Class")} <span className="text-danger">*</span></label>
-                          <div className="col-md-9">
-
-                            <Field as="select" className="form-control input-height" name="className" value={values.className} 
-                              onChange={val => {
-                                setFieldTouched("className")
-                                setFieldValue("className", val.target.value)
-                                setClassID(val.target.value)
-                              }}>
-
-                              <option value="">{t("Select...")}</option>
-
-                              {courses && courses.length > 0 && courses.map((c, ci) => {
-                                return <option key={ci} mm="444" value={c._id}>{c.name}</option>
-                              })}
-
-                            </Field>
-                            {touched.className && errors.className && <small className="text-danger">{errors.className}</small>}
-
-                          </div>
-                        </div>
-
-
+              
 
                         <div className="form-group row">
                           <label className="col-md-3 col-form-label">{t("Level")} </label>
                           <div className="col-md-9">
                             <Field as="select" className="form-control input-height" name="level" value={values.level} 
-                             onChange={val => {
-                              setFieldTouched("level")
-                              setFieldValue("level", val.target.value)
-                              setLevelID(val.target.value)
-                            }}>
+                              onChange={val => {
+                                setFieldTouched("level")
+                                setFieldValue("level", val.target.value)
+                                setGroupeFilter({...groupeFilter, level: val.target.value})
+                              }}>
                               <option value="">{t("Select...")}</option>
 
                               {levels && levels.length > 0 && levels.map((l, li) => {
@@ -388,13 +460,39 @@ const Add = ({ editStudentId, setEditStudentId }) => {
 
                               <option value="">{t("Select...")}</option>
                               {groupes && groupes.length > 0 && groupes.map((g, gi) => {
-                                return <option key={gi} value={g._id}>{g.name}</option>
+                                return <option key={gi} value={g._id}>{`${g.name} (${g.studentsCount})`}</option>
                               })}
                             </Field>
                             {touched.group && errors.group && <small className="text-danger">{errors.group}</small>}
 
                           </div>
                         </div>
+
+                        <div className="form-group row">
+                          <label className="col-md-3 col-form-label">{t("Hours")} <span className="text-danger">*</span></label>
+                          <div className="col-md-9">
+                            <Field list="hours" type="number" name="hours" className="form-control" placeholder={t("Hours")} />
+                           
+                            <datalist id="hours">
+                              <option value="24">24</option>
+                              <option value="30">30</option>
+                              <option value="60">60</option>
+                              <option value="90">90</option>
+                            </datalist>
+                            {touched.hours && errors.hours && <small className="text-danger">{errors.hours}</small>}
+                          
+                          </div>
+                        </div>
+
+
+                          <div className="form-group row">
+                            <label className="col-md-3 col-form-label">{t("Amount")} </label>
+                            <div className="col-md-9">
+                              <input value={sessionAmount} type="number" disabled name="amount" className="form-control" placeholder={t("Amount")} />
+                            </div>
+                          </div>
+                      
+                        
 
                         <div className="form-group row">
                           <label className="col-md-3 col-form-label">{t("Gender")} <span className="text-danger">*</span></label>
@@ -412,7 +510,7 @@ const Add = ({ editStudentId, setEditStudentId }) => {
                         <div className="form-group row">
                           <label className="col-md-3 col-form-label">{t("Phone")} <span className="text-danger">*</span></label>
                           <div className="col-md-9">
-                            <Field type="text" name="phone" className="form-control" placeholder={t("Enter your Phone")} />
+                            <Field type="text" name="phone" className="form-control" placeholder={t("Phone")} />
                             {touched.phone && errors.phone && <small className="text-danger">{errors.phone}</small>}
                           </div>
                         </div>
@@ -426,7 +524,7 @@ const Add = ({ editStudentId, setEditStudentId }) => {
                               onChange={val => {
                                 setFieldTouched("birthday")
                                 setFieldValue("birthday", val);
-                              }} className="form-control" placeholder={t("Enter your Date of Birth")} />
+                              }} className="form-control" placeholder={t("Date of Birth")} />
 
                             {touched.birthday && errors.birthday && <small className="text-danger">{errors.birthday}</small>}
                           </div>
@@ -513,7 +611,7 @@ const Add = ({ editStudentId, setEditStudentId }) => {
                           <div className="col-sm-12">
                             <div className="form-group">
                               <label>{t("User Name")} <span className="text-danger">*</span></label>
-                              <Field type="text" name="username" className="form-control" placeholder={t("Enter your User Name")} />
+                              <Field type="text" name="username" className="form-control" placeholder={t("User Name")} />
                               {touched.username && errors.username && <small className="text-danger">{errors.username}</small>}
                             </div>
                           </div>
@@ -522,7 +620,7 @@ const Add = ({ editStudentId, setEditStudentId }) => {
                           <div className={myClassnames("col-sm-12", { "col-md-6": !editStudentId || editStudentId === "" })}>
                             <div className="form-group">
                               <label>{t("Password")} <span className="text-danger">*</span></label>
-                              <Field type="text" name="password" className="form-control" placeholder={t("Enter your Password")} />
+                              <Field type="text" name="password" className="form-control" placeholder={t("Password")} />
                               {touched.password && errors.password && <small className="text-danger">{errors.password}</small>}
                             </div>
                           </div>
@@ -530,7 +628,7 @@ const Add = ({ editStudentId, setEditStudentId }) => {
                           {(!editStudentId || editStudentId === "") && <> <div className="col-sm-12 col-md-6" >
                             <div className="form-group">
                               <label>{t("Confirm Password")} <span className="text-danger">*</span></label>
-                              <Field type="text" name="confirmpassword" className="form-control" placeholder={t("Enter your Confirm Password")} />
+                              <Field type="text" name="confirmpassword" className="form-control" placeholder={t("Confirm Password")} />
                               {touched.confirmpassword && errors.confirmpassword && <small className="text-danger">{errors.confirmpassword}</small>}
                             </div>
                           </div>
@@ -554,20 +652,20 @@ const Add = ({ editStudentId, setEditStudentId }) => {
                       <div className="card-body">
                         <div className="form-group">
                           <label>{t("Facebook")}</label>
-                          <Field type="text" name="facebook" className="form-control" placeholder={t("Enter your Facebook")} />
+                          <Field type="text" name="facebook" className="form-control" placeholder={t("Facebook")} />
                           {touched.facebook && errors.facebook && <small className="text-danger">{errors.facebook}</small>}
                         </div>
 
 
                         <div className="form-group">
                           <label>{t("Twitter")}</label>
-                          <Field type="text" name="twitter" className="form-control" placeholder={t("Enter your Twitter")} />
+                          <Field type="text" name="twitter" className="form-control" placeholder={t("Twitter")} />
                           {touched.twitter && errors.twitter && <small className="text-danger">{errors.twitter}</small>}
                         </div>
 
                         <div className="form-group">
                           <label>{t("Linkedin")}</label>
-                          <Field type="text" name="linkedin" className="form-control" placeholder={t("Enter your Linkedin")} />
+                          <Field type="text" name="linkedin" className="form-control" placeholder={t("Linkedin")} />
                           {touched.linkedin && errors.linkedin && <small className="text-danger">{errors.linkedin}</small>}
                         </div>
 

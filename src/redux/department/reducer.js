@@ -79,7 +79,10 @@ export const DepartmentReducerSlice = createSlice({
             state.success = "Updated"
             
             const editIndex = state.departments.findIndex(s => s._id === state.singleDepartment._id)
-            state.departments[editIndex] = { ...state.departments[editIndex] , ...action.meta.arg}
+            state.departments[editIndex] = {
+                ...state.departments[editIndex], ...action.meta.arg,
+                actions: [ ...state.departments[editIndex].actions, action.meta.arg.actions ]
+            }
         },
 
         [editDepartment.rejected]: (state, action) => {
@@ -112,7 +115,7 @@ export const DepartmentReducerSlice = createSlice({
         [createDepartment.fulfilled]: (state, action) => {
             state.loading = false
             state.success = "Created"
-            state.departments = [...state.departments,  {...action.meta.arg ,  "_id" : action.payload}]
+            state.departments = [...state.departments,  {...action.meta.arg ,  "_id" : action.payload, actions: [action.meta.arg.actions]}]
             state.count = +1
         },
 

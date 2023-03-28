@@ -79,7 +79,10 @@ export const LibraryReducerSlice = createSlice({
             state.success = "Updated"
             
             const editIndex = state.libraries.findIndex(s => s._id === state.singleLibrary._id)
-            state.libraries[editIndex] = { ...state.libraries[editIndex] , ...action.meta.arg}
+            state.libraries[editIndex] = {
+                ...action.meta.arg, ...state.libraries[editIndex],
+                actions: [ ...state.libraries[editIndex].actions, action.meta.arg.actions ]
+            }
         },
 
         [editLibrary.rejected]: (state, action) => {
@@ -112,7 +115,7 @@ export const LibraryReducerSlice = createSlice({
         [createLibrary.fulfilled]: (state, action) => {
             state.loading = false
             state.success = "Created"
-            state.libraries = [...state.libraries,  {...action.meta.arg ,  "_id" : action.payload}]
+            state.libraries = [...state.libraries,  {...action.meta.arg ,  "_id" : action.payload , actions: [action.meta.arg.actions]}]
             state.count = +1
         },
 

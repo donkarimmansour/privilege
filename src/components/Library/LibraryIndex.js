@@ -2,24 +2,24 @@ import  { useState } from 'react'
 import List from './List'
 import Container from '../shared/Container'
 import Add from './Add'
+import { useTranslation } from 'react-i18next'
 
 
 
 const LibraryIndex = () => {
   const [editLibraryId , setEditLibraryId] = useState("")
 
+  const { t } = useTranslation();
 
   const links = [
-    {name : "Privilege" , url : "#"} ,
-    {name : "Library" , url : "#"} ,
-]
+    { name: t("Privilege"), url: "#" },
+    { name: t("Library"), url: "#" }
+  ]
 
-const tabs = [
-    {name : "List View" , id : "#Library-all"} ,
-    {name : "Add" , id : "#Library-add"} ,
-]
-
-
+  const tabs = [
+    { name: t("List"), id: "#library-all" },
+    { name: t("Add"), id: "#library-add" },
+  ]
 
     return (
       <Container tabs={tabs} links={links}> 

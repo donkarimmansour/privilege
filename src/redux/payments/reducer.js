@@ -79,7 +79,10 @@ export const PaymentsReducerSlice = createSlice({
             state.success = "Updated"
             
             const editIndex = state.payments.findIndex(s => s._id === state.singlePayment._id)
-            state.payments[editIndex] = { ...state.payments[editIndex] , ...action.meta.arg}
+            state.payments[editIndex] = {
+                ...action.meta.arg, ...state.payments[editIndex],
+                actions: [ ...state.payments[editIndex].actions, action.meta.arg.actions ]
+            }
         },
 
         [editPayment.rejected]: (state, action) => {
@@ -112,7 +115,7 @@ export const PaymentsReducerSlice = createSlice({
         [createPayment.fulfilled]: (state, action) => {
             state.loading = false
             state.success = "Created"
-            state.payments = [...state.payments,  {...action.meta.arg ,  "_id" : action.payload}]
+            state.payments = [...state.payments,  {...action.meta.arg ,  "_id" : action.payload, actions: [action.meta.arg.actions]}]
             state.count = +1
         },
 

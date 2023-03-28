@@ -9,7 +9,7 @@ import { checkString, loader } from '../../common/funs';
 import { cleanAlerts } from '../../redux/auth/reducer';
 import { editStudentImage } from '../../redux/students/action';
 import { CreateSingleFile } from '../../api/file';
-import { editProfessorImage } from '../../redux/professors/action';
+import { editTeacherImage } from '../../redux/teachers/action';
 import { editAdminImage } from '../../redux/admin/action';
 import { editProfile } from '../../redux/auth/action';
 
@@ -97,7 +97,7 @@ const Edit = () => {
           if (user.role === "student") {
             dispatch(editStudentImage({ image: data.msg , type : "profile" }))
           } else if (user.role === "teacher") {
-            dispatch(editProfessorImage({ image: data.msg , type : "profile" }))
+            dispatch(editTeacherImage({ image: data.msg , type : "profile" }))
           } else if (user.role === "admin") {
             dispatch(editAdminImage({ image: data.msg , type : "profile" }))
           }
@@ -115,7 +115,7 @@ const Edit = () => {
 
  // http://localhost:3005/v1/api/file/get-single-file/6346f07516be53eb99fb37e9/view
 
-  return (<div className="tab-pane fade show active" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+  return (<div className="tab-pane" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
 
 
        {(loading || Lloading) && loader()}
@@ -188,7 +188,7 @@ const Edit = () => {
                   <div className="form-group row">
                     <label className="col-md-3 col-form-label">{t("Facebook")}</label>
                     <div className="col-md-7">
-                    <Field type="text" name="facebook" className="form-control" placeholder={t("Enter your Facebook")} />
+                    <Field type="text" name="facebook" className="form-control" placeholder={t("Facebook")} />
                     {touched.facebook && errors.facebook && <small className="text-danger">{errors.facebook}</small>}
                   </div>
                   </div>
@@ -197,7 +197,7 @@ const Edit = () => {
                   <div className="form-group row">
                     <label className="col-md-3 col-form-label">{t("Twitter")}</label>
                     <div className="col-md-7">
-                    <Field type="text" name="twitter" className="form-control" placeholder={t("Enter your Twitter")} />
+                    <Field type="text" name="twitter" className="form-control" placeholder={t("Twitter")} />
                     {touched.twitter && errors.twitter && <small className="text-danger">{errors.twitter}</small>}
                   </div>
                   </div>
@@ -206,7 +206,7 @@ const Edit = () => {
                     <div className="form-group row">
                       <label className="col-md-3 col-form-label">{t("Website")}</label>
                       <div className="col-md-7">
-                        <Field type="text" name="website" className="form-control" placeholder={t("Enter your Website")} />
+                        <Field type="text" name="website" className="form-control" placeholder={t("Website")} />
                         {touched.website && errors.website && <small className="text-danger">{errors.website}</small>}
                       </div>
                     </div>
@@ -215,7 +215,7 @@ const Edit = () => {
                   <div className="form-group row">
                     <label className="col-md-3 col-form-label">{t("Linkedin")}</label>
                     <div className="col-md-7">
-                    <Field type="text" name="linkedin" className="form-control" placeholder={t("Enter your Linkedin")} />
+                    <Field type="text" name="linkedin" className="form-control" placeholder={t("Linkedin")} />
                     {touched.linkedin && errors.linkedin && <small className="text-danger">{errors.linkedin}</small>}
                   </div>
                   </div>

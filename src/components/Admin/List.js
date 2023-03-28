@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import swal from 'sweetalert';
@@ -7,6 +7,7 @@ import { cleanAlerts } from '../../redux/students/reducer';
 import moment from "moment"; 
 import ReactPaginate from "react-paginate";
 import { countAdmin, deleteAdmin, getAdmin } from '../../redux/admin/action';
+import ActionsModal from '../shared/ActionsModal';
 
 const List = ({setEditAdminId}) => { 
 
@@ -16,8 +17,11 @@ const List = ({setEditAdminId}) => {
   const { loading, error, success, admins, count } = useSelector(state => state.admins)
   const [pageCount, setPageCount] = useState(0);
   const [pageCurrent, setPageCurrent] = useState(1);
+  const [modalState, toggleModal] = useState(false)
+  const [actions, setActions] = useState(false)
   const limit = 20
 
+  
   //handle Search 
   useEffect(() => {
     handleSearch()
@@ -39,6 +43,12 @@ const List = ({setEditAdminId}) => {
 
 
 
+  //Actions Pupup
+  const ActionsPupup = actions => {
+    setActions(actions)
+    toggleModal(true)
+  }
+
 
   //send to edit section
   const OnEdit = (_id , evt) => {
@@ -46,6 +56,9 @@ const List = ({setEditAdminId}) => {
 
     evt.target.closest(".tab-pane").classList.remove("active")
     evt.target.closest(".tab-content").children[1].classList.add("active")
+
+    document.querySelector(".page .nav-tabs .nav-item .nav-link").classList.remove("active")
+    document.querySelectorAll(".page .nav-tabs .nav-item .nav-link")[1].classList.add("active")
      
   }
 
@@ -121,7 +134,8 @@ const List = ({setEditAdminId}) => {
 
 
   return (
-    <div className="tab-pane active" id="Admin-all">
+    <div className="tab-pane active" id="admin-all">
+                  <ActionsModal modalState={modalState} toggleModal={toggleModal} actions={actions} />
 
        {loading && loader()}
 
@@ -132,7 +146,7 @@ const List = ({setEditAdminId}) => {
 
             <div className="col-md-3 col-sm-6">
               <div className="input-group">
-                <input type="text" name="firstname" className="form-control" onChange={(e) => { handleOnChange(e) }} placeholder={t("class")} />
+                <input type="text" name="firstname" className="form-control" onChange={(e) => { handleOnChange(e) }} placeholder={t("First Name")} />
               </div>
             </div>
          
@@ -173,24 +187,28 @@ const List = ({setEditAdminId}) => {
 
           <tbody>
 
-
+ 
             {admins.length > 0 && admins.map((a, ai) => {
               return (
-                <tr key={ai}>
-                  <td>{ai + 1}</td>
-                  <td className="w60">
-                    <img className="avatar" src={ImageVIEW(a.image)} alt="" />
-                  </td>
-                  <td><span className="font-16">{`${a.firstname} ${a.lastname}`}</span></td>
-                  <td>{a.role}</td>
-                  <td>{a.email}</td>
-                  <td>{a.phone}</td>
-                  <td>{moment(a.updatedAt).format("DD/MM/YYYY")}</td>
-                  <td>
-                    <button type="button" className="btn btn-icon btn-sm" title="Edit" onClick={(e) => { OnEdit(a._id , e) }}><i className="fa fa-edit" /></button>
-                    <button type="button" className="btn btn-icon btn-sm" onClick={() => { OnDelete(a._id) }} title="Delete" data-type="confirm"><i className="fa fa-trash-o text-danger" /></button>
-                  </td>
-                </tr>
+                <Fragment key={ai}>
+
+                  <tr>
+                    <td>{ai + 1}</td>
+                    <td className="w60">
+                      <img className="avatar" src={ImageVIEW(a.image)} alt="" />
+                    </td>
+                    <td><span className="font-16">{`${a.firstname} ${a.lastname}`}</span></td>
+                    <td>{a.role}</td>
+                    <td>{a.email}</td>
+                    <td>{a.phone}</td>
+                    <td>{moment(a.updatedAt).format("DD/MM/YYYY")}</td>
+                    <td>
+                      <button type="button" className="btn btn-icon btn-sm" title="Edit" onClick={(e) => { OnEdit(a._id, e) }}><i className="fa fa-edit" /></button>
+                      <button type="button" className="btn btn-icon btn-sm" title="Actions" onClick={() => { ActionsPupup(a.actions) }}><i className="fa fa-eye" /></button>
+                      <button type="button" className="btn btn-icon btn-sm" onClick={() => { OnDelete(a._id) }} title="Delete" data-type="confirm"><i className="fa fa-trash-o text-danger" /></button>
+                    </td>
+                  </tr>
+                </Fragment>
               )
             })}
 

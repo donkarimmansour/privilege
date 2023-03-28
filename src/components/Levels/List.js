@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux'; 
 import { cleanAlerts } from '../../redux/levels/reducer';
@@ -6,6 +6,7 @@ import { checkString, loader } from '../../common/funs';
 import { countLevel, deleteLevel, getLevel } from '../../redux/levels/action';
 import swal from 'sweetalert';
 import ReactPaginate from "react-paginate";
+import ActionsModal from '../shared/ActionsModal';
 
 const List = ({setEditLevelId}) => { 
 
@@ -16,6 +17,8 @@ const List = ({setEditLevelId}) => {
   const [pageCurrent, setPageCurrent] = useState(1);
   const limit = 20
   const [filters, setFilters] = useState({ name: ""});
+  const [modalState, toggleModal] = useState(false)
+  const [actions, setActions] = useState(false)
    const { loading, error, success, levels, count } = useSelector(state => state.level)
 
 
@@ -40,6 +43,11 @@ const List = ({setEditLevelId}) => {
 
 
 
+  //Actions Pupup
+  const ActionsPupup = actions => {
+    setActions(actions)
+    toggleModal(true)
+  }
 
   //send to edit section
   const OnEdit = (_id , evt) => {
@@ -47,6 +55,9 @@ const List = ({setEditLevelId}) => {
 
     evt.target.closest(".tab-pane").classList.remove("active")
     evt.target.closest(".tab-content").children[1].classList.add("active")
+
+    document.querySelector(".page .nav-tabs .nav-item .nav-link").classList.remove("active")
+    document.querySelectorAll(".page .nav-tabs .nav-item .nav-link")[1].classList.add("active")
      
   }
 
@@ -55,7 +66,7 @@ const List = ({setEditLevelId}) => {
 
     swal({
       title: "Are you sure?",
-      text: "You will not be able to recover this imaginary file!",
+      text: "You will not be able to recover this data",
       type: "warning",
       showCancelButton: true,
       confirmButtonColor: "#dc3545",
@@ -118,7 +129,8 @@ const List = ({setEditLevelId}) => {
    }, [count]);
 
   return (
-    <div className="tab-pane active" id="Level-all">
+    <div className="tab-pane active" id="level-all">
+      <ActionsModal modalState={modalState} toggleModal={toggleModal} actions={actions} />
 
          {loading && loader()}
 
@@ -138,12 +150,13 @@ const List = ({setEditLevelId}) => {
         </div> 
       </div>
       <div className="table-responsive card">
+
         <table className="table table-hover table-vcenter table-striped mb-0 text-nowrap">
           <thead>
             <tr>
             <th>#.</th>
               <th>{t("Name")}</th>
-              <th>{t("Class")}</th>
+              <th>{t("Language")}</th>
               <th>{t('Students')}</th>
               <th>{t("Action")}</th>       
             </tr>
@@ -154,17 +167,21 @@ const List = ({setEditLevelId}) => {
 
           {levels.length > 0 && levels.map((l, li) => {
               return (
-                <tr key={li}>
+                <Fragment key={li}>
+
+                <tr>
                   <td>{li + 1}</td> 
-                 
                   <td>{l.name}</td>
-                  <td>{l?.classNames?.name}</td>
+                  <td>{l?.languages?.name}</td>
                   <td>{l.studentsCount}</td>
                   <td>
                     <button type="button" className="btn btn-icon btn-sm" title="Edit" onClick={(e) => { OnEdit(l._id , e) }}><i className="fa fa-edit" /></button>
+                    <button type="button" className="btn btn-icon btn-sm" title="Actions" onClick={() => { ActionsPupup(l.actions) }}><i className="fa fa-eye" /></button>
                     <button type="button" className="btn btn-icon btn-sm" onClick={() => { OnDelete(l._id) }} title="Delete" data-type="confirm"><i className="fa fa-trash-o text-danger" /></button>
                   </td>
                 </tr>
+                </Fragment>
+
               )
             })}
 

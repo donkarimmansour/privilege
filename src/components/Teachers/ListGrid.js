@@ -3,20 +3,20 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import swal from 'sweetalert';
 import { checkString, ImageVIEW, loader } from '../../common/funs';
-import { getProfessor } from '../../redux/professors/action';
+import { getTeacher } from '../../redux/teachers/action';
 import { countStudent } from '../../redux/students/action';
-import { cleanAlerts } from '../../redux/professors/reducer';
+import { cleanAlerts } from '../../redux/teachers/reducer';
 
-const ListGrid = ({setEditProfessorId}) => {
+const ListGrid = ({setEditTeacherId}) => {
 
     const { t } = useTranslation();
     const dispatch = useDispatch();
-    const { loading, error, success, professors, _count } = useSelector(state => state.professors)
+    const { loading, error, success, teachers, _count } = useSelector(state => state.teachers)
   
   
     //handle initt
     useEffect(() => {
-        dispatch(getProfessor({sort : {_id : -1}}))
+        dispatch(getTeacher({sort : {_id : -1}}))
         dispatch(countStudent({}))
     }, [dispatch])
   
@@ -37,10 +37,13 @@ const ListGrid = ({setEditProfessorId}) => {
 
     //send to edit section
     const OnEdit = (_id , evt) => {
-        setEditProfessorId(_id)
+        setEditTeacherId(_id)
   
       evt.target.closest(".tab-pane").classList.remove("active")
       evt.target.closest(".tab-content").children[1].classList.add("active")
+
+      document.querySelectorAll(".page .nav-tabs .nav-item .nav-link")[1].classList.remove("active")
+      document.querySelectorAll(".page .nav-tabs .nav-item .nav-link")[2].classList.add("active")
        
     }
   
@@ -53,7 +56,7 @@ const ListGrid = ({setEditProfessorId}) => {
 
                         <div className="row">
 
-                            {professors.length > 0 && professors.map((p , pi) => {
+                            {teachers.length > 0 && teachers.map((p , pi) => {
                                 return (
                                     <div key={pi} className="col-xl-3 col-lg-4 col-md-6">
                                     <div className="card">

@@ -15,6 +15,7 @@ const Add = ({editDepartmentId ,   setEditDepartmentId}) => {
   const { t } = useTranslation();
   const dispatch = useDispatch()
   const { loading, error, success, singleDepartment } = useSelector(state => state.departments)
+  const { user } = useSelector(state => state.auth)
 
   //get department data
   useEffect(() => {
@@ -50,32 +51,42 @@ const Add = ({editDepartmentId ,   setEditDepartmentId}) => {
     setEditDepartmentId("")
     evt.target.closest(".tab-pane").classList.remove("active")
     evt.target.closest(".tab-content").children[0].classList.add("active")
+
+    document.querySelectorAll(".page .nav-tabs .nav-item .nav-link")[1].classList.remove("active")
+    document.querySelectorAll(".page .nav-tabs .nav-item .nav-link")[0].classList.add("active")
   }
 
 
   //formik initial
   const [initialValues, setInitialValues] = useState({
     brief: "",
-    headOfDepartment: "",
-    departmentName: "",
+    floorName: "",
+    className: "",
   })
 
 
 
   //initial yup Scheme
    const departmentAddValidator = yup.object().shape({
-     departmentName: yup.string().required(t("Department Name field is required")),
-     headOfDepartment: yup.string().required(t("Head of Department field is required")),
+     floorName: yup.string().required(t("floor Name field is required")),
+     className: yup.string().required(t("class Name field is required")),
   //   // brief: yup.string().required(t("Brief field is required")),
   })
 
 
    //submit form 
    const onSubmit = values => {
+
+    const actions = {
+      fullName: `${user.firstname} ${user.lastname}`,
+      action: `${editDepartmentId && editDepartmentId !== "" ? "edit" : "add"}`,
+      role: `${user.role}`
+    }
+
     if (editDepartmentId && editDepartmentId !== "") {//if edit  
-       dispatch(editDepartment(values)) 
+       dispatch(editDepartment({ ...values, actions })) 
     }else{//if add
-       dispatch(createDepartment(values)) 
+       dispatch(createDepartment({ ...values, actions })) 
 
     }
   }
@@ -83,7 +94,7 @@ const Add = ({editDepartmentId ,   setEditDepartmentId}) => {
 
 
   return (
-    <div className="tab-pane" id="Dep-add">
+    <div className="tab-pane" id="dep-add">
       {loading && loader()}
 
       {
@@ -112,17 +123,17 @@ const Add = ({editDepartmentId ,   setEditDepartmentId}) => {
                       <div className="row clearfix">
                         <div className="col-sm-6">
                           <div className="form-group">
-                            <label>{t("Department Name")} <span className="text-danger">*</span></label>
-                            <Field type="text" name="departmentName" className="form-control" placeholder={t("Department Name")} />
-                            {touched.departmentName && errors.departmentName && <small className="text-danger">{errors.departmentName}</small>}
+                            <label>{t("Floor")} <span className="text-danger">*</span></label>
+                            <Field type="text" name="floorName" className="form-control" placeholder={t("Floor")} />
+                            {touched.floorName && errors.floorName && <small className="text-danger">{errors.floorName}</small>}
 
                           </div>
                         </div>
                         <div className="col-sm-6">
                           <div className="form-group">
-                            <label>{t("Head of Department")} <span className="text-danger">*</span></label>
-                            <Field type="text" name="headOfDepartment" className="form-control" placeholder={t("Head of Department")} />
-                            {touched.headOfDepartment && errors.headOfDepartment && <small className="text-danger">{errors.headOfDepartment}</small>}
+                            <label>{t("Class")} <span className="text-danger">*</span></label>
+                            <Field type="text" name="className" className="form-control" placeholder={t("Class")} />
+                            {touched.className && errors.className && <small className="text-danger">{errors.className}</small>}
 
                           </div>
                         </div>

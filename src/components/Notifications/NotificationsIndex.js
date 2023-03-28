@@ -2,31 +2,33 @@ import react from 'react'
 import List from './List'
 import Container from '../shared/Container'
 import Add from './Add'
+import { useTranslation } from 'react-i18next'
 
 
 const NotificationsIndex = () => {
 
+
+  const { t } = useTranslation();
+
   const links = [
-    {name : "Privilege" , url : "#"} ,
-    {name : "Notifications" , url : "#"} ,
-]
+    { name: t("Privilege"), url: "#" },
+    { name: t("Notifications"), url: "#" }
+  ]
 
-const tabs = [
-    {name : "List View" , id : "#notification-all"} ,
-    // {name : "Profile" , id : "#Student-profile"} ,
-    {name : "Add" , id : "#notification-add"} 
-]
- 
+  const tabs = [
+    { name: t("List"), id: "#notification-all" },
+    { name: t("Add"), id: "#notification-add" },
+  ]
 
-    return (
-      <Container tabs={tabs} links={links}>  
-    <div className="tab-content">
-            <List />
-         <Add /> 
-        
-         </div>
-      </Container>
-    )
+  return (
+    <Container tabs={tabs} links={links}>
+      <div className="tab-content">
+        <List />
+        <Add />
+
+      </div>
+    </Container>
+  )
 
 }
 

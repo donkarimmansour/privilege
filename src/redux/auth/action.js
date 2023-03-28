@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { forgotPasswordApi, signinUserApi , getMeApi } from "../../api/auth";
 import { editProfileApi as editStudentProfileApi } from "../../api/students";
-import { editProfileApi as editTeacherProfileApi } from "../../api/professors";
+import { editProfileApi as editTeacherProfileApi } from "../../api/teachers";
 import { editProfileApi as editAdminProfileApi } from "../../api/admin";
 
 const signinUser =  createAsyncThunk("auth/signin" , async (args , AuthApi) => {

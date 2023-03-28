@@ -65,7 +65,7 @@ const List = () => {
 
                 <td><span>{e.question}</span></td>
                 <td>{e.reply}</td>
-                <td>{e.status ? 'true' : 'false' }</td>
+                <td>{e.status ? t('Yes') : t('No') }</td>
                 <td>{e.type}</td>
                 <td>{moment(e.updatedAt).format("DD/MM/YYYY")}</td>
 

@@ -1,4 +1,5 @@
 import  { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import Container from '../shared/Container'
 import Add from './Add'
 import List from './List'
@@ -9,21 +10,22 @@ const PaymentsIndex = () => {
 
   const [editPaymentId , setEditPaymentId] = useState("")
 
+
+  const { t } = useTranslation();
+
   const links = [
-    {name : "Privilege" , url : "#"} ,
-    {name : "Fees" , url : "#"} ,
-]
+    { name: t("Privilege"), url: "#" },
+    { name: t("Fees"), url: "#" }
+  ]
 
-const tabs = [ 
-    {name : "List" , id : "#Fees-all"} ,
-    {name : "Add Fees" , id : "#Fees-add"}
-]
-
-
+  const tabs = [
+    { name: t("List"), id: "#fees-all" },
+    { name: t("Add"), id: "#fees-add" },
+  ]
 
     return (
       <Container tabs={tabs} links={links}> 
- <div className="tab-content">
+        <div className="tab-content">
 
           <List setEditPaymentId={setEditPaymentId} />
           <Add editPaymentId={editPaymentId} setEditPaymentId={setEditPaymentId}/>

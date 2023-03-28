@@ -4,18 +4,20 @@ import StudentList from './StudentList'
 import University from './University'
 import Cards from './Cards'
 import Container from '../shared/Container'
+import { useTranslation } from 'react-i18next'
 
 
 const HomeIndex = () => {
 
+
+    const { t } = useTranslation();
+
     const links = [
-        {name : "Privilege" , url : "#"} ,
-        {name : "Dashboard" , url : "#"} ,
+        { name: t("Privilege"), url: "#" },
+        { name: t("Dashboard"), url: "#" }
     ]
 
     const tabs = []
-
-    
 
 
     return  (

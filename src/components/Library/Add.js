@@ -7,13 +7,19 @@ import { checkString, loader } from '../../common/funs';
 import swal from 'sweetalert';
 import { cleanAlerts } from '../../redux/library/reducer';
 import { createLibrary, editLibrary, getSingleLibrary } from '../../redux/library/action';
+import { getLevel } from '../../redux/levels/action';
+import { getLanguage } from '../../redux/languages/action';
 
-
+ 
 const Add = ({ editLibraryId , setEditLibraryId }) => {
 
   const { t } = useTranslation();
   const dispatch = useDispatch()
   const { loading, error, success, singleLibrary } = useSelector(state => state.library)
+  const { languages, loading:loadingLang, error:errorLang, success:successLang,  } = useSelector(state => state.languages)
+  const { levels, loading:loadingLv, error:errorLv, success:successLv,  } = useSelector(state => state.level)
+  const { user } = useSelector(state => state.auth)
+  const [langaugeID, setLangaugeID] = useState(null)
 
   //get student data
   useEffect(() => {
@@ -22,34 +28,50 @@ const Add = ({ editLibraryId , setEditLibraryId }) => {
     }
   }, [editLibraryId])
 
+    //get classes data
+    useEffect(() => {
+      dispatch(getLanguage({ sort: { _id: -1 } }))
+    }, [dispatch])
 
+
+    //get levels data
+    useEffect(() => {
+      langaugeID && langaugeID.length > 10 && dispatch(getLevel({ sort: { _id: -1 } , filter: {language : langaugeID}}))
+    }, [langaugeID])
  
    //update level data
    useEffect(() => {
     if (singleLibrary && singleLibrary._id) {
       setInitialValues(singleLibrary)
+      dispatch(getLevel({ sort: { _id: -1 } , filter: {language : singleLibrary.language}}))
     }
   }, [singleLibrary])
 
 
   //alerts
   useEffect(() => {
-    if (success) {
-      swal(t("Success"), t(checkString(success)), "success");
+    if (success || successLang || successLv) {
+      swal(t("Success"), t(checkString(success || successLang || successLv)), "success");
 
-    } else if (error) {
-      swal(t("Error"), t(checkString(error)), "error");
+    } else if (error || errorLang || errorLv) {
+      swal(t("Error"), t(checkString(error || errorLang || errorLv)), "error");
     }
 
      dispatch(cleanAlerts())
 
-  }, [success, error]);
+  }, [error, errorLang, errorLv, success, successLang, successLv]);
+
+
+
 
   //back to list
   const OnCancel = (evt) => {
     setEditLibraryId("")
     evt.target.closest(".tab-pane").classList.remove("active")
     evt.target.closest(".tab-content").children[0].classList.add("active")
+
+    document.querySelectorAll(".page .nav-tabs .nav-item .nav-link")[1].classList.remove("active")
+    document.querySelectorAll(".page .nav-tabs .nav-item .nav-link")[0].classList.add("active")
   }
 
 
@@ -57,8 +79,8 @@ const Add = ({ editLibraryId , setEditLibraryId }) => {
   //formik initial
   const [initialValues, setInitialValues] = useState({
     title: "",
-    status: "",
-    level: "",
+    quantity: "",
+    level: "", 
     language: "",
   })
 
@@ -67,19 +89,27 @@ const Add = ({ editLibraryId , setEditLibraryId }) => {
   //initial yup Scheme
  const LibraryAddValidator = yup.object().shape({
     title: yup.string().required(t("title field is required")),
-    status: yup.string().required(t("status field is required")),
+    quantity: yup.number().required(t("quantity field is required")),
     level: yup.string().required(t("level field is required")),
     language: yup.string().required(t("language field is required")),
   })
 
 
-
   //submit form 
   const onSubmit = values => {
+
+    const actions = {
+      fullName: `${user.firstname} ${user.lastname}`,
+      action: `${editLibraryId && editLibraryId !== "" ? "edit" : "add"}`,
+      role: `${user.role}`
+    }
+
+
+
     if (editLibraryId && editLibraryId !== "") {//if edit  
-      dispatch(editLibrary(values))
+      dispatch(editLibrary({ ...values, actions }))
     } else {//if add
-      dispatch(createLibrary(values)) 
+      dispatch(createLibrary({ ...values, actions })) 
 
     }
   }
@@ -87,9 +117,9 @@ const Add = ({ editLibraryId , setEditLibraryId }) => {
 
 
   return (
-    <div className="tab-pane" id="Library-add">
+    <div className="tab-pane" id="library-add">
 
-       {loading && loader()}
+       {(loading || loadingLang || loadingLv ) && loader()}
 
       {
         <Formik
@@ -99,7 +129,7 @@ const Add = ({ editLibraryId , setEditLibraryId }) => {
           enableReinitialize={true}>
 
           {
-            ({ touched, errors, isValid }) => (
+            ({  touched, errors, isValid, setFieldValue, setFieldTouched, values  }) => (
 
               <Form action="#" method="post">
 
@@ -114,6 +144,8 @@ const Add = ({ editLibraryId , setEditLibraryId }) => {
                         </div>
                       </div>
                       <div className="card-body"> 
+
+
                         <div className="form-group row">
                           <label className="col-md-3 col-form-label">{t("Title")} <span className="text-danger">*</span></label>
                           <div className="col-md-9">
@@ -128,11 +160,21 @@ const Add = ({ editLibraryId , setEditLibraryId }) => {
                          <div className="form-group row">
                           <label className="col-md-3 col-form-label">{t("Language")} <span className="text-danger">*</span></label>
                           <div className="col-md-9">
-                            <Field as="select" className="form-control input-height" name="language">
+                            <Field as="select" className="form-control input-height" name="language" value={values.language}
+                            
+                             onChange={val => {
+                                setFieldTouched("language")
+                                setFieldValue("language", val.target.value)
+                                setLangaugeID(val.target.value)
+                              }}>
+
                               <option value="">{t("Select...")}</option>
-                              <option value="france">france</option>
-                              <option value="germany">germany</option>
-                              <option value="english">english</option>
+
+
+                              {languages && languages.length > 0 && languages.map((c, ci) => {
+                                return <option key={ci} value={c._id}>{c.name}</option>
+                              })}
+
                             </Field>
                             {touched.language && errors.language && <small className="text-danger">{errors.language}</small>}
 
@@ -145,8 +187,11 @@ const Add = ({ editLibraryId , setEditLibraryId }) => {
                           <div className="col-md-9">
                             <Field as="select" className="form-control input-height" name="level">
                               <option value="">{t("Select...")}</option>
-                              <option value="a1">a1</option>
-                              <option value="a2">a2</option>
+
+                              {levels && levels.length > 0 && levels.map((l, li) => {
+                                return <option key={li} value={l._id}>{l.name}</option>
+                              })}
+
                             </Field>
                             {touched.level && errors.level && <small className="text-danger">{errors.level}</small>}
 
@@ -155,21 +200,15 @@ const Add = ({ editLibraryId , setEditLibraryId }) => {
                   
 
 
-            
-
                         <div className="form-group row">
-                          <label className="col-md-3 col-form-label">{t("Status")} <span className="text-danger">*</span></label>
+                          <label className="col-md-3 col-form-label">{t("Quantity")} <span className="text-danger">*</span></label>
                           <div className="col-md-9">
-                            <Field as="select" className="form-control input-height" name="status">
-                              <option value="">{t("Select...")}</option>
-                              <option value="Out of Stock">Out of Stock</option>
-                              <option value="In Stock">In Stock</option>
-                            </Field>
-                            {touched.status && errors.status && <small className="text-danger">{errors.status}</small>}
-
+                            <Field type="number" name="quantity" className="form-control" placeholder={t("Quantity")} />
+                            {touched.quantity && errors.quantity && <small className="text-danger">{errors.quantity}</small>}
                           </div>
                         </div>
 
+                     
 
 
                           <div className="col-sm-12">

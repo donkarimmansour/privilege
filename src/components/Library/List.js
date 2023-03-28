@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { countLibrary, deleteLibrary, getLibrary } from '../../redux/library/action';
@@ -6,6 +6,8 @@ import { checkString, loader } from '../../common/funs';
 import { cleanAlerts } from '../../redux/library/reducer';
 import swal from 'sweetalert';
 import ReactPaginate from "react-paginate";
+import ActionsModal from '../shared/ActionsModal';
+
 
 const List = ({ setEditLibraryId }) => {
 
@@ -14,13 +16,15 @@ const List = ({ setEditLibraryId }) => {
   const { loading, error, success, libraries, count } = useSelector(state => state.library)
   const [pageCount, setPageCount] = useState(0);
   const [pageCurrent, setPageCurrent] = useState(1);
+  const [modalState, toggleModal] = useState(false)
+  const [actions, setActions] = useState(false)
   const limit = 20
 
   //handle init
   useEffect(() => {
     const skip = (pageCurrent === 1) ? 0 : (pageCurrent - 1) * limit
 
-    dispatch(getLibrary({ sort: { _id: -1 }, skip: skip, limit: limit }))
+    dispatch(getLibrary({ sort: { _id: -1 }, skip: skip, limit: limit, expend: "all" }))
     dispatch(countLibrary({}))
   }, [dispatch, pageCurrent])
 
@@ -38,7 +42,11 @@ const List = ({ setEditLibraryId }) => {
 
   }, [success, error]);
 
-
+  //Actions Pupup
+  const ActionsPupup = actions => {
+    setActions(actions)
+    toggleModal(true)
+  }
 
 
   //send to edit section
@@ -47,6 +55,9 @@ const List = ({ setEditLibraryId }) => {
 
     evt.target.closest(".tab-pane").classList.remove("active")
     evt.target.closest(".tab-content").children[1].classList.add("active")
+
+    document.querySelector(".page .nav-tabs .nav-item .nav-link").classList.remove("active")
+    document.querySelectorAll(".page .nav-tabs .nav-item .nav-link")[1].classList.add("active")
 
   }
 
@@ -90,7 +101,8 @@ const List = ({ setEditLibraryId }) => {
 
 
   return (
-    <div className="tab-pane active" id="Library-all">
+    <div className="tab-pane active" id="library-all">
+      <ActionsModal modalState={modalState} toggleModal={toggleModal} actions={actions} />
 
       {loading && loader()}
 
@@ -104,27 +116,32 @@ const List = ({ setEditLibraryId }) => {
                   <th>{("Title")}</th>
                   <th>{("Language")}</th>
                   <th>{("Level")}</th>
-                  <th>{("Status")}</th>
+                  <th>{("Quantity")}</th>
                   <th>{("Action")}</th>
-                </tr>
+                </tr> 
               </thead>
               <tbody>
 
 
                 {libraries.length > 0 && libraries.map((l, li) => {
                   return (
-                    <tr key={li}>
+                    <Fragment key={li}>
+
+                    <tr>
                       <td>{li + 1}</td>
 
                       <td>{l.title}</td>
-                      <td>{l.language}</td>
-                      <td>{l.level}</td>
-                      <td>{l.status}</td>
+                      <td>{l?.language.name}</td>
+                      <td>{l?.level.name}</td>
+                      <td>{l.quantity}</td>
                       <td>
                         <button type="button" className="btn btn-icon btn-sm" title="Edit" onClick={(e) => { OnEdit(l._id, e) }}><i className="fa fa-edit" /></button>
+                        <button type="button" className="btn btn-icon btn-sm" title="Actions" onClick={() => { ActionsPupup(l.actions) }}><i className="fa fa-eye" /></button>
                         <button type="button" className="btn btn-icon btn-sm" onClick={() => { OnDelete(l._id) }} title="Delete" data-type="confirm"><i className="fa fa-trash-o text-danger" /></button>
                       </td>
                     </tr>
+                    </Fragment>
+
                   )
                 })}
 

@@ -2,11 +2,11 @@ import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { countCourse } from '../../redux/courses/action';
+import { countLanguage } from '../../redux/languages/action';
 import { countDepartment } from '../../redux/department/action';
 import { countGroupe } from '../../redux/groupes/action';
 import { countLevel } from '../../redux/levels/action';
-import { countProfessor } from '../../redux/professors/action';
+import { countTeacher } from '../../redux/teachers/action';
 import { countStudent } from '../../redux/students/action';
 
 
@@ -17,18 +17,18 @@ const Cards = () => {
 
     const { count : groupeCount } = useSelector(state => state.groupe)
     const { count : levelCount } = useSelector(state => state.level)
-    const { count : coursesCount } = useSelector(state => state.courses)
+    const { count : languagesCount } = useSelector(state => state.languages)
     const { count : departmentCount } = useSelector(state => state.departments)
     const { count : studentsCount } = useSelector(state => state.students)
-    const { count : professorsCount } = useSelector(state => state.professors)
+    const { count : teachersCount } = useSelector(state => state.teachers)
 
 
     //get data count s
     useEffect(() => {
-        dispatch(countCourse({}))
+        dispatch(countLanguage({}))
         dispatch(countDepartment({}))
         dispatch(countGroupe({}))
-        dispatch(countProfessor({}))
+        dispatch(countTeacher({}))
         dispatch(countStudent({}))
         dispatch(countLevel({}))
     }, [dispatch])
@@ -39,8 +39,8 @@ const Cards = () => {
         <div className="col-6 col-md-4 col-xl-2">
             <div className="card">
                 <div className="card-body ribbon">
-                    <div className="ribbon-box green" data-toggle="tooltip" title="New Professors">{professorsCount}</div>
-                    <Link to="/professors" className="my_sort_cut text-muted">
+                    <div className="ribbon-box green" data-toggle="tooltip" title="New Professors">{teachersCount}</div>
+                    <Link to="/teachers" className="my_sort_cut text-muted">
                         <i className="fa fa-black-tie"></i>
                         <span>{t("Teachers")}</span>
                     </Link>
@@ -50,10 +50,10 @@ const Cards = () => {
         <div className="col-6 col-md-4 col-xl-2">
             <div className="card">
                 <div className="card-body  ribbon">
-                <div className="ribbon-box green" data-toggle="tooltip" title="New Professors">{coursesCount}</div>
-                    <Link to="/courses" className="my_sort_cut text-muted">
+                <div className="ribbon-box green" data-toggle="tooltip" title="New Professors">{languagesCount}</div>
+                    <Link to="/languages" className="my_sort_cut text-muted">
                         <i className="fa fa-address-book"></i>
-                        <span>{t("Classes")}</span>
+                        <span>{t("Languages")}</span>
                     </Link>
                 </div>
             </div>
@@ -75,7 +75,7 @@ const Cards = () => {
                 <div className="ribbon-box green" data-toggle="tooltip" title="New Professors">{departmentCount}</div>
                     <Link to="/departments" className="my_sort_cut text-muted">
                         <i className="fa fa-folder"></i>
-                        <span>{t("departments")}</span>
+                        <span>{t("Departments")}</span>
                     </Link>
                 </div>
             </div>
@@ -97,7 +97,7 @@ const Cards = () => {
                 <div className="ribbon-box green" data-toggle="tooltip" title="New Professors">{groupeCount}</div>
                     <Link to="/groups" className="my_sort_cut text-muted">
                         <i className="fa fa-bullhorn"></i>
-                        <span>{t("Groups")}</span>
+                        <span>{t("Groupes")}</span>
                     </Link>
                 </div>
             </div>

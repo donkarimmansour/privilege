@@ -83,7 +83,10 @@ export const StudentsReducerSlice = createSlice({
             state.success = "Updated"
             
             const editIndex = state.students.findIndex(s => s._id === state.singleStudent._id)
-            state.students[editIndex] = { ...state.students[editIndex] , ...action.meta.arg}
+            state.students[editIndex] = {
+                ...action.meta.arg, ...state.students[editIndex],
+                actions: [ ...state.students[editIndex].actions, action.meta.arg.actions ]
+            }
 
         },
 
@@ -143,7 +146,7 @@ export const StudentsReducerSlice = createSlice({
 
             state.loading = false
             state.success = "Created"
-            state.students = [...state.students,  {...action.meta.arg ,  "_id" : action.payload}]
+            state.students = [...state.students,  {...action.meta.arg, image: "64138abb1da720d3bad0847a", "_id" : action.payload, actions: [action.meta.arg.actions]}]
             state.count = +1
 
         },

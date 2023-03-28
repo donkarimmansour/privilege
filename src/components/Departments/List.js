@@ -1,4 +1,4 @@
-import react, { useEffect, useState } from 'react'
+import react, { Fragment, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import swal from 'sweetalert';
@@ -6,6 +6,7 @@ import { checkString, loader } from '../../common/funs';
 import { cleanAlerts } from '../../redux/department/reducer';
 import { countDepartment, deleteDepartment, getDepartment } from '../../redux/department/action';
 import ReactPaginate from "react-paginate";
+import ActionsModal from '../shared/ActionsModal';
 
 
 const List = ({ setEditDepartmentId }) => {
@@ -15,6 +16,8 @@ const List = ({ setEditDepartmentId }) => {
   const dispatch = useDispatch();
   const [pageCount, setPageCount] = useState(0);
   const [pageCurrent, setPageCurrent] = useState(1);
+  const [modalState, toggleModal] = useState(false)
+  const [actions, setActions] = useState(false)
   const limit = 20
   const { loading, error, success, departments, count } = useSelector(state => state.departments)
 
@@ -42,7 +45,11 @@ const List = ({ setEditDepartmentId }) => {
   }, [success, error]);
 
 
-
+  //Actions Pupup
+  const ActionsPupup = actions => {
+    setActions(actions)
+    toggleModal(true)
+  }
 
   //send to edit section
   const OnEdit = (_id, evt) => {
@@ -50,6 +57,9 @@ const List = ({ setEditDepartmentId }) => {
 
     evt.target.closest(".tab-pane").classList.remove("active")
     evt.target.closest(".tab-content").children[1].classList.add("active")
+
+    document.querySelector(".page .nav-tabs .nav-item .nav-link").classList.remove("active")
+    document.querySelectorAll(".page .nav-tabs .nav-item .nav-link")[1].classList.add("active")
 
   }
 
@@ -92,8 +102,12 @@ const List = ({ setEditDepartmentId }) => {
 
   }, [count]);
 
+
+
   return (
-    <div className="tab-pane active" id="Dep-all">
+    <div className="tab-pane active" id="dep-all">
+        <ActionsModal modalState={modalState} toggleModal={toggleModal} actions={actions} />
+
       {loading && loader()}
 
       <div className="table-responsive">
@@ -102,8 +116,8 @@ const List = ({ setEditDepartmentId }) => {
             <thead>
               <tr>
                 <th>#.</th>
-                <th>{t("Department Name")}</th>
-                <th>{t("Head of Department")}</th>
+                <th>{t("Floor")}</th>
+                <th>{t("Class")}</th>
                 <th>{t("Action")}</th>
               </tr>
             </thead>
@@ -111,16 +125,21 @@ const List = ({ setEditDepartmentId }) => {
 
               {departments.length > 0 && departments.map((d, di) => {
                 return (
-                  <tr key={di}>
+                  <Fragment key={di}>
+
+                  <tr>
                     <td>{di + 1}</td>
 
-                    <td>{d.departmentName}</td>
-                    <td>{d.headOfDepartment}</td>
+                    <td>{d.floorName}</td>
+                    <td>{d.className}</td>
                     <td>
                       <button type="button" className="btn btn-icon btn-sm" title="Edit" onClick={(e) => { OnEdit(d._id, e) }}><i className="fa fa-edit" /></button>
+                      <button type="button" className="btn btn-icon btn-sm" title="Actions" onClick={() => { ActionsPupup(d.actions) }}><i className="fa fa-eye" /></button>
                       <button type="button" className="btn btn-icon btn-sm" onClick={() => { OnDelete(d._id) }} title="Delete"><i className="fa fa-trash-o text-danger" /></button>
                     </td>
                   </tr>
+                  </Fragment>
+
                 )
               })}
 

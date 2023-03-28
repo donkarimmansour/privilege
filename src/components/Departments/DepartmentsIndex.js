@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import Container from '../shared/Container'
 import Add from './Add'
 import List from './List'
@@ -7,18 +8,19 @@ import List from './List'
 
 const DepartmentsIndex = () => {
 
-  const [editDepartmentId , setEditDepartmentId] = useState("")
+  const [editDepartmentId, setEditDepartmentId] = useState("")
 
-  const links = [ 
-    {name : "Privilege" , url : "#"} ,
-    {name : "Departments" , url : "#"} ,
-]
+  const { t } = useTranslation();
 
-const tabs = [
-    {name : "List View" , id : "#Dep-all"} ,
-    {name : "Add" , id : "#Dep-add"} ,
-]
+  const links = [
+    { name: t("Privilege"), url: "#" },
+    { name: t("Departments"), url: "#" }
+  ]
 
+  const tabs = [
+    { name: t("Lis"), id: "#dep-all" },
+    { name: t("Add"), id: "#dep-add" },
+  ]
 
     return (
       <Container tabs={tabs} links={links}> 

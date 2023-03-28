@@ -17,11 +17,11 @@ const Breadcrumb = ({links , tabs , btns}) => {
                         <h1 className="page-title">{links && links.length && links[(links.length - 1)].name}</h1>
                         <ol className="breadcrumb page-breadcrumb">
 
-                            { links && links.length > 0 && links.map((link , li) => {
-                               return <li key={li} className={myClassName("breadcrumb-item" , { "active" : li === (links.length - 1)} )} {...(li === (links.length - 1) && { 'aria-current' : "page" })}>
-                                        {li !== (links.length - 1) ?  <a  href={link.url}>{link.name}</a> : link.name}
-                                      </li>
-                             })}
+                            {links && links.length > 0 && links.map((link, li) => {
+                                return <li key={li} className={myClassName("breadcrumb-item", { "active": li === (links.length - 1) })} {...(li === (links.length - 1) && { 'aria-current': "page" })}>
+                                    {li !== (links.length - 1) ? <a href={link.url}>{link.name}</a> : link.name}
+                                </li>
+                            })}
 
                         </ol>
                     </div>

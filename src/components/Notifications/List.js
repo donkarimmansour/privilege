@@ -1,119 +1,173 @@
-import { useState } from 'react'
+import react, { Fragment, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next';
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { countNotifications, deleteNotification, getNotifications } from '../../redux/notifications/action';
+import swal from 'sweetalert';
+import { cleanAlerts } from '../../redux/notifications/reducer';
+import { checkString, extractDesk, loader } from '../../common/funs';
+import ReactPaginate from 'react-paginate';
+import ActionsModal from '../shared/ActionsModal';
+import moment from 'moment';
 
 const List = () => {
 
   const { t } = useTranslation();
+  const dispatch = useDispatch();
   const { loading, error, success, notifications, count } = useSelector(state => state.notifications)
+  const [pageCount, setPageCount] = useState(0);
+  const [pageCurrent, setPageCurrent] = useState(1);
+  const [actions, setActions] = useState(false)
+  const [modalState, toggleModal] = useState(false)
+  const limit = 20
 
-  const OnSee = () => { }
-  const OnDelete = () => { }
+  //handle init
+  useEffect(() => {
+    const skip = (pageCurrent === 1) ? 0 : (pageCurrent - 1) * limit
+
+    dispatch(getNotifications({ sort: { _id: -1 }, expend: "studentID", skip: skip, limit: limit }))
+    dispatch(countNotifications({}))
+  }, [dispatch, pageCurrent])
 
 
- 
-  const data = [
-    {
-      class : "r" ,
-      group : "d" ,
-      level : "d" ,
-      option : "e" ,
-      session : "d" ,
-      message : "dddd" ,
-      title : "kk" ,
-      title : "name kk" ,
+  //alerts
+  useEffect(() => {
+    if (success) {
+      swal(t("Success"), t(checkString(success)), "success");
 
-    },
-    {
-      class : "r" ,
-      group : "d" ,
-      level : "d" ,
-      option : "e" ,
-      session : "d" ,
-      message : "dddd" ,
-      title : "kk" ,
-      title : "name kk" , 
+    } else if (error) {
+      swal(t("Error"), t(checkString(error)), "error");
     }
 
-  ]
+    dispatch(cleanAlerts())
 
+  }, [success, error]);
+
+
+  //Actions Pupup
+  const ActionsPupup = actions => {
+    setActions(actions)
+    toggleModal(true)
+  }
+
+
+  //delete notification
+  const OnDelete = (_id) => {
+
+    swal({
+      title: t("Are you sure?"),
+      text: t("You will not be able to recover this data"),
+      type: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#dc3545",
+      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: "No, cancel plx!",
+      closeOnConfirm: false,
+      closeOnCancel: false
+    }).then(isConfirm => {
+      if (isConfirm) {
+        dispatch(deleteNotification(_id))
+      }
+    });
+
+
+  }
+
+
+  //handle paginate
+  const handlePageClick = async (data) => {
+    setPageCurrent(data.selected + 1)
+  };
+
+
+
+  useEffect(() => {
+    if (count && typeof count === "number") {
+      setPageCount(Math.ceil(count / limit));
+    } else {
+      setPageCount(0);
+    }
+
+  }, [count]);
 
 
 
   return (
 
+    <div className="tab-pane active" id="notification-all">
 
+      <ActionsModal modalState={modalState} toggleModal={toggleModal} actions={actions} />
 
-<div className="tab-pane fade show active" id="notification-all">
+      {loading && loader()}
 
-  <div className="accordion" id="accordionExample">
+      <div className="table-responsive">
+        <div className="table-responsive card">
+          <table className="table table-hover table-striped table-vcenter text-nowrap mb-0">
+            <thead>
+              <tr>
+                <th>#.</th>
+                <th>{t("Title")}</th>
+                <th>{t("Name")}</th>
+                <th>{t("Message")}</th>
+                <th>{t("Seen")}</th>
+                <th>{t("Date")}</th>
+                <th>{t("Action")}</th>
+              </tr>
+            </thead>
+            <tbody>
 
-    {data.length > 0 && data.map((n, ni) => {
-      return (
+              {notifications.length > 0 && notifications.map((n, ni) => {
+                return (
+                  <Fragment key={ni}>
 
-        <div className="card inbox unread" key={ni}>
-        <div className="card-header" id="mailheading2">
+                    <tr>
+                      <td>{ni + 1}</td>
 
-          <label className="custom-control custom-checkbox custom-control-inline mr-0">
-            <input type="checkbox" className="custom-control-input" name="example-checkbox1" defaultValue="option1" />
-            <span className="custom-control-label">&nbsp;</span>
-          </label>
+                      <td>{n.title}</td>
+                      <td>{`${n.studentID?.firstname} ${n.studentID?.lastname}`}</td>
+                      <td>{extractDesk(n?.message, 50)}</td>
+                      <td>{n.seen ? t("Yes") : t("Nn")}</td>
+                      <td>{moment(n.updatedAt).format("DD/MM/YYYY")}</td>
 
+                      <td>
+                        <button type="button" className="btn btn-icon btn-sm" title="Actions" onClick={() => { ActionsPupup(n.actions) }}><i className="fa fa-eye" /></button>
+                        <button type="button" className="btn btn-icon btn-sm" onClick={() => { OnDelete(n._id) }} title="Delete"><i className="fa fa-trash-o text-danger" /></button>
+                      </td>
+                    </tr>
+                  </Fragment>
 
-           <h5 className="mb-0">
-            <button className="btn btn-link" type="button" data-toggle="collapse" data-target="#maillist2" aria-expanded="true" aria-controls="maillist2">{n.title}</button>
-          </h5>
+                )
+              })}
 
-          <span className="text_ellipsis xs-hide">There are many variations of passages of Lorem Ipsum available</span>
-          <div className="card-options">
-            <a className="text-muted" href="#!" onClick={OnDelete}><i className="fa fa-trash" /></a>                                        
-            <a className="text-muted" href="app-emailveiw.html" onClick={OnSee}><i className="fa fa-eye" /></a>
-          </div>
-        </div>                            
-        <div id="maillist2" className="collapse" aria-labelledby="mailheading2" data-parent="#accordionExample">
-          <div className="card-body detail">
-            <div className="detail-header">
-              <div className="media">
-                <div className="float-left">
-                  <div className="mr-3"><img src="../assets/images/xs/avatar3.jpg" alt="" /></div>
-                </div>
-                <div className="media-body">
-                  <p className="mb-0"><strong className="text-muted mr-1">From:</strong><a href="#!;">info@gmail.com</a></p>
-                  <p className="mb-0"><strong className="text-muted mr-1">To:</strong>Me </p>                                        
-                </div>
-              </div>
-            </div>
-            <div className="mail-cnt">
-              <p>Hello <strong>{n.name}</strong>,</p><br />
-              <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>                                            
-              <p>Thank youm,<br /><strong>Wendy Abbott</strong></p>
-            </div>
-          </div>
+            </tbody>
+          </table>
         </div>
       </div>
 
-      )
-    })}
+      <ReactPaginate
+        previousLabel={"previous"}
+        nextLabel={"next"}
+        breakLabel={"..."}
+        pageCount={pageCount}
+        marginPagesDisplayed={1}
+        pageRangeDisplayed={2}
+        onPageChange={handlePageClick}
+        containerClassName={"pagination"}
+        pageLinkClassName={"page-link"}
+        previousLinkClassName={"page-link"}
+        nextLinkClassName={"page-link"}
+        breakLinkClassName={"page-link"}
+        pageClassName={"page-item"}
+        previousClassName={"page-item"}
+        nextClassName={"page-item"}
+        breakClassName={"page-item"}
+        activeClassName={"active"}
+      // activeLinkClassName={"active"}
+      />
 
-   </div>
 
 
-
-   <div className="card">
-    <div className="card-body text-center py-5">
-      <img src="../assets/images/no-email.svg" className="width360 mb-3" />
-      <h4>Not Found</h4>
-      <span>Choose a ............</span>
     </div>
-  </div>
-
-
-
-</div>
-
-
 
   )
 

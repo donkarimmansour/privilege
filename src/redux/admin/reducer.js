@@ -83,7 +83,10 @@ export const AdminsReducerSlice = createSlice({
             state.success = "Updated"
 
             const editIndex = state.admins.findIndex(s => s._id === state.singleAdmin._id)
-            state.admins[editIndex] = { ...state.admins[editIndex] , ...action.meta.arg}
+            state.admins[editIndex] = {
+                ...action.meta.arg, ...state.admins[editIndex],
+                actions: [ ...state.admins[editIndex].actions, action.meta.arg.actions ]
+            }
 
         },
 
@@ -142,7 +145,7 @@ export const AdminsReducerSlice = createSlice({
 
             state.loading = false
             state.success = "Created"
-            state.admins = [...state.admins,  {...action.meta.arg ,  "_id" : action.payload}]
+            state.admins = [...state.admins,  {...action.meta.arg , image: "64138ac51da720d3bad08481",  "_id" : action.payload, actions: [action.meta.arg.actions]}]
             state.count = +1
 
         },

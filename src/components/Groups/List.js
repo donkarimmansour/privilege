@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import "react-datepicker/dist/react-datepicker.css";
 import { useDispatch, useSelector } from 'react-redux';
@@ -6,6 +6,7 @@ import { checkString, loader } from '../../common/funs';
 import swal from 'sweetalert';
 import { countGroupe, deleteGroupe, getGroupe } from '../../redux/groupes/action';
 import ReactPaginate from "react-paginate";
+import ActionsModal from '../shared/ActionsModal';
 
 const List = ({setEditGroupeId}) => {
 
@@ -16,6 +17,8 @@ const List = ({setEditGroupeId}) => {
   const { loading, error, success, groupes, count } = useSelector(state => state.groupe)
   const [pageCount, setPageCount] = useState(0);
   const [pageCurrent, setPageCurrent] = useState(1);
+  const [modalState, toggleModal] = useState(false)
+  const [actions, setActions] = useState(false)
   const limit = 20
  
 
@@ -39,6 +42,11 @@ const List = ({setEditGroupeId}) => {
   }, [success, error]);
 
 
+//Actions Pupup
+const ActionsPupup = actions => {
+  setActions(actions)
+  toggleModal(true)
+}
 
 
   //send to edit section
@@ -47,6 +55,9 @@ const List = ({setEditGroupeId}) => {
 
     evt.target.closest(".tab-pane").classList.remove("active")
     evt.target.closest(".tab-content").children[1].classList.add("active")
+
+    document.querySelector(".page .nav-tabs .nav-item .nav-link").classList.remove("active")
+    document.querySelectorAll(".page .nav-tabs .nav-item .nav-link")[1].classList.add("active")
      
   }
 
@@ -120,7 +131,8 @@ const List = ({setEditGroupeId}) => {
 
 
   return (
-    <div className="tab-pane active" id="Groupe-all">
+    <div className="tab-pane active" id="groupe-all">
+      <ActionsModal modalState={modalState} toggleModal={toggleModal} actions={actions} />
 
       {loading && loader()}
 
@@ -146,10 +158,10 @@ const List = ({setEditGroupeId}) => {
             <tr>
               <th>#.</th>
               <th>{t("Name")}</th>
+              <th>{t("Language")}</th>  
               <th>{t("Level")}</th>
               <th>{t("Department")}</th>
-              <th>{t("Position")}</th>
-              <th>{t("Class")}</th>
+              <th>{t("Teacher")}</th>
               <th>{t('Students')}</th>
               <th>{t("Action")}</th>
             </tr>
@@ -160,19 +172,24 @@ const List = ({setEditGroupeId}) => {
 
           {groupes.length > 0 && groupes.map((g, gi) => {
               return (
-                <tr key={gi}>
+                <Fragment key={gi}>
+
+                <tr>
                   <td>{gi + 1}</td>
                   <td>{g.name}</td>
+                  <td>{g?.languages?.name}</td>
                   <td>{g?.levels?.name}</td>
-                  <td>{g?.department?.departmentName}</td>
-                  <td>{g.position}</td>
-                  <td>{g?.className?.name}</td>
+                  <td>{`${g?.departments?.floorName} - ${g?.departments?.className}`}</td>
+                  <td>{`${g?.teachers?.firstname} ${g?.teachers?.firstname}`}</td>
                   <td>{g.studentsCount}</td>
                   <td>
                     <button type="button" className="btn btn-icon btn-sm" title="Edit" onClick={(e) => { OnEdit(g._id , e) }}><i className="fa fa-edit" /></button>
+                    <button type="button" className="btn btn-icon btn-sm" title="Actions" onClick={() => { ActionsPupup(g.actions) }}><i className="fa fa-eye" /></button>
                     <button type="button" className="btn btn-icon btn-sm" onClick={() => { OnDelete(g._id) }} title="Delete" data-type="confirm"><i className="fa fa-trash-o text-danger" /></button>
                   </td>
                 </tr>
+                </Fragment>
+
               )
             })}
 

@@ -90,7 +90,7 @@ const Test = () => {
     } else if (currentQuiz.id === quizzes.length && quizzes.length === quizTest.length) {
       done()
     } else {
-      swal("warning", "please reply", "warning")
+      swal("warning", t("please reply"), "warning")
     }
 
   };
@@ -111,7 +111,7 @@ const Test = () => {
  
     const rate = Math.floor(((quizzes.length - failureAnswers) / failureAnswers) * 100)
 
-    swal("done", `your dagre is : ${rate}`, "success")
+    swal("done", `${t("your dagre is")} : %${rate}`, "success")
  
     dispatch(createExam({rate , exam : quizTest, successed: (quizTest.length - failureAnswers), quizzes: quizTest.length}))
     

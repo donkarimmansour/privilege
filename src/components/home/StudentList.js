@@ -37,13 +37,12 @@ const StudentList = () => {
                             <table className="table table-striped mb-0 text-nowrap">
                                 <thead>
                                     <tr>
-                                        <th>{t("No")}</th>
+                                        <th>{t("#")}</th>
                                         <th>{t("Name")}</th>
                                         <th>{t("Class")}</th>
                                         <th>{t("Method")}</th>
-                                        <th>{t("Duration")}</th>
+                                        <th>{t("Type")}</th>
                                         <th>{t("Amount")}</th>
-                                        <th>{t("Status")}</th>
                                         <th>{t("DATE")}</th>
                                     </tr>
                                 </thead>
@@ -57,11 +56,10 @@ const StudentList = () => {
                                                 <td>{pi + 1}</td>
 
                                                 <td>{`${p?.studentID?.firstname} ${p?.studentID?.lastname}`}</td>
-                                                <td>{p?.studentID?.className?.name}</td>
+                                                <td>{p?.studentID?.language?.name}</td>
                                                 <td>{p.paymentMethod}</td>
-                                                <td>{p.paymentDuration}</td>
+                                                <td>{p.feesType}</td>
                                                 <td>{p.amount}</td>
-                                                <td><span className={myClassnames("tag", { "tag-green": p.paymentStatus === "paid" }, { "tag-orange": p.paymentStatus !== "paid" })}>{p.paymentStatus}</span></td>
                                                 <td>{moment(p.updatedAt).format("DD/MM/YYYY")}</td>
 
                                             </tr>

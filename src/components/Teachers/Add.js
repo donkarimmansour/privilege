@@ -8,18 +8,18 @@ import "react-datepicker/dist/react-datepicker.css";
 import myClassnames from 'classnames';
 import { checkString, loader } from '../../common/funs';
 import swal from 'sweetalert';
-import { createProfessor, editProfessor, editProfessorImage, getSingleProfessor } from '../../redux/professors/action';
-import { cleanAlerts } from '../../redux/professors/reducer';
+import { createTeacher, editTeacher, editTeacherImage, getSingleTeacher } from '../../redux/teachers/action';
+import { cleanAlerts } from '../../redux/teachers/reducer';
 import { CreateSingleFile } from '../../api/file';
-import { getCourse } from '../../redux/courses/action';
+import { getLanguage } from '../../redux/languages/action';
 
-const Add = ({ editProfessorId, setEditProfessorId }) => {
+const Add = ({ editTeacherId, setEditTeacherId }) => {
 
     const { t } = useTranslation();
     const dispatch = useDispatch()
-    const { loading, error, success, singleProfessor } = useSelector(state => state.professors)
-    const { token } = useSelector(state => state.auth)
-    const { courses } = useSelector(state => state.courses)
+    const { loading, error, success, singleTeacher } = useSelector(state => state.teachers)
+    const { loading:loadingTR, error:errorTR, success:successTR, languages } = useSelector(state => state.languages)
+    const { token, user } = useSelector(state => state.auth)
 
     const [generateData, setGenerateData] = useState({})
     const [Lloading, setLLoading] = useState(false)
@@ -27,14 +27,14 @@ const Add = ({ editProfessorId, setEditProfessorId }) => {
 
     //yup Scheme 
     const [initialScheme, setInitialScheme] = useState({
-        isAccountActivated: yup.string().required(t("type is required")),
+        isAccountActivated: yup.string().required(t("type field is required")),
         firstname: yup.string().required(t("firstname field is required")),
         lastname: yup.string().required(t("lastname field is required")),
         //gender: yup.string().oneOf(["male", "female"], t("you must select male or female")),
-        gender: yup.string().required(t("you must select male or female")),
+        gender: yup.string().required(t("gender field is required")),
         phone: yup.string().required(t("phone field is required")),
         birthday: yup.string().required(t("birthday field is required")),
-        teach: yup.string().required(t("teach field is required")),
+        language: yup.string().required(t("language field is required")),
         username: yup.string().required(t("username field is required")),
         email: yup.string().required(t("email field is required")).email("email must be email"),
         password: yup.string().required(t("password field is required")),
@@ -62,55 +62,58 @@ const Add = ({ editProfessorId, setEditProfessorId }) => {
         linkedin: "",
         note: "",
         website: "",
-        teach: "",
+        language: "",
         isAccountActivated: "no",
     })
 
 
     //alerts
     useEffect(() => {
-        if (success) {
-            swal(t("Success"), t(checkString(success)), "success");
+        if (success || successTR) {
+            swal(t("Success"), t(checkString(success || successTR)), "success");
 
-        } else if (error) {
-            swal(t("Error"), t(checkString(error)), "error");
+        } else if (error || errorTR) {
+            swal(t("Error"), t(checkString(error || errorTR)), "error");
         }
 
         dispatch(cleanAlerts())
 
-    }, [success, error]);
+    }, [success, successTR, error, errorTR]);
 
 
-    //get Professor data
+    //get Teacher data
     useEffect(() => {
-        if (editProfessorId && editProfessorId !== "") {
-            dispatch(getSingleProfessor({ filter: { _id: editProfessorId } }))
+        if (editTeacherId && editTeacherId !== "") {
+            dispatch(getSingleTeacher({ filter: { _id: editTeacherId } }))
         }
-    }, [editProfessorId])
+    }, [editTeacherId])
 
 
-    //update Professor data
+    //update Teacher data
     useEffect(() => {
-        if (singleProfessor && singleProfessor._id) {
+        if (singleTeacher && singleTeacher._id) {
 
-            setInitialValues(singleProfessor)
-            setProfileImage(singleProfessor.image)
+            setInitialValues(singleTeacher)
+            setProfileImage(singleTeacher.image)
             delete initialScheme.password
             delete initialScheme.confirmpassword
             setInitialScheme({ ...initialScheme })
         }
-    }, [singleProfessor])
-
+    }, [singleTeacher])
+ 
     //get classes data
     useEffect(() => {
-        dispatch(getCourse({ sort: { _id: -1 } }))
+        dispatch(getLanguage({ sort: { _id: -1 } }))
     }, [dispatch])
 
     //back to list
     const OnCancel = (evt) => {
-        setEditProfessorId("")
+        setEditTeacherId("")
         evt.target.closest(".tab-pane").classList.remove("active")
         evt.target.closest(".tab-content").children[0].classList.add("active")
+
+        document.querySelectorAll(".page .nav-tabs .nav-item .nav-link")[2].classList.remove("active")
+        document.querySelectorAll(".page .nav-tabs .nav-item .nav-link")[0].classList.add("active")
     }
 
 
@@ -140,14 +143,21 @@ const Add = ({ editProfessorId, setEditProfessorId }) => {
     //submit form
     const onSubmit = values => {
 
-        if (editProfessorId && editProfessorId !== "") {//if edit  
-            dispatch(editProfessor({ ...values, image: profileImage }))
+        const actions = {
+            fullName: `${user.firstname} ${user.lastname}`,
+            action: `${editTeacherId && editTeacherId !== "" ? "edit" : "add"}`,
+            role: `${user.role}`
+          }
+      
+
+        if (editTeacherId && editTeacherId !== "") {//if edit  
+            dispatch(editTeacher({ ...values, actions , image: profileImage }))
 
         } else {//if add
             if (!profileImage) {
-                dispatch(createProfessor({ ...values }))
+                dispatch(createTeacher({ ...values, actions  }))
             } else {
-                dispatch(createProfessor({ ...values, image: profileImage }))
+                dispatch(createTeacher({ ...values, actions , image: profileImage }))
             }
         }
 
@@ -163,9 +173,16 @@ const Add = ({ editProfessorId, setEditProfessorId }) => {
         if (e.target.files && e.target.files[0]) {
             const img = e.target.files[0];
 
+            const actions = {
+                fullName: `${user.firstname} ${user.lastname}`,
+                action: `${editTeacherId && editTeacherId !== "" ? "edit" : "add"}`,
+                role: `${user.role}`
+              }
+
 
             const formData = new FormData();
             formData.append('image', img);
+            formData.append('actions', actions);
 
             setLLoading(true)
 
@@ -177,10 +194,10 @@ const Add = ({ editProfessorId, setEditProfessorId }) => {
 
                 setProfileImage(data.msg)
 
-                if (!editProfessorId || editProfessorId === "") {
+                if (!editTeacherId || editTeacherId === "") {
                     swal(t("Uploaded"), t("Uploaded"), "success");
                 } else {
-                    dispatch(editProfessorImage({ image: data.msg, type: "" }))
+                    dispatch(editTeacherImage({ image: data.msg, type: "" }))
                 }
 
 
@@ -198,7 +215,7 @@ const Add = ({ editProfessorId, setEditProfessorId }) => {
     return (
         <div className="tab-pane" id="pro-add">
 
-            {(loading || Lloading) && loader()}
+            {(loading || Lloading || loadingTR) && loader()}
 
             {
                 <Formik
@@ -229,7 +246,7 @@ const Add = ({ editProfessorId, setEditProfessorId }) => {
 
                                                         <div className="form-group">
                                                             <label>{t("First Name")} <span className="text-danger">*</span></label>
-                                                            <Field type="text" name="firstname" className="form-control" placeholder={t("Enter your First Name")} />
+                                                            <Field type="text" name="firstname" className="form-control" placeholder={t("First Name")} />
                                                             {touched.firstname && errors.firstname && <small className="text-danger">{errors.firstname}</small>}
                                                         </div>
 
@@ -238,7 +255,7 @@ const Add = ({ editProfessorId, setEditProfessorId }) => {
 
                                                         <div className="form-group">
                                                             <label>{t("Last Name")} <span className="text-danger">*</span></label>
-                                                            <Field type="text" name="lastname" className="form-control" placeholder={t("Enter your Last Name")} />
+                                                            <Field type="text" name="lastname" className="form-control" placeholder={t("Last Name")} />
                                                             {touched.lastname && errors.lastname && <small className="text-danger">{errors.lastname}</small>}
                                                         </div>
 
@@ -248,13 +265,13 @@ const Add = ({ editProfessorId, setEditProfessorId }) => {
                                                         <div className="form-group">
                                                             <label>{t("Date of Birth")} </label>
 
-                                                            {/* <Field component={DatePicker} data-provide="datepicker" data-date-autoclose="true" name="birthday" className="form-control" placeholder={t("Enter your Date of Birth")} /> */}
+                                                            {/* <Field component={DatePicker} data-provide="datepicker" data-date-autoclose="true" name="birthday" className="form-control" placeholder={t("Date of Birth")} /> */}
                                                             <DatePicker
                                                                 selected={(values.birthday && new Date(values.birthday)) || null}
                                                                 onChange={val => {
                                                                     setFieldTouched("birthday")
                                                                     setFieldValue("birthday", val);
-                                                                }} className="form-control" placeholder={t("Enter your Date of Birth")} />
+                                                                }} className="form-control" placeholder={t("Date of Birth")} />
 
                                                             {touched.birthday && errors.birthday && <small className="text-danger">{errors.birthday}</small>}
                                                         </div>
@@ -277,17 +294,17 @@ const Add = ({ editProfessorId, setEditProfessorId }) => {
                                                     <div className="col-md-6 col-sm-12">
 
                                                         <div className="form-group">
-                                                            <label>{t("Teach")} <span className="text-danger">*</span></label>
-                                                            <Field as="select" name="teach" className="form-control show-tick">
+                                                            <label>{t("Language")} <span className="text-danger">*</span></label>
+                                                            <Field as="select" name="language" className="form-control show-tick">
                                                                 <option value="">{t("Select...")}</option>
 
-                                                                {courses && courses.length > 0 && courses.map((c, ci) => {
+                                                                {languages && languages.length > 0 && languages.map((c, ci) => {
                                                                     return <option key={ci} value={c._id}>{c.name}</option>
                                                                 })}
 
                                                             </Field>
 
-                                                            {touched.teach && errors.teach && <small className="text-danger">{errors.teach}</small>}
+                                                            {touched.language && errors.language && <small className="text-danger">{errors.language}</small>}
                                                         </div>
 
                                                     </div>
@@ -295,7 +312,7 @@ const Add = ({ editProfessorId, setEditProfessorId }) => {
                                                     <div className="col-md-4 col-sm-12">
                                                         <div className="form-group">
                                                             <label>{t("Phone")} <span className="text-danger">*</span></label>
-                                                            <Field type="text" name="phone" className="form-control" placeholder={t("Enter your Phone")} />
+                                                            <Field type="text" name="phone" className="form-control" placeholder={t("Phone")} />
                                                             {touched.phone && errors.phone && <small className="text-danger">{errors.phone}</small>}
                                                         </div>
 
@@ -303,7 +320,7 @@ const Add = ({ editProfessorId, setEditProfessorId }) => {
                                                     <div className="col-md-4 col-sm-12">
                                                         <div className="form-group">
                                                             <label>{t("Email")} <span className="text-danger">*</span></label>
-                                                            <Field type="text" name="email" className="form-control" placeholder={t("Enter your Email")} />
+                                                            <Field type="text" name="email" className="form-control" placeholder={t("Email")} />
                                                             {touched.email && errors.email && <small className="text-danger">{errors.email}</small>}
                                                         </div>
 
@@ -311,7 +328,7 @@ const Add = ({ editProfessorId, setEditProfessorId }) => {
                                                     <div className="col-md-4 col-sm-12">
                                                         <div className="form-group">
                                                             <label>{t("Website")}</label>
-                                                            <Field type="text" name="website" className="form-control" placeholder={t("Enter your Website")} />
+                                                            <Field type="text" name="website" className="form-control" placeholder={t("Website")} />
                                                             {touched.website && errors.website && <small className="text-danger">{errors.website}</small>}
                                                         </div>
                                                     </div>
@@ -360,7 +377,7 @@ const Add = ({ editProfessorId, setEditProfessorId }) => {
                                                         <div className="form-group mt-3">
 
                                                             <label>{t("Note")}</label>
-                                                            <Field as="textarea" name="note" rows="4" className="form-control no-resize" placeholder={t("Enter your Website")} />
+                                                            <Field as="textarea" name="note" rows="4" className="form-control no-resize" placeholder={t("Website")} />
                                                             {touched.note && errors.note && <small className="text-danger">{errors.note}</small>}
 
                                                         </div>
@@ -391,24 +408,24 @@ const Add = ({ editProfessorId, setEditProfessorId }) => {
                                                     <div className="col-sm-12">
                                                         <div className="form-group">
                                                             <label>{t("User Name")} <span className="text-danger">*</span></label>
-                                                            <Field type="text" name="username" className="form-control" placeholder={t("Enter your User Name")} />
+                                                            <Field type="text" name="username" className="form-control" placeholder={t("User Name")} />
                                                             {touched.username && errors.username && <small className="text-danger">{errors.username}</small>}
                                                         </div>
 
                                                     </div>
 
-                                                    <div className={myClassnames("col-sm-12", { "col-md-6": !editProfessorId || editProfessorId === "" })}>
+                                                    <div className={myClassnames("col-sm-12", { "col-md-6": !editTeacherId || editTeacherId === "" })}>
                                                         <div className="form-group">
                                                             <label>{t("Password")} <span className="text-danger">*</span></label>
-                                                            <Field type="text" name="password" className="form-control" placeholder={t("Enter your Password")} />
+                                                            <Field type="text" name="password" className="form-control" placeholder={t("Password")} />
                                                             {touched.password && errors.password && <small className="text-danger">{errors.password}</small>}
                                                         </div>
                                                     </div>
 
-                                                    {(!editProfessorId || editProfessorId === "") && <> <div className="col-sm-12 col-md-6" >
+                                                    {(!editTeacherId || editTeacherId === "") && <> <div className="col-sm-12 col-md-6" >
                                                         <div className="form-group">
                                                             <label>{t("Confirm Password")} <span className="text-danger">*</span></label>
-                                                            <Field type="text" name="confirmpassword" className="form-control" placeholder={t("Enter your Confirm Password")} />
+                                                            <Field type="text" name="confirmpassword" className="form-control" placeholder={t("Confirm Password")} />
                                                             {touched.confirmpassword && errors.confirmpassword && <small className="text-danger">{errors.confirmpassword}</small>}
                                                         </div>
                                                     </div>
@@ -432,20 +449,20 @@ const Add = ({ editProfessorId, setEditProfessorId }) => {
                                             <div className="card-body">
                                                 <div className="form-group">
                                                     <label>{t("Facebook")}</label>
-                                                    <Field type="text" name="facebook" className="form-control" placeholder={t("Enter your Facebook")} />
+                                                    <Field type="text" name="facebook" className="form-control" placeholder={t("Facebook")} />
                                                     {touched.facebook && errors.facebook && <small className="text-danger">{errors.facebook}</small>}
                                                 </div>
 
 
                                                 <div className="form-group">
                                                     <label>{t("Twitter")}</label>
-                                                    <Field type="text" name="twitter" className="form-control" placeholder={t("Enter your Twitter")} />
+                                                    <Field type="text" name="twitter" className="form-control" placeholder={t("Twitter")} />
                                                     {touched.twitter && errors.twitter && <small className="text-danger">{errors.twitter}</small>}
                                                 </div>
 
                                                 <div className="form-group">
                                                     <label>{t("Linkedin")}</label>
-                                                    <Field type="text" name="linkedin" className="form-control" placeholder={t("Enter your Linkedin")} />
+                                                    <Field type="text" name="linkedin" className="form-control" placeholder={t("Linkedin")} />
                                                     {touched.linkedin && errors.linkedin && <small className="text-danger">{errors.linkedin}</small>}
                                                 </div>
 

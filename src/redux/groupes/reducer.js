@@ -1,5 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { getSingleGroupe, getGroupe, countGroupe, editGroupe, deleteGroupe, createGroupe } from "./action"
+
+
 const initialState = {
     groupes: [],
     singleGroupe: {},
@@ -51,6 +53,7 @@ export const GroupesReducerSlice = createSlice({
         [getGroupe.rejected]: (state, action) => {
             state.loading = false
             state.error = action.payload
+            state.groupes = []
         },
 
         //countGroupe
@@ -79,7 +82,10 @@ export const GroupesReducerSlice = createSlice({
             state.success = "Updated"
             
             const editIndex = state.groupes.findIndex(s => s._id === state.singleGroupe._id)
-            state.groupes[editIndex] = { ...state.groupes[editIndex] , ...action.meta.arg}
+            state.groupes[editIndex] = {
+                ...action.meta.arg, ...state.groupes[editIndex],
+                actions: [ ...state.groupes[editIndex].actions, action.meta.arg.actions ]
+            }
         },
 
         [editGroupe.rejected]: (state, action) => {
@@ -112,7 +118,7 @@ export const GroupesReducerSlice = createSlice({
         [createGroupe.fulfilled]: (state, action) => {
             state.loading = false
             state.success = "Created"
-            state.groupes = [...state.groupes,  {...action.meta.arg ,  "_id" : action.payload}]
+            state.groupes = [...state.groupes,  {...action.meta.arg ,  "_id" : action.payload, teachersCount: 0, studentsCount: 0, actions: [action.meta.arg.actions]}]
             state.count = +1
         },
 

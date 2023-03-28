@@ -23,7 +23,7 @@ const Exam = () => {
         <div className="col-md-12">
             <div className="card">
                 <div className="card-header">
-                    <h3 className="card-title">{t("Exams")}</h3>
+                    <h3 className="card-title">{t("Exam")}</h3>
 
                 </div>
                 <div className="table-responsive" style={{ height: "310px" }}>
@@ -31,7 +31,7 @@ const Exam = () => {
                         <tbody>
 
                             <tr>
-                                <th>{t("No.")}</th>
+                                <th>{t("#")}</th>
                                 <th>{t("Name")}</th>
                                 <th></th>
                                 <th>{t("Rate")}</th>
@@ -54,8 +54,8 @@ const Exam = () => {
                                             <div className="text-muted">{ex.studentID?.className?.name}</div>
                                         </td>
 
-                                          <td>{ex.rate}</td>
-                                          <td>{ex.studentID?.isAccountActivated ? 'yes' : 'no'}</td>
+                                          <td>%{ex.rate}</td>
+                                          <td>{ex.studentID?.isAccountActivated ? t('Yes') : t('No')}</td>
                                           <td>{moment(ex.updatedAt).format("DD/MM/YYYY")}</td>
 
                                     </tr>

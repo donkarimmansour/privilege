@@ -1,16 +1,21 @@
 import React from "react"
+import { useTranslation } from "react-i18next";
 import Container from "../shared/Container"
 import List from "./List"
 
 
 const ExamIndex = () => {
 
+    
+    const { t } = useTranslation();
+
     const links = [
-        {name : "Privilege" , url : "#"} ,
-        {name : "Exam" , url : "#"} ,
+        { name: t("Privilege"), url: "#" },
+        { name: t("Exam"), url: "#" }
     ]
 
     const tabs = []
+    
 
     return  (
         <Container tabs={tabs} links={links}> 

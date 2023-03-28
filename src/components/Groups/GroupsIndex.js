@@ -2,22 +2,25 @@ import react, { useState } from 'react'
 import List from './List'
 import Container from '../shared/Container'
 import Add from './Add'
+import { useTranslation } from 'react-i18next'
 
  
 const LevelsIndex = () => {
 
   const [editGroupeId , setEditGroupeId] = useState("")
 
-  const links = [
-    {name : "Privilege" , url : "#"} ,
-    {name : "Groupes" , url : "#"} ,
-]
+  const { t } = useTranslation();
 
-const tabs = [
-    {name : "List View" , id : "#Groupe-all"} ,
-    {name : "Add" , id : "#Groupe-add"} 
-]
- 
+  const links = [
+    { name: t("Privilege"), url: "#" },
+    { name: t("Groupes"), url: "#" }
+  ]
+
+  const tabs = [
+    { name: t("List"), id: "#groupe-all" },
+    { name: t("Add"), id: "#groupe-add" },
+  ]
+
 
     return (
       <Container tabs={tabs} links={links}> 

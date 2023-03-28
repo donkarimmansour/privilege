@@ -77,9 +77,14 @@ export const LevelsReducerSlice = createSlice({
         [editLevel.fulfilled]: (state, action) => {
             state.loading = false
             state.success = "Updated"
-            
-            const editIndex = state.levels.findIndex(s => s._id === state.singleLevel._id)
-            state.levels[editIndex] = { ...state.levels[editIndex] , ...action.meta.arg}
+
+             const editIndex = state.levels.findIndex(s => s._id === state.singleLevel._id)
+
+            state.levels[editIndex] = {
+                ...action.meta.arg, ...state.levels[editIndex],
+                actions: [ ...state.levels[editIndex].actions, action.meta.arg.actions ],
+                languages: action.meta.arg.languages,
+            }
         },
 
         [editLevel.rejected]: (state, action) => {
@@ -110,10 +115,11 @@ export const LevelsReducerSlice = createSlice({
         },
 
         [createLevel.fulfilled]: (state, action) => {
+           
             state.loading = false
             state.success = "Created"
-            state.levels = [...state.levels,  {...action.meta.arg ,  "_id" : action.payload}]
-            state.count = +1
+            state.levels = [...state.levels, ...action.payload.map(l => ({...action.meta.arg , actions: [action.meta.arg.actions], languages: {name : l.name}, "_id" : l.id , studentsCount: 0})) ]
+            state.count = action.payload.length
         },
 
         [createLevel.rejected]: (state, action) => {

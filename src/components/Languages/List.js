@@ -3,16 +3,16 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import swal from 'sweetalert';
 import { checkString, loader } from '../../common/funs';
-import { countCourse, deleteCourse, getCourse } from '../../redux/courses/action';
-import { cleanAlerts } from '../../redux/courses/reducer';
+import { countLanguage, deleteLanguage, getLanguage } from '../../redux/languages/action';
+import { cleanAlerts } from '../../redux/languages/reducer';
 import Card from './Card'
 import ReactPaginate from "react-paginate";
 
-const List = ({ setEditCourseId }) => {
+const List = ({ setEditLanguageId }) => {
 
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const { loading, error, success, courses, count } = useSelector(state => state.courses)
+  const { loading, error, success, languages, count } = useSelector(state => state.languages)
   const [pageCount, setPageCount] = useState(0);
   const [pageCurrent, setPageCurrent] = useState(1);
   const limit = 20
@@ -21,9 +21,9 @@ const List = ({ setEditCourseId }) => {
   useEffect(() => {
     const skip = (pageCurrent === 1) ? 0 : (pageCurrent - 1) * limit
 
-   dispatch(getCourse({ sort: { _id: -1 }, skip: skip, limit: limit }))
+   dispatch(getLanguage({ sort: { _id: -1 }, skip: skip, limit: limit }))
 
-    dispatch(countCourse({}))
+    dispatch(countLanguage({}))
   }, [dispatch, pageCurrent])
 
 
@@ -40,13 +40,16 @@ const List = ({ setEditCourseId }) => {
 
   }, [success, error]);
 
+
   //send to edit section
   const OnEdit = (_id, evt) => {
-    setEditCourseId(_id)
+    setEditLanguageId(_id)
 
     evt.target.closest(".tab-pane").classList.remove("active")
     evt.target.closest(".tab-content").children[1].classList.add("active")
 
+    document.querySelector(".page .nav-tabs .nav-item .nav-link").classList.remove("active")
+    document.querySelectorAll(".page .nav-tabs .nav-item .nav-link")[1].classList.add("active")
   }
 
   //delete student
@@ -64,7 +67,7 @@ const List = ({ setEditCourseId }) => {
       closeOnCancel: false
     }).then(isConfirm => {
       if (isConfirm) {
-        dispatch(deleteCourse(_id))
+        dispatch(deleteLanguage(_id))
       }
     });
 
@@ -91,15 +94,15 @@ const List = ({ setEditCourseId }) => {
 
 
   return (
-    <div className="tab-pane active" id="Courses-all">
+    <div className="tab-pane active" id="languages-all">
 
       {loading && loader()}
 
       <div className="row row-deck">
-        {courses.length > 0 && courses.map((c, ci) => {
+        {languages.length > 0 && languages.map((c, ci) => {
 
           return (<div key={ci} className="col-xl-4 col-lg-4 col-md-6">
-            <Card course={c} OnEdit={OnEdit} OnDelete={OnDelete} />
+            <Card language={c} OnEdit={OnEdit} OnDelete={OnDelete} />
           </div>)
 
         })}

@@ -1,24 +1,27 @@
-import { useEffect, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import "react-datepicker/dist/react-datepicker.css";
 import { useDispatch, useSelector } from 'react-redux';
 import { checkString, ImageVIEW, loader } from '../../common/funs';
-import { deleteProfessor, getProfessor } from '../../redux/professors/action';
+import { deleteTeacher, getTeacher } from '../../redux/teachers/action';
 import { countStudent } from '../../redux/students/action';
 import swal from 'sweetalert';
-import { cleanAlerts } from '../../redux/professors/reducer';
+import { cleanAlerts } from '../../redux/teachers/reducer';
 import moment from 'moment';
 import ReactPaginate from "react-paginate";
+import ActionsModal from '../shared/ActionsModal';
 
-const List = ({ setEditProfessorId }) => {
+const List = ({ setEditTeacherId }) => {
 
  
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const [filters, setFilters] = useState({ lastname: "", phone: "", email: "", firstname: "" });
-  const { loading, error, success, professors, count } = useSelector(state => state.professors)
+  const { loading, error, success, teachers, count } = useSelector(state => state.teachers)
   const [pageCount, setPageCount] = useState(0);
   const [pageCurrent, setPageCurrent] = useState(1);
+  const [modalState, toggleModal] = useState(false)
+  const [actions, setActions] = useState(false)
   const limit = 20
 
   //handle Search
@@ -41,14 +44,23 @@ const List = ({ setEditProfessorId }) => {
   }, [success, error]);
 
 
+    //Actions Pupup
+    const ActionsPupup = actions => {
+      setActions(actions)
+      toggleModal(true)
+    }
+  
 
 
   //send to edit section
   const OnEdit = (_id, evt) => {
-    setEditProfessorId(_id)
+    setEditTeacherId(_id)
 
     evt.target.closest(".tab-pane").classList.remove("active")
     evt.target.closest(".tab-content").children[1].classList.add("active")
+
+    document.querySelector(".page .nav-tabs .nav-item .nav-link").classList.remove("active")
+    document.querySelectorAll(".page .nav-tabs .nav-item .nav-link")[2].classList.add("active")
 
   }
 
@@ -67,7 +79,7 @@ const List = ({ setEditProfessorId }) => {
       closeOnCancel: false
     }).then(isConfirm => {
       if (isConfirm) {
-        dispatch(deleteProfessor(_id))
+        dispatch(deleteTeacher(_id))
       }
     });
 
@@ -99,7 +111,7 @@ const List = ({ setEditProfessorId }) => {
 
 
     const skip = (pageCurrent === 1) ? 0 : (pageCurrent - 1) * limit
-    dispatch(getProfessor({ filter, sort: { _id: -1 }, expend: "all"  , skip : skip , limit : limit}))
+    dispatch(getTeacher({ filter, sort: { _id: -1 }, expend: "all"  , skip : skip , limit : limit}))
     dispatch(countStudent(filter))
 
   }
@@ -124,6 +136,7 @@ const List = ({ setEditProfessorId }) => {
 
   return (
     <div className="tab-pane active" id="pro-all">
+                  <ActionsModal modalState={modalState} toggleModal={toggleModal} actions={actions} />
 
       {loading && loader()}
 
@@ -164,35 +177,40 @@ const List = ({ setEditProfessorId }) => {
               <th>#.</th>
               <th>{t("Name")}</th>
               <th />
-              <th>{t("Teach")}</th>
+              <th>{t("Language")}</th>
               <th>{t("Email")}</th>
               <th>{t("Phone")}</th>
-              <th>{t("Admission Date")}</th>
+              <th>{t("Date")}</th>
               <th>{t("Action")}</th>
             </tr>
           </thead>
 
 
           <tbody>
+ 
 
-
-            {professors.length > 0 && professors.map((p, pi) => {
+            {teachers.length > 0 && teachers.map((p, pi) => {
               return (
-                <tr key={pi}>
+                <Fragment key={pi}>
+
+                <tr>
                   <td>{pi + 1}</td>
                   <td className="w60">
                     <img className="avatar" src={ImageVIEW(p.image)} alt="" />
                   </td>
                   <td><span className="font-16">{`${p.firstname} ${p.lastname}`}</span></td>
-                  <td>{p.teach.name}</td>
+                  <td>{p.language?.name}</td>
                   <td>{p.email}</td>
                   <td>{p.phone}</td>
                   <td>{moment(p.updatedAt).format("DD/MM/YYYY")}</td>
                   <td>
                     <button type="button" className="btn btn-icon btn-sm" title="Edit" onClick={(e) => { OnEdit(p._id, e) }}><i className="fa fa-edit" /></button>
+                    <button type="button" className="btn btn-icon btn-sm" title="Actions" onClick={() => { ActionsPupup(p.actions) }}><i className="fa fa-eye" /></button>
                     <button type="button" className="btn btn-icon btn-sm" onClick={() => { OnDelete(p._id) }} title="Delete" data-type="confirm"><i className="fa fa-trash-o text-danger" /></button>
                   </td>
                 </tr>
+                </Fragment>
+
               )
             })}
 

@@ -2,22 +2,24 @@ import react, { useEffect, useState } from 'react'
 import List from './List'
 import Container from '../shared/Container'
 import Add from './Add'
+import { useTranslation } from 'react-i18next'
 
 
 const AdminsIndex = () => {
 
   const [editAdminId , setEditAdminId] = useState("")
 
-  const links = [
-    {name : "Privilege" , url : "#"} ,
-    {name : "Admins" , url : "#"} ,
-]
+  const { t } = useTranslation();
 
-const tabs = [
-    {name : "List View" , id : "#Admin-all"} ,
-    {name : "Add" , id : "#Admin-add"} 
-]
- 
+  const links = [
+    { name: t("Privilege"), url: "#" },
+    { name: t("Admins"), url: "#" }
+  ]
+
+  const tabs = [
+    { name: t("List"), id: "#admin-all" },
+    { name: t("Add"), id: "#admin-add" },
+  ]
 
     return (
       <Container tabs={tabs} links={links}> 

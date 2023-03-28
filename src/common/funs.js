@@ -40,4 +40,30 @@ const checkString = msg => typeof msg == "string" ? msg : msg[0]
 
 const loader = () => <div className="loading"> <div className="spinner-border" style={{ width: "3rem", height: "3rem" }} role="loading"> <span className="sr-only">Loading...</span> </div> </div>
 
-export { ImageVIEW  , ImageDOWNLOAD  , extractDesk  , makeId , removeSiblingsClass , checkString , loader}  
+
+function getUniqueListBy(arr, key) {
+    return [...new Map(arr.map(item => [item[key], item])).values()]
+}
+
+const checkRole = (role , type) => {
+    if (type === "superAdmin") {
+      return ["superAdmin"].includes(role)
+    } else if (type === "admin") {
+        return ["admin"].includes(role)
+    } else if (type === "teacher") {
+        return ["teacher"].includes(role)
+    } else if (type === "student") {
+        return ["student"].includes(role)
+    } else if (type === "teacherOradminOrsuperAdmin") {
+        return ["admin" , "superAdmin", "teacher"].includes(role)
+    } else if (type === "adminOrsuperAdmin") {
+        return ["superAdmin"].includes(role)
+    } else if (type === "studentOrteacher") {
+        return ["student" , "teacher"].includes(role)
+    } else if (type === "all") {
+        return ["teacher", "student", "admin", "superAdmin"].includes(role)
+    }
+}
+
+
+export { ImageVIEW  , ImageDOWNLOAD  , extractDesk  , makeId , removeSiblingsClass , checkString , loader, getUniqueListBy, checkRole}  

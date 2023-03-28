@@ -1,13 +1,14 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { createApi, editApi, deleteApi, getApi, countApi, editImageApi, getExtraApi } from "../../api/courses";
+import { createApi, editApi, deleteApi, getApi, countApi, editImageApi } from "../../api/teachers";
+import { updateProfileImage } from "../auth/reducer"; 
 
-const createCourse = createAsyncThunk("Courses/create", async (args, CoursesApi) => {
-    const { rejectWithValue, getState } = CoursesApi
+const createTeacher = createAsyncThunk("teachers/create", async (args, TeachersApi) => {
+    const { rejectWithValue, getState } = TeachersApi
     const { token } = getState().auth
 
     const authorization = { "Authorization": `bearer ${token}` }
 
-    try { 
+    try {
         const res = await createApi(args, authorization)
         return res.data.msg
 
@@ -15,13 +16,12 @@ const createCourse = createAsyncThunk("Courses/create", async (args, CoursesApi)
         return rejectWithValue(err.response.data.msg)
     }
 })
-
  
 
-const editCourse = createAsyncThunk("Courses/edit", async (args, CoursesApi) => {
-    const { rejectWithValue, getState } = CoursesApi
+const editTeacher = createAsyncThunk("teachers/edit", async (args, TeachersApi) => {
+    const { rejectWithValue, getState } = TeachersApi
    const { token } = getState().auth
-    const { _id } = getState().courses.singleCourse
+    const { _id } = getState().teachers.singleTeacher
 
     const authorization = { "Authorization": `bearer ${token}` }
 
@@ -33,20 +33,25 @@ const editCourse = createAsyncThunk("Courses/edit", async (args, CoursesApi) => 
         return rejectWithValue(err.response.data.msg)
     }
 })
- 
 
 
-const editCourseImage = createAsyncThunk("Courses/editimage", async (args, CoursesApi) => {
-    const { rejectWithValue, getState } = CoursesApi
+
+const editTeacherImage = createAsyncThunk("teachers/editimage", async (args, TeachersApi) => {
+    const { rejectWithValue, getState , dispatch } = TeachersApi
     const { token } = getState().auth
     const { image , type } = args
 
-    const id = type === "profile" ? getState().auth.user._id : getState().courses.singleCourse._id
+    const id = type === "profile" ? getState().auth.user._id : getState().teachers.singleTeacher._id
 
     const authorization = { "Authorization": `bearer ${token}` }
 
     try {
         const res = await editImageApi(id, {image}, authorization )
+
+        if(type === "profile"){
+            dispatch(updateProfileImage(res.data.msg))
+        }
+
         return res.data.msg
 
     } catch (err) {
@@ -54,8 +59,8 @@ const editCourseImage = createAsyncThunk("Courses/editimage", async (args, Cours
     }
 })
 
-const deleteCourse = createAsyncThunk("Courses/delete", async (args, CoursesApi) => {
-    const { rejectWithValue, getState } = CoursesApi
+const deleteTeacher = createAsyncThunk("teachers/delete", async (args, TeachersApi) => {
+    const { rejectWithValue, getState } = TeachersApi
     const { token } = getState().auth
     const authorization = { "Authorization": `bearer ${token}` }
 
@@ -63,13 +68,13 @@ const deleteCourse = createAsyncThunk("Courses/delete", async (args, CoursesApi)
         const res = await deleteApi(args, authorization )
         return res.data.msg
 
-    } catch (err) {
+    } catch (err) { 
         return rejectWithValue(err.response.data.msg)
     }
 })
 
-const getCourse = createAsyncThunk("Courses/get", async (args, CoursesApi) => {
-    const { rejectWithValue, getState } = CoursesApi
+const getTeacher = createAsyncThunk("teachers/get", async (args, TeachersApi) => {
+    const { rejectWithValue, getState } = TeachersApi
     const { token } = getState().auth
 
     const authorization = { "Authorization": `bearer ${token}` }
@@ -84,10 +89,8 @@ const getCourse = createAsyncThunk("Courses/get", async (args, CoursesApi) => {
     }
 })
 
-
-
-const countCourse = createAsyncThunk("Courses/count", async (args, CoursesApi) => {
-    const { rejectWithValue, getState } = CoursesApi
+const countTeacher = createAsyncThunk("teachers/count", async (args, TeachersApi) => {
+    const { rejectWithValue, getState } = TeachersApi
     const { token } = getState().auth
 
     const authorization = { "Authorization": `bearer ${token}` }
@@ -99,10 +102,10 @@ const countCourse = createAsyncThunk("Courses/count", async (args, CoursesApi) =
     } catch (err) {
         return rejectWithValue(err.response.data.msg)
     }
-})
+})  
 
-const getSingleCourse = createAsyncThunk("Courses/getSingle", async (args, CoursesApi) => {
-    const { rejectWithValue, getState } = CoursesApi
+const getSingleTeacher = createAsyncThunk("teachers/getSingle", async (args, TeachersApi) => {
+    const { rejectWithValue, getState } = TeachersApi
     const { token } = getState().auth
 
     const authorization = { "Authorization": `bearer ${token}` }
@@ -115,6 +118,6 @@ const getSingleCourse = createAsyncThunk("Courses/getSingle", async (args, Cours
         return rejectWithValue(err.response.data.msg)
     }
 })
+ 
 
-
-export { getSingleCourse, getCourse, countCourse, editCourse, deleteCourse, createCourse  , editCourseImage }
+export { getSingleTeacher, getTeacher, countTeacher, editTeacher, deleteTeacher, createTeacher  , editTeacherImage  }
