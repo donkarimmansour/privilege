@@ -21,13 +21,15 @@ const Test = () => {
   const [currentQuiz, setCurrentQuiz] = useState({ question: "", answer: "", status: false, type: "", text: "" })
   const [currentChoose, setCurrentChoose] = useState(0)
   const [quizTest, setQuizTest] = useState([])
-  const quizTime = 600000
+  const quizTime = 60000000
   const { loading, error, success } = useSelector(state => state.exam)
   const {user } = useSelector(state => state.auth) 
 
   useEffect(() => {
-    if ( user.tested === "yes" ) {
-        navigate("/") 
+    if (!user) {
+      navigate("/login")
+    } else if(user.tested === "yes") {
+      navigate("/")
     }
   }, [user?.tested])
 
@@ -42,14 +44,14 @@ const Test = () => {
 
 
   // Renderer callback with condition
-  const renderer = ({ minutes, seconds, completed }) => {
-    if (completed) {
-      done()
+  const renderer = ({ hours, minutes, seconds, completed }) => {
+    // if (completed) {
+    //   done()
+    //   return <span className="text-white position-absolute">okey</span>;
+    // } else {
 
-      return <span className="text-white position-absolute">okey</span>;
-    } else {
-      return <span className="text-white position-absolute">{minutes}:{seconds}</span>;
-    }
+      return <span className="text-white position-absolute">{`${hours}:${minutes}:${seconds}`}</span>;
+  //  }
   };
 
 
@@ -171,7 +173,7 @@ const Test = () => {
           </div>
           <div className="container p-0">
 
-            <form className="multisteps_form" method="POST" action="../thankyou/index-2.html">
+            <form className="multisteps_form" method="POST" >
               {/*----------------------- Steps ---------------------------*/}
               <div className="multisteps_form_panel">
                 <div className="row">
@@ -228,7 +230,7 @@ const Test = () => {
                 })}
 
               </div>
-            </form>
+            </form> 
 
             {/*----------------------- Form button ---------------------------*/}
             <div className="form_btn">

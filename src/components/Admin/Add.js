@@ -57,7 +57,7 @@ const Add = ({ editAdminId, setEditAdminId }) => {
     facebook: "",
     twitter: "",
     linkedin: "",
-    isAccountActivated: "no",
+    isAccountActivated: "yes",
     role: "admin",
   })
 
@@ -145,7 +145,7 @@ const Add = ({ editAdminId, setEditAdminId }) => {
  
     } else {//if add
       if (!profileImage) {
-        dispatch(createAdmin({ ...values }))
+        dispatch(createAdmin({ ...values, actions }))
       } else {
         dispatch(createAdmin({ ...values, actions , image: profileImage }))
       }
@@ -239,14 +239,14 @@ const Add = ({ editAdminId, setEditAdminId }) => {
                           <label className="col-md-3 col-form-label">{t("First Name")} <span className="text-danger">*</span></label>
                           <div className="col-md-9">
                             <Field type="text" name="firstname" className="form-control" placeholder={t("First Name")} />
-                            {touched.firstname && errors.firstname && <small className="text-danger">{errors.firstname}</small>}
+                            {touched.firstname && errors.firstname && <small className="text-danger">{t(errors.firstname)}</small>}
                           </div>
                         </div>
                         <div className="form-group row">
                           <label className="col-md-3 col-form-label">{t("Last Name")} <span className="text-danger">*</span></label>
                           <div className="col-md-9">
                             <Field type="text" name="lastname" className="form-control" placeholder={t("Last Name")} />
-                            {touched.lastname && errors.lastname && <small className="text-danger">{errors.lastname}</small>}
+                            {touched.lastname && errors.lastname && <small className="text-danger">{t(errors.lastname)}</small>}
                           </div>
                         </div>
 
@@ -254,7 +254,7 @@ const Add = ({ editAdminId, setEditAdminId }) => {
                           <label className="col-md-3 col-form-label">{t("Email")} <span className="text-danger">*</span></label>
                           <div className="col-md-9">
                             <Field type="text" name="email" className="form-control" placeholder={t("Email")} />
-                            {touched.email && errors.email && <small className="text-danger">{errors.email}</small>}
+                            {touched.email && errors.email && <small className="text-danger">{t(errors.email)}</small>}
                           </div>
                         </div>
 
@@ -267,7 +267,7 @@ const Add = ({ editAdminId, setEditAdminId }) => {
                               <option value="admin">{t("Admin")}</option>
                               <option value="superAdmin">{t("Super Admin")}</option>
                             </Field>
-                            {touched.role && errors.role && <small className="text-danger">{errors.role}</small>}
+                            {touched.role && errors.role && <small className="text-danger">{t(errors.role)}</small>}
 
                           </div>
                         </div>
@@ -283,7 +283,7 @@ const Add = ({ editAdminId, setEditAdminId }) => {
                               <option value="male">{t("Male")}</option>
                               <option value="female">{t("Female")}</option>
                             </Field>
-                            {touched.gender && errors.gender && <small className="text-danger">{errors.gender}</small>}
+                            {touched.gender && errors.gender && <small className="text-danger">{t(errors.gender)}</small>}
 
                           </div>
                         </div>
@@ -292,7 +292,7 @@ const Add = ({ editAdminId, setEditAdminId }) => {
                           <label className="col-md-3 col-form-label">{t("Phone")} <span className="text-danger">*</span></label>
                           <div className="col-md-9">
                             <Field type="text" name="phone" className="form-control" placeholder={t("Phone")} />
-                            {touched.phone && errors.phone && <small className="text-danger">{errors.phone}</small>}
+                            {touched.phone && errors.phone && <small className="text-danger">{t(errors.phone)}</small>}
                           </div>
                         </div>
 
@@ -307,7 +307,7 @@ const Add = ({ editAdminId, setEditAdminId }) => {
                                 setFieldValue("birthday", val);
                               }} className="form-control" placeholder={t("Date of Birth")} />
 
-                            {touched.birthday && errors.birthday && <small className="text-danger">{errors.birthday}</small>}
+                            {touched.birthday && errors.birthday && <small className="text-danger">{t(errors.birthday)}</small>}
                           </div>
                         </div>
 
@@ -332,7 +332,7 @@ const Add = ({ editAdminId, setEditAdminId }) => {
                             </div>
                           </div>
 
-                          {touched.isAccountActivated && errors.isAccountActivated && <small className="text-danger">{errors.isAccountActivated}</small>}
+                          {touched.isAccountActivated && errors.isAccountActivated && <small className="text-danger">{t(errors.isAccountActivated)}</small>}
 
                         </div>
 
@@ -346,7 +346,7 @@ const Add = ({ editAdminId, setEditAdminId }) => {
 
 
                         <div className="form-group row">
-                          <button type="submit" className="btn btn-primary" disabled={(loading || !isValid)}>{t("Submit")}</button>
+                          <button type="submit" className="btn btn-primary mr-3" disabled={(loading || !isValid)}>{t("Submit")}</button>
                           <button type="button" className="btn btn-outline-secondary" onClick={(e) => { OnCancel(e) }}>{t("Cancel")}</button>
                         </div>
 
@@ -370,7 +370,7 @@ const Add = ({ editAdminId, setEditAdminId }) => {
                             <div className="form-group">
                               <label>{t("User Name")} <span className="text-danger">*</span></label>
                               <Field type="text" name="username" className="form-control" placeholder={t("User Name")} />
-                              {touched.username && errors.username && <small className="text-danger">{errors.username}</small>}
+                              {touched.username && errors.username && <small className="text-danger">{t(errors.username)}</small>}
                             </div>
                           </div>
 
@@ -379,7 +379,7 @@ const Add = ({ editAdminId, setEditAdminId }) => {
                             <div className="form-group">
                               <label>{t("Password")} <span className="text-danger">*</span></label>
                               <Field type="text" name="password" className="form-control" placeholder={t("Password")} />
-                              {touched.password && errors.password && <small className="text-danger">{errors.password}</small>}
+                              {touched.password && errors.password && <small className="text-danger">{t(errors.password)}</small>}
                             </div>
                           </div>
 
@@ -387,7 +387,7 @@ const Add = ({ editAdminId, setEditAdminId }) => {
                             <div className="form-group">
                               <label>{t("Confirm Password")} <span className="text-danger">*</span></label>
                               <Field type="text" name="confirmpassword" className="form-control" placeholder={t("Confirm Password")} />
-                              {touched.confirmpassword && errors.confirmpassword && <small className="text-danger">{errors.confirmpassword}</small>}
+                              {touched.confirmpassword && errors.confirmpassword && <small className="text-danger">{t(errors.confirmpassword)}</small>}
                             </div>
                           </div>
 
@@ -411,20 +411,20 @@ const Add = ({ editAdminId, setEditAdminId }) => {
                         <div className="form-group">
                           <label>{t("Facebook")}</label>
                           <Field type="text" name="facebook" className="form-control" placeholder={t("Facebook")} />
-                          {touched.facebook && errors.facebook && <small className="text-danger">{errors.facebook}</small>}
+                          {touched.facebook && errors.facebook && <small className="text-danger">{t(errors.facebook)}</small>}
                         </div>
 
 
                         <div className="form-group">
                           <label>{t("Twitter")}</label>
                           <Field type="text" name="twitter" className="form-control" placeholder={t("Twitter")} />
-                          {touched.twitter && errors.twitter && <small className="text-danger">{errors.twitter}</small>}
+                          {touched.twitter && errors.twitter && <small className="text-danger">{t(errors.twitter)}</small>}
                         </div>
 
                         <div className="form-group">
                           <label>{t("Linkedin")}</label>
                           <Field type="text" name="linkedin" className="form-control" placeholder={t("Linkedin")} />
-                          {touched.linkedin && errors.linkedin && <small className="text-danger">{errors.linkedin}</small>}
+                          {touched.linkedin && errors.linkedin && <small className="text-danger">{t(errors.linkedin)}</small>}
                         </div>
 
 

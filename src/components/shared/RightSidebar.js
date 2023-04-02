@@ -1,27 +1,31 @@
 import react from 'react'
 import { useTranslation } from 'react-i18next';
-import { removeSiblingsClass } from '../../common/funs';
+import { checkRole, removeSiblingsClass } from '../../common/funs';
 import { getLocalStorage, setLocalStorage } from '../../common/localStorage';
 import myClassname from "classnames";
+import { useSelector } from 'react-redux';
 
 const RightSidebar = ({refresher , setRefresher}) => {
     const { t } = useTranslation();
-    
+    const { user } = useSelector(state => state.auth)
+
     //skin Changer
     const skinChanger = (e) => {
         var $body = document.querySelector('body');
         var $this = e
 
-        const existTheme = document.querySelector('.choose-skin li.active').getAttribute('data-theme');
+        const existTheme = document.querySelector('.choose-skin > li.active')?.getAttribute('data-theme') || "azure"
 
         removeSiblingsClass($this.target, "active")
 
         $this.target.classList.add('active');
 
-        $body.classList.remove('theme-' + existTheme);
-        $body.classList.add('theme-' + $this.target.getAttribute('data-theme'));
+        const newTheme = $this.target.getAttribute('data-theme') || "azure"
 
-        setLocalStorage("skinChanger", 'theme-' + $this.target.getAttribute('data-theme') )
+        $body.classList.remove('theme-' + existTheme);
+        $body.classList.add('theme-' + newTheme);
+
+        setLocalStorage("skinChanger", 'theme-' + newTheme )
         setRefresher(refresher + 1)
     }
 
@@ -84,27 +88,27 @@ const RightSidebar = ({refresher , setRefresher}) => {
     }
 
 
-    //Box Shadow
-    const boxShadow = (el) => {
-        if (el.target.checked) {
-            document.querySelector('.card, .btn, .progress').classList.add('box_shadow');
-        } else {
-            document.querySelector('.card, .btn, .progress').classList.remove('box_shadow');
-        }
-        setLocalStorage("boxShadow", getLocalStorage("boxShadow") === "true" ? "false" : "true")
-        setRefresher(refresher + 1)
-    }
+    // //Box Shadow
+    // const boxShadow = (el) => {
+    //     if (el.target.checked) {
+    //         document.querySelector('.card, .btn, .progress').classList.add('box_shadow');
+    //     } else {
+    //         document.querySelector('.card, .btn, .progress').classList.remove('box_shadow');
+    //     }
+    //     setLocalStorage("boxShadow", getLocalStorage("boxShadow") === "true" ? "false" : "true")
+    //     setRefresher(refresher + 1)
+    // }
 
-    //Box Layout
-    const boxLayout = (el) => {
-        if (el.target.checked) {
-            document.querySelector('body').classList.add('boxlayout');
-        } else {
-            document.querySelector('body').classList.remove('boxlayout');
-        }
-        setLocalStorage("boxLayout", getLocalStorage("boxLayout") === "true" ? "false" : "true")
-        setRefresher(refresher + 1)
-    }
+    // //Box Layout
+    // const boxLayout = (el) => {
+    //     if (el.target.checked) {
+    //         document.querySelector('body').classList.add('boxlayout');
+    //     } else {
+    //         document.querySelector('body').classList.remove('boxlayout');
+    //     }
+    //     setLocalStorage("boxLayout", getLocalStorage("boxLayout") === "true" ? "false" : "true")
+    //     setRefresher(refresher + 1)
+    // }
 
     //RTL Support
     const RTLSupport = (el) => {
@@ -188,6 +192,9 @@ const RightSidebar = ({refresher , setRefresher}) => {
                             <li className={myClassname({ "active" : getLocalStorage("skinChanger") === "theme-white"})} onClick={skinChanger} data-theme="white"><div className="bg-white"></div></li>
                         </ul>
                     </div>
+
+                    {checkRole(user.role, "teacherOradminOrsuperAdmin")}
+
                     <div className="mb-4">
                         <h6 className="font-14 font-weight-bold text-muted">{t("Font Style")}</h6>
                         <div className="custom-controls-stacked font_setting">
@@ -236,34 +243,42 @@ const RightSidebar = ({refresher , setRefresher}) => {
                                     <span className="custom-switch-indicator"></span>
                                 </label>
                             </li>
-                            <li>
-                                <label className="custom-switch">
-                                    <span className="custom-switch-description">{t("Sidebar Dark")}</span>
-                                    <input type="checkbox" name="custom-switch-checkbox" defaultChecked={getLocalStorage("sidebarDark") === "true" ? true : false } onClick={sidebarDark} className="custom-switch-input btn-sidebar" />
-                                    <span className="custom-switch-indicator"></span>
-                                </label>
-                            </li>
-                            <li>
-                                <label className="custom-switch">
-                                    <span className="custom-switch-description">{t("Icon Color")}</span>
-                                    <input type="checkbox" name="custom-switch-checkbox" defaultChecked={getLocalStorage("iconColor") === "true" ? true : false } onClick={iconColor} className="custom-switch-input btn-iconcolor" />
-                                    <span className="custom-switch-indicator"></span>
-                                </label>
-                            </li>
+
+
+                            {checkRole(user.role, "teacherOradminOrsuperAdmin") &&
+                                <>
+                                    <li>
+                                        <label className="custom-switch">
+                                            <span className="custom-switch-description">{t("Sidebar Dark")}</span>
+                                            <input type="checkbox" name="custom-switch-checkbox" defaultChecked={getLocalStorage("sidebarDark") === "true" ? true : false} onClick={sidebarDark} className="custom-switch-input btn-sidebar" />
+                                            <span className="custom-switch-indicator"></span>
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label className="custom-switch">
+                                            <span className="custom-switch-description">{t("Icon Color")}</span>
+                                            <input type="checkbox" name="custom-switch-checkbox" defaultChecked={getLocalStorage("iconColor") === "true" ? true : false} onClick={iconColor} className="custom-switch-input btn-iconcolor" />
+                                            <span className="custom-switch-indicator"></span>
+                                        </label>
+                                    </li>
+                                </>
+                            }
+
+
                             <li>
                                 <label className="custom-switch">
                                     <span className="custom-switch-description">{t("Gradient Color")}</span>
-                                    <input type="checkbox" name="custom-switch-checkbox" defaultChecked={getLocalStorage("gradientColor") === "true" ? true : false } onClick={gradientColor} className="custom-switch-input btn-gradient" defaultChecked />
+                                    <input type="checkbox" name="custom-switch-checkbox" defaultChecked={getLocalStorage("gradientColor") === "true" ? true : false } onClick={gradientColor} className="custom-switch-input btn-gradient" />
                                     <span className="custom-switch-indicator"></span>
                                 </label>
                             </li>
-                            <li>
+                            {/* <li>
                                 <label className="custom-switch">
                                     <span className="custom-switch-description">{t("Box Shadow")}</span>
                                     <input type="checkbox" name="custom-switch-checkbox" defaultChecked={getLocalStorage("boxShadow") === "true" ? true : false } onClick={boxShadow} className="custom-switch-input btn-boxshadow" />
                                     <span className="custom-switch-indicator"></span>
                                 </label>
-                            </li>
+                            </li> */}
                             <li>
                                 <label className="custom-switch">
                                     <span className="custom-switch-description">{t("RTL Support")}</span>
@@ -271,13 +286,13 @@ const RightSidebar = ({refresher , setRefresher}) => {
                                     <span className="custom-switch-indicator"></span>
                                 </label>
                             </li>
-                            <li>
+                            {/* <li>
                                 <label className="custom-switch">
                                     <span className="custom-switch-description">{t("Box Layout")}</span>
                                     <input type="checkbox" name="custom-switch-checkbox" defaultChecked={getLocalStorage("boxLayout") === "true" ? true : false } onClick={boxLayout} className="custom-switch-input btn-boxlayout" />
                                     <span className="custom-switch-indicator"></span>
                                 </label>
-                            </li>
+                            </li> */}
                         </ul>
                     </div>
 

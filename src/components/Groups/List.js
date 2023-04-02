@@ -2,7 +2,7 @@ import { Fragment, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import "react-datepicker/dist/react-datepicker.css";
 import { useDispatch, useSelector } from 'react-redux';
-import { checkString, loader } from '../../common/funs';
+import { checkRole, checkString, loader } from '../../common/funs';
 import swal from 'sweetalert';
 import { countGroupe, deleteGroupe, getGroupe } from '../../redux/groupes/action';
 import ReactPaginate from "react-paginate";
@@ -19,6 +19,7 @@ const List = ({setEditGroupeId}) => {
   const [pageCurrent, setPageCurrent] = useState(1);
   const [modalState, toggleModal] = useState(false)
   const [actions, setActions] = useState(false)
+  const { user } = useSelector(state => state.auth)
   const limit = 20
  
 
@@ -142,12 +143,12 @@ const ActionsPupup = actions => {
 
             <div className="col-sm-6">
               <div className="input-group">
-                <input type="text" name="name" className="form-control" onChange={(e) => { handleOnChange(e) }} placeholder={("Name")} />
+                <input type="text" name="name" className="form-control" onChange={(e) => { handleOnChange(e) }} placeholder={t("Name")} />
               </div>
             </div>
 
             <div className="col-sm-6">
-              <a href="#!;" onClick={handleSearch} className="btn btn-sm btn-primary btn-block" >{("Search")}</a>
+              <a href="#!;" onClick={handleSearch} className="btn btn-sm btn-primary btn-block" >{t("Search")}</a>
             </div>
           </div>
         </div> 
@@ -184,8 +185,8 @@ const ActionsPupup = actions => {
                   <td>{g.studentsCount}</td>
                   <td>
                     <button type="button" className="btn btn-icon btn-sm" title="Edit" onClick={(e) => { OnEdit(g._id , e) }}><i className="fa fa-edit" /></button>
-                    <button type="button" className="btn btn-icon btn-sm" title="Actions" onClick={() => { ActionsPupup(g.actions) }}><i className="fa fa-eye" /></button>
-                    <button type="button" className="btn btn-icon btn-sm" onClick={() => { OnDelete(g._id) }} title="Delete" data-type="confirm"><i className="fa fa-trash-o text-danger" /></button>
+                    <button type="button" className="btn btn-icon btn-sm" title="View" onClick={() => { ActionsPupup(g.actions) }}><i className="fa fa-eye" /></button>
+                    { checkRole(user.role, "superAdmin") && <button type="button" className="btn btn-icon btn-sm" onClick={() => { OnDelete(g._id) }} title="Delete" data-type="confirm"><i className="fa fa-trash-o text-danger" /></button>}
                   </td>
                 </tr>
                 </Fragment>
@@ -198,6 +199,8 @@ const ActionsPupup = actions => {
       </div>
 
       <ReactPaginate
+        previousLabel={t("previous")}
+        nextLabel={t("next")} 
         previousLabel={"previous"}
         nextLabel={"next"}
         breakLabel={"..."}

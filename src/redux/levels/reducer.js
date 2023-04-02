@@ -81,9 +81,9 @@ export const LevelsReducerSlice = createSlice({
              const editIndex = state.levels.findIndex(s => s._id === state.singleLevel._id)
 
             state.levels[editIndex] = {
-                ...action.meta.arg, ...state.levels[editIndex],
+                 ...state.levels[editIndex], ...action.meta.arg,
                 actions: [ ...state.levels[editIndex].actions, action.meta.arg.actions ],
-                languages: action.meta.arg.languages,
+               // languages: action.meta.arg.languages,//remove this
             }
         },
 

@@ -9,7 +9,7 @@ import { createGroupe, editGroupe, getSingleGroupe } from '../../redux/groupes/a
 import { cleanAlerts } from '../../redux/groupes/reducer';
 import { getLevel } from '../../redux/levels/action';
 import { getDepartment } from '../../redux/department/action';
-import Calender from '../user/Calender';
+import Calender from './Calender';
 import moment from 'moment';
 import { getTeacher } from '../../redux/teachers/action';
 import { getLanguage } from '../../redux/languages/action';
@@ -90,16 +90,16 @@ const Add = ({ editGroupeId, setEditGroupeId }) => {
 
   //alerts
   useEffect(() => {
-    if ((success || successLang || successLv || successDR || successTR)) {
-      swal(t("Success"), t(checkString((success || successLang || successLv || successDR || successTR))), "success");
+    if ((success || successLv)) {
+      swal(t("Success"), t(checkString((success || successLv))), "success");
 
-    } else if ((error || errorLang || errorLv || errorDR || errorTR)) {
-      swal(t("Error"), t(checkString((error || errorLang || errorLv || errorDR || errorTR))), "error");
+    } else if ((error  || errorLv)) {
+      swal(t("Error"), t(checkString((error  || errorLv))), "error");
     }
 
     dispatch(cleanAlerts())
 
-  }, [success, successLang, successLv, successDR, successTR, error, errorLang, errorLv, errorDR, errorTR]);
+  }, [success, successLv, error, errorLv]);
 
   //back to list
   const OnCancel = (evt) => {
@@ -213,7 +213,7 @@ const Add = ({ editGroupeId, setEditGroupeId }) => {
 
                           <div className="col-md-9">
                             <Field type="text" name="name" className="form-control" placeholder={t("Name")} />
-                            {touched.name && errors.name && <small className="text-danger">{errors.name}</small>}
+                            {touched.name && errors.name && <small className="text-danger">{t(errors.name)}</small>}
                           </div>
 
                         </div>
@@ -226,11 +226,11 @@ const Add = ({ editGroupeId, setEditGroupeId }) => {
                           <div className="col-md-9">
                             <Field as="select" className="form-control input-height" name="session">
                               <option value="">{t("Select...")}</option>
-                              <option value="normale">Normale</option>
-                              <option value="accelerated">Accelerated</option>
-                              <option value="superAccelerated">Super Accelerated</option>
+                              <option value="normale">{t("Normale")}</option>
+                              <option value="accelerated">{t("Accelerated")}</option>
+                              <option value="superAccelerated">{t("Super Accelerated")}</option>
                             </Field>
-                            {touched.session && errors.session && <small className="text-danger">{errors.session}</small>}
+                            {touched.session && errors.session && <small className="text-danger">{t(errors.session)}</small>}
 
                           </div>
                         </div>
@@ -241,11 +241,11 @@ const Add = ({ editGroupeId, setEditGroupeId }) => {
                           <div className="col-md-9">
                             <Field as="select" className="form-control input-height" name="option">
                               <option value="">{t("Select...")}</option>
-                              <option value="day">Day</option>
-                              <option value="evening">Evening</option>
-                              <option value="weekend">Weekend</option>
+                              <option value="day">{t('Day')}</option>
+                              <option value="evening">{t('Evening')}</option>
+                              <option value="weekend">{t('Weekend')}</option>
                             </Field>
-                            {touched.option && errors.option && <small className="text-danger">{errors.option}</small>}
+                            {touched.option && errors.option && <small className="text-danger">{t(errors.option)}</small>}
 
                           </div>
                         </div>
@@ -265,7 +265,7 @@ const Add = ({ editGroupeId, setEditGroupeId }) => {
 
 
                             </Field>
-                            {touched.department && errors.department && <small className="text-danger">{errors.department}</small>}
+                            {touched.department && errors.department && <small className="text-danger">{t(errors.department)}</small>}
 
                           </div>
                         </div>
@@ -283,7 +283,7 @@ const Add = ({ editGroupeId, setEditGroupeId }) => {
 
 
                             </Field>
-                            {touched.teacher && errors.teacher && <small className="text-danger">{errors.teacher}</small>}
+                            {touched.teacher && errors.teacher && <small className="text-danger">{t(errors.teacher)}</small>}
 
                           </div>
                         </div>
@@ -310,7 +310,7 @@ const Add = ({ editGroupeId, setEditGroupeId }) => {
                               })}
 
                             </Field>
-                            {touched.language && errors.language && <small className="text-danger">{errors.language}</small>}
+                            {touched.language && errors.language && <small className="text-danger">{t(errors.language)}</small>}
 
                           </div>
                         </div>
@@ -328,7 +328,7 @@ const Add = ({ editGroupeId, setEditGroupeId }) => {
                               })}
 
                             </Field>
-                            {touched.level && errors.level && <small className="text-danger">{errors.level}</small>}
+                            {touched.level && errors.level && <small className="text-danger">{t(errors.level)}</small>}
 
                           </div>
                         </div>
@@ -345,7 +345,7 @@ const Add = ({ editGroupeId, setEditGroupeId }) => {
 
 
                         <div className="col-sm-12 ">
-                          <button type="submit" className="btn btn-primary" disabled={(loading || !isValid)}>{t("Submit")}</button>
+                          <button type="submit" className="btn btn-primary mr-3" disabled={(loading || !isValid)}>{t("Submit")}</button>
                           <button type="button" className="btn btn-outline-secondary" onClick={(e) => { OnCancel(e) }}>{t("Cancel")}</button>
                         </div>
 

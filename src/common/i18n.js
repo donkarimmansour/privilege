@@ -38,10 +38,11 @@ const resources = {
       "Admins": "Admins",
       "List": "List",
       "Add": "Add",
+      "Grid": "Grid",
       "Bills": "Bills",
       "Departments": "Departments",
       "Exam": "Exam",
-      "Groupes": "Groupes",
+      "Groups": "Groups",
       "Dashboard": "Dashboard",
       "Languages": "Languages",
       "Levels": "Levels",
@@ -53,18 +54,33 @@ const resources = {
       "My Profile": "My Profile",
       "Profile": "Profile",
       "Calendar": "Calendar",
+      "Cancelations": "Cancelations",
+      "Promotions": "Promotions",
+
+      //Promotions
+      "normale field is required": "normale field is required",
+      "accelerated field is required": "accelerated field is required",
+      "super Accelerated field is required": "super Accelerated field is required",
+
 
 
       //library
+      "Books": "Books",
       "Title": "Title",
       "Language": "Language",
+      "Book Type": "Book Type",
       "Status": "Status",
       "Quantity": "Quantity",
+      "Black And White Price": "Black And White Price",
+      "Color Price": "Color Price",
+      "book Type field is required": "book Type field is required",
       "language field is required": "language field is required",
       "quantity field is required": "quantity field is required",
       "title field is required": "title field is required",
       "level field is required": "level field is required",
       "actions field is required": "actions field is required",
+      "black And White Price field is required": "black And White Price field is required",
+      "color Price field is required": "color Price field is required",
 
 
       //department
@@ -83,17 +99,33 @@ const resources = {
 
       //group
       "Option": "Option",
-      "Groupe": "Groupe",
+      "Group": "Group",
       "Department": "Department",
       "option field is required": "option field is required",
       "calindar field is required": "calindar field is required",
       "Teacher": "Teacher",
 
 
+      //Cancelation
+      "Monday": "Monday",
+      "Tuesday": "Tuesday",
+      "Wednesday": "Wednesday",
+      "Thursday": "Thursday",
+      "Friday": "Friday",
+      "Saturday": "Saturday",
+      "Sunday": "Sunday",
+      "day field is required": "day field is required",
+
 
       //student add
+      "Basic Information": "Basic Information",
+      "Edit Profile": "Edit Profile",
+      "Account Information": "Account Information",
       "First Name": "First Name",
       "Last Name": "Last Name",
+      "Day": "Day",
+      "Evening": "Evening",
+      "Weekend": "Weekend",
       "Email": "Email",
       "Cin": "Cin",
       "Level": "Level",
@@ -101,6 +133,8 @@ const resources = {
       "Hours": "Hours",
       "Amount": "Amount",
       "Gender": "Gender",
+      "Password": "Password",
+      "Confirm Password": "Confirm Password",
       "-- Gender --": "-- Gender --",
       "Male": "Male",
       "Female": "Female",
@@ -110,7 +144,6 @@ const resources = {
       "Yes": "Yes",
       "No": "No",
       "Tested": "Tested",
-      "Account Information": "Account Information",
       "Profile Picture": "Profile Picture",
       "User Name": "User Name",
       "Generate": "Generate",
@@ -161,6 +194,7 @@ const resources = {
       "your dagre is": "your dagre is",
       "Prev": "Prev",
       "Next": "Next",
+      "Questions": "Questions",
 
       //notification add
       "Message": "Message",
@@ -191,6 +225,8 @@ const resources = {
 
       //payment add 
       "Student Name": "Student Name",
+      "Payments": "Payments",
+      "Method": "Method",
       "Payment Details": "Payment Details",
       "Payment Reference": "Payment Reference",
       "Payment Method": "Payment Method",
@@ -200,6 +236,7 @@ const resources = {
       "Payment Method field is required": "Payment Method field is required",
       "Amount field is required": "Amount field is required",
       "fees Type field is required": "fees Type field is required",
+      "book field is required": "book field is required",
 
       "Book": "Book",
       "Cash": "Cash",
@@ -217,6 +254,9 @@ const resources = {
       "Not Updated": "Not Updated",
       "Uploaded": "Uploaded",
       "Deleted": "Deleted",
+      "deleted": "deleted",
+      "Modified": "Modified",
+      "modified": "modified",
       "Created": "Created",
       "Error": "Error",
       "Success": "Success",
@@ -301,25 +341,40 @@ const resources = {
       "amount can't be greater then bill cost": "amount can't be greater then bill cost",
       "there are no students": "there are no students",
       "there are no Teachers": "there are no Teachers",
+      "there are no Cancelations": "there are no Cancelations",
+      "there are no Promotions": "there are no Promotions",
 
-
+      
       //roles
       "superAdmin permission denied": "superAdmin permission denied",
       "admin permission denied": "admin permission denied",
       "teacher permission denied": "teacher permission denied",
       "student Or admin permission denied": "student Or admin permission denied",
+      "teacher Or student Or admin Or superAdmin permission denied": "teacher Or student Or admin Or superAdmin permission denied",
+      "student Or admin Or superAdmin permission denied": "student Or admin Or superAdmin permission denied",
       "teacher Or admin Or superAdmin permission denied": "teacher Or admin Or superAdmin permission denied",
+      "student Or teacher permission denied": "student Or teacher permission denied",
       "admin Or superAdmin permission denied": "admin Or superAdmin permission denied",
-      "admin Or superAdmin permission denied": "admin Or superAdmin permission denied",
-      "teacher or student Or admin Or superAdmin permission denied": "teacher or student Or admin Or superAdmin permission denied"
+      "student Or superAdmin permission denied": "student Or superAdmin permission denied",
 
-     
+      //footer
+      "Copyright": "Copyright",
+      "Beta": "Beta",
+
+      //pagination
+      "previous": "previous",
+      "next": "next",
+      "Search": "Search",
+
+      //home
+      "New Student List": "New Student List",
+
     }
-  } ,
+  },
 
 
   fr: {
-    translation : {
+    translation: {
       "English": "Anglais",
       "France": "France",
       "Arabic": "arabe",
@@ -344,10 +399,11 @@ const resources = {
       "Admins": "Administratrices",
       "List": "Liste",
       "Add": "Ajouter",
+      "Grid": "Grille",
       "Bills": "Factures",
       "Departments": "Départements",
       "Exam": "Examen",
-      "Groupes": "Groupes",
+      "Groups": "Groupes",
       "Dashboard": "Tableau de bord",
       "Languages": "Langues",
       "Levels": "Les niveaux",
@@ -359,6 +415,7 @@ const resources = {
       "My Profile": "Mon profil",
       "Profile": "Profil",
       "Calendar": "Calendrier",
+      "Books": "Livres",
       "Title": "Titre",
       "Language": "Langue",
       "Status": "Statut",
@@ -377,22 +434,29 @@ const resources = {
       "Brief field is required": "Un bref champ est requis",
       "languages field is required": "Le champ de langues est requis",
       "Option": "Option",
-      "Groupe": "Groupe",
+      "Group": "Groupe",
       "Department": "Département",
       "option field is required": "Le champ d'option est requis",
       "calindar field is required": "Le champ de calindar est requis",
       "Teacher": "Professeure",
+      "Basic Information": "Informations de base",
+      "Edit Profile": "Editer le profil",
+      "Account Information": "Information sur le compte",
       "First Name": "Prénom",
       "Last Name": "Nom de famille",
+      "Day": "Jour",
+      "Evening": "Soirée",
+      "Weekend": "Fin de semaine",
       "Email": "E-mail",
       "Cin": "Cin",
       "Level": "Niveau",
-      "Group": "Groupe",
       "Hours": "Heures",
       "Amount": "Montante",
       "Gender": "Genre",
+      "Password": "Mot de passe",
+      "Confirm Password": "Confirm Password",
       "-- Gender --": "-- Genre --",
-      "Male": "Femelle",
+      "Male": "Male",
       "Female": "Femme",
       "Phone": "Téléphone",
       "Date of Birth": "Date de naissance",
@@ -400,7 +464,6 @@ const resources = {
       "Yes": "Oui",
       "No": "Non",
       "Tested": "Testé",
-      "Account Information": "Information sur le compte",
       "Profile Picture": "Image de profil",
       "User Name": "Nom d'utilisateur",
       "Generate": "Générer",
@@ -438,6 +501,7 @@ const resources = {
       "your dagre is": "Votre dagre est",
       "Prev": "Crévuré",
       "Next": "Suivante",
+      "Questions": "Des questions",
       "Message": "Message",
       "Send": "Envoyer",
       "message field is required": "Le champ de message est requis",
@@ -451,11 +515,13 @@ const resources = {
       "Go back": "Retourner",
       "We are sorry but your request contains bad syntax and cannot be fulfilled…": "Nous sommes désolés mais votre demande contient une mauvaise syntaxe et ne peut pas être remplie…",
       "We are sorry but our service is currently not available…": "Nous sommes désolés mais notre service n'est actuellement pas disponible…",
+      "Student Name": "Nom d'étudiant",
+      "Payments": "Paiements",
+      "Method": "Méthode",
       "Payment Details": "Détails de paiement",
       "Payment Reference": "Référence de paiement",
       "Payment Method": "Mode de paiement",
       "Fees Type": "Type de frais",
-      "Student Name": "Nom d'étudiant",
       "Please type what you want...": "Veuillez taper ce que vous voulez ...",
       "Student Name field is required": "Le champ de nom d'étudiant est requis",
       "Payment Method field is required": "Le champ de méthode de paiement est requis",
@@ -473,6 +539,9 @@ const resources = {
       "Not Updated": "Pas à jour",
       "Uploaded": "Téléchargé",
       "Deleted": "Supprimé",
+      "deleted": "supprimé",
+      "Modified": "Modifié",
+      "modified": "modifié",
       "Created": "Créé",
       "Error": "Erreur",
       "Success": "Succès",
@@ -542,12 +611,27 @@ const resources = {
       "there is no Bill": "Il n'y a pas de facture",
       "amount can't be greater then bill cost": "Le montant ne peut pas être plus élevé que le coût de la facture",
       "there are no students": "Il n'y a pas d'étudiants",
-      "there are no Teachers": "Il n'y a pas de professeurs"
+      "there are no Teachers": "Il n'y a pas de professeurs",
+      "superAdmin permission denied": "Permission de Superadmin refusée",
+      "admin permission denied": "Autorisation de l'administration refusé",
+      "teacher permission denied": "Autorisation des enseignants refusée",
+      "student Or admin permission denied": "Permission des étudiants ou de l'administration refusé",
+      "teacher Or admin Or superAdmin permission denied": "Permission enseignant ou administrateur ou de superadmin refusé",
+      "admin Or superAdmin permission denied": "Permission administrative ou superadmin refusée",
+      "teacher Or student Or admin Or superAdmin permission denied": "Permission enseignante ou élève ou administrateur ou superadmin refusé",
+      "student Or admin Or superAdmin permission denied": "Permission d'étudiant ou d'administrateur ou de superadmin refusé",
+      "student Or superAdmin permission denied": "Permission des étudiants ou de la superadmin refusés",
+      "Copyright": "droits d'auteur",
+      "Beta": "Bêta",
+      "previous": "précédente",
+      "next": "suivante",
+      "Search": "Recherche",
+      "New Student List": "Nouvelle liste d'étudiants"
     }
-  } ,
+  },
 
 
-  ar: { 
+  ar: {
     translation: {
       "English": "Anglais",
       "France": "فرنسا",
@@ -573,10 +657,11 @@ const resources = {
       "Admins": "مسؤولون",
       "List": "قائمة",
       "Add": "يضيف",
+      "Grid": "شبكة",
       "Bills": "فواتير",
       "Departments": "الإدارات",
       "Exam": "امتحان",
-      "Groupes": "المجموعات",
+      "Groups": "مجموعات",
       "Dashboard": "لوحة القيادة",
       "Languages": "اللغات",
       "Levels": "مستويات",
@@ -588,6 +673,7 @@ const resources = {
       "My Profile": "ملفي",
       "Profile": "حساب تعريفي",
       "Calendar": "تقويم",
+      "Books": "كتب",
       "Title": "عنوان",
       "Language": "لغة",
       "Status": "حالة",
@@ -606,20 +692,27 @@ const resources = {
       "Brief field is required": "حقل موجز مطلوب",
       "languages field is required": "مجال اللغات مطلوب",
       "Option": "خيار",
-      "Groupe": "مجموعة",
+      "Group": "مجموعة",
       "Department": "قسم",
       "option field is required": "حقل الخيار مطلوب",
       "calindar field is required": "حقل كاليندار مطلوب",
       "Teacher": "مدرس",
+      "Basic Information": "معلومات اساسية",
+      "Edit Profile": "تعديل الملف الشخصي",
+      "Account Information": "معلومات الحساب",
       "First Name": "الاسم الأول",
       "Last Name": "اسم العائلة",
+      "Day": "يوم",
+      "Evening": "مساء",
+      "Weekend": "عطلة نهاية الاسبوع",
       "Email": "بريد إلكتروني",
       "Cin": "سين",
       "Level": "مستوى",
-      "Group": "مجموعة",
       "Hours": "ساعات",
       "Amount": "كمية",
       "Gender": "جنس",
+      "Password": "كلمة المرور",
+      "Confirm Password": "تأكيد كلمة المرور",
       "-- Gender --": "-- جنس --",
       "Male": "ذكر",
       "Female": "أنثى",
@@ -629,7 +722,6 @@ const resources = {
       "Yes": "نعم",
       "No": "لا",
       "Tested": "تم اختباره",
-      "Account Information": "معلومات الحساب",
       "Profile Picture": "الصوره الشخصيه",
       "User Name": "اسم المستخدم",
       "Generate": "يولد",
@@ -667,6 +759,7 @@ const resources = {
       "your dagre is": "دافير الخاص بك هو",
       "Prev": "السابق",
       "Next": "التالي",
+      "Questions": "أسئلة",
       "Message": "رسالة",
       "Send": "يرسل",
       "message field is required": "حقل الرسالة مطلوب",
@@ -680,11 +773,13 @@ const resources = {
       "Go back": "عُد",
       "We are sorry but your request contains bad syntax and cannot be fulfilled…": "نأسف لكن طلبك يحتوي على بناء جملة سيئ ولا يمكن الوفاء به ...",
       "We are sorry but our service is currently not available…": "نحن آسفون لكن خدمتنا غير متوفرة حاليًا ...",
+      "Student Name": "أسم الطالب",
+      "Payments": "المدفوعات",
+      "Method": "طريقة",
       "Payment Details": "بيانات الدفع",
       "Payment Reference": "إشارة دفع",
       "Payment Method": "طريقة الدفع او السداد",
       "Fees Type": "نوع الرسوم",
-      "Student Name": "أسم الطالب",
       "Please type what you want...": "الرجاء كتابة ما تريد ...",
       "Student Name field is required": "حقل اسم الطالب مطلوب",
       "Payment Method field is required": "حقل طريقة الدفع مطلوب",
@@ -702,6 +797,9 @@ const resources = {
       "Not Updated": "غير محدث",
       "Uploaded": "تم الرفع",
       "Deleted": "تم الحذف",
+      "deleted": "تم الحذف",
+      "Modified": "معدل",
+      "modified": "معدل",
       "Created": "مخلوق",
       "Error": "خطأ",
       "Success": "نجاح",
@@ -771,8 +869,23 @@ const resources = {
       "there is no Bill": "لا يوجد فاتورة",
       "amount can't be greater then bill cost": "لا يمكن أن يكون المبلغ أكبر ثم تكلفة الفاتورة",
       "there are no students": "لا يوجد طلاب",
-      "there are no Teachers": "لا يوجد مدرسون"
-  }
+      "there are no Teachers": "لا يوجد مدرسون",
+      "superAdmin permission denied": "تم رفض إذن Superadmin",
+      "admin permission denied": "تم رفض إذن المسؤول",
+      "teacher permission denied": "تم رفض إذن المعلم",
+      "student Or admin permission denied": "تم رفض إذن الطالب أو المسؤول",
+      "teacher Or admin Or superAdmin permission denied": "تم رفض إذن المعلم أو المشرف أو الفائق",
+      "admin Or superAdmin permission denied": "تم رفض إذن المشرف أو الفائق",
+      "teacher Or student Or admin Or superAdmin permission denied": "تم رفض إذن المعلم أو الطالب أو المشرف أو الفائق",
+      "student Or admin Or superAdmin permission denied": "تم رفض إذن الطالب أو المشرف أو الفائق",
+      "student Or superAdmin permission denied": "تم رفض إذن الطالب أو الفائق",
+      "Copyright": "حقوق النشر",
+      "Beta": "بيتا",
+      "previous": "سابق",
+      "next": "التالي",
+      "Search": "يبحث",
+      "New Student List": "قائمة الطلاب الجديدة"
+    }
   }
 };
 
@@ -789,4 +902,4 @@ i18n
     }
   });
 
-  export default i18n;
+export default i18n;

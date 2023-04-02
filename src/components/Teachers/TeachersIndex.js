@@ -1,5 +1,8 @@
-import  { useState } from 'react'
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { checkRole } from '../../common/funs'
+import { Navigate } from 'react-router'
+import { useSelector } from 'react-redux'
 import Container from '../shared/Container'
 import Add from './Add'
 import List from './List'
@@ -7,32 +10,39 @@ import ListGrid from './ListGrid'
 
 
 const TeachersIndex = () => {
-    const [editTeacherId, setEditTeacherId] = useState("")
+  const [editTeacherId, setEditTeacherId] = useState("")
 
-    const { t } = useTranslation();
+  const { t } = useTranslation();
+  const { user, isLoggedIn } = useSelector(state => state.auth)
 
-    const links = [
-      { name: t("Privilege"), url: "#" },
-      { name: t("Teachers"), url: "#" }
-    ]
-    
-    const tabs = [
-      { name: t("List"), id: "#pro-all" },
-      { name: t("Grid"), id: "#pro-grid" },
-      { name: t("Add"), id: "#pro-add" },
-    ]
+  const links = [
+    { name: t("Privilege"), url: "#" },
+    { name: t("Teachers"), url: "#" }
+  ]
 
-    return (
+  const tabs = [
+    { name: t("List"), id: "#pro-all" },
+    { name: t("Grid"), id: "#pro-grid" },
+    { name: t("Add"), id: "#pro-add" },
+  ]
+
+  return (
+    <> 
+       { !isLoggedIn ? <Navigate to="/login" /> : checkRole(user.role, "adminOrsuperAdmin") ?
+
         <Container tabs={tabs} links={links}>
-            <div className="tab-content">
+          <div className="tab-content">
 
-                <List setEditTeacherId={setEditTeacherId} />
-                <Add editTeacherId={editTeacherId} setEditTeacherId={setEditTeacherId}/>
-                <ListGrid setEditTeacherId={setEditTeacherId} />
+            <List setEditTeacherId={setEditTeacherId} />
+            <Add editTeacherId={editTeacherId} setEditTeacherId={setEditTeacherId} />
+            <ListGrid setEditTeacherId={setEditTeacherId} />
 
-            </div>
+          </div>
         </Container>
-    )
+
+        : <Navigate to="/profile" /> }
+    </>
+  )
 
 }
 

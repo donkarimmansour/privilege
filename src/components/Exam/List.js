@@ -2,6 +2,7 @@ import moment from "moment";
 import React, { useEffect } from "react"
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router";
 import swal from "sweetalert";
 import { checkString, loader } from "../../common/funs";
 import { getExam } from "../../redux/exam/action";
@@ -13,12 +14,14 @@ const List = () => {
   const { t } = useTranslation();
   const { loading, error, success, exam } = useSelector(state => state.exam)
   const dispatch = useDispatch();
-  const {user } = useSelector(state => state.auth) 
+  const params = useParams();
 
     //handle init
-    useEffect(() => {  
-      dispatch(getExam({ sort: { _id: -1 } , studentID : { _id : user._id } , expend: "all" , limit : 1}))
-    }, [dispatch])
+    useEffect(() => { 
+      if(params && "id" in params && params.id.length > 10) {
+        dispatch(getExam({ sort: { _id: -1 } , filter: {studentID : params.id}, expend: "all" , limit : 1}))
+      }
+    }, [params])
 
 
     

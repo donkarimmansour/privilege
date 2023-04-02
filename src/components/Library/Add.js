@@ -50,16 +50,16 @@ const Add = ({ editLibraryId , setEditLibraryId }) => {
 
   //alerts
   useEffect(() => {
-    if (success || successLang || successLv) {
-      swal(t("Success"), t(checkString(success || successLang || successLv)), "success");
+    if (success || successLv) {
+      swal(t("Success"), t(checkString(success || successLv)), "success");
 
-    } else if (error || errorLang || errorLv) {
-      swal(t("Error"), t(checkString(error || errorLang || errorLv)), "error");
+    } else if (error  || errorLv) {
+      swal(t("Error"), t(checkString(error  || errorLv)), "error");
     }
 
      dispatch(cleanAlerts())
 
-  }, [error, errorLang, errorLv, success, successLang, successLv]);
+  }, [error, errorLv, success, successLv]);
 
 
 
@@ -82,6 +82,8 @@ const Add = ({ editLibraryId , setEditLibraryId }) => {
     quantity: "",
     level: "", 
     language: "",
+    colorPrice: "",
+    blackAndWhitePrice: "",
   })
 
 
@@ -92,6 +94,8 @@ const Add = ({ editLibraryId , setEditLibraryId }) => {
     quantity: yup.number().required(t("quantity field is required")),
     level: yup.string().required(t("level field is required")),
     language: yup.string().required(t("language field is required")),
+    colorPrice: yup.number().required(t("color Price field is required")),
+    blackAndWhitePrice: yup.number().required(t("black And White Price field is required")),
   })
 
 
@@ -150,7 +154,7 @@ const Add = ({ editLibraryId , setEditLibraryId }) => {
                           <label className="col-md-3 col-form-label">{t("Title")} <span className="text-danger">*</span></label>
                           <div className="col-md-9">
                             <Field type="text" name="title" className="form-control" placeholder={t("Title")} />
-                            {touched.title && errors.title && <small className="text-danger">{errors.title}</small>}
+                            {touched.title && errors.title && <small className="text-danger">{t(errors.title)}</small>}
                           </div>
                         </div>
 
@@ -176,7 +180,7 @@ const Add = ({ editLibraryId , setEditLibraryId }) => {
                               })}
 
                             </Field>
-                            {touched.language && errors.language && <small className="text-danger">{errors.language}</small>}
+                            {touched.language && errors.language && <small className="text-danger">{t(errors.language)}</small>}
 
                           </div>
                         </div>
@@ -193,7 +197,7 @@ const Add = ({ editLibraryId , setEditLibraryId }) => {
                               })}
 
                             </Field>
-                            {touched.level && errors.level && <small className="text-danger">{errors.level}</small>}
+                            {touched.level && errors.level && <small className="text-danger">{t(errors.level)}</small>}
 
                           </div>
                         </div>
@@ -201,10 +205,29 @@ const Add = ({ editLibraryId , setEditLibraryId }) => {
 
 
                         <div className="form-group row">
+                          <label className="col-md-3 col-form-label">{t("Color Price")} <span className="text-danger">*</span></label>
+                          <div className="col-md-9">
+                            <Field type="number" name="colorPrice" className="form-control" placeholder={t("Color Price")} />
+                            {touched.colorPrice && errors.colorPrice && <small className="text-danger">{t(errors.colorPrice)}</small>}
+                          </div>
+                        </div>
+
+
+                        <div className="form-group row">
+                          <label className="col-md-3 col-form-label">{t("Black And White Price")} <span className="text-danger">*</span></label>
+                          <div className="col-md-9">
+                            <Field type="number" name="blackAndWhitePrice" className="form-control" placeholder={t("Black And White Price")} />
+                            {touched.blackAndWhitePrice && errors.blackAndWhitePrice && <small className="text-danger">{t(errors.blackAndWhitePrice)}</small>}
+                          </div>
+                        </div>
+
+
+
+                        <div className="form-group row">
                           <label className="col-md-3 col-form-label">{t("Quantity")} <span className="text-danger">*</span></label>
                           <div className="col-md-9">
                             <Field type="number" name="quantity" className="form-control" placeholder={t("Quantity")} />
-                            {touched.quantity && errors.quantity && <small className="text-danger">{errors.quantity}</small>}
+                            {touched.quantity && errors.quantity && <small className="text-danger">{t(errors.quantity)}</small>}
                           </div>
                         </div>
 
@@ -212,7 +235,7 @@ const Add = ({ editLibraryId , setEditLibraryId }) => {
 
 
                           <div className="col-sm-12">
-                          <button type="submit" className="btn btn-primary" disabled={(loading || !isValid)}>{t("Submit")}</button>
+                          <button type="submit" className="btn btn-primary mr-3" disabled={(loading || !isValid)}>{t("Submit")}</button>
                           <button type="button" className="btn btn-outline-secondary" onClick={(e) => {OnCancel(e)}}>{t("Cancel")}</button>
                           </div>
 

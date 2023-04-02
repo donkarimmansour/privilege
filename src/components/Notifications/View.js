@@ -35,6 +35,8 @@ const View = () => {
         }
 
         dispatch(seenNotification({actions}))
+
+        //remove unredd notification
       }
     }, [singleNotification])
   

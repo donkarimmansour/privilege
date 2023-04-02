@@ -97,12 +97,22 @@ const View = () => {
               <div className="card">
                 <div className="card-body">
                   <p>{singleLanguage.description}</p>
-                  <h5 className="mt-4">{("Details")}</h5>
-                  <ul className="list-group">
-                    <li className="list-group-item d-flex justify-content-between align-items-center">{t("Normale")} <span className="badge badge-primary badge-pill">{singleLanguage.session?.normale}</span></li>
-                    <li className="list-group-item d-flex justify-content-between align-items-center">{t("Accelerated")} <span className="badge badge-primary badge-pill">{singleLanguage.session?.accelerated}</span></li>
-                    <li className="list-group-item d-flex justify-content-between align-items-center">{t("Super Accelerated")} <span className="badge badge-primary badge-pill">{singleLanguage.session?.superAccelerated}</span></li>
-                  </ul>
+                  <h5 className="mt-4">{t("Details")}</h5>
+
+                  {singleLanguage?.session?.length > 0 &&
+                       
+                      singleLanguage.session.map((s, si) => (
+                        <ul className="list-group mt-3" key={si}>
+
+                          <li className="list-group-item d-flex justify-content-between align-items-center">{t("Hours")} <span className="badge badge-primary badge-pill">{s?.hours}</span></li>
+                          <li className="list-group-item d-flex justify-content-between align-items-center">{t("Normale")} <span className="badge badge-primary badge-pill">{s?.normale}</span></li>
+                          <li className="list-group-item d-flex justify-content-between align-items-center">{t("Accelerated")} <span className="badge badge-primary badge-pill">{s?.accelerated}</span></li>
+                          <li className="list-group-item d-flex justify-content-between align-items-center">{t("Super Accelerated")} <span className="badge badge-primary badge-pill">{s?.superAccelerated}</span></li>
+                        </ul>
+                      ))
+
+                  }
+
                 </div>
               </div>
             </div>

@@ -83,7 +83,7 @@ export const GroupesReducerSlice = createSlice({
             
             const editIndex = state.groupes.findIndex(s => s._id === state.singleGroupe._id)
             state.groupes[editIndex] = {
-                ...action.meta.arg, ...state.groupes[editIndex],
+                 ...state.groupes[editIndex],...action.meta.arg,
                 actions: [ ...state.groupes[editIndex].actions, action.meta.arg.actions ]
             }
         },

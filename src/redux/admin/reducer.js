@@ -84,7 +84,7 @@ export const AdminsReducerSlice = createSlice({
 
             const editIndex = state.admins.findIndex(s => s._id === state.singleAdmin._id)
             state.admins[editIndex] = {
-                ...action.meta.arg, ...state.admins[editIndex],
+                 ...state.admins[editIndex],...action.meta.arg,
                 actions: [ ...state.admins[editIndex].actions, action.meta.arg.actions ]
             }
 

@@ -25,7 +25,7 @@ const StudentList = () => {
             <div className="col-md-12">
                 <div className="card">
                     <div className="card-header">
-                        <h3 className="card-title">New Student List</h3>
+                        <h3 className="card-title">{t('New Student List')}</h3>
                         <div className="card-options">
                             <a href="#" className="card-options-collapse" data-toggle="card-collapse"><i className="fe fe-chevron-up"></i></a>
                             <a href="#" className="card-options-fullscreen" data-toggle="card-fullscreen"><i className="fe fe-maximize"></i></a>

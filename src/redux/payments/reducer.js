@@ -80,7 +80,7 @@ export const PaymentsReducerSlice = createSlice({
             
             const editIndex = state.payments.findIndex(s => s._id === state.singlePayment._id)
             state.payments[editIndex] = {
-                ...action.meta.arg, ...state.payments[editIndex],
+                 ...state.payments[editIndex],...action.meta.arg,
                 actions: [ ...state.payments[editIndex].actions, action.meta.arg.actions ]
             }
         },

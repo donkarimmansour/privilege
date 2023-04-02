@@ -5,12 +5,17 @@ import University from './University'
 import Cards from './Cards'
 import Container from '../shared/Container'
 import { useTranslation } from 'react-i18next'
+import { checkRole } from '../../common/funs'
+import { Navigate } from 'react-router'
+import { useSelector } from 'react-redux'
+import Calender from '../user/Calender'
 
 
 const HomeIndex = () => {
 
 
     const { t } = useTranslation();
+    const { user, isLoggedIn } = useSelector(state => state.auth)
 
     const links = [
         { name: t("Privilege"), url: "#" },
@@ -20,28 +25,41 @@ const HomeIndex = () => {
     const tabs = []
 
 
-    return  (
-        <Container tabs={tabs} links={links}> 
+    return (
 
-            <Cards /> 
-            
-            <div className="tab-content">
-                <div className="tab-pane fade show active" id="admin-Dashboard" role="tabpanel">
-                    {/* <div className="row clearfix">
-                       <University />
+        <>
+            { !isLoggedIn ? <Navigate to="/login" /> : checkRole(user.role, "teacherOradminOrsuperAdmin") ?
 
-                    </div>                 */}
-                    <div className="row clearfix row-deck">
-                       
-                        <Exam />
-                    </div>
-                    <StudentList />
-                </div>
-              
-              
-              
-              
-                {/* <div className="tab-pane fade" id="admin-Activity" role="tabpanel">
+                <Container tabs={tabs} links={links}>
+
+                    <Cards />
+
+                    <div className="tab-content">
+
+                        {checkRole(user.role, "adminOrsuperAdmin") &&
+                            <div className="tab-pane fade show active" id="admin-Dashboard" role="tabpanel">
+                                {/* <div className="row clearfix">
+                                   <University />
+
+                               </div> */}
+                                <div className="row clearfix row-deck">
+
+                                    <Exam />
+                                </div>
+                                <StudentList />
+                            </div>
+                        }
+
+                        {checkRole(user.role, "teacher") &&
+                            <div className="tab-pane fade show active" id="admin-Dashboard" role="tabpanel">
+                                    <Calender />
+                            </div>
+                        }
+
+
+
+
+                        {/* <div className="tab-pane fade" id="admin-Activity" role="tabpanel">
                     <div className="row clearfix row-deck">
                         <div className="col-xl-7 col-lg-6 col-md-12">
                             <div className="card">
@@ -304,9 +322,12 @@ const HomeIndex = () => {
                 </div>
            
             */}
-            </div>
-       
-       </Container>
+                    </div>
+
+                </Container>
+
+            : <Navigate to="/profile" /> }
+        </>
     )
 
 }

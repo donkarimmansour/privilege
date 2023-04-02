@@ -14,11 +14,11 @@ const StudList = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { loading, error, success, notifications } = useSelector(state => state.notifications)
-
+  const { user } = useSelector(state => state.auth)
 
   //handle init
   useEffect(() => {
-    dispatch(getNotifications({ sort: { _id: -1 } }))
+    dispatch(getNotifications({ sort: { _id: -1 }, filter: {studentID: user._id} }))
   }, [dispatch])
 
 
@@ -34,6 +34,7 @@ const StudList = () => {
     dispatch(cleanAlerts())
 
   }, [success, error]);
+
 
 
 

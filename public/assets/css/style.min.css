@@ -8,7 +8,7 @@
     src: url("../fonts/simple-Line-Icons.eot");
     src: url("../fonts/simple-Line-Icons.eot") format("embedded-opentype"), url("../fonts/simple-Line-Icons.woff") format("woff"), url("../fonts/simple-Line-Icons.ttf") format("truetype"), url("../fonts/simple-Line-Icons.svg#Simple-Line-Icons") format("svg");
     font-weight: normal;
-    font-style: normal
+    font-style: normal 
 }
 [data-icon]:before {
     font-family: 'simple-Line-Icons';
@@ -6019,33 +6019,33 @@ body.gradient .bg-gray {
 body.iconcolor .metismenu > li .fa-black-tie {
     color: #2185d0
 }
-body.iconcolor .metismenu > li .fa-user-circle-o,
+body.iconcolor .metismenu > li .fa-user,
 body.iconcolor .metismenu > li .fa-gear {
-    color: #de5d83
+    color: #de5d83 
 }
 body.iconcolor .metismenu > li .fa-users,
-body.iconcolor .metismenu > li .fa-truck {
+body.iconcolor .metismenu > li .fa-bell {
     color: #21ba45
 }
-body.iconcolor .metismenu > li .fa-fa-graduation-cap {
+body.iconcolor .metismenu > li .fa-graduation-cap {
     color: #6435c9
 }
 body.iconcolor .metismenu > li .fa-book,
-body.iconcolor .metismenu > li .fa-credit-card {
+body.iconcolor .metismenu > li .fa-money {
     color: #db2828
 }
-body.iconcolor .metismenu > li .fa-bullhorn {
+body.iconcolor .metismenu > li .fa-window-close {
     color: #f2711c
 }
-body.iconcolor .metismenu > li .fa-calendar {
+body.iconcolor .metismenu > li .fa-building {
     color: #17a2b8
 }
 body.iconcolor .metismenu > li .fa-fa-comments-o,
 body.iconcolor .metismenu > li .fa-dashboard {
     color: #fbbd08
 }
-body.iconcolor .metismenu > li .fa-address-book,
-body.iconcolor .metismenu > li .fa-bed {
+body.iconcolor .metismenu > li .fa-calendar,
+body.iconcolor .metismenu > li .fa-credit-card {
     color: #00b5ad
 }
 body.iconcolor .metismenu > li .fa-folder,

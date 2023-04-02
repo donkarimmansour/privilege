@@ -2,7 +2,7 @@ import react, { Fragment, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import swal from 'sweetalert';
-import { checkString, loader } from '../../common/funs';
+import { checkRole, checkString, loader } from '../../common/funs';
 import { cleanAlerts } from '../../redux/department/reducer';
 import { countDepartment, deleteDepartment, getDepartment } from '../../redux/department/action';
 import ReactPaginate from "react-paginate";
@@ -18,6 +18,7 @@ const List = ({ setEditDepartmentId }) => {
   const [pageCurrent, setPageCurrent] = useState(1);
   const [modalState, toggleModal] = useState(false)
   const [actions, setActions] = useState(false)
+  const { user } = useSelector(state => state.auth)
   const limit = 20
   const { loading, error, success, departments, count } = useSelector(state => state.departments)
 
@@ -134,8 +135,8 @@ const List = ({ setEditDepartmentId }) => {
                     <td>{d.className}</td>
                     <td>
                       <button type="button" className="btn btn-icon btn-sm" title="Edit" onClick={(e) => { OnEdit(d._id, e) }}><i className="fa fa-edit" /></button>
-                      <button type="button" className="btn btn-icon btn-sm" title="Actions" onClick={() => { ActionsPupup(d.actions) }}><i className="fa fa-eye" /></button>
-                      <button type="button" className="btn btn-icon btn-sm" onClick={() => { OnDelete(d._id) }} title="Delete"><i className="fa fa-trash-o text-danger" /></button>
+                      <button type="button" className="btn btn-icon btn-sm" title="View" onClick={() => { ActionsPupup(d.actions) }}><i className="fa fa-eye" /></button>
+                      { checkRole(user.role, "superAdmin") && <button type="button" className="btn btn-icon btn-sm" onClick={() => { OnDelete(d._id) }} title="Delete"><i className="fa fa-trash-o text-danger" /></button>}
                     </td>
                   </tr>
                   </Fragment>
@@ -149,8 +150,8 @@ const List = ({ setEditDepartmentId }) => {
       </div>
 
       <ReactPaginate
-        previousLabel={"previous"}
-        nextLabel={"next"}
+          previousLabel={t("previous")}
+          nextLabel={t("next")}
         breakLabel={"..."}
         pageCount={pageCount}
         marginPagesDisplayed={1}

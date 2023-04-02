@@ -78,11 +78,11 @@ const Add = () => {
 
   //alerts
   useEffect(() => {
-    if (success || successGR || successLG || successLV || successSD) {
-      swal(t("Success"), t(checkString(success || successGR || successLG || successLV || successSD)), "success");
+    if (success || successGR || successLV || successSD) {
+      swal(t("Success"), t(checkString(success || successGR || successLV || successSD)), "success");
 
-    } else if (error || errorGR || errorLG || errorLV || errorSD) {
-      swal(t("Error"), t(checkString(error || errorGR || errorLG || errorLV || errorSD)), "error");
+    } else if (error || errorGR || errorLV || errorSD) {
+      swal(t("Error"), t(checkString(error || errorGR || errorLV || errorSD)), "error");
     }
 
     dispatch(cleanAlerts())
@@ -91,7 +91,7 @@ const Add = () => {
     dispatch(cleanLevelsAlerts())
     dispatch(cleanStudentsAlerts())
 
-  }, [success, successGR, successLG, successLV, error, errorGR, errorLG, errorLV, successSD, errorSD]);
+  }, [success, success, successLV, error, errorGR, errorLV, successSD, errorSD]);
 
 
   //back to list
@@ -209,7 +209,7 @@ const Add = () => {
                               })}
 
                             </Field>
-                            {touched.language && errors.language && <small className="text-danger">{errors.language}</small>}
+                            {touched.language && errors.language && <small className="text-danger">{t(errors.language)}</small>}
 
                           </div>
                         </div>
@@ -232,7 +232,7 @@ const Add = () => {
                               {sessions && sessions.superAccelerated > 0 && <option value="superAccelerated">{t('Super Accelerated')}</option>}
 
                             </Field>
-                            {touched.session && errors.session && <small className="text-danger">{errors.session}</small>}
+                            {touched.session && errors.session && <small className="text-danger">{t(errors.session)}</small>}
 
                           </div>
                         </div>
@@ -249,11 +249,11 @@ const Add = () => {
                               }}>
 
                               <option value="">{t("Select...")}</option>
-                              <option value="day">Day</option>
-                              <option value="evening">Evening</option>
-                              <option value="weekend">Weekend</option>
+                              <option value="day">{t('Day')}</option>
+                              <option value="evening">{t('Evening')}</option>
+                              <option value="weekend">{t('Weekend')}</option>
                             </Field>
-                            {touched.option && errors.option && <small className="text-danger">{errors.option}</small>}
+                            {touched.option && errors.option && <small className="text-danger">{t(errors.option)}</small>}
 
                           </div>
                         </div>
@@ -276,7 +276,7 @@ const Add = () => {
                               })}
 
                             </Field>
-                            {touched.level && errors.level && <small className="text-danger">{errors.level}</small>}
+                            {touched.level && errors.level && <small className="text-danger">{t(errors.level)}</small>}
 
                           </div>
                         </div>
@@ -297,7 +297,7 @@ const Add = () => {
                                 return <option key={gi} value={g._id}>{g.name}</option>
                               })}
                             </Field>
-                            {touched.group && errors.group && <small className="text-danger">{errors.group}</small>}
+                            {touched.group && errors.group && <small className="text-danger">{t(errors.group)}</small>}
 
                           </div>
                         </div>
@@ -333,7 +333,7 @@ const Add = () => {
                                )}
                               />
                             }
-                            {touched.listIds && errors.listIds && <small className="text-danger">{errors.listIds}</small>}
+                            {touched.listIds && errors.listIds && <small className="text-danger">{t(errors.listIds)}</small>}
 
                           </div>
                         </div>
@@ -344,7 +344,7 @@ const Add = () => {
                           <label className="col-md-3 col-form-label">{t("Title")} <span className="text-danger">*</span></label>
                           <div className="col-md-9">
                             <Field type="text" name="title" className="form-control" placeholder={t("Title")} />
-                            {touched.title && errors.title && <small className="text-danger">{errors.title}</small>}
+                            {touched.title && errors.title && <small className="text-danger">{t(errors.title)}</small>}
                           </div>
                         </div> 
 
@@ -353,14 +353,14 @@ const Add = () => {
                           <label className="col-md-3 col-form-label">{t("Message")} <span className="text-danger">*</span></label>
                           <div className="col-md-9">
                             <Field as='textarea' row="5" name="message" className="form-control" placeholder={t("Message")} />
-                            {touched.message && errors.message && <small className="text-danger">{errors.message}</small>}
+                            {touched.message && errors.message && <small className="text-danger">{t(errors.message)}</small>}
                           </div>
                         </div>
 
 
 
                         <div className="form-group row">
-                          <button type="submit" className="btn btn-primary" disabled={(loading || !isValid)}>{t("Send")}</button>
+                          <button type="submit mr-3" className="btn btn-primary" disabled={(loading || !isValid)}>{t("Send")}</button>
                           <button type="button" className="btn btn-outline-secondary" onClick={(e) => { OnCancel(e) }}>{t("Cancel")}</button>
                         </div>
 

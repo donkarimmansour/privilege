@@ -158,12 +158,12 @@ const List = ({setEditAdminId}) => {
 
             <div className="col-md-3 col-sm-6">
               <div className="input-group">
-              <input type="text" name="email" className="form-control" onChange={(e) => { handleOnChange(e) }} placeholder={t("Emall")} />
+              <input type="text" name="email" className="form-control" onChange={(e) => { handleOnChange(e) }} placeholder={t("Email")} />
               </div>
             </div>
 
             <div className="col-md-3 col-sm-6">
-              <a href="#!;" onClick={handleSearch} className="btn btn-sm btn-primary btn-block" >{("Search")}</a>
+              <a href="#!;" onClick={handleSearch} className="btn btn-sm btn-primary btn-block" >{t("Search")}</a>
             </div>
 
           </div>
@@ -219,8 +219,8 @@ const List = ({setEditAdminId}) => {
 
 
       <ReactPaginate
-        previousLabel={"previous"}
-        nextLabel={"next"}
+        previousLabel={t("previous")}
+        nextLabel={t("next")}
         breakLabel={"..."}
         pageCount={pageCount}
         marginPagesDisplayed={1}

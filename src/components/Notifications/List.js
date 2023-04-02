@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { countNotifications, deleteNotification, getNotifications } from '../../redux/notifications/action';
 import swal from 'sweetalert';
 import { cleanAlerts } from '../../redux/notifications/reducer';
-import { checkString, extractDesk, loader } from '../../common/funs';
+import { checkRole, checkString, extractDesk, loader } from '../../common/funs';
 import ReactPaginate from 'react-paginate';
 import ActionsModal from '../shared/ActionsModal';
 import moment from 'moment';
@@ -19,6 +19,7 @@ const List = () => {
   const [pageCurrent, setPageCurrent] = useState(1);
   const [actions, setActions] = useState(false)
   const [modalState, toggleModal] = useState(false)
+  const { user } = useSelector(state => state.auth)
   const limit = 20
 
   //handle init
@@ -124,14 +125,14 @@ const List = () => {
                       <td>{ni + 1}</td>
 
                       <td>{n.title}</td>
-                      <td>{`${n.studentID?.firstname} ${n.studentID?.lastname}`}</td>
+                      <td>{`${n?.studentID?.firstname} ${n?.studentID?.lastname}`}</td>
                       <td>{extractDesk(n?.message, 50)}</td>
                       <td>{n.seen ? t("Yes") : t("Nn")}</td>
                       <td>{moment(n.updatedAt).format("DD/MM/YYYY")}</td>
 
                       <td>
                         <button type="button" className="btn btn-icon btn-sm" title="Actions" onClick={() => { ActionsPupup(n.actions) }}><i className="fa fa-eye" /></button>
-                        <button type="button" className="btn btn-icon btn-sm" onClick={() => { OnDelete(n._id) }} title="Delete"><i className="fa fa-trash-o text-danger" /></button>
+                        { checkRole(user.role, "superAdmin") && <button type="button" className="btn btn-icon btn-sm" onClick={() => { OnDelete(n._id) }} title="Delete"><i className="fa fa-trash-o text-danger" /></button>}
                       </td>
                     </tr>
                   </Fragment>
@@ -145,8 +146,8 @@ const List = () => {
       </div>
 
       <ReactPaginate
-        previousLabel={"previous"}
-        nextLabel={"next"}
+        previousLabel={t("previous")}
+        nextLabel={t("next")}
         breakLabel={"..."}
         pageCount={pageCount}
         marginPagesDisplayed={1}

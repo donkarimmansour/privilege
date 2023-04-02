@@ -13,9 +13,11 @@ const ImageDOWNLOAD = (img) => {
 
 
 const extractDesk = (desk , length) => {
-    if(desk.length > length){
-         return desk.substr(0 , length) + "..."
-    }else {
+    if (!desk) {
+        return "..."
+    } if (desk.length > length) {
+        return desk.substr(0, length) + "..."
+    } else {
         return desk
     }
 }
@@ -57,11 +59,13 @@ const checkRole = (role , type) => {
     } else if (type === "teacherOradminOrsuperAdmin") {
         return ["admin" , "superAdmin", "teacher"].includes(role)
     } else if (type === "adminOrsuperAdmin") {
-        return ["superAdmin"].includes(role)
+        return ["admin" , "superAdmin"].includes(role)
     } else if (type === "studentOrteacher") {
         return ["student" , "teacher"].includes(role)
     } else if (type === "all") {
         return ["teacher", "student", "admin", "superAdmin"].includes(role)
+    }else{
+        return false
     }
 }
 

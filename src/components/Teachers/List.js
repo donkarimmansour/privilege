@@ -2,7 +2,7 @@ import { Fragment, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import "react-datepicker/dist/react-datepicker.css";
 import { useDispatch, useSelector } from 'react-redux';
-import { checkString, ImageVIEW, loader } from '../../common/funs';
+import { checkRole, checkString, ImageVIEW, loader } from '../../common/funs';
 import { deleteTeacher, getTeacher } from '../../redux/teachers/action';
 import { countStudent } from '../../redux/students/action';
 import swal from 'sweetalert';
@@ -22,6 +22,7 @@ const List = ({ setEditTeacherId }) => {
   const [pageCurrent, setPageCurrent] = useState(1);
   const [modalState, toggleModal] = useState(false)
   const [actions, setActions] = useState(false)
+  const { user } = useSelector(state => state.auth)
   const limit = 20
 
   //handle Search
@@ -158,12 +159,12 @@ const List = ({ setEditTeacherId }) => {
 
             <div className="col-md-3 col-sm-6">
               <div className="input-group">
-                <input type="text" name="email" className="form-control" onChange={(e) => { handleOnChange(e) }} placeholder={t("Emall")} />
+                <input type="text" name="email" className="form-control" onChange={(e) => { handleOnChange(e) }} placeholder={t("Email")} />
               </div>
             </div>
 
             <div className="col-md-3 col-sm-6">
-              <a href="#!;" onClick={handleSearch} className="btn btn-sm btn-primary btn-block" >{("Search")}</a>
+              <a href="#!;" onClick={handleSearch} className="btn btn-sm btn-primary btn-block" >{t("Search")}</a>
             </div>
 
           </div>
@@ -180,6 +181,7 @@ const List = ({ setEditTeacherId }) => {
               <th>{t("Language")}</th>
               <th>{t("Email")}</th>
               <th>{t("Phone")}</th>
+              <th>{t("Students")}</th>
               <th>{t("Date")}</th>
               <th>{t("Action")}</th>
             </tr>
@@ -188,7 +190,6 @@ const List = ({ setEditTeacherId }) => {
 
           <tbody>
  
-
             {teachers.length > 0 && teachers.map((p, pi) => {
               return (
                 <Fragment key={pi}>
@@ -199,14 +200,15 @@ const List = ({ setEditTeacherId }) => {
                     <img className="avatar" src={ImageVIEW(p.image)} alt="" />
                   </td>
                   <td><span className="font-16">{`${p.firstname} ${p.lastname}`}</span></td>
-                  <td>{p.language?.name}</td>
+                  <td>{p.languages?.name}</td>
                   <td>{p.email}</td>
                   <td>{p.phone}</td>
+                  <td>{p.studentsCount}</td>
                   <td>{moment(p.updatedAt).format("DD/MM/YYYY")}</td>
                   <td>
                     <button type="button" className="btn btn-icon btn-sm" title="Edit" onClick={(e) => { OnEdit(p._id, e) }}><i className="fa fa-edit" /></button>
-                    <button type="button" className="btn btn-icon btn-sm" title="Actions" onClick={() => { ActionsPupup(p.actions) }}><i className="fa fa-eye" /></button>
-                    <button type="button" className="btn btn-icon btn-sm" onClick={() => { OnDelete(p._id) }} title="Delete" data-type="confirm"><i className="fa fa-trash-o text-danger" /></button>
+                   <button type="button" className="btn btn-icon btn-sm" title="View" onClick={() => { ActionsPupup(p.actions) }}><i className="fa fa-eye" /></button>
+                    { checkRole(user.role, "superAdmin") &&  <button type="button" className="btn btn-icon btn-sm" onClick={() => { OnDelete(p._id) }} title="Delete" data-type="confirm"><i className="fa fa-trash-o text-danger" /></button>}
                   </td>
                 </tr>
                 </Fragment>
@@ -221,8 +223,8 @@ const List = ({ setEditTeacherId }) => {
 
 
       <ReactPaginate
-        previousLabel={"previous"}
-        nextLabel={"next"}
+        previousLabel={t("previous")}
+        nextLabel={t("next")}
         breakLabel={"..."}
         pageCount={pageCount}
         marginPagesDisplayed={1}

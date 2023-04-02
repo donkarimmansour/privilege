@@ -72,60 +72,60 @@ export const BillsReducerSlice = createSlice({
             state.error = action.payload
         },
 
-        //editBill
-        [editBill.pending]: (state) => {
-            state.loading = true
-        },
+        // //editBill
+        // [editBill.pending]: (state) => {
+        //     state.loading = true
+        // },
 
-        [editBill.fulfilled]: (state, action) => {
-            state.loading = false
-            state.success = "Updated"
+        // [editBill.fulfilled]: (state, action) => {
+        //     // state.loading = false
+        //     // state.success = "Updated"
             
-            const editIndex = state.bills.findIndex(s => s._id === state.singleBill._id)
-            state.bills[editIndex] = {
-                ...action.meta.arg, ...state.bills[editIndex],
-                actions: [ ...state.bills[editIndex].actions, action.meta.arg.actions ]
-            }
-        },
+        //     // const editIndex = state.bills.findIndex(s => s._id === state.singleBill._id)
+        //     // state.bills[editIndex] = {
+        //     //     ...action.meta.arg, ...state.bills[editIndex],
+        //     //     actions: [ ...state.bills[editIndex].actions, action.meta.arg.actions ]
+        //     // }
+        // },
 
-        [editBill.rejected]: (state, action) => {
-            state.loading = false
-            state.error = action.payload
-        },
+        // [editBill.rejected]: (state, action) => {
+        //     state.loading = false
+        //     state.error = action.payload
+        // },
 
-        //deleteBill
-        [deleteBill.pending]: (state, action) => {
-            state.loading = true
-        },
+        // //deleteBill
+        // [deleteBill.pending]: (state, action) => {
+        //     state.loading = true
+        // },
 
-        [deleteBill.fulfilled]: (state, action) => {
-            state.loading = false
-            state.success = "Deleted"
-            state.bills = state.bills.filter(s => s._id !== action.meta.arg) 
-            state.count = -1
-        },
+        // [deleteBill.fulfilled]: (state, action) => {
+        //     state.loading = false
+        //     state.success = "Deleted"
+        //     state.bills = state.bills.filter(s => s._id !== action.meta.arg) 
+        //     state.count = -1
+        // },
 
-        [deleteBill.rejected]: (state, action) => {
-            state.loading = false
-            state.error = action.payload
-        },
+        // [deleteBill.rejected]: (state, action) => {
+        //     state.loading = false
+        //     state.error = action.payload
+        // },
 
-        //createBill
-        [createBill.pending]: (state, action) => {
-            state.loading = true
-        },
+        // //createBill
+        // [createBill.pending]: (state, action) => {
+        //     state.loading = true
+        // },
 
-        [createBill.fulfilled]: (state, action) => {
-            state.loading = false
-            state.success = "Created"
-            state.bills = [...state.bills,  {...action.meta.arg ,  "_id" : action.payload}]
-            state.count = +1
-        },
+        // [createBill.fulfilled]: (state, action) => {
+        //     state.loading = false
+        //     state.success = "Created"
+        //     state.bills = [...state.bills,  {...action.meta.arg ,  "_id" : action.payload}]
+        //     state.count = +1
+        // },
 
-        [createBill.rejected]: (state, action) => {
-            state.loading = false
-            state.error = action.payload
-        },
+        // [createBill.rejected]: (state, action) => {
+        //     state.loading = false
+        //     state.error = action.payload
+        // },
 
     
     }

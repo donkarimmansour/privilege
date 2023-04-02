@@ -3,11 +3,13 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { countStudent, deleteStudent, getStudent } from '../../redux/students/action';
 import swal from 'sweetalert';
-import { checkString, ImageVIEW, loader } from '../../common/funs';
+import { checkRole, checkString, ImageVIEW, loader } from '../../common/funs';
 import { cleanAlerts } from '../../redux/students/reducer';
 import moment from "moment"; 
 import ReactPaginate from "react-paginate";
 import ActionsModal from '../shared/ActionsModal';
+import { getSingleGroupe } from '../../redux/groupes/action';
+import { Link } from 'react-router-dom';
 
 const List = ({setEditStudentId}) => { 
 
@@ -15,16 +17,49 @@ const List = ({setEditStudentId}) => {
   const dispatch = useDispatch();
   const [filters, setFilters] = useState({ lastname: "", phone: "", email: "", firstname: "" });
   const { loading, error, success, students, count } = useSelector(state => state.students)
+  const { singleGroupe } = useSelector(state => state.groupe)
   const [pageCount, setPageCount] = useState(0);
   const [pageCurrent, setPageCurrent] = useState(1);
   const [modalState, toggleModal] = useState(false)
   const [actions, setActions] = useState(false)
+  const [teachGroup, setTeachGroup] = useState("xxxlxxx")
+  const { user } = useSelector(state => state.auth)
   const limit = 20
 
-  //handle Search 
+  //handle admin Search 
   useEffect(() => {
-    handleSearch()
-  }, [dispatch , pageCurrent])
+    if (user.role !== "teacher") {
+      handleSearch()
+    }
+  }, [dispatch, pageCurrent])
+
+  //handle teacher Search 
+  useEffect(() => {
+    if (user.role === "teacher" && teachGroup !== "xxxlxxx") {
+      handleSearch()
+    }
+  }, [pageCurrent, teachGroup])
+
+
+  //start teacher section
+  //get groupe
+  useEffect(() => {
+    if (user.role === "teacher") {
+      dispatch(getSingleGroupe({ filter: { teacher: user._id } }))
+    }
+  }, [dispatch, user])
+
+  //update groupe id
+  useEffect(() => {
+    if (singleGroupe && singleGroupe._id) {
+      setTeachGroup(singleGroupe._id)
+    } else {
+      setTeachGroup("xxxlxxx")
+
+    }
+  }, [singleGroupe])
+
+  //end teacher section
 
 
   //alerts
@@ -107,11 +142,14 @@ const List = ({setEditStudentId}) => {
      }else{
        filter = { lastname : { $ne : "xxxlxxxx"}  } 
      } 
-    
+
+     if(user.role === "teacher"){
+      filter = { ...filter, group: teachGroup }
+     }
 
      const skip = (pageCurrent === 1) ? 0 : (pageCurrent - 1) * limit
-    dispatch(getStudent({filter , sort : {_id : -1} , expend : "all" , skip : skip , limit : limit}))
-    dispatch(countStudent(filter))
+     dispatch(getStudent({filter , sort : {_id : -1} , expend : "all" , skip : skip , limit : limit}))
+     dispatch(countStudent(filter))
      
   }
 
@@ -158,12 +196,12 @@ const List = ({setEditStudentId}) => {
 
             <div className="col-md-3 col-sm-6">
               <div className="input-group">
-              <input type="text" name="email" className="form-control" onChange={(e) => { handleOnChange(e) }} placeholder={t("Emall")} />
+              <input type="text" name="email" className="form-control" onChange={(e) => { handleOnChange(e) }} placeholder={t("Email")} />
               </div>
             </div>
 
             <div className="col-md-3 col-sm-6">
-              <a href="#!;" onClick={handleSearch} className="btn btn-sm btn-primary btn-block" >{("Search")}</a>
+              <a href="#!;" onClick={handleSearch} className="btn btn-sm btn-primary btn-block" >{t("Search")}</a>
             </div>
 
           </div>
@@ -177,10 +215,12 @@ const List = ({setEditStudentId}) => {
               <th>{t("Name")}</th>
               <th />
               <th>{t("Language")}</th>
+              <th>{t("Email")}</th>
               <th>{t("Phone")}</th>
               <th>{t("Hours")}</th>
               <th>{t("Date")}</th>
-              <th>{t("Action")}</th>
+              {checkRole(user.role, "adminOrsuperAdmin") && <th>{t("Exam")}</th>}
+              {user.role !== "teacher" && <th>{t("Action")}</th>}
             </tr>
           </thead>
 
@@ -198,15 +238,19 @@ const List = ({setEditStudentId}) => {
                     <img className="avatar" src={ImageVIEW(s.image)} alt="" />
                   </td>
                   <td><span className="font-16">{`${s.firstname} ${s.lastname}`}</span></td>
-                  <td>{s.language?.name}</td>
+                  <td>{s?.language?.name}</td>
+                  <td>{s.email}</td>
                   <td>{s.phone}</td>
                   <td>{s.hours}</td>
                   <td>{moment(s.updatedAt).format("DD/MM/YYYY")}</td>
-                  <td>
+
+                  {checkRole(user.role, "adminOrsuperAdmin") && <td><Link to={`/exam/${s._id}`} className="btn btn-icon btn-sm"><i className="fa fa-eye" /></Link></td>}
+                 
+                  {user.role !== "teacher" && <td>
                     <button type="button" className="btn btn-icon btn-sm" title="Edit" onClick={(e) => { OnEdit(s._id , e) }}><i className="fa fa-edit" /></button>
-                    <button type="button" className="btn btn-icon btn-sm" title="Actions" onClick={() => { ActionsPupup(s.actions) }}><i className="fa fa-eye" /></button>
-                    <button type="button" className="btn btn-icon btn-sm" onClick={() => { OnDelete(s._id) }} title="Delete"><i className="fa fa-trash-o text-danger" /></button>
-                  </td>
+                    <button type="button" className="btn btn-icon btn-sm" title="View" onClick={() => { ActionsPupup(s.actions) }}><i className="fa fa-eye" /></button> 
+                    <> {checkRole(user.role, "superAdmin") && <button type="button" className="btn btn-icon btn-sm" onClick={() => { OnDelete(s._id) }} title="Delete"><i className="fa fa-trash-o text-danger" /></button>}</>
+                  </td>}
                 </tr>
                 </Fragment>
 
@@ -220,8 +264,8 @@ const List = ({setEditStudentId}) => {
 
 
       <ReactPaginate
-        previousLabel={"previous"}
-        nextLabel={"next"}
+        previousLabel={t("previous")}
+        nextLabel={t("next")}
         breakLabel={"..."}
         pageCount={pageCount}
         marginPagesDisplayed={1}

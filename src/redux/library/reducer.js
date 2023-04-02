@@ -80,7 +80,7 @@ export const LibraryReducerSlice = createSlice({
             
             const editIndex = state.libraries.findIndex(s => s._id === state.singleLibrary._id)
             state.libraries[editIndex] = {
-                ...action.meta.arg, ...state.libraries[editIndex],
+                ...state.libraries[editIndex],...action.meta.arg,
                 actions: [ ...state.libraries[editIndex].actions, action.meta.arg.actions ]
             }
         },

@@ -88,18 +88,18 @@ const Add = ({ editStudentId, setEditStudentId }) => {
     option: "",
     session: "",
     cin: "",
-    isAccountActivated: "no",
-    tested: "no"
+    isAccountActivated: "yes",
+    tested: "yes"
   })
 
 
   //alerts
   useEffect(() => {
-    if (success || successGR || successLG || successLV) {
-      swal(t("Success"), t(checkString(success || successGR || successLG || successLV)), "success");
+    if (success || successGR || successLV) {
+      swal(t("Success"), t(checkString(success || successGR || successLV)), "success");
 
-    } else if (error || errorGR || errorLG || errorLV) {
-      swal(t("Error"), t(checkString(error || errorGR || errorLG || errorLV)), "error");
+    } else if (error || errorGR || errorLV) {
+      swal(t("Error"), t(checkString(error || errorGR || errorLV)), "error");
     }
 
     dispatch(cleanAlerts())
@@ -107,7 +107,7 @@ const Add = ({ editStudentId, setEditStudentId }) => {
     dispatch(cleanLanguagesAlerts())
     dispatch(cleanLevelsAlerts())
 
-  }, [success, successGR, successLG, successLV, error, errorGR, errorLG, errorLV]);
+  }, [success, successGR, successLV, error, errorGR, errorLV]);
 
 
   //get student data
@@ -129,7 +129,7 @@ const Add = ({ editStudentId, setEditStudentId }) => {
       delete initialScheme.confirmpassword
     
       setInitialScheme({ ...initialScheme})
-      setSessions(singleStudent.language.session)
+      setSessions(singleStudent?.language?.session || [])
       setGroupeFilter({option: singleStudent.option, session: singleStudent.session, language: singleStudent.language?._id, level: singleStudent.level?._id || null })
       setLanguageFilter(singleStudent.language?._id || null)
     }
@@ -331,14 +331,14 @@ const Add = ({ editStudentId, setEditStudentId }) => {
                           <label className="col-md-3 col-form-label">{t("First Name")} <span className="text-danger">*</span></label>
                           <div className="col-md-9">
                             <Field type="text" name="firstname" className="form-control" placeholder={t("First Name")} />
-                            {touched.firstname && errors.firstname && <small className="text-danger">{errors.firstname}</small>}
+                            {touched.firstname && errors.firstname && <small className="text-danger">{t(errors.firstname)}</small>}
                           </div>
                         </div>
                         <div className="form-group row">
                           <label className="col-md-3 col-form-label">{t("Last Name")} <span className="text-danger">*</span></label>
                           <div className="col-md-9">
                             <Field type="text" name="lastname" className="form-control" placeholder={t("Last Name")} />
-                            {touched.lastname && errors.lastname && <small className="text-danger">{errors.lastname}</small>}
+                            {touched.lastname && errors.lastname && <small className="text-danger">{t(errors.lastname)}</small>}
                           </div>
                         </div>
 
@@ -346,7 +346,7 @@ const Add = ({ editStudentId, setEditStudentId }) => {
                           <label className="col-md-3 col-form-label">{t("Cin")} <span className="text-danger">*</span></label>
                           <div className="col-md-9">
                             <Field type="text" name="cin" className="form-control" placeholder={t("Cin")} />
-                            {touched.cin && errors.cin && <small className="text-danger">{errors.cin}</small>}
+                            {touched.cin && errors.cin && <small className="text-danger">{t(errors.cin)}</small>}
                           </div>
                         </div>
 
@@ -354,7 +354,7 @@ const Add = ({ editStudentId, setEditStudentId }) => {
                           <label className="col-md-3 col-form-label">{t("Email")} <span className="text-danger">*</span></label>
                           <div className="col-md-9">
                             <Field type="text" name="email" className="form-control" placeholder={t("Email")} />
-                            {touched.email && errors.email && <small className="text-danger">{errors.email}</small>}
+                            {touched.email && errors.email && <small className="text-danger">{t(errors.email)}</small>}
                           </div>
                         </div>
 
@@ -364,7 +364,7 @@ const Add = ({ editStudentId, setEditStudentId }) => {
                           <div className="col-md-9">
 
                             <Field as="select" className="form-control input-height" name="language" value={values.language} 
-                              onChange={val => {
+                              onChange={(val) => {
                                 setFieldTouched("language")
                                 setFieldValue("language", val.target.value)
                                 setGroupeFilter({...groupeFilter, language: val.target.value})
@@ -378,7 +378,7 @@ const Add = ({ editStudentId, setEditStudentId }) => {
                               })}
 
                             </Field>
-                            {touched.language && errors.language && <small className="text-danger">{errors.language}</small>}
+                            {touched.language && errors.language && <small className="text-danger">{t(errors.language)}</small>}
 
                           </div>
                         </div>
@@ -403,7 +403,7 @@ const Add = ({ editStudentId, setEditStudentId }) => {
                               {sessions && sessions.superAccelerated > 0  && <option value="superAccelerated">{`${t('Super Accelerated')} (${sessions.superAccelerated})`}</option>}
 
                             </Field>
-                            {touched.session && errors.session && <small className="text-danger">{errors.session}</small>}
+                            {touched.session && errors.session && <small className="text-danger">{t(errors.session)}</small>}
 
                           </div>
                         </div>
@@ -420,11 +420,11 @@ const Add = ({ editStudentId, setEditStudentId }) => {
                               }}>
 
                               <option value="">{t("Select...")}</option>
-                              <option value="day">Day</option>
-                              <option value="evening">Evening</option>
-                              <option value="weekend">Weekend</option>
+                              <option value="day">{t('Day')}</option>
+                              <option value="evening">{t('Evening')}</option>
+                              <option value="weekend">{t('Weekend')}</option>
                             </Field>
-                            {touched.option && errors.option && <small className="text-danger">{errors.option}</small>}
+                            {touched.option && errors.option && <small className="text-danger">{t(errors.option)}</small>}
 
                           </div>
                         </div>
@@ -447,7 +447,7 @@ const Add = ({ editStudentId, setEditStudentId }) => {
                               })}
 
                             </Field>
-                            {touched.level && errors.level && <small className="text-danger">{errors.level}</small>}
+                            {touched.level && errors.level && <small className="text-danger">{t(errors.level)}</small>}
 
                           </div>
                         </div>
@@ -463,7 +463,7 @@ const Add = ({ editStudentId, setEditStudentId }) => {
                                 return <option key={gi} value={g._id}>{`${g.name} (${g.studentsCount})`}</option>
                               })}
                             </Field>
-                            {touched.group && errors.group && <small className="text-danger">{errors.group}</small>}
+                            {touched.group && errors.group && <small className="text-danger">{t(errors.group)}</small>}
 
                           </div>
                         </div>
@@ -479,7 +479,7 @@ const Add = ({ editStudentId, setEditStudentId }) => {
                               <option value="60">60</option>
                               <option value="90">90</option>
                             </datalist>
-                            {touched.hours && errors.hours && <small className="text-danger">{errors.hours}</small>}
+                            {touched.hours && errors.hours && <small className="text-danger">{t(errors.hours)}</small>}
                           
                           </div>
                         </div>
@@ -503,7 +503,7 @@ const Add = ({ editStudentId, setEditStudentId }) => {
                               <option value="male">{t("Male")}</option>
                               <option value="female">{t("Female")}</option>
                             </Field>
-                            {touched.gender && errors.gender && <small className="text-danger">{errors.gender}</small>}
+                            {touched.gender && errors.gender && <small className="text-danger">{t(errors.gender)}</small>}
 
                           </div>
                         </div>
@@ -511,7 +511,7 @@ const Add = ({ editStudentId, setEditStudentId }) => {
                           <label className="col-md-3 col-form-label">{t("Phone")} <span className="text-danger">*</span></label>
                           <div className="col-md-9">
                             <Field type="text" name="phone" className="form-control" placeholder={t("Phone")} />
-                            {touched.phone && errors.phone && <small className="text-danger">{errors.phone}</small>}
+                            {touched.phone && errors.phone && <small className="text-danger">{t(errors.phone)}</small>}
                           </div>
                         </div>
 
@@ -526,7 +526,7 @@ const Add = ({ editStudentId, setEditStudentId }) => {
                                 setFieldValue("birthday", val);
                               }} className="form-control" placeholder={t("Date of Birth")} />
 
-                            {touched.birthday && errors.birthday && <small className="text-danger">{errors.birthday}</small>}
+                            {touched.birthday && errors.birthday && <small className="text-danger">{t(errors.birthday)}</small>}
                           </div>
                         </div>
 
@@ -551,7 +551,7 @@ const Add = ({ editStudentId, setEditStudentId }) => {
                             </div>
                           </div>
 
-                          {touched.isAccountActivated && errors.isAccountActivated && <small className="text-danger">{errors.isAccountActivated}</small>}
+                          {touched.isAccountActivated && errors.isAccountActivated && <small className="text-danger">{t(errors.isAccountActivated)}</small>}
 
                         </div>
 
@@ -563,12 +563,12 @@ const Add = ({ editStudentId, setEditStudentId }) => {
                             <div className="custom-controls-stacked">
 
                               <label className="custom-control custom-radio custom-control-inline">
-                                <Field type="radio" className="custom-control-input" name="tested" value="yes" disabled={true}/>
+                                <Field type="radio" className="custom-control-input" name="tested" value="yes" />
                                 <span className="custom-control-label">{t("Yes")}</span>
                               </label>
 
                               <label className="custom-control custom-radio custom-control-inline">
-                                <Field type="radio" className="custom-control-input" name="tested" value="no" disabled={true}/>
+                                <Field type="radio" className="custom-control-input" name="tested" value="no" />
                                 <span className="custom-control-label">{t("No")}</span>
                               </label>
 
@@ -588,7 +588,7 @@ const Add = ({ editStudentId, setEditStudentId }) => {
 
 
                         <div className="form-group row">
-                          <button type="submit" className="btn btn-primary" disabled={(loading || !isValid)}>{t("Submit")}</button>
+                          <button type="submit" className="btn btn-primary mr-3" disabled={(loading || !isValid)}>{t("Submit")}</button>
                           <button type="button" className="btn btn-outline-secondary" onClick={(e) => { OnCancel(e) }}>{t("Cancel")}</button>
                         </div>
 
@@ -612,7 +612,7 @@ const Add = ({ editStudentId, setEditStudentId }) => {
                             <div className="form-group">
                               <label>{t("User Name")} <span className="text-danger">*</span></label>
                               <Field type="text" name="username" className="form-control" placeholder={t("User Name")} />
-                              {touched.username && errors.username && <small className="text-danger">{errors.username}</small>}
+                              {touched.username && errors.username && <small className="text-danger">{t(errors.username)}</small>}
                             </div>
                           </div>
 
@@ -621,7 +621,7 @@ const Add = ({ editStudentId, setEditStudentId }) => {
                             <div className="form-group">
                               <label>{t("Password")} <span className="text-danger">*</span></label>
                               <Field type="text" name="password" className="form-control" placeholder={t("Password")} />
-                              {touched.password && errors.password && <small className="text-danger">{errors.password}</small>}
+                              {touched.password && errors.password && <small className="text-danger">{t(errors.password)}</small>}
                             </div>
                           </div>
 
@@ -629,7 +629,7 @@ const Add = ({ editStudentId, setEditStudentId }) => {
                             <div className="form-group">
                               <label>{t("Confirm Password")} <span className="text-danger">*</span></label>
                               <Field type="text" name="confirmpassword" className="form-control" placeholder={t("Confirm Password")} />
-                              {touched.confirmpassword && errors.confirmpassword && <small className="text-danger">{errors.confirmpassword}</small>}
+                              {touched.confirmpassword && errors.confirmpassword && <small className="text-danger">{t(errors.confirmpassword)}</small>}
                             </div>
                           </div>
 
@@ -653,20 +653,20 @@ const Add = ({ editStudentId, setEditStudentId }) => {
                         <div className="form-group">
                           <label>{t("Facebook")}</label>
                           <Field type="text" name="facebook" className="form-control" placeholder={t("Facebook")} />
-                          {touched.facebook && errors.facebook && <small className="text-danger">{errors.facebook}</small>}
+                          {touched.facebook && errors.facebook && <small className="text-danger">{t(errors.facebook)}</small>}
                         </div>
 
 
                         <div className="form-group">
                           <label>{t("Twitter")}</label>
                           <Field type="text" name="twitter" className="form-control" placeholder={t("Twitter")} />
-                          {touched.twitter && errors.twitter && <small className="text-danger">{errors.twitter}</small>}
+                          {touched.twitter && errors.twitter && <small className="text-danger">{t(errors.twitter)}</small>}
                         </div>
 
                         <div className="form-group">
                           <label>{t("Linkedin")}</label>
                           <Field type="text" name="linkedin" className="form-control" placeholder={t("Linkedin")} />
-                          {touched.linkedin && errors.linkedin && <small className="text-danger">{errors.linkedin}</small>}
+                          {touched.linkedin && errors.linkedin && <small className="text-danger">{t(errors.linkedin)}</small>}
                         </div>
 
 

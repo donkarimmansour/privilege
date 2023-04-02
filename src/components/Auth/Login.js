@@ -15,13 +15,15 @@ import { useNavigate } from 'react-router-dom'
 const Login = () => {
 
 
-  const { loading, error, success, isLoggedIn } = useSelector(state => state.auth)
+  const { loading, error, success, isLoggedIn, user } = useSelector(state => state.auth)
   const navigate = useNavigate()
 
   useEffect(() => {
 
     if(isLoggedIn){
-      navigate("/")
+
+        navigate("/")
+      
     }
   } , [isLoggedIn])
 

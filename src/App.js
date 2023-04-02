@@ -27,6 +27,8 @@ import TeachersIndex from './components/Teachers/TeachersIndex';
 import LanguageIndex from './components/Languages/LanguageIndex';
 import BillsIndex from './components/Bills/BillsIndex';
 import ViewContainer from './components/Notifications/ViewContainer';
+import CancelationsIndex from './components/Cancelations/CancelationsIndex';
+import PromotionsIndex from './components/Promotions/PromotionsIndex';
 
 function App() {
 
@@ -48,6 +50,8 @@ function App() {
               <Route element={<BillsIndex />} path="/bills" />
 
               
+              <Route element={<PromotionsIndex />} path="/promotions" />
+              <Route element={<CancelationsIndex />} path="/cancelations" />
               <Route element={<DepartmentsIndex />} path="/departments" />
               <Route element={<LanguageIndex />} path="/languages" />
               <Route element={<ChatAppIndex />} path="/chatapp" />
@@ -58,7 +62,7 @@ function App() {
               
               <Route element={<SettingsIndex />} path="/settings" />
               <Route element={<Profile />} path="/profile" />
-              <Route element={<ExamIndex />} path="/exam" />
+              <Route element={<ExamIndex />} path="/exam/:id" />
               <Route element={<View />} path="/language/view/:id" />
 
               <Route element={<Test />} path="/test" />

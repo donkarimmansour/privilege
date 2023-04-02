@@ -1,10 +1,11 @@
 import { createSlice, current } from "@reduxjs/toolkit";
-import { getNotifications  , createNotifications, getSingleNotification, seenNotification, deleteNotification, countNotifications } from "./action"
+import { getNotifications  , createNotifications, getSingleNotification, seenNotification, deleteNotification, countNotifications, getUnReedNotifications } from "./action"
 
 
 const initialState = {
     notifications: [],
     singleNotification: {},
+    unReedNotifications:[],
     count: 0,
     loading: false,
     error: false,
@@ -36,6 +37,22 @@ export const NotificationsReducerSlice = createSlice({
         [getSingleNotification.rejected]: (state, action) => {
             state.loading = false
             state.error = action.payload
+        },
+
+        //getUnReedNotifications
+        [getUnReedNotifications.pending]: (state, action) => {
+            state.loading = true
+        },
+
+        [getUnReedNotifications.fulfilled]: (state, action) => {
+            state.loading = false
+            // state.success = action.payload
+            state.unReedNotifications = action.payload
+        },
+
+        [getUnReedNotifications.rejected]: (state, action) => {
+            state.loading = false
+           // state.error = action.payload
         },
 
         //getNotifications
@@ -78,20 +95,21 @@ export const NotificationsReducerSlice = createSlice({
 
         [seenNotification.fulfilled]: (state, action) => {
             state.loading = false
-            state.success = "Updated"
+           // state.success = "Updated"
             
+            state.unReedNotifications = state.unReedNotifications.filter(s => s._id !== action.meta.arg._id) 
             const seenIndex = state.notifications.findIndex(s => s._id === state.singleNotification._id)
 
-            state.notifications[seenIndex] = {
-                ...action.meta.arg, ...state.notifications[seenIndex],
-                actions: [ ...state.notifications[seenIndex].actions, action.meta.arg.actions ],
-                seen:true
-            }
+            // state.notifications[seenIndex] = {
+            //      ...state.notifications[seenIndex],
+            //     actions: [ ...state.notifications[seenIndex].actions, action.meta.arg.actions ],
+            //     seen:true
+            // }
         },
 
         [seenNotification.rejected]: (state, action) => {
             state.loading = false
-            state.error = action.payload
+            //state.error = action.payload
         },
 
         //deleteNotification

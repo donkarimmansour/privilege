@@ -4,18 +4,20 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { countLanguage } from '../../redux/languages/action';
 import { countDepartment } from '../../redux/department/action';
-import { countGroupe } from '../../redux/groupes/action';
+import { countGroupe, getSingleGroupe } from '../../redux/groupes/action';
 import { countLevel } from '../../redux/levels/action';
 import { countTeacher } from '../../redux/teachers/action';
 import { countStudent } from '../../redux/students/action';
+import { checkRole } from '../../common/funs';
 
 
 const Cards = () => {
 
     const { t } = useTranslation();
     const dispatch = useDispatch()
+    const { user } = useSelector(state => state.auth)
 
-    const { count : groupeCount } = useSelector(state => state.groupe)
+    const { count : groupeCount, singleGroupe } = useSelector(state => state.groupe)
     const { count : levelCount } = useSelector(state => state.level)
     const { count : languagesCount } = useSelector(state => state.languages)
     const { count : departmentCount } = useSelector(state => state.departments)
@@ -25,17 +27,46 @@ const Cards = () => {
 
     //get data count s
     useEffect(() => {
-        dispatch(countLanguage({}))
-        dispatch(countDepartment({}))
-        dispatch(countGroupe({}))
-        dispatch(countTeacher({}))
-        dispatch(countStudent({}))
-        dispatch(countLevel({}))
-    }, [dispatch])
+        if (checkRole(user.role, "adminOrsuperAdmin")) {
+            dispatch(countLanguage({}))
+            dispatch(countDepartment({}))
+            dispatch(countGroupe({}))
+            dispatch(countTeacher({}))
+            dispatch(countStudent({}))
+            dispatch(countLevel({}))
+        } else {
+            dispatch(getSingleGroupe({ filter: { teacher: user._id } }))
+        }
+    }, [dispatch, user])
+
+
+
+    //groupe count
+    useEffect(() => {
+        if (singleGroupe && singleGroupe._id) {
+            dispatch(countStudent({ filter: { group: singleGroupe._id } }))
+        }
+    }, [singleGroupe])
 
 
     return  (
         <div className="row clearfix row-deck">
+
+        <div className={checkRole(user.role, "adminOrsuperAdmin") ? "col-6 col-md-4 col-xl-2" : "col-12"}>
+            <div className="card">
+                <div className="card-body ribbon">
+                    <div className="ribbon-box green" data-toggle="tooltip" title="New Students">{studentsCount}</div>
+                    <Link to="/students" className="my_sort_cut text-muted">
+                        <i className="fa fa-user-circle-o"></i>
+                        <span>{t("Students")}</span>
+                    </Link>
+                </div>
+            </div>
+        </div>
+
+        {checkRole(user.role, "adminOrsuperAdmin") &&
+        <>
+
         <div className="col-6 col-md-4 col-xl-2">
             <div className="card">
                 <div className="card-body ribbon">
@@ -58,17 +89,7 @@ const Cards = () => {
                 </div>
             </div>
         </div>
-        <div className="col-6 col-md-4 col-xl-2">
-            <div className="card">
-                <div className="card-body ribbon">
-                    <div className="ribbon-box green" data-toggle="tooltip" title="New Students">{studentsCount}</div>
-                    <Link to="/students" className="my_sort_cut text-muted">
-                        <i className="fa fa-user-circle-o"></i>
-                        <span>{t("Students")}</span>
-                    </Link>
-                </div>
-            </div>
-        </div>
+        
         <div className="col-6 col-md-4 col-xl-2">
             <div className="card">
                 <div className="card-body ribbon">
@@ -102,6 +123,9 @@ const Cards = () => {
                 </div>
             </div>
         </div>
+
+        </> }
+
     </div>
    
     )

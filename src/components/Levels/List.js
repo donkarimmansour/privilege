@@ -2,7 +2,7 @@ import { Fragment, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux'; 
 import { cleanAlerts } from '../../redux/levels/reducer';
-import { checkString, loader } from '../../common/funs';
+import { checkRole, checkString, loader } from '../../common/funs';
 import { countLevel, deleteLevel, getLevel } from '../../redux/levels/action';
 import swal from 'sweetalert';
 import ReactPaginate from "react-paginate";
@@ -19,6 +19,7 @@ const List = ({setEditLevelId}) => {
   const [filters, setFilters] = useState({ name: ""});
   const [modalState, toggleModal] = useState(false)
   const [actions, setActions] = useState(false)
+  const { user } = useSelector(state => state.auth)
    const { loading, error, success, levels, count } = useSelector(state => state.level)
 
 
@@ -65,8 +66,8 @@ const List = ({setEditLevelId}) => {
   const OnDelete = (_id) => {
 
     swal({
-      title: "Are you sure?",
-      text: "You will not be able to recover this data",
+      title: t("Are you sure?"),
+      text: t("You will not be able to recover this data"),
       type: "warning",
       showCancelButton: true,
       confirmButtonColor: "#dc3545",
@@ -139,12 +140,12 @@ const List = ({setEditLevelId}) => {
           <div className="row">
             <div className="col-sm-6">
               <div className="input-group">
-                <input type="text" name="name" className="form-control" onChange={(e) => { handleOnChange(e) }} placeholder={("Name")} />
+                <input type="text" name="name" className="form-control" onChange={(e) => { handleOnChange(e) }} placeholder={t("Name")} />
               </div>
             </div>
 
             <div className="col-sm-6">
-              <a href="#!;" onClick={handleSearch} className="btn btn-sm btn-primary btn-block" >{("Search")}</a>
+              <a href="#!;" onClick={handleSearch} className="btn btn-sm btn-primary btn-block" >{t("Search")}</a>
             </div>
           </div>
         </div> 
@@ -163,7 +164,7 @@ const List = ({setEditLevelId}) => {
           </thead>
 
 
-          <tbody>
+          <tbody> 
 
           {levels.length > 0 && levels.map((l, li) => {
               return (
@@ -176,8 +177,8 @@ const List = ({setEditLevelId}) => {
                   <td>{l.studentsCount}</td>
                   <td>
                     <button type="button" className="btn btn-icon btn-sm" title="Edit" onClick={(e) => { OnEdit(l._id , e) }}><i className="fa fa-edit" /></button>
-                    <button type="button" className="btn btn-icon btn-sm" title="Actions" onClick={() => { ActionsPupup(l.actions) }}><i className="fa fa-eye" /></button>
-                    <button type="button" className="btn btn-icon btn-sm" onClick={() => { OnDelete(l._id) }} title="Delete" data-type="confirm"><i className="fa fa-trash-o text-danger" /></button>
+                    <button type="button" className="btn btn-icon btn-sm" title="View" onClick={() => { ActionsPupup(l.actions) }}><i className="fa fa-eye" /></button>
+                    { checkRole(user.role, "superAdmin") && <button type="button" className="btn btn-icon btn-sm" onClick={() => { OnDelete(l._id) }} title="Delete" data-type="confirm"><i className="fa fa-trash-o text-danger" /></button>}
                   </td>
                 </tr>
                 </Fragment>
@@ -190,8 +191,8 @@ const List = ({setEditLevelId}) => {
       </div>
 
       <ReactPaginate
-        previousLabel={"previous"}
-        nextLabel={"next"}
+        previousLabel={t("previous")}
+        nextLabel={t("next")}
         breakLabel={"..."}
         pageCount={pageCount}
         marginPagesDisplayed={1}

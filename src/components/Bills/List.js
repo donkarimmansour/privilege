@@ -95,7 +95,7 @@ const List = () => {
                       <td>{bi + 1}</td>
                       <td>{`${b?.studentID?.firstname} ${b?.studentID?.lastname}`}</td>
                       <td>{b.amount}</td>
-                      <td>{moment(b.ubdatedAt).format("DD/MM/YYYY")}</td>
+                      <td>{moment(b.updatedAt).format("DD/MM/YYYY")}</td>
                       <td>
                         <button type="button" className="btn btn-icon btn-sm" title="Actions" onClick={() => { ActionsPupup(b.actions) }}><i className="fa fa-eye" /></button>
                       </td>
@@ -109,8 +109,8 @@ const List = () => {
       </div>
 
       <ReactPaginate
-        previousLabel={"previous"}
-        nextLabel={"next"}
+         previousLabel={t("previous")}
+         nextLabel={t("next")}
         breakLabel={"..."}
         pageCount={pageCount}
         marginPagesDisplayed={1}

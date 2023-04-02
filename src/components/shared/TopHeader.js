@@ -2,12 +2,14 @@ import react from 'react'
 import { Link } from 'react-router-dom'
 import { logOut } from '../../redux/auth/reducer';
 import { useNavigate } from 'react-router-dom'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { checkRole } from '../../common/funs';
 
 
 const TopHeader = () => {
     const navigate = useNavigate()
     const dispach = useDispatch()
+    const { user } = useSelector(state => state.auth)
 
     // Menu toggle
     const menuToggle = (el) => {
@@ -35,7 +37,7 @@ const TopHeader = () => {
                 <div className="hleft">
                     <Link className="header-brand" to="/"><i className="fa fa-graduation-cap brand-logo"></i></Link>
                     <div className="dropdown">
-                        <a href="#!" className="nav-link icon menu_toggle" onClick={menuToggle}><i className="fe fe-align-center"></i></a>
+                      { checkRole(user.role, "teacherOradminOrsuperAdmin") && <a href="#!" className="nav-link icon menu_toggle" onClick={menuToggle}><i className="fe fe-align-center"></i></a>}
 
                         <a href="#!" className="nav-link icon settingbar" onClick={rightSideBar}><i className="fe fe-settings"></i></a>
                     </div>

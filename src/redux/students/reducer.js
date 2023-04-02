@@ -84,7 +84,7 @@ export const StudentsReducerSlice = createSlice({
             
             const editIndex = state.students.findIndex(s => s._id === state.singleStudent._id)
             state.students[editIndex] = {
-                ...action.meta.arg, ...state.students[editIndex],
+                 ...state.students[editIndex],...action.meta.arg,
                 actions: [ ...state.students[editIndex].actions, action.meta.arg.actions ]
             }
 

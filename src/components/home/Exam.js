@@ -11,7 +11,7 @@ const Exam = () => {
     const dispatch = useDispatch(); 
     const { t } = useTranslation();
     const tableRef = useRef(null)
-    const { loading, error, success, exam } = useSelector(state => state.exam)
+    const { exam } = useSelector(state => state.exam)
 
        //handle data
     useEffect(() => {

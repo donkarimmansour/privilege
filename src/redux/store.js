@@ -18,6 +18,8 @@ import LevelReducer from "./levels/reducer";
 import NotificationsReducer from "./notifications/reducer";
 import AdminsReducer from "./admin/reducer";
 import BillsReducer from "./bills/reducer";
+import CancelationsReducer from "./cancelations/reducer";
+import PromotionsReducer from "./promotions/reducer";
 
 const reducers = combineReducers({
   auth : AuthReducer ,
@@ -35,6 +37,8 @@ const reducers = combineReducers({
   notifications : NotificationsReducer ,
   admins : AdminsReducer ,
   bills : BillsReducer ,
+  cancelations : CancelationsReducer ,
+  promotions : PromotionsReducer ,
 })
 
 const persistConfig = { 

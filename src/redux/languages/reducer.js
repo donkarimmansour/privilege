@@ -83,7 +83,7 @@ export const LanguageReducerSlice = createSlice({
             
             const editIndex = state.languages.findIndex(s => s._id === state.singleLanguage._id)
             state.languages[editIndex] = {
-                ...action.meta.arg, ...state.languages[editIndex],
+                 ...state.languages[editIndex],...action.meta.arg,
                 actions: [ ...state.languages[editIndex].actions, action.meta.arg.actions ]
             }
 

@@ -125,7 +125,7 @@ const Add = ({editDepartmentId ,   setEditDepartmentId}) => {
                           <div className="form-group">
                             <label>{t("Floor")} <span className="text-danger">*</span></label>
                             <Field type="text" name="floorName" className="form-control" placeholder={t("Floor")} />
-                            {touched.floorName && errors.floorName && <small className="text-danger">{errors.floorName}</small>}
+                            {touched.floorName && errors.floorName && <small className="text-danger">{t(errors.floorName)}</small>}
 
                           </div>
                         </div>
@@ -133,7 +133,7 @@ const Add = ({editDepartmentId ,   setEditDepartmentId}) => {
                           <div className="form-group">
                             <label>{t("Class")} <span className="text-danger">*</span></label>
                             <Field type="text" name="className" className="form-control" placeholder={t("Class")} />
-                            {touched.className && errors.className && <small className="text-danger">{errors.className}</small>}
+                            {touched.className && errors.className && <small className="text-danger">{t(errors.className)}</small>}
 
                           </div>
                         </div>
@@ -147,7 +147,7 @@ const Add = ({editDepartmentId ,   setEditDepartmentId}) => {
                         </div>
 
                         <div className="col-sm-12">
-                          <button type="submit" className="btn btn-primary" disabled={(loading || !isValid)}>{t("Submit")}</button>
+                          <button type="submit" className="btn btn-primary mr-3" disabled={(loading || !isValid)}>{t("Submit")}</button>
                           <button type="button" className="btn btn-outline-secondary btn-default" onClick={(e) => {OnCancel(e)}}>{t("Cancel")}</button>
 
                         </div>

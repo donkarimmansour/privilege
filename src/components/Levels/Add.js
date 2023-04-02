@@ -37,23 +37,23 @@ const Add = ({editLevelId , setEditLevelId}) => {
 
   //get classes data
   useEffect(() => {
-    dispatch(getLanguage({ sort: { _id: -1 } }))
+      dispatch(getLanguage({ sort: { _id: -1 } }))
   }, [dispatch])
 
 
 
   //alerts
-  useEffect(() => {
+  useEffect(() => { 
     if (success) {
-      swal(t("Success"), t(checkString(success || successLang)), "success");
+      swal(t("Success"), t(checkString(success)), "success");
 
-    } else if (error || errorLang) {
-      swal(t("Error"), t(checkString(error || errorLang)), "error");
+    } else if (error) {
+      swal(t("Error"), t(checkString(error)), "error");
     }
 
      dispatch(cleanAlerts())
 
-  }, [success, successLang, error, errorLang]);
+  }, [success, error]);
 
 
   //back to list
@@ -153,16 +153,18 @@ const Add = ({editLevelId , setEditLevelId}) => {
 
                           <div className="col-md-9">
                             <Field type="text" name="name" className="form-control" placeholder={t("Name")} />
-                            {touched.name && errors.name && <small className="text-danger">{errors.name}</small>}
+                            {touched.name && errors.name && <small className="text-danger">{t(errors.name)}</small>}
                           </div>
 
-                        </div>
+                        </div>    
+           
    
                         <div className="form-group row">
                           <label className="col-md-3 col-form-label">{t("Languages")}  <span className="text-danger">*</span></label>
                           <div className="col-md-7">
 
                             {languages && languages.length &&
+
 
                               <AsyncTypeahead id="languages"
                                 defaultSelected={values.languages}
@@ -191,7 +193,7 @@ const Add = ({editLevelId , setEditLevelId}) => {
                                 )}
                               />
                             }
-                            {touched.languages && errors.languages && <small className="text-danger">{errors.languages}</small>}
+                            {touched.languages && errors.languages && <small className="text-danger">{t(errors.languages)}</small>}
 
 
                           </div>
@@ -199,7 +201,7 @@ const Add = ({editLevelId , setEditLevelId}) => {
 
 
                          <div className="col-sm-12">
-                            <button type="submit" className="btn btn-primary" disabled={(loading || !isValid)} >{t("Submit")}</button>
+                            <button type="submit" className="btn btn-primary mr-3" disabled={(loading || !isValid)} >{t("Submit")}</button>
                             <button type="button" className="btn btn-outline-secondary" onClick={(e) => {OnCancel(e)}}>{t("Cancel")}</button>
                           </div>
 

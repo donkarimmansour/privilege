@@ -1,12 +1,15 @@
 import react, { useState } from 'react'
 import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom'
+import { checkRole } from '../../common/funs';
 import ActionsModal from '../shared/ActionsModal';
 
 
 const Card = ({language , OnEdit , OnDelete}) => {
   const { t } = useTranslation();
   const [modalState, toggleModal] = useState(false)
+  const { user } = useSelector(state => state.auth)
 
   //Actions Pupup
   const ActionsPupup = () => {
@@ -61,9 +64,11 @@ const Card = ({language , OnEdit , OnDelete}) => {
             <a className="ml-3" onClick={(e) => { ActionsPupup() }}><i className="fa fa-eye text-primary mr-1"></i> </a>
           </div>
 
-          <div className="ml-auto text-muted">
-            <a className="ml-3" onClick={(e) => { OnDelete(language._id) }}><i className="fa fa-trash-o text-danger mr-1"></i> </a>
-          </div>
+          {checkRole(user.role, "superAdmin") &&
+            <div className="ml-auto text-muted">
+              <a className="ml-3" onClick={(e) => { OnDelete(language._id) }}><i className="fa fa-trash-o text-danger mr-1"></i> </a>
+            </div>
+          }
 
         </div>
       </div>

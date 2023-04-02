@@ -115,7 +115,7 @@ const Edit = () => {
 
  // http://localhost:3005/v1/api/file/get-single-file/6346f07516be53eb99fb37e9/view
 
-  return (<div className="tab-pane" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+  return (<div className="tab-pane active" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
 
 
        {(loading || Lloading) && loader()}

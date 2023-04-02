@@ -73,7 +73,7 @@ const Email = () => {
   }
 
   return (
-    <div className="tab-pane active" id="Email_Settings">
+    <div className="tab-pane active" id="email_settings">
        {loading && loader()}
 
 
@@ -103,7 +103,7 @@ const Email = () => {
                       <div className="form-group">
                         <label>{t("Email From Address")} <span className="text-danger">*</span></label>
                         <Field type="email" name="email" className="form-control" placeholder={t("Email From Address")} />
-                        {touched.email && errors.email && <small className="text-danger">{errors.email}</small>}
+                        {touched.email && errors.email && <small className="text-danger">{t(errors.email)}</small>}
                       </div>
                      </div>
 
@@ -112,7 +112,7 @@ const Email = () => {
 
                         <label>{t("Email From Name")} <span className="text-danger">*</span></label>
                         <Field type="text" name="name" className="form-control" placeholder={t("name From Name")} />
-                        {touched.name && errors.name && <small className="text-danger">{errors.name}</small>}
+                        {touched.name && errors.name && <small className="text-danger">{t(errors.name)}</small>}
                       </div>
                     </div>
 
@@ -121,7 +121,7 @@ const Email = () => {
 
                         <label>{t("SMTP HOST")} <span className="text-danger">*</span></label>
                         <Field type="text" name="host" className="form-control" placeholder={t("SMTP HOST")} />
-                        {touched.host && errors.host && <small className="text-danger">{errors.host}</small>}
+                        {touched.host && errors.host && <small className="text-danger">{t(errors.host)}</small>}
                       </div>
                     </div>
 
@@ -130,7 +130,7 @@ const Email = () => {
 
                         <label>{t("SMTP USER")} <span className="text-danger">*</span></label>
                         <Field type="text" name="username" className="form-control" placeholder={t("SMTP USER")} />
-                        {touched.username && errors.username && <small className="text-danger">{errors.username}</small>}
+                        {touched.username && errors.username && <small className="text-danger">{t(errors.username)}</small>}
                       </div>
                     </div>
 
@@ -138,7 +138,7 @@ const Email = () => {
                       <div className="form-group">
                         <label>{t("SMTP PASSWORD")} <span className="text-danger">*</span></label>
                         <Field type="text" name="password" className="form-control" placeholder={t("SMTP PASSWORD")} />
-                        {touched.password && errors.password && <small className="text-danger">{errors.password}</small>}
+                        {touched.password && errors.password && <small className="text-danger">{t(errors.password)}</small>}
                       </div>
                     </div>
 
@@ -146,7 +146,7 @@ const Email = () => {
                       <div className="form-group">
                         <label>{t("SMTP PORT")}  <span className="text-danger">*</span></label>
                         <Field type="number" name="port" className="form-control" placeholder={t("SMTP PORT")} />
-                        {touched.port && errors.port && <small className="text-danger">{errors.port}</small>}
+                        {touched.port && errors.port && <small className="text-danger">{t(errors.port)}</small>}
                       </div>
                     </div>
 
@@ -158,7 +158,7 @@ const Email = () => {
                           <option value="SSL">{t("SSL")}</option>
                           <option value="TLS">{t("TLS")}</option>
                         </Field>
-                        {touched.security && errors.security && <small className="text-danger">{errors.security}</small>}
+                        {touched.security && errors.security && <small className="text-danger">{t(errors.security)}</small>}
 
                       </div>
                     </div>

@@ -16,6 +16,21 @@ const getNotifications =  createAsyncThunk("notifications/get" , async (args , N
     }
 })
 
+const getUnReedNotifications =  createAsyncThunk("notifications/unreed" , async (args , NotificationsApi) => {
+    const { rejectWithValue , getState } = NotificationsApi
+    const { token } = getState().auth
+    const authorization = { "Authorization": `bearer ${token}` }
+
+    try {
+        const res = await getApi(args, authorization )
+        return res.data.msg
+
+    } catch (err) {
+        return rejectWithValue(err.response.data.msg)
+    }
+})
+
+
 
 const getSingleNotification =  createAsyncThunk("notifications/getSingle" , async (args , NotificationsApi) => {
     const { rejectWithValue , getState } = NotificationsApi
@@ -70,7 +85,7 @@ const seenNotification =  createAsyncThunk("notifications/seen" , async (args , 
     const authorization = { "Authorization": `bearer ${token}` }
 
     try {
-        const res = await seenApi(_id, args, authorization )
+        const res = await seenApi(_id, {...args, _id}, authorization )
         return res.data.msg
 
     } catch (err) {
@@ -93,4 +108,4 @@ const deleteNotification =  createAsyncThunk("notifications/delete" , async (arg
 
 
 
-export { getNotifications , createNotifications, getSingleNotification, seenNotification, deleteNotification, countNotifications} 
+export { getNotifications , createNotifications, getSingleNotification, seenNotification, deleteNotification, countNotifications, getUnReedNotifications} 

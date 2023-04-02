@@ -21,7 +21,7 @@ const List = ({ setEditLanguageId }) => {
   useEffect(() => {
     const skip = (pageCurrent === 1) ? 0 : (pageCurrent - 1) * limit
 
-   dispatch(getLanguage({ sort: { _id: -1 }, skip: skip, limit: limit }))
+    dispatch(getLanguage({ sort: { _id: -1 }, skip: skip, limit: limit }))
 
     dispatch(countLanguage({}))
   }, [dispatch, pageCurrent])
@@ -110,8 +110,8 @@ const List = ({ setEditLanguageId }) => {
       </div>
 
       <ReactPaginate
-        previousLabel={"previous"}
-        nextLabel={"next"}
+        previousLabel={t("previous")}
+        nextLabel={t("next")}
         breakLabel={"..."}
         pageCount={pageCount}
         marginPagesDisplayed={1}
