@@ -98,8 +98,6 @@ const Calender = () => {
 
           </ul>
 
-          {console.log(singleGroupe?.departments)}
-
           <div id="calendar">
 
             <ScheduleSelector

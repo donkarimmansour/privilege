@@ -84,9 +84,9 @@ const ForgotPassword = () => {
                   <Form action="#" method="post">
 
                     <div className="card">
-                      <div className="card-body">
+                      <div className="card-body"> 
                         <div className="text-center">
-                          <a className="header-brand" href="index.html"><i className="fa fa-graduation-cap brand-logo" /></a>
+                          <a className="header-brand" href="#!"><i className="fa fa-graduation-cap brand-logo" /></a>
                           <div className="card-title">{t("Forgot password")}</div>
                         </div>
                         <p className="text-muted">{t("Enter your email address or username and your password will be reset and emailed to you.")}</p>
@@ -112,6 +112,8 @@ const ForgotPassword = () => {
                           <button type="submit" disabled={(loading || !isValid)} className="btn btn-primary btn-block">{t("Send me new password")}</button>
                           <div className="text-muted mt-4">{t("Forget it,")} <Link to="/login">{t("Send me Back")}</Link> {t("to the Sign in screen.")}</div>
                         </div>
+
+                        
                       </div>
                     </div>
 

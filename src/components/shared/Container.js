@@ -10,7 +10,7 @@ import PrivateRoute from '../Auth/PrivateRoute'
 import { getLocalStorage } from '../../common/localStorage'
 import { useTranslation } from 'react-i18next'
 import { checkRole } from '../../common/funs'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 
 
@@ -19,6 +19,13 @@ const Container = ({ children, tabs, links, setInitAdd }) => {
     const [refresher, setRefresher] = useState(0);
     const { i18n } = useTranslation();
     const { user, isLoggedIn } = useSelector(state => state.auth)
+
+    const dispatch = useDispatch()
+    //clear All
+    useEffect(() => {
+        dispatch({ type: "clearAll" })
+    }, [dispatch])
+
 
     useEffect(() => {
   

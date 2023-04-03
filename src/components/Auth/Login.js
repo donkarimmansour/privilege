@@ -90,9 +90,10 @@ const Login = () => {
                     <div className="card">
                       <div className="card-body">
                         <div className="text-center">
-                          <a className="header-brand" href="index.html"><i className="fa fa-graduation-cap brand-logo" /></a>
+                          <a className="header-brand" href="#!"><i className="fa fa-graduation-cap brand-logo" /></a>
                           <div className="card-title mt-3">{t("Login to your account")}</div>
                         </div>
+                        <p className="text-muted">{t("Enter your email address or username and your password.")}</p>
 
                         <div className="form-group">
                           <Field as="select" name="role" className="form-control"  placeholder={t("Select you role")} >
@@ -108,6 +109,7 @@ const Login = () => {
                           <Field type="text" name="email" className="form-control"  placeholder={t("Enter email or Username")} />
                           {touched.email && errors.email && <small className="text-danger">{errors.email}</small>}
                         </div>
+
                         <div className="form-group">
                           <label className="form-label"><Link to="/forgotpassword" className="float-right small">{t("I forgot password")}</Link></label>
                           <Field type="password" name="password" className="form-control"  placeholder={t("Password")} />

@@ -12,11 +12,11 @@ import { AsyncTypeahead } from 'react-bootstrap-typeahead';
 import 'react-bootstrap-typeahead/css/Typeahead.css';
 import { createCancelations, editCancelation, getSingleCancelation } from '../../redux/cancelations/action';
  
-const Add = ({editCancelationId ,  setEditCancelationId}) => {
+const Add = ({editCancelationId ,  setEditCancelationId, initAdd }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch()
   const { loading, error, success, singleCancelation } = useSelector(state => state.cancelations)
-  const { loading: loadingGR, error: errorGR, success: successGR, groupes } = useSelector(state => state.groupe)
+  const { loading: loadingGR, error: errorGR, groupes } = useSelector(state => state.groupe)
   const { user } = useSelector(state => state.auth)
 
 
@@ -38,8 +38,8 @@ const Add = ({editCancelationId ,  setEditCancelationId}) => {
 
   //alerts
   useEffect(() => {
-    if (success || successGR) {
-      swal(t("Success"), t(checkString(success || successGR)), "success");
+    if (success) {
+      swal(t("Success"), t(checkString(success)), "success");
 
     } else if (error || errorGR) {
       swal(t("Error"), t(checkString(error || errorGR)), "error");
@@ -48,12 +48,12 @@ const Add = ({editCancelationId ,  setEditCancelationId}) => {
 
     if (success || error) {
       dispatch(cleanAlerts())
-    } else if (successGR || errorGR) {
+    } else if (errorGR) {
       dispatch(cleanGroupesAlerts())
     }
     
 
-  }, [success, successGR, error, errorGR]);
+  }, [success, error, errorGR]);
 
 
   //back to list

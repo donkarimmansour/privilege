@@ -10,15 +10,16 @@ import { checkString, loader } from '../../common/funs';
 import swal from 'sweetalert';
 import { createTeacher, editTeacher, editTeacherImage, getSingleTeacher } from '../../redux/teachers/action';
 import { cleanAlerts } from '../../redux/teachers/reducer';
+import { cleanAlerts as cleanLanguagesAlerts } from '../../redux/languages/reducer';
 import { CreateSingleFile } from '../../api/file';
 import { getLanguage } from '../../redux/languages/action';
 
-const Add = ({ editTeacherId, setEditTeacherId }) => {
+const Add = ({ editTeacherId, setEditTeacherId, initAdd }) => {
 
     const { t } = useTranslation();
     const dispatch = useDispatch()
     const { loading, error, success, singleTeacher } = useSelector(state => state.teachers)
-    const { loading:loadingTR, error:errorTR, success:successTR, languages } = useSelector(state => state.languages)
+    const { loading:loadingTR, error:errorTR, languages } = useSelector(state => state.languages)
     const { token, user } = useSelector(state => state.auth)
 
     const [generateData, setGenerateData] = useState({})
@@ -72,13 +73,17 @@ const Add = ({ editTeacherId, setEditTeacherId }) => {
         if (success) {
             swal(t("Success"), t(checkString(success)), "success");
 
-        } else if (error) {
-            swal(t("Error"), t(checkString(error)), "error");
+        } else if (error || errorTR) {
+            swal(t("Error"), t(checkString(error || errorTR)), "error");
         }
 
-        dispatch(cleanAlerts())
+        if(error || success){
+            dispatch(cleanAlerts())
+        }else if(errorTR){
+            dispatch(cleanLanguagesAlerts())
+        }
 
-    }, [success, error]);
+    }, [success, error, errorTR]);
 
 
     //get Teacher data
@@ -103,8 +108,8 @@ const Add = ({ editTeacherId, setEditTeacherId }) => {
  
     //get classes data
     useEffect(() => {
-        dispatch(getLanguage({ sort: { _id: -1 } }))
-    }, [dispatch])
+        if(initAdd) dispatch(getLanguage({ sort: { _id: -1 } }))
+    }, [dispatch, initAdd])
 
     //back to list
     const OnCancel = (evt) => {

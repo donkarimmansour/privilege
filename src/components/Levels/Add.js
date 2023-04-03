@@ -9,14 +9,13 @@ import { createLevel, editLevel, getSingleLevel } from '../../redux/levels/actio
 import { cleanAlerts } from '../../redux/levels/reducer';
 import { getLanguage } from '../../redux/languages/action';
 import { AsyncTypeahead } from 'react-bootstrap-typeahead';
-import 'react-bootstrap-typeahead/css/Typeahead.css';
+import { cleanAlerts as cleanLanguagesAlerts } from '../../redux/languages/reducer';
 
-
-const Add = ({editLevelId , setEditLevelId}) => { 
+const Add = ({editLevelId , setEditLevelId, initAdd }) => { 
   const { t } = useTranslation();
   const dispatch = useDispatch()
   const { loading, error, success, singleLevel } = useSelector(state => state.level)
-  const { loading: loadingLang,  error: errorLang,  success: successLang, languages  } = useSelector(state => state.languages)
+  const { loading: loadingLang,  error: errorLang, languages  } = useSelector(state => state.languages)
   const { user } = useSelector(state => state.auth)
 
   
@@ -37,8 +36,8 @@ const Add = ({editLevelId , setEditLevelId}) => {
 
   //get classes data
   useEffect(() => {
-      dispatch(getLanguage({ sort: { _id: -1 } }))
-  }, [dispatch])
+    if(initAdd) dispatch(getLanguage({ sort: { _id: -1 } }))
+  }, [dispatch, initAdd])
 
 
 
@@ -47,13 +46,16 @@ const Add = ({editLevelId , setEditLevelId}) => {
     if (success) {
       swal(t("Success"), t(checkString(success)), "success");
 
-    } else if (error) {
-      swal(t("Error"), t(checkString(error)), "error");
+    } else if (error || errorLang) {
+      swal(t("Error"), t(checkString(error || errorLang)), "error");
     }
 
-     dispatch(cleanAlerts())
-
-  }, [success, error]);
+    if (error || success) {
+      dispatch(cleanAlerts())
+    } else if (errorLang) {
+      dispatch(cleanLanguagesAlerts())
+    }
+  }, [success, error, errorLang]);
 
 
   //back to list
@@ -192,7 +194,7 @@ const Add = ({editLevelId , setEditLevelId}) => {
                                   <p key={option._id} id={option._id}>{`${option.name}`}</p>
                                 )}
                               />
-                            }
+                            } 
                             {touched.languages && errors.languages && <small className="text-danger">{t(errors.languages)}</small>}
 
 

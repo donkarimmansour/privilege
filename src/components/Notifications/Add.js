@@ -18,26 +18,25 @@ import { getStudent } from '../../redux/students/action';
 import { AsyncTypeahead } from 'react-bootstrap-typeahead';
 import 'react-bootstrap-typeahead/css/Typeahead.css';
 
-const Add = () => {
+const Add = ({initAdd}) => {
   const { t } = useTranslation();
   const dispatch = useDispatch()
   const { loading, error, success } = useSelector(state => state.notifications)
-  const { loading: loadingGR, error: errorGR, success: successGR, groupes } = useSelector(state => state.groupe)
-  const { success: successLG, loading: loadingLG, error: errorLG, languages } = useSelector(state => state.languages)
-  const { success: successLV, loading: loadingLV, error: errorLV, levels } = useSelector(state => state.level)
-  const { success: successSD, loading: loadingSD, error: errorSD, students } = useSelector(state => state.students)
+  const { loading: loadingGR, error: errorGR, groupes } = useSelector(state => state.groupe)
+  const { loading: loadingLG, error: errorLG, languages } = useSelector(state => state.languages)
+  const { loading: loadingLV, error: errorLV, levels } = useSelector(state => state.level)
+  const { loading: loadingSD, error: errorSD, students } = useSelector(state => state.students)
   const { user } = useSelector(state => state.auth)
 
   const [groupeFilter, setGroupeFilter] = useState({ option: null, session: null, language: null, level: null, })
   const [languageFilter, setLanguageFilter] = useState(null)
-  const [sessions, setSessions] = useState([])
   const [studentFilter, setStudentFilter] = useState(null)
 
-
+ 
   //get Languages
   useEffect(() => {
-    dispatch(getLanguage({ sort: { _id: -1 } }))
-  }, [dispatch])
+    if(initAdd) dispatch(getLanguage({ sort: { _id: -1 } }))
+  }, [dispatch, initAdd]) 
 
 
   //get levels data
@@ -63,35 +62,30 @@ const Add = () => {
   }, [studentFilter])
 
 
-  //get session price
-  useEffect(() => {
-
-    if (languages && languages.length > 0 && languageFilter && languageFilter.length > 10) {
-      const index = languages.findIndex(l => l._id === languageFilter)
-      setSessions(languages[index].session)
-
-    } else {
-      setSessions([])
-    }
-  }, [languages, languageFilter])
-
 
   //alerts
   useEffect(() => {
-    if (success || successGR || successLV || successSD) {
-      swal(t("Success"), t(checkString(success || successGR || successLV || successSD)), "success");
+    if (success) {
+      swal(t("Success"), t(checkString(success)), "success");
 
     } else if (error || errorGR || errorLV || errorSD) {
       swal(t("Error"), t(checkString(error || errorGR || errorLV || errorSD)), "error");
     }
 
-    dispatch(cleanAlerts())
-    dispatch(cleanGroupesAlerts())
-    dispatch(cleanLanguagesAlerts())
-    dispatch(cleanLevelsAlerts())
-    dispatch(cleanStudentsAlerts())
+    if (error || success) {
+      dispatch(cleanAlerts())
+    } else if (errorLV) {
+      dispatch(cleanLevelsAlerts())
+    } else if (errorLG) {
+      dispatch(cleanLanguagesAlerts())
+    } else if (errorGR) {
+      dispatch(cleanGroupesAlerts())
+    } else if (errorSD) {
+      dispatch(cleanStudentsAlerts())
+    }
 
-  }, [success, success, successLV, error, errorGR, errorLV, successSD, errorSD]);
+
+  }, [success, success, error, errorGR, errorLV, errorSD, errorLG]);
 
 
   //back to list
@@ -226,11 +220,10 @@ const Add = () => {
                               }}>
 
                               <option value="">{t("Select...")}</option>
-
-                              {sessions && sessions.normale > 0 && <option  value="normale">{t('Normale')}</option>}
-                              {sessions && sessions.accelerated > 0 && <option  value="accelerated">{t('Accelerated')}</option>}
-                              {sessions && sessions.superAccelerated > 0 && <option value="superAccelerated">{t('Super Accelerated')}</option>}
-
+                              <option value="normale">{t("Normale")}</option>
+                              <option value="accelerated">{t("Accelerated")}</option>
+                              <option value="superAccelerated">{t("Super Accelerated")}</option>
+                              
                             </Field>
                             {touched.session && errors.session && <small className="text-danger">{t(errors.session)}</small>}
 
@@ -308,9 +301,6 @@ const Add = () => {
                           <label className="col-md-3 col-form-label">{t("Students")}  <span className="text-danger">*</span></label>
                           <div className="col-md-7">
 
-
-                            {students && students.length &&
-
                               <AsyncTypeahead id="students"
                                 defaultSelected={students}
                                 caseSensitive={false}
@@ -332,7 +322,7 @@ const Add = () => {
                                   <p key={option._id}>{`${option.firstname} ${option.lastname} (${option.username})`}</p>
                                )}
                               />
-                            }
+                            
                             {touched.listIds && errors.listIds && <small className="text-danger">{t(errors.listIds)}</small>}
 
                           </div>

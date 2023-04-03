@@ -9,15 +9,16 @@ import { cleanAlerts } from '../../redux/library/reducer';
 import { createLibrary, editLibrary, getSingleLibrary } from '../../redux/library/action';
 import { getLevel } from '../../redux/levels/action';
 import { getLanguage } from '../../redux/languages/action';
-
+import { cleanAlerts as cleanLanguagesAlerts } from '../../redux/languages/reducer';
+import { cleanAlerts as cleanLevelsAlerts } from '../../redux/levels/reducer';
  
-const Add = ({ editLibraryId , setEditLibraryId }) => {
-
+const Add = ({ editLibraryId , setEditLibraryId, initAdd  }) => {
+ 
   const { t } = useTranslation();
   const dispatch = useDispatch()
   const { loading, error, success, singleLibrary } = useSelector(state => state.library)
-  const { languages, loading:loadingLang, error:errorLang, success:successLang,  } = useSelector(state => state.languages)
-  const { levels, loading:loadingLv, error:errorLv, success:successLv,  } = useSelector(state => state.level)
+  const { languages, loading:loadingLang, error:errorLang } = useSelector(state => state.languages)
+  const { levels, loading:loadingLv, error:errorLv } = useSelector(state => state.level)
   const { user } = useSelector(state => state.auth)
   const [langaugeID, setLangaugeID] = useState(null)
 
@@ -30,8 +31,8 @@ const Add = ({ editLibraryId , setEditLibraryId }) => {
 
     //get classes data
     useEffect(() => {
-      dispatch(getLanguage({ sort: { _id: -1 } }))
-    }, [dispatch])
+      if(initAdd) dispatch(getLanguage({ sort: { _id: -1 } }))
+    }, [dispatch, initAdd])
 
 
     //get levels data
@@ -50,16 +51,22 @@ const Add = ({ editLibraryId , setEditLibraryId }) => {
 
   //alerts
   useEffect(() => {
-    if (success || successLv) {
-      swal(t("Success"), t(checkString(success || successLv)), "success");
+    if (success) {
+      swal(t("Success"), t(checkString(success)), "success");
 
-    } else if (error  || errorLv) {
-      swal(t("Error"), t(checkString(error  || errorLv)), "error");
+    } else if (error || errorLv || errorLang) {
+      swal(t("Error"), t(checkString(error || errorLv || errorLang)), "error");
     }
 
-     dispatch(cleanAlerts())
+    if (error || success) {
+      dispatch(cleanAlerts())
+    } else if (errorLv) {
+      dispatch(cleanLevelsAlerts())
+    } else if (errorLang) {
+      dispatch(cleanLanguagesAlerts())
+    }
 
-  }, [error, errorLv, success, successLv]);
+  }, [error, errorLv, success, errorLang]);
 
 
 

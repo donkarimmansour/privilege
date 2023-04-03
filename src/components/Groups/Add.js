@@ -7,31 +7,38 @@ import { checkString, loader } from '../../common/funs';
 import swal from 'sweetalert';
 import { createGroupe, editGroupe, getSingleGroupe } from '../../redux/groupes/action';
 import { cleanAlerts } from '../../redux/groupes/reducer';
+import { cleanAlerts as cleanLanguagesAlerts } from '../../redux/languages/reducer';
+import { cleanAlerts as cleanLevelsAlerts } from '../../redux/levels/reducer';
+import { cleanAlerts as cleanTeachersAlerts } from '../../redux/teachers/reducer';
+import { cleanAlerts as cleanDepartmentsAlerts } from '../../redux/department/reducer';
 import { getLevel } from '../../redux/levels/action';
 import { getDepartment } from '../../redux/department/action';
 import Calender from './Calender';
 import moment from 'moment';
 import { getTeacher } from '../../redux/teachers/action';
 import { getLanguage } from '../../redux/languages/action';
+ 
 
-
-const Add = ({ editGroupeId, setEditGroupeId }) => {
+const Add = ({ editGroupeId, setEditGroupeId , initAdd }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch()
   const { loading, error, success, singleGroupe } = useSelector(state => state.groupe)
-  const { languages, loading:loadingLang, error:errorLang, success:successLang, } = useSelector(state => state.languages)
-  const { levels, loading:loadingLv, error:errorLv, success:successLv, } = useSelector(state => state.level)
-  const { teachers, loading:loadingTR, error:errorTR, success:successTR, } = useSelector(state => state.teachers)
-  const { departments, loading:loadingDR, error:errorDR, success:successDR, } = useSelector(state => state.departments)
+  const { languages, loading:loadingLang, error:errorLang } = useSelector(state => state.languages)
+  const { levels, loading:loadingLv, error:errorLv } = useSelector(state => state.level)
+  const { teachers, loading:loadingTR, error:errorTR } = useSelector(state => state.teachers)
+  const { departments, loading:loadingDR, error:errorDR } = useSelector(state => state.departments)
   const [schedule, setSchedule] = useState([])
   const { user } = useSelector(state => state.auth)
   const [langaugeID, setLangaugeID] = useState(null)
 
-
+ 
   //get groupe data
   useEffect(() => {
     if (editGroupeId && editGroupeId !== "") {
       dispatch(getSingleGroupe({ filter: { _id: editGroupeId } }))
+      dispatch(getDepartment({ sort: { _id: -1 } }))
+      dispatch(getTeacher({ sort: { _id: -1 } }))
+      dispatch(getLanguage({ sort: { _id: -1 } }))
     }
   }, [editGroupeId])
 
@@ -83,23 +90,38 @@ const Add = ({ editGroupeId, setEditGroupeId }) => {
 
   //get Languages, departments and Teachers data
   useEffect(() => {
-    dispatch(getDepartment({ sort: { _id: -1 } }))
-    dispatch(getTeacher({ sort: { _id: -1 } }))
-    dispatch(getLanguage({ sort: { _id: -1 } }))
-  }, [dispatch])
+    if (initAdd) {
+      dispatch(getDepartment({ sort: { _id: -1 } }))
+      dispatch(getTeacher({ sort: { _id: -1 } }))
+      dispatch(getLanguage({ sort: { _id: -1 } }))
+    }
+  }, [dispatch, initAdd])
 
   //alerts
   useEffect(() => {
-    if ((success || successLv)) {
-      swal(t("Success"), t(checkString((success || successLv))), "success");
+    if ((success)) {
+      swal(t("Success"), t(checkString((success))), "success");
 
-    } else if ((error  || errorLv)) {
-      swal(t("Error"), t(checkString((error  || errorLv))), "error");
+    } else if ((error || errorLv || errorTR || errorLang || errorDR)) {
+      swal(t("Error"), t(checkString((error || errorLv || errorTR || errorLang || errorDR))), "error");
+    }
+ 
+
+    if (error || success) {
+      dispatch(cleanAlerts())
+    } else if (errorTR) {
+      dispatch(cleanTeachersAlerts())
+    } else if (errorLv) {
+      dispatch(cleanLevelsAlerts())
+    } else if (errorLang) {
+      dispatch(cleanLanguagesAlerts())
+    } else if (errorDR) {
+      dispatch(cleanDepartmentsAlerts())
     }
 
-    dispatch(cleanAlerts())
 
-  }, [success, successLv, error, errorLv]);
+
+  }, [success, error, errorLv, errorTR, errorLang, errorDR]);
 
   //back to list
   const OnCancel = (evt) => {

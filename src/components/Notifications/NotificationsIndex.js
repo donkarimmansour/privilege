@@ -1,4 +1,4 @@
-import react from 'react'
+import react, { useState } from 'react'
 import List from './List'
 import Container from '../shared/Container'
 import Add from './Add'
@@ -12,6 +12,7 @@ const NotificationsIndex = () => {
 
   const { t } = useTranslation();
   const { user, isLoggedIn } = useSelector(state => state.auth)
+  const [initAdd, setInitAdd] = useState(false)
 
   const links = [
     { name: t("Privilege"), url: "#" },
@@ -20,17 +21,17 @@ const NotificationsIndex = () => {
  
   const tabs = [
     { name: t("List"), id: "#notification-all" },
-    { name: t("Add"), id: "#notification-add" },
+    { name: t("Add"), id: "#notification-add" , initAdd : true },
   ]
 
   return (
     <>
       { !isLoggedIn ? <Navigate to="/login" /> : checkRole(user.role, "adminOrsuperAdmin") ?
 
-        <Container tabs={tabs} links={links}>
+        <Container tabs={tabs} links={links} setInitAdd={setInitAdd}>
           <div className="tab-content">
             <List />
-            <Add />
+            <Add  initAdd={initAdd}/>
 
           </div>
         </Container>

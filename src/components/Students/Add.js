@@ -98,10 +98,7 @@ const Add = ({ editStudentId, setEditStudentId, initAdd }) => {
   })
 
 
-  //clear All
-  useEffect(() => {
-    dispatch({ type: "clearAll" })
-  }, [dispatch])
+  
 
   //alerts
   useEffect(() => {

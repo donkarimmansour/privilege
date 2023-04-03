@@ -101,7 +101,7 @@ const StudList = () => {
 
         <div className="card">
           <div className="card-body text-center py-5">
-            <img src="../assets/images/no-email.svg" className="width360 mb-3" />
+            <img src="/assets/images/no-email.svg" className="width360 mb-3" />
             <h4>Not Found</h4>
           </div>
         </div>

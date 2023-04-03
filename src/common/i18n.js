@@ -286,6 +286,7 @@ const resources = {
       //auth
       "Forgot password": "Forgot password",
       "Enter your email address or username and your password will be reset and emailed to you.": "Enter your email address or username and your password will be reset and emailed to you.",
+      "Enter your email address or username and your password.": "Enter your email address or username and your password.",
       "Email address": "Email address",
       "Send me new password": "Send me new password",
       "Forget it,": "Forget it,",

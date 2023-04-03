@@ -22,8 +22,6 @@ const Add = ({ editAdminId, setEditAdminId }) => {
   const [Lloading, setLLoading] = useState(false)
   const [profileImage, setProfileImage] = useState(null)
   const [generateData, setGenerateData] = useState({})
-
-  console.log(console.log(process.env.NODE_ENV))
   
   //yup Scheme
   const [initialScheme, setInitialScheme] = useState({

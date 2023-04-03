@@ -14,6 +14,7 @@ const TeachersIndex = () => {
 
   const { t } = useTranslation();
   const { user, isLoggedIn } = useSelector(state => state.auth)
+  const [initAdd, setInitAdd] = useState(false)
 
   const links = [
     { name: t("Privilege"), url: "#" },
@@ -23,19 +24,19 @@ const TeachersIndex = () => {
   const tabs = [
     { name: t("List"), id: "#pro-all" },
     { name: t("Grid"), id: "#pro-grid" },
-    { name: t("Add"), id: "#pro-add" },
+    { name: t("Add"), id: "#pro-add" , initAdd : true },,
   ]
 
   return (
     <> 
        { !isLoggedIn ? <Navigate to="/login" /> : checkRole(user.role, "adminOrsuperAdmin") ?
 
-        <Container tabs={tabs} links={links}>
+        <Container tabs={tabs} links={links} setInitAdd={setInitAdd}>
           <div className="tab-content">
 
             <List setEditTeacherId={setEditTeacherId} />
             <Add editTeacherId={editTeacherId} setEditTeacherId={setEditTeacherId} />
-            <ListGrid setEditTeacherId={setEditTeacherId} />
+            <ListGrid setEditTeacherId={setEditTeacherId} initAdd={initAdd}/>
 
           </div>
         </Container>

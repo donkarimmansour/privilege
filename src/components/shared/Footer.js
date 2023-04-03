@@ -14,7 +14,7 @@ const Footer = () => {
                 <div className="container-fluid">
                     <div className="row">
                         <div className="col-md-6 col-sm-12">
-                            {t("Copyright")} © 2022 <a href="#">{t("Privilege")}</a>.
+                            {t("Copyright")} © 2023 <a href="#">{t("Privilege")}</a>.
                         </div> 
                         <div className="col-md-6 col-sm-12 text-md-right">
                             <ul className="list-inline mb-0">

@@ -25,7 +25,7 @@ const StudentsIndex = () => {
 
   useEffect(() => {
     if (user.role !== "teacher") {
-      setTabs([...tabs, { name: t("Add"), id: "#student-add" }])
+      setTabs([...tabs, { name: t("Add"), id: "#student-add" , initAdd : true }])
 
     }
   }, [user])

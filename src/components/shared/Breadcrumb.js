@@ -1,4 +1,4 @@
-import react, { Fragment } from 'react'
+import react from 'react'
 import myClassName from 'classnames'
 import { useTranslation } from 'react-i18next';
 
@@ -29,7 +29,7 @@ const Breadcrumb = ({links , tabs , setInitAdd}) => {
                     <ul className="nav nav-tabs page-header-tab" >
 
                         { tabs && tabs.length > 0 && tabs.map((tab , ti) => {
-                            return <li key={ti} className="nav-item"><a onClick={() => {tab.name === t("Add") && setInitAdd(true)}} className={myClassName("nav-link" , { "active" : ti === 0} )} data-toggle="tab" href={tab.id}>{t(tab.name)}</a></li>
+                            return <li key={ti} className="nav-item"><a onClick={() => {!!tab?.initAdd && setInitAdd(true)}} className={myClassName("nav-link" , { "active" : ti === 0} )} data-toggle="tab" href={tab.id}>{t(tab.name)}</a></li>
                         })}
                       
                     </ul>

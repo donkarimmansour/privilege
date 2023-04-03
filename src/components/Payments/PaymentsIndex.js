@@ -13,7 +13,6 @@ const PaymentsIndex = () => {
 
   const { user, isLoggedIn } = useSelector(state => state.auth)
 
-
   const { t } = useTranslation();
 
   const links = [

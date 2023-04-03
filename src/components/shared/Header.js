@@ -63,11 +63,11 @@ const Header = ({refresher , setRefresher}) => {
                             <div className="dropdown d-flex">
                                 <a className="nav-link icon d-none d-md-flex btn btn-default btn-icon ml-1" data-toggle="dropdown"><i className="fa fa-language"></i></a>
                                 <div className="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                                    <a className="dropdown-item" href="#!" onClick={() => { myChangeLanguage("en") }}><img className="w20 mr-2" src="../assets/images/flags/us.svg" alt="" />{t("English")}</a>
+                                    <a className="dropdown-item" href="#!" onClick={() => { myChangeLanguage("en") }}><img className="w20 mr-2" src="/assets/images/flags/us.svg" alt="" />{t("English")}</a>
                                     <div className="dropdown-divider"></div>
-                                    <a className="dropdown-item" href="#!" onClick={() => { myChangeLanguage("fr") }}><img className="w20 mr-2" src="../assets/images/flags/fr.svg" alt="" />{t("France")}</a>
+                                    <a className="dropdown-item" href="#!" onClick={() => { myChangeLanguage("fr") }}><img className="w20 mr-2" src="/assets/images/flags/fr.svg" alt="" />{t("France")}</a>
                                     <div className="dropdown-divider"></div>
-                                    <a className="dropdown-item" href="#!" onClick={() => { myChangeLanguage("ar") }}><img className="w20 mr-2" src="../assets/images/flags/ma.svg" alt="" />{t("Arabic")}</a>
+                                    <a className="dropdown-item" href="#!" onClick={() => { myChangeLanguage("ar") }}><img className="w20 mr-2" src="/assets/images/flags/ma.svg" alt="" />{t("Arabic")}</a>
                                 </div>
 
                             </div>

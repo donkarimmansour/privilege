@@ -10,7 +10,7 @@ import { checkRole } from '../../common/funs';
 const LevelIndex = () => {
 
   const [editLevelId, setEditLevelId] = useState("")
-
+  const [initAdd, setInitAdd] = useState(false)
   const { t } = useTranslation();
   const { user, isLoggedIn } = useSelector(state => state.auth)
 
@@ -21,17 +21,17 @@ const LevelIndex = () => {
 
   const tabs = [
     { name: t("List"), id: "#level-all" },
-    { name: t("Add"), id: "#level-add" },
+    { name: t("Add"), id: "#level-add" , initAdd : true },
   ]
 
   return (
 
     <>
       { !isLoggedIn ? <Navigate to="/login" /> : checkRole(user.role, "adminOrsuperAdmin") ?
-        <Container tabs={tabs} links={links}>
+        <Container tabs={tabs} links={links} setInitAdd={setInitAdd}>
           <div className="tab-content">
             <List setEditLevelId={setEditLevelId} />
-            <Add editLevelId={editLevelId} setEditLevelId={setEditLevelId} />
+            <Add editLevelId={editLevelId} setEditLevelId={setEditLevelId}  initAdd={initAdd}/>
 
 
 

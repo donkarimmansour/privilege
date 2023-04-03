@@ -10,7 +10,7 @@ import { checkRole } from '../../common/funs';
 
 const LibraryIndex = () => {
   const [editLibraryId, setEditLibraryId] = useState("")
-
+  const [initAdd, setInitAdd] = useState(false)
   const { t } = useTranslation();
   const { user, isLoggedIn } = useSelector(state => state.auth)
 
@@ -23,7 +23,7 @@ const LibraryIndex = () => {
 
   useEffect(() => {
     if (user.role === "superAdmin") {
-      setTabs([...tabs, { name: t("Add"), id: "#library-add" }])
+      setTabs([...tabs, { name: t("Add"), id: "#library-add" , initAdd : true }])
     }
   }, [user])
 
@@ -32,12 +32,12 @@ const LibraryIndex = () => {
 
     <>
       { !isLoggedIn ? <Navigate to="/login" /> : checkRole(user.role, "adminOrsuperAdmin") ?
-        <Container tabs={tabs} links={links}>
+        <Container tabs={tabs} links={links} setInitAdd={setInitAdd}>
           <div className="tab-content">
 
             <List setEditLibraryId={setEditLibraryId} />
 
-            {checkRole(user.role, "superAdmin") && <Add editLibraryId={editLibraryId} setEditLibraryId={setEditLibraryId} />}
+            {checkRole(user.role, "superAdmin") && <Add editLibraryId={editLibraryId} setEditLibraryId={setEditLibraryId}  initAdd={initAdd}/>}
 
           
           </div>
