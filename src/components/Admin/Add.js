@@ -23,6 +23,8 @@ const Add = ({ editAdminId, setEditAdminId }) => {
   const [profileImage, setProfileImage] = useState(null)
   const [generateData, setGenerateData] = useState({})
 
+  console.log(console.log(process.env.NODE_ENV))
+  
   //yup Scheme
   const [initialScheme, setInitialScheme] = useState({
     firstname: yup.string().required(t("firstname field is required")),

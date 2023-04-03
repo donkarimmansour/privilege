@@ -129,7 +129,6 @@ const resources = {
       "Email": "Email",
       "Cin": "Cin",
       "Level": "Level",
-      "Group": "Group",
       "Hours": "Hours",
       "Amount": "Amount",
       "Gender": "Gender",

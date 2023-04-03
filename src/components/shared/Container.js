@@ -14,7 +14,7 @@ import { useSelector } from 'react-redux'
 
 
 
-const Container = ({ children, tabs, links, btns }) => {
+const Container = ({ children, tabs, links, setInitAdd }) => {
 
     const [refresher, setRefresher] = useState(0);
     const { i18n } = useTranslation();
@@ -79,7 +79,7 @@ const Container = ({ children, tabs, links, btns }) => {
                     {/* <!-- Start project content area --> */}
                     <div className="page">
                         <Header refresher={refresher} setRefresher={setRefresher} />
-                        <Breadcrumb tabs={tabs} links={links} btns={btns} />
+                        <Breadcrumb tabs={tabs} links={links} setInitAdd={setInitAdd}/>
 
                         <div className="section-body mt-4">
                             <div className="container-fluid">

@@ -3,7 +3,7 @@ import myClassName from 'classnames'
 import { useTranslation } from 'react-i18next';
 
 
-const Breadcrumb = ({links , tabs , btns}) => {
+const Breadcrumb = ({links , tabs , setInitAdd}) => {
     const { t } = useTranslation();
 
 
@@ -29,14 +29,10 @@ const Breadcrumb = ({links , tabs , btns}) => {
                     <ul className="nav nav-tabs page-header-tab" >
 
                         { tabs && tabs.length > 0 && tabs.map((tab , ti) => {
-                            return <li key={ti} className="nav-item"><a className={myClassName("nav-link" , { "active" : ti === 0} )}  data-toggle="tab" href={tab.id}>{t(tab.name)}</a></li>
+                            return <li key={ti} className="nav-item"><a onClick={() => {tab.name === t("Add") && setInitAdd(true)}} className={myClassName("nav-link" , { "active" : ti === 0} )} data-toggle="tab" href={tab.id}>{t(tab.name)}</a></li>
                         })}
                       
                     </ul>
-
-                       { btns && btns.length > 0 && btns.map((btn , bi) => {
-                            return <Fragment key={bi} > {t(btn)} </Fragment>
-                        })}
                 </div>
             </div>
         </div>

@@ -16,7 +16,7 @@ const Add = ({editPromotionId ,  setEditPromotionId}) => {
   const { t } = useTranslation();
   const dispatch = useDispatch()
   const { loading, error, success, singlePromotion } = useSelector(state => state.promotions)
-  const { loading: loadingLang, error: errorLang, success: successLang, languages } = useSelector(state => state.languages)
+  const { loading: loadingLang, error: errorLang, languages } = useSelector(state => state.languages)
   const { user } = useSelector(state => state.auth)
 
 
@@ -40,8 +40,8 @@ const Add = ({editPromotionId ,  setEditPromotionId}) => {
 
   //alerts
   useEffect(() => {
-    if (success || successLang) {
-      swal(t("Success"), t(checkString(success || successLang)), "success");
+    if (success) {
+      swal(t("Success"), t(checkString(success)), "success");
 
     } else if (error || errorLang) {
       swal(t("Error"), t(checkString(error || errorLang)), "error");
@@ -51,11 +51,11 @@ const Add = ({editPromotionId ,  setEditPromotionId}) => {
 
     if (success || error) {
       dispatch(cleanAlerts())
-    } else if (successLang || errorLang) {
+    } else if (errorLang) {
       dispatch(cleanLanguagesAlerts())
     }
 
-  }, [success, successLang, error, errorLang]);
+  }, [success, error, errorLang]);
 
 
   //back to list

@@ -18,28 +18,32 @@ import { checkString, loader } from '../../common/funs';
 import { getLanguage } from '../../redux/languages/action';
 import { getGroupe } from '../../redux/groupes/action';
 import { getLevel } from '../../redux/levels/action';
+import { getSinglePromotion } from '../../redux/promotions/action';
  
-const Add = ({ editStudentId, setEditStudentId }) => {
+const Add = ({ editStudentId, setEditStudentId, initAdd }) => {
 
   const { t } = useTranslation();
   const dispatch = useDispatch()
-
+  
   const { singleStudent, loading, error, success } = useSelector(state => state.students)
-  const { success:successLG, loading:loadingLG, error:errorLG, languages } = useSelector(state => state.languages)
-  const { success:successLV, loading:loadingLV, error:errorLV, levels } = useSelector(state => state.level)
-  const { success:successGR, loading:loadingGR, error:errorGR, groupes } = useSelector(state => state.groupe)
+  const { loading:loadingLG, error:errorLG, languages } = useSelector(state => state.languages)
+  const { loading:loadingLV, error:errorLV, levels } = useSelector(state => state.level)
+  const { loading:loadingGR, error:errorGR, groupes } = useSelector(state => state.groupe)
+  const { loading:loadingPro, singlePromotion } = useSelector(state => state.promotions)
   const { token, user } = useSelector(state => state.auth)
   const { singleBill } = useSelector(state => state.bills)
-
-
 
   const [generateData, setGenerateData] = useState({})
   const [Lloading, setLLoading] = useState(false)
   const [profileImage, setProfileImage] = useState(null)
   const [groupeFilter, setGroupeFilter] = useState({option: null, session: null, language: null, level: null, })
   const [languageFilter, setLanguageFilter] = useState(null)
+  const [hourFilter, setHourFilter] = useState(null)
   const [sessionAmount, setSessionAmount] = useState(0)//
   const [sessions, setSessions] = useState({})
+  const [hours, setHours] = useState(["30" , "60"])
+
+
 
   //yup Scheme
   const [initialScheme, setInitialScheme] = useState({
@@ -53,6 +57,7 @@ const Add = ({ editStudentId, setEditStudentId }) => {
     option: yup.string().required(t("option field is required")),
     session: yup.string().required(t("session field is required")),
     cin: yup.string().required(t("cin field is required")),
+    hours: yup.string().required(t("hours field is required")),
     isAccountActivated: yup.string().required(t("type field is required")),
     // level: yup.number().required(t("level field is required")).min(1, t("level field is required")),
     // group: yup.number().required(t("group field is required")).min(1, t("group field is required")),
@@ -84,7 +89,7 @@ const Add = ({ editStudentId, setEditStudentId }) => {
     language: "",
     group: "",
     level: "",
-    hours: 0,
+    hours: "",
     option: "",
     session: "",
     cin: "",
@@ -93,23 +98,38 @@ const Add = ({ editStudentId, setEditStudentId }) => {
   })
 
 
+  //clear All
+  useEffect(() => {
+    dispatch({ type: "clearAll" })
+  }, [dispatch])
+
   //alerts
   useEffect(() => {
-    if (success || successGR || successLV) {
-      swal(t("Success"), t(checkString(success || successGR || successLV)), "success");
+    if (success) {
+      swal(t("Success"), t(checkString(success)), "success");
 
     } else if (error || errorGR || errorLV) {
       swal(t("Error"), t(checkString(error || errorGR || errorLV)), "error");
     }
 
-    dispatch(cleanAlerts())
-    dispatch(cleanGroupesAlerts())
-    dispatch(cleanLanguagesAlerts())
-    dispatch(cleanLevelsAlerts())
+    //errorLG
+    //errorLG
+    //errorLG
 
-  }, [success, successGR, successLV, error, errorGR, errorLV]);
+    if (success || error) {
+      dispatch(cleanAlerts())
+    } else if (errorLG) {
+      dispatch(cleanLanguagesAlerts())
+    } else if (errorGR) {
+      dispatch(cleanGroupesAlerts())
+    } else if (errorLV) {
+      dispatch(cleanLevelsAlerts())
+    }
+
+  }, [success, error, errorGR, errorLV, errorLG]);
 
 
+ 
   //get student data
   useEffect(() => {
     if (editStudentId && editStudentId !== "") {
@@ -146,9 +166,26 @@ const Add = ({ editStudentId, setEditStudentId }) => {
 
   //get Languages
   useEffect(() => {
-    dispatch(getLanguage({ sort: { _id: -1 } }))
-  }, [dispatch])
+    if(initAdd) dispatch(getLanguage({ sort: { _id: -1 } }))
+  }, [dispatch, initAdd])
 
+
+  ////////////////////////////////Promotions///////////////////////////////////////////////
+   //get Promotions
+   useEffect(() => {
+    if(languageFilter && languageFilter.length > 10 && hourFilter && hourFilter !== "" && hourFilter > 0){
+      dispatch(getSinglePromotion({ filter: {language : languageFilter , "session.hours" : hourFilter } }))
+    }
+  }, [languageFilter, hourFilter])
+
+
+   //update Promotion data
+   useEffect(() => {
+    if (singlePromotion && singlePromotion._id) {
+      setSessions(singlePromotion.session)
+    }
+  }, [singlePromotion])
+  //////////////////////////////////Promotions/////////////////////////////////////////////
 
   //get levels data
   useEffect(() => {
@@ -166,17 +203,32 @@ const Add = ({ editStudentId, setEditStudentId }) => {
 
 
 
-    //get session price
+    //get hours
     useEffect(() => {
 
       if(languages && languages.length > 0 && languageFilter && languageFilter.length > 10){
-          const index = languages.findIndex(l => l._id === languageFilter)          
-          setSessions(languages[index].session)
+          const index = languages.findIndex(l => l._id === languageFilter) 
 
+          setHours(languages[index].session.map(s => s.hours))
+          
+      }else{
+        setHours([])
+      }
+    }, [languages, languageFilter])
+
+    
+    //get session price
+    useEffect(() => {
+
+      if(languages && languages.length > 0 && hourFilter && hourFilter !== "" && hourFilter > 0){
+          const index = languages.findIndex(l => l._id === languageFilter) 
+
+          setSessions(languages[index].session.filter(s => s.hours == hourFilter)[0])
+          
       }else{
         setSessions([])
       }
-    }, [languages, languageFilter])
+    }, [languages, hourFilter])
 
 
 
@@ -296,7 +348,7 @@ const Add = ({ editStudentId, setEditStudentId }) => {
   return (
     <div className="tab-pane" id="student-add">
 
-      {(loading || Lloading || loadingGR || loadingLG || loadingLV ) && loader()}
+      {(loading || loadingPro || Lloading || loadingGR || loadingLG || loadingLV ) && loader()}
 
 
       {
@@ -360,6 +412,29 @@ const Add = ({ editStudentId, setEditStudentId }) => {
 
 
                         <div className="form-group row">
+                          <label className="col-md-3 col-form-label">{t("Option")} <span className="text-danger">*</span></label>
+                          <div className="col-md-9">
+                            <Field as="select" className="form-control input-height" name="option" value={values.option} 
+                             onChange={val => {
+                               setFieldTouched("option")
+                               setFieldValue("option", val.target.value)
+                               setGroupeFilter({...groupeFilter, option: val.target.value})
+                              }}>
+
+                              <option value="">{t("Select...")}</option>
+                              <option value="day">{t('Day')}</option>
+                              <option value="evening">{t('Evening')}</option>
+                              <option value="weekend">{t('Weekend')}</option>
+                            </Field>
+                            {touched.option && errors.option && <small className="text-danger">{t(errors.option)}</small>}
+
+                          </div>
+                        </div>
+
+              
+
+
+                        <div className="form-group row">
                           <label className="col-md-3 col-form-label">{t("Language")} <span className="text-danger">*</span></label>
                           <div className="col-md-9">
 
@@ -383,6 +458,27 @@ const Add = ({ editStudentId, setEditStudentId }) => {
                           </div>
                         </div>
 
+
+                        <div className="form-group row">
+                          <label className="col-md-3 col-form-label">{t("Hours")} <span className="text-danger">*</span></label>
+                          <div className="col-md-9">
+                            <Field as="select" className="form-control input-height" name="hours" value={values.hours} 
+                              onChange={val => {
+                                setFieldTouched("hours")
+                                setFieldValue("hours", val.target.value)
+                                setHourFilter(val.target.value)
+                              }}>
+                              <option value="">{t("Select...")}</option>
+
+                              {hours && hours.length > 0 && hours.map((a, ai) => {
+                                return <option key={ai} value={a}>{a}</option>
+                              })}
+
+                            </Field>
+                            {touched.hours && errors.hours && <small className="text-danger">{t(errors.hours)}</small>}
+
+                          </div>
+                        </div>
 
 
                         <div className="form-group row">
@@ -409,28 +505,7 @@ const Add = ({ editStudentId, setEditStudentId }) => {
                         </div>
 
 
-                        <div className="form-group row">
-                          <label className="col-md-3 col-form-label">{t("Option")} <span className="text-danger">*</span></label>
-                          <div className="col-md-9">
-                            <Field as="select" className="form-control input-height" name="option" value={values.option} 
-                             onChange={val => {
-                               setFieldTouched("option")
-                               setFieldValue("option", val.target.value)
-                               setGroupeFilter({...groupeFilter, option: val.target.value})
-                              }}>
-
-                              <option value="">{t("Select...")}</option>
-                              <option value="day">{t('Day')}</option>
-                              <option value="evening">{t('Evening')}</option>
-                              <option value="weekend">{t('Weekend')}</option>
-                            </Field>
-                            {touched.option && errors.option && <small className="text-danger">{t(errors.option)}</small>}
-
-                          </div>
-                        </div>
-
-              
-
+             
                         <div className="form-group row">
                           <label className="col-md-3 col-form-label">{t("Level")} </label>
                           <div className="col-md-9">
@@ -468,21 +543,8 @@ const Add = ({ editStudentId, setEditStudentId }) => {
                           </div>
                         </div>
 
-                        <div className="form-group row">
-                          <label className="col-md-3 col-form-label">{t("Hours")} <span className="text-danger">*</span></label>
-                          <div className="col-md-9">
-                            <Field list="hours" type="number" name="hours" className="form-control" placeholder={t("Hours")} />
-                           
-                            <datalist id="hours">
-                              <option value="24">24</option>
-                              <option value="30">30</option>
-                              <option value="60">60</option>
-                              <option value="90">90</option>
-                            </datalist>
-                            {touched.hours && errors.hours && <small className="text-danger">{t(errors.hours)}</small>}
-                          
-                          </div>
-                        </div>
+
+                  
 
 
                           <div className="form-group row">
@@ -585,7 +647,7 @@ const Add = ({ editStudentId, setEditStudentId }) => {
                             <input type="file" className="dropify" accept=".png, .jpg, .jpeg" onChange={(e) => { uploadImage(e) }} />
                           </div>
                         </div>
-
+ 
 
                         <div className="form-group row">
                           <button type="submit" className="btn btn-primary mr-3" disabled={(loading || !isValid)}>{t("Submit")}</button>

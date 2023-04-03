@@ -4,6 +4,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteNotification, getNotifications } from '../../redux/notifications/action';
 import swal from 'sweetalert';
+import classnames from 'classnames';
 import { cleanAlerts } from '../../redux/notifications/reducer';
 import { checkString, extractDesk, loader } from '../../common/funs';
 import {Link, useNavigate} from 'react-router-dom';
@@ -74,7 +75,7 @@ const StudList = () => {
 
         return (
 
-          <div className="card inbox unread" key={ni}>
+          <div className={classnames("card inbox", {"unread" : !n.seen})} key={ni}>
 
 
             <div className="card-header">

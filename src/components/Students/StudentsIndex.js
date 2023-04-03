@@ -11,6 +11,7 @@ import { useSelector } from 'react-redux'
 const StudentsIndex = () => {
 
   const [editStudentId, setEditStudentId] = useState("")
+  const [initAdd, setInitAdd] = useState(false)
 
   const { t } = useTranslation();
   const { user, isLoggedIn } = useSelector(state => state.auth)
@@ -34,14 +35,14 @@ const StudentsIndex = () => {
   return (
     <>
       { !isLoggedIn ? <Navigate to="/login" /> : checkRole(user.role, "teacherOradminOrsuperAdmin") ?
-        <Container tabs={tabs} links={links}>
+        <Container tabs={tabs} links={links} setInitAdd={setInitAdd}>
 
           <div className="tab-content">
 
             <List setEditStudentId={setEditStudentId} />
 
             { user.role !== "teacher" &&
-             <Add editStudentId={editStudentId} setEditStudentId={setEditStudentId} />
+             <Add editStudentId={editStudentId} setEditStudentId={setEditStudentId} initAdd={initAdd}/>
             }
 
 

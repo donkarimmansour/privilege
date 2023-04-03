@@ -47,7 +47,17 @@ const persistConfig = {
     whitelist : ["auth"]
 }
 
-const persistReducers = persistReducer(persistConfig , reducers)
+const appReducers = (state, action) => {
+
+  if (action.type === "clearAll") {
+    const newState = {auth: state.auth}
+    return reducers(newState, action)
+  }
+
+  return reducers(state, action)
+}
+
+const persistReducers = persistReducer(persistConfig , appReducers)
 
 const store = configureStore({
     reducer: persistReducers,

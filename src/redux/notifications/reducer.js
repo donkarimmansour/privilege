@@ -1,4 +1,4 @@
-import { createSlice, current } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import { getNotifications  , createNotifications, getSingleNotification, seenNotification, deleteNotification, countNotifications, getUnReedNotifications } from "./action"
 
 
@@ -97,14 +97,19 @@ export const NotificationsReducerSlice = createSlice({
             state.loading = false
            // state.success = "Updated"
             
-            state.unReedNotifications = state.unReedNotifications.filter(s => s._id !== action.meta.arg._id) 
+            state.unReedNotifications = state.unReedNotifications.filter(s => s._id !== action.meta.arg._id)
+
             const seenIndex = state.notifications.findIndex(s => s._id === state.singleNotification._id)
 
-            // state.notifications[seenIndex] = {
-            //      ...state.notifications[seenIndex],
-            //     actions: [ ...state.notifications[seenIndex].actions, action.meta.arg.actions ],
-            //     seen:true
-            // }
+            if(seenIndex){
+                state.notifications[seenIndex] = {
+                    ...state.notifications[seenIndex],
+                    actions: [...state.notifications[seenIndex].actions, action.meta.arg.actions],
+                    seen: true
+                }
+            }
+
+         
         },
 
         [seenNotification.rejected]: (state, action) => {

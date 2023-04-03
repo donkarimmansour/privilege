@@ -34,7 +34,7 @@ const View = () => {
           role: `${user.role}`
         }
 
-        dispatch(seenNotification({actions}))
+        dispatch(seenNotification({...actions, _id: singleNotification._id}))
 
         //remove unredd notification
       }
