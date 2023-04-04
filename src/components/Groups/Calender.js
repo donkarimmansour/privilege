@@ -21,8 +21,8 @@ const Calender = ({schedule, setSchedule}) => {
             <ScheduleSelector
               selection={schedule}
               numDays={6}
-              minTime={8}
-              maxTime={20}
+              minTime={9}
+              maxTime={22}
               hourlyChunks={2}
               dateFormat={"dddd"}
               timeFormat={"HH:mm"}

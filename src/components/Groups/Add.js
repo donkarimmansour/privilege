@@ -165,24 +165,25 @@ const Add = ({ editGroupeId, setEditGroupeId , initAdd }) => {
   //submit form 
   const onSubmit = values => {
 
-    if (schedule.length === 0) {
-      swal(t("Error"), t(checkString("error")), "error")
+    let newSchedule = []
 
-    } else {
+    if (schedule.length > 0) {
+      //swal(t("Error"), t(checkString("error")), "error")
+     newSchedule = schedule
 
-      const newSchedule = schedule
+      .filter(d => {
+        if (moment(d).format("H") > 7 && moment(d).format("H") < 20) {
+          return d
+        }
+      })
 
-        .filter(d => {
-          if (moment(d).format("H") > 7 && moment(d).format("H") < 20) {
-            return d
-          }
-        })
+      .map(date => ({
+        day: moment(date).format("dddd"),
+        time: moment(date).format("HH:mm")
+      }))
 
-        .map(date => ({
-          day: moment(date).format("dddd"),
-          time: moment(date).format("HH:mm")
-        }))
-
+    }
+   
       const actions = {
         fullName: `${user.firstname} ${user.lastname}`,
         action: `${editGroupeId && editGroupeId !== "" ? "edit" : "add"}`,
@@ -195,7 +196,7 @@ const Add = ({ editGroupeId, setEditGroupeId , initAdd }) => {
         dispatch(createGroupe({ ...values, actions, calindar: newSchedule }))
 
       }
-    }
+ 
 
 
   }
