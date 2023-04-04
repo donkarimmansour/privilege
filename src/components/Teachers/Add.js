@@ -90,6 +90,7 @@ const Add = ({ editTeacherId, setEditTeacherId, initAdd }) => {
     useEffect(() => {
         if (editTeacherId && editTeacherId !== "") {
             dispatch(getSingleTeacher({ filter: { _id: editTeacherId } }))
+            dispatch(getLanguage({ sort: { _id: -1 } }))
         }
     }, [editTeacherId])
 
