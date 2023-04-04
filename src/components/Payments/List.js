@@ -8,12 +8,14 @@ import { countPayment, deletePayment, getPayment } from '../../redux/payments/ac
 import ReactPaginate from "react-paginate";
 import ActionsModal from '../shared/ActionsModal';
 import { cleanAlerts } from '../../redux/payments/reducer';
+import { useNavigate } from 'react-router';
 
 
 const List = ({ _setEditPaymentId }) => {
 
   const { t } = useTranslation();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { loading, error, success, payments, count } = useSelector(state => state.payments)
   const [modalState, toggleModal] = useState(false)
   const [pageCount, setPageCount] = useState(0);
@@ -139,6 +141,7 @@ const List = ({ _setEditPaymentId }) => {
                       <td>{moment(p.updatedAt).format("DD/MM/YYYY")}</td>
                       <td>
                         <button type="button" className="btn btn-icon btn-sm" title="View" onClick={() => { ActionsPupup(p.actions) }}><i className="fa fa-eye" /></button>
+                        <button type="button" className="btn btn-icon btn-sm" title="Invice" onClick={() => { navigate(`/invice/${p._id}`) }}><i className="fa fa-money" /></button>
                         { checkRole(user.role, "superAdmin") && <button type="button" className="btn btn-icon btn-sm" onClick={() => { OnDelete(p._id) }} title="Delete" data-type="confirm"><i className="fa fa-trash-o text-danger" /></button>}
                       </td>
                     </tr>

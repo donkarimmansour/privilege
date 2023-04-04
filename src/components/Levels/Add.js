@@ -23,6 +23,7 @@ const Add = ({editLevelId , setEditLevelId, initAdd }) => {
   useEffect(() => {
     if (editLevelId && editLevelId !== "") {
       dispatch(getSingleLevel({ filter: { _id: editLevelId } }))
+      dispatch(getLanguage({ sort: { _id: -1 } }))
     }
   }, [editLevelId])
 

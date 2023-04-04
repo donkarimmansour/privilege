@@ -132,6 +132,7 @@ const Add = ({ editStudentId, setEditStudentId, initAdd }) => {
     if (editStudentId && editStudentId !== "") {
       dispatch(getSingleStudent({ filter: { _id: editStudentId }, expend: "all" }))
       dispatch(getSingleBill({ filter: { studentID: editStudentId }}))
+      dispatch(getLanguage({ sort: { _id: -1 } }))
     }
   }, [editStudentId])
 

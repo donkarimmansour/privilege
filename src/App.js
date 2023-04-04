@@ -31,6 +31,7 @@ import CancelationsIndex from './components/Cancelations/CancelationsIndex';
 import PromotionsIndex from './components/Promotions/PromotionsIndex';
 import FPAdmin from './components/Auth/admin/FPAdmin';
 import LogAdmin from './components/Auth/admin/LogAdmin';
+import Invice from './components/Payments/Invice';
 
 function App() {
 
@@ -60,6 +61,7 @@ function App() {
               <Route element={<LibraryIndex />} path="/library" />
               <Route element={<LevelsIndex />} path="/levels" />
               <Route element={<PaymentsIndex />} path="/payments" />
+              <Route element={<Invice />} path="/invice/:id" />
               <Route element={<AdminsIndex />} path="/admins" />
               
               <Route element={<SettingsIndex />} path="/settings" />

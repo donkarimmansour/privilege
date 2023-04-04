@@ -26,6 +26,7 @@ const Add = ({ editLibraryId , setEditLibraryId, initAdd  }) => {
   useEffect(() => {
     if (editLibraryId && editLibraryId !== "") {
       dispatch(getSingleLibrary({ filter: { _id: editLibraryId } }))
+      dispatch(getLanguage({ sort: { _id: -1 } }))
     }
   }, [editLibraryId])
 
