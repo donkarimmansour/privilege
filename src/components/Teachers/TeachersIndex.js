@@ -27,6 +27,7 @@ const TeachersIndex = () => {
     { name: t("Add"), id: "#pro-add" , initAdd : true },,
   ]
 
+
   return (
     <> 
        { !isLoggedIn ? <Navigate to="/login" /> : checkRole(user.role, "adminOrsuperAdmin") ?
@@ -35,8 +36,8 @@ const TeachersIndex = () => {
           <div className="tab-content">
 
             <List setEditTeacherId={setEditTeacherId} />
-            <Add editTeacherId={editTeacherId} setEditTeacherId={setEditTeacherId} />
-            <ListGrid setEditTeacherId={setEditTeacherId} initAdd={initAdd}/>
+            <Add editTeacherId={editTeacherId} setEditTeacherId={setEditTeacherId} initAdd={initAdd} />
+            <ListGrid setEditTeacherId={setEditTeacherId} />
 
           </div>
         </Container>
