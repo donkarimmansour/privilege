@@ -72,9 +72,10 @@ const Login = () => {
     <>
       <div className="auth option2">
 
-      {loading && loader()}
-
         <div className="auth_left">
+
+        {loading && loader()}
+
 
           {
             <Formik
