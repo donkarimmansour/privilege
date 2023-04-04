@@ -225,7 +225,7 @@ const List = ({setEditStudentId}) => {
           </thead>
 
 
-          <tbody>
+          <tbody> 
  
 
             {students.length > 0 && students.map((s, si) => {

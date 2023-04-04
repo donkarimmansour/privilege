@@ -159,7 +159,7 @@ const List = ({ setEditTeacherId }) => {
 
             <div className="col-md-3 col-sm-6">
               <div className="input-group">
-                <input type="text" name="email" className="form-control" onChange={(e) => { handleOnChange(e) }} placeholder={t("Email")} />
+                <input type="text" name="cours" className="form-control" onChange={(e) => { handleOnChange(e) }} placeholder={t("Language")} />
               </div>
             </div>
 

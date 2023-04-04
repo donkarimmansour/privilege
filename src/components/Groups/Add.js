@@ -37,7 +37,6 @@ const Add = ({ editGroupeId, setEditGroupeId , initAdd }) => {
     if (editGroupeId && editGroupeId !== "") {
       dispatch(getSingleGroupe({ filter: { _id: editGroupeId } }))
       dispatch(getDepartment({ sort: { _id: -1 } }))
-      dispatch(getTeacher({ sort: { _id: -1 } }))
       dispatch(getLanguage({ sort: { _id: -1 } }))
     }
   }, [editGroupeId])
@@ -45,7 +44,10 @@ const Add = ({ editGroupeId, setEditGroupeId , initAdd }) => {
 
   //get levels data
   useEffect(() => {
-    langaugeID && langaugeID.length > 10 && dispatch(getLevel({ sort: { _id: -1 }, filter: { language: langaugeID } }))
+   if(langaugeID && langaugeID.length > 10){
+     dispatch(getLevel({ sort: { _id: -1 }, filter: { language: langaugeID } }))
+     dispatch(getTeacher({ sort: { _id: -1 }, filter: { language: langaugeID } }))
+   }   
   }, [langaugeID])
 
   //update groupe data
@@ -53,6 +55,7 @@ const Add = ({ editGroupeId, setEditGroupeId , initAdd }) => {
     if (singleGroupe && singleGroupe._id) {
       setInitialValues({ ...singleGroupe})
       dispatch(getLevel({ sort: { _id: -1 }, filter: { language: singleGroupe.language } }))
+      dispatch(getTeacher({ sort: { _id: -1 }, filter: { language: singleGroupe.language } }))
 
 
       const newSchedule = singleGroupe.calindar?.map(date => {
@@ -92,7 +95,6 @@ const Add = ({ editGroupeId, setEditGroupeId , initAdd }) => {
   useEffect(() => {
     if (initAdd) {
       dispatch(getDepartment({ sort: { _id: -1 } }))
-      dispatch(getTeacher({ sort: { _id: -1 } }))
       dispatch(getLanguage({ sort: { _id: -1 } }))
     }
   }, [dispatch, initAdd])
@@ -293,23 +295,6 @@ const Add = ({ editGroupeId, setEditGroupeId , initAdd }) => {
                         </div>
 
 
-                        <div className="form-group row">
-                          <label className="col-md-3 col-form-label">{t("Teacher")} <span className="text-danger">*</span></label>
-                          <div className="col-md-9">
-                            <Field as="select" className="form-control input-height" name="teacher">
-                              <option value="">{t("Select...")}</option>
-
-                              {teachers && teachers.length > 0 && teachers.map((t, ti) => {
-                                return <option key={ti} value={t._id}>{`${t.firstname} ${t.lastname}`}</option>
-                              })}
-
-
-                            </Field>
-                            {touched.teacher && errors.teacher && <small className="text-danger">{t(errors.teacher)}</small>}
-
-                          </div>
-                        </div>
-
 
 
 
@@ -333,6 +318,25 @@ const Add = ({ editGroupeId, setEditGroupeId , initAdd }) => {
 
                             </Field>
                             {touched.language && errors.language && <small className="text-danger">{t(errors.language)}</small>}
+
+                          </div>
+                        </div>
+
+
+
+                        <div className="form-group row">
+                          <label className="col-md-3 col-form-label">{t("Teacher")} <span className="text-danger">*</span></label>
+                          <div className="col-md-9">
+                            <Field as="select" className="form-control input-height" name="teacher">
+                              <option value="">{t("Select...")}</option>
+
+                              {teachers && teachers.length > 0 && teachers.map((t, ti) => {
+                                return <option key={ti} value={t._id}>{`${t.firstname} ${t.lastname}`}</option>
+                              })}
+
+
+                            </Field>
+                            {touched.teacher && errors.teacher && <small className="text-danger">{t(errors.teacher)}</small>}
 
                           </div>
                         </div>
