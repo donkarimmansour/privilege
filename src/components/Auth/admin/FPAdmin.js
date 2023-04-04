@@ -5,14 +5,14 @@ import * as yup from 'yup'
 import { useDispatch, useSelector } from "react-redux";
 import "react-datepicker/dist/react-datepicker.css";
 import { Link } from 'react-router-dom';
-import { forgotPassword } from '../../redux/auth/action';
-import { checkString, loader } from '../../common/funs';
+import { forgotPassword } from '../../../redux/auth/action';
+import { checkString, loader } from '../../../common/funs';
 import swal from 'sweetalert';
-import { cleanAlerts } from '../../redux/auth/reducer';
+import { cleanAlerts } from '../../../redux/auth/reducer';
 import { useNavigate } from 'react-router-dom'
 
 
-const ForgotPassword = () => { 
+const FPAdmin = () => { 
   
   const { loading, error, success, isLoggedIn } = useSelector(state => state.auth)
   const navigate = useNavigate()
@@ -45,20 +45,18 @@ const ForgotPassword = () => {
 
       //formik initial
       const initialValues = {
-        email: "" ,
-        role: "student"
+        email: "" 
       }
 
     //initial yup Scheme
     const ForgotValidator = yup.object().shape({
       email: yup.string().required(t("email field is required")) ,
-      role: yup.string().required(t("role field is required"))
     })
 
 
     //submit form
     const onSubmit = values => { 
-      dispatch(forgotPassword({ ...values }))
+      dispatch(forgotPassword({ ...values, role: "admin" }))
     }
   
 
@@ -91,18 +89,9 @@ const ForgotPassword = () => {
                         </div>
                         <p className="text-muted">{t("Enter your email address or username and your password will be reset and emailed to you.")}</p>
                        
+        
                         <div className="form-group">
-                          <Field as="select" name="role" className="form-control"  placeholder={t("Select you role")} >
-                            <option value="student">{t("Student")}</option>
-                            <option value="teacher">{t("Teacher")}</option>
-                            <option value="admin">{t("Admin")}</option>
-                            </Field>
-
-                          {touched.role && errors.role && <small className="text-danger">{errors.role}</small>}
-                        </div>
-                       
-                        <div className="form-group">
-                          <label className="form-label" htmlFor="exampleInputEmail1">{t("Enter email or Username")}</label>
+                          <label className="form-label">{t("Enter email or Username")}</label>
                           <Field type="email" name="email" className="form-control"   placeholder={t("Enter email or Username")} />
                           {touched.email && errors.email && <small className="text-danger">{errors.email}</small>}
                         </div>
@@ -110,7 +99,7 @@ const ForgotPassword = () => {
                         
                         <div className="text-center">
                           <button type="submit" disabled={(loading || !isValid)} className="btn btn-primary btn-block">{t("Send me new password")}</button>
-                          <div className="text-muted mt-4">{t("Forget it,")} <Link to="/login">{t("Send me Back")}</Link> {t("to the Sign in screen.")}</div>
+                          <div className="text-muted mt-4">{t("Forget it,")} <Link to="/admin">{t("Send me Back")}</Link> {t("to the Sign in screen.")}</div>
                         </div>
 
                         
@@ -132,4 +121,4 @@ const ForgotPassword = () => {
 
 }
 
-export default ForgotPassword
+export default FPAdmin

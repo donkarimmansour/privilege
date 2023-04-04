@@ -8,8 +8,8 @@ import LevelsIndex from './components/Levels/LevelsIndex';
 import SettingsIndex from './components/Settings/SettingsIndex';
 import GroupsIndex from './components/Groups/GroupsIndex';
 import PaymentsIndex from './components/Payments/PaymentsIndex';
-import Login from './components/Auth/Login';
-import ForgotPassword from './components/Auth/ForgotPassword';
+import Login from './components/Auth/user/Login';
+import ForgotPassword from './components/Auth/user/ForgotPassword';
 import P404 from './components/Pages/404';
 import P500 from './components/Pages/500';
 import Profile from './components/user/Profile';
@@ -29,6 +29,8 @@ import BillsIndex from './components/Bills/BillsIndex';
 import ViewContainer from './components/Notifications/ViewContainer';
 import CancelationsIndex from './components/Cancelations/CancelationsIndex';
 import PromotionsIndex from './components/Promotions/PromotionsIndex';
+import FPAdmin from './components/Auth/admin/FPAdmin';
+import LogAdmin from './components/Auth/admin/LogAdmin';
 
 function App() {
 
@@ -67,7 +69,9 @@ function App() {
 
               <Route element={<Test />} path="/test" />
 
+              <Route element={<LogAdmin />} path="/admin" />
               <Route element={<Login />} path="/login" />
+              <Route element={<FPAdmin />} path="/fp-admin" />
               <Route element={<ForgotPassword />} path="/forgotPassword" />
               <Route element={<P500 />} path="/500" />
               <Route element={<P404 />} path="*" />
