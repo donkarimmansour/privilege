@@ -93,22 +93,22 @@ export const BillsReducerSlice = createSlice({
         //     state.error = action.payload
         // },
 
-        // //deleteBill
-        // [deleteBill.pending]: (state, action) => {
-        //     state.loading = true
-        // },
+        //deleteBill
+        [deleteBill.pending]: (state, action) => {
+            state.loading = true
+        },
 
-        // [deleteBill.fulfilled]: (state, action) => {
-        //     state.loading = false
-        //     state.success = "Deleted"
-        //     state.bills = state.bills.filter(s => s._id !== action.meta.arg) 
-        //     state.count = -1
-        // },
+        [deleteBill.fulfilled]: (state, action) => {
+            state.loading = false
+            state.success = "Deleted"
+            state.bills = state.bills.filter(s => s._id !== action.meta.arg) 
+            state.count = -1
+        },
 
-        // [deleteBill.rejected]: (state, action) => {
-        //     state.loading = false
-        //     state.error = action.payload
-        // },
+        [deleteBill.rejected]: (state, action) => {
+            state.loading = false
+            state.error = action.payload
+        },
 
         // //createBill
         // [createBill.pending]: (state, action) => {

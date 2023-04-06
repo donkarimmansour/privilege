@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import { Field, Formik, Form } from "formik"
 import * as yup from 'yup'
 import { useDispatch, useSelector } from "react-redux";
 import { checkString, loader } from '../../common/funs';
 import swal from 'sweetalert';
-import { cleanAlerts } from '../../redux/library/reducer';
+import { cleanAlerts,cleanSingle  } from '../../redux/library/reducer';
 import { createLibrary, editLibrary, getSingleLibrary } from '../../redux/library/action';
 import { getLevel } from '../../redux/levels/action';
 import { getLanguage } from '../../redux/languages/action';
@@ -21,6 +21,7 @@ const Add = ({ editLibraryId , setEditLibraryId, initAdd  }) => {
   const { levels, loading:loadingLv, error:errorLv } = useSelector(state => state.level)
   const { user } = useSelector(state => state.auth)
   const [langaugeID, setLangaugeID] = useState(null)
+  const cancelBtnRef = useRef()
 
   //get student data
   useEffect(() => {
@@ -55,6 +56,9 @@ const Add = ({ editLibraryId , setEditLibraryId, initAdd  }) => {
     if (success) {
       swal(t("Success"), t(checkString(success)), "success");
 
+      //clear form
+      OnCancel({target: cancelBtnRef?.current})
+
     } else if (error || errorLv || errorLang) {
       swal(t("Error"), t(checkString(error || errorLv || errorLang)), "error");
     }
@@ -75,6 +79,10 @@ const Add = ({ editLibraryId , setEditLibraryId, initAdd  }) => {
   //back to list
   const OnCancel = (evt) => {
     setEditLibraryId("")
+
+    setInitialValues({name: "", description: ""})
+    cleanSingle()
+
     evt.target.closest(".tab-pane").classList.remove("active")
     evt.target.closest(".tab-content").children[0].classList.add("active")
 
@@ -244,7 +252,7 @@ const Add = ({ editLibraryId , setEditLibraryId, initAdd  }) => {
 
                           <div className="col-sm-12">
                           <button type="submit" className="btn btn-primary mr-3" disabled={(loading || !isValid)}>{t("Submit")}</button>
-                          <button type="button" className="btn btn-outline-secondary" onClick={(e) => {OnCancel(e)}}>{t("Cancel")}</button>
+                          <button type="button" className="btn btn-outline-secondary" onClick={(e) => {OnCancel(e)}} ref={cancelBtnRef}>{t("Cancel")}</button>
                           </div>
 
           

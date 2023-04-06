@@ -1,9 +1,9 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { createApi, deleteApi, getApi, countApi, editApi  } from "../../api/promotions";
+import { createApi, deleteApi, getApi, countApi, editApi  } from "../../api/blocks";
 
 
-const getPromotions =  createAsyncThunk("promotions/get" , async (args , PromotionsApi) => {
-    const { rejectWithValue , getState } = PromotionsApi
+const getBlocks =  createAsyncThunk("blocks/get" , async (args , BlocksApi) => {
+    const { rejectWithValue , getState } = BlocksApi
     const { token } = getState().auth
     const authorization = { "Authorization": `bearer ${token}` }
 
@@ -17,8 +17,8 @@ const getPromotions =  createAsyncThunk("promotions/get" , async (args , Promoti
 })
 
 
-const countPromotions =  createAsyncThunk("promotions/count" , async (args , PromotionsApi) => {
-    const { rejectWithValue , getState } = PromotionsApi
+const countBlocks =  createAsyncThunk("blocks/count" , async (args , BlocksApi) => {
+    const { rejectWithValue , getState } = BlocksApi
     const { token } = getState().auth
 
     const authorization = { "Authorization": `bearer ${token}` }
@@ -33,8 +33,8 @@ const countPromotions =  createAsyncThunk("promotions/count" , async (args , Pro
 })
 
 
-const createPromotions =  createAsyncThunk("promotions/create" , async (args , PromotionsApi) => {
-    const { rejectWithValue , getState } = PromotionsApi
+const createBlock =  createAsyncThunk("blocks/create" , async (args , BlocksApi) => {
+    const { rejectWithValue , getState } = BlocksApi
     const { token } = getState().auth
     const authorization = { "Authorization": `bearer ${token}` }
 
@@ -46,10 +46,10 @@ const createPromotions =  createAsyncThunk("promotions/create" , async (args , P
     }
 })
 
-const editPromotion =  createAsyncThunk("promotions/edit" , async (args , PromotionsApi) => {
-    const { rejectWithValue , getState } = PromotionsApi
+const editBlock =  createAsyncThunk("blocks/edit" , async (args , BlocksApi) => {
+    const { rejectWithValue , getState } = BlocksApi
     const { token } = getState().auth
-    const { _id } = getState().promotions.singlePromotion
+    const { _id } = getState().blocks.singleBlock
     const authorization = { "Authorization": `bearer ${token}` }
 
     try {
@@ -62,8 +62,8 @@ const editPromotion =  createAsyncThunk("promotions/edit" , async (args , Promot
 })
 
 
-const deletePromotion =  createAsyncThunk("promotions/delete" , async (args , PromotionsApi) => {
-    const { rejectWithValue , getState } = PromotionsApi
+const deleteBlock =  createAsyncThunk("blocks/delete" , async (args , BlocksApi) => {
+    const { rejectWithValue , getState } = BlocksApi
     const { token } = getState().auth
     const authorization = { "Authorization": `bearer ${token}` }
 
@@ -75,8 +75,8 @@ const deletePromotion =  createAsyncThunk("promotions/delete" , async (args , Pr
     }
 })
 
-const getSinglePromotion =  createAsyncThunk("promotions/getSingle" , async (args , PromotionsApi) => {
-    const { rejectWithValue , getState } = PromotionsApi
+const getSingleBlock =  createAsyncThunk("blocks/getSingle" , async (args , BlocksApi) => {
+    const { rejectWithValue , getState } = BlocksApi
     const { token } = getState().auth
 
     const authorization = { "Authorization": `bearer ${token}` }
@@ -91,4 +91,4 @@ const getSinglePromotion =  createAsyncThunk("promotions/getSingle" , async (arg
 })
 
 
-export { getPromotions , createPromotions, deletePromotion, countPromotions, editPromotion, getSinglePromotion} 
+export { getBlocks , createBlock, deleteBlock, countBlocks, editBlock, getSingleBlock} 

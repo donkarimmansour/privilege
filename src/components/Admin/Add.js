@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import { Field, Formik, Form } from "formik"
 import * as yup from 'yup'
@@ -8,7 +8,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import swal from 'sweetalert';
 import { CreateSingleFile } from '../../api/file';
 import myClassnames from 'classnames';
-import { cleanAlerts } from '../../redux/admin/reducer';
+import { cleanAlerts,cleanSingle  } from '../../redux/admin/reducer';
 import { checkString, loader } from '../../common/funs';
 import { createAdmin, editAdmin, editAdminImage, getSingleAdmin } from '../../redux/admin/action';
 
@@ -22,7 +22,8 @@ const Add = ({ editAdminId, setEditAdminId }) => {
   const [Lloading, setLLoading] = useState(false)
   const [profileImage, setProfileImage] = useState(null)
   const [generateData, setGenerateData] = useState({})
-  
+  const cancelBtnRef = useRef()
+
   //yup Scheme
   const [initialScheme, setInitialScheme] = useState({
     firstname: yup.string().required(t("firstname field is required")),
@@ -67,6 +68,9 @@ const Add = ({ editAdminId, setEditAdminId }) => {
     if (success) {
       swal(t("Success"), t(checkString(success)), "success");
 
+      //clear form
+      OnCancel({target: cancelBtnRef?.current})
+
     } else if (error) {
       swal(t("Error"), t(checkString(error)), "error");
     }
@@ -100,6 +104,10 @@ const Add = ({ editAdminId, setEditAdminId }) => {
   //back to list
   const OnCancel = (evt) => {
     setEditAdminId("")
+
+    setInitialValues({name: "", description: ""})
+    cleanSingle()
+
     evt.target.closest(".tab-pane").classList.remove("active")
     evt.target.closest(".tab-content").children[0].classList.add("active")
 
@@ -347,7 +355,7 @@ const Add = ({ editAdminId, setEditAdminId }) => {
 
                         <div className="form-group row">
                           <button type="submit" className="btn btn-primary mr-3" disabled={(loading || !isValid)}>{t("Submit")}</button>
-                          <button type="button" className="btn btn-outline-secondary" onClick={(e) => { OnCancel(e) }}>{t("Cancel")}</button>
+                          <button type="button" className="btn btn-outline-secondary" onClick={(e) => { OnCancel(e) }} ref={cancelBtnRef}>{t("Cancel")}</button>
                         </div>
 
                       </div>

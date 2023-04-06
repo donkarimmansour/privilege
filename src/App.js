@@ -28,7 +28,7 @@ import LanguageIndex from './components/Languages/LanguageIndex';
 import BillsIndex from './components/Bills/BillsIndex';
 import ViewContainer from './components/Notifications/ViewContainer';
 import CancelationsIndex from './components/Cancelations/CancelationsIndex';
-import PromotionsIndex from './components/Promotions/PromotionsIndex';
+import BlocksIndex from './components/Blocks/BlocksIndex';
 import FPAdmin from './components/Auth/admin/FPAdmin';
 import LogAdmin from './components/Auth/admin/LogAdmin';
 import Invice from './components/Payments/Invice';
@@ -53,7 +53,7 @@ function App() {
               <Route element={<BillsIndex />} path="/bills" />
 
               
-              <Route element={<PromotionsIndex />} path="/promotions" />
+              <Route element={<BlocksIndex />} path="/blocks" />
               <Route element={<CancelationsIndex />} path="/cancelations" />
               <Route element={<DepartmentsIndex />} path="/departments" />
               <Route element={<LanguageIndex />} path="/languages" />

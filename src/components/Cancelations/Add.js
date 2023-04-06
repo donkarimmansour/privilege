@@ -1,10 +1,10 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import { Field, Formik, Form } from "formik"
 import * as yup from 'yup'
 import { useDispatch, useSelector } from "react-redux";
 import { cleanAlerts as cleanGroupesAlerts } from '../../redux/groupes/reducer';
-import { cleanAlerts } from '../../redux/cancelations/reducer';
+import { cleanAlerts,cleanSingle } from '../../redux/cancelations/reducer';
 import { checkString, loader } from '../../common/funs';
 import { getGroupe } from '../../redux/groupes/action';
 import swal from 'sweetalert';
@@ -18,6 +18,7 @@ const Add = ({editCancelationId ,  setEditCancelationId, initAdd }) => {
   const { loading, error, success, singleCancelation } = useSelector(state => state.cancelations)
   const { loading: loadingGR, error: errorGR, groupes } = useSelector(state => state.groupe)
   const { user } = useSelector(state => state.auth)
+  const cancelBtnRef = useRef()
 
 
   
@@ -41,6 +42,9 @@ const Add = ({editCancelationId ,  setEditCancelationId, initAdd }) => {
     if (success) {
       swal(t("Success"), t(checkString(success)), "success");
 
+      //clear form
+      OnCancel({target: cancelBtnRef?.current})
+
     } else if (error || errorGR) {
       swal(t("Error"), t(checkString(error || errorGR)), "error");
     }
@@ -59,6 +63,9 @@ const Add = ({editCancelationId ,  setEditCancelationId, initAdd }) => {
   //back to list
   const OnCancel = (evt) => {
     setEditCancelationId("")
+
+    setInitialValues({name: "", description: ""})
+    cleanSingle()
 
     evt.target.closest(".tab-pane").classList.remove("active")
     evt.target.closest(".tab-content").children[0].classList.add("active")
@@ -96,7 +103,6 @@ const Add = ({editCancelationId ,  setEditCancelationId, initAdd }) => {
 
   const CancelationsValidator = yup.object().shape({
     name: yup.string().required(t("name field is required")),
-    description: yup.string().required(t("description field is required")),
     group: yup.string().required(t("group field is required")),
     day: yup.string().required(t("day field is required"))
 
@@ -153,7 +159,7 @@ const Add = ({editCancelationId ,  setEditCancelationId, initAdd }) => {
 
 
                         <div className="form-group row">
-                          <label className="col-md-3 col-form-label">{t("Description")} <span className="text-danger">*</span></label>
+                          <label className="col-md-3 col-form-label">{t("Description")}</label>
                           <div className="col-md-9">
                             <Field as='textarea' row="5" name="description" className="form-control" placeholder={t("Description")} />
                             {touched.description && errors.description && <small className="text-danger">{t(errors.description)}</small>}
@@ -218,7 +224,7 @@ const Add = ({editCancelationId ,  setEditCancelationId, initAdd }) => {
 
                         <div className="form-group row">
                           <button type="submit" className="btn btn-primary mr-3" disabled={(loading || !isValid)}>{t("Submit")}</button>
-                          <button type="button" className="btn btn-outline-secondary" onClick={(e) => { OnCancel(e) }}>{t("Cancel")}</button>
+                          <button type="button" className="btn btn-outline-secondary" onClick={(e) => { OnCancel(e) }} ref={cancelBtnRef}>{t("Cancel")}</button>
                         </div>
 
 

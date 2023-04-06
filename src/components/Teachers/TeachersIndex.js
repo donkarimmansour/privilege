@@ -17,7 +17,7 @@ const TeachersIndex = () => {
   const [initAdd, setInitAdd] = useState(false)
 
   const links = [
-    { name: t("Privilege"), url: "#" },
+    { name: t("Privilege"), url: "/" },
     { name: t("Teachers"), url: "#" }
   ]
 

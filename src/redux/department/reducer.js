@@ -19,6 +19,9 @@ export const DepartmentReducerSlice = createSlice({
             state.success = false
             state.error = false
         },
+        cleanSingle: (state) => {
+            state.singleDepartment = {}
+        },
     },
     extraReducers: {
         //getSingleDepartment
@@ -127,5 +130,5 @@ export const DepartmentReducerSlice = createSlice({
 })
 
 
-export const { cleanAlerts } = DepartmentReducerSlice.actions; 
+export const { cleanAlerts,cleanSingle } = DepartmentReducerSlice.actions; 
 export default DepartmentReducerSlice.reducer;

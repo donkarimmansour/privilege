@@ -7,20 +7,20 @@ import { useSelector } from 'react-redux';
 import { Navigate } from 'react-router';
 import { checkRole } from '../../common/funs';
 
-const PromotionsIndex = () => {
+const BlocksIndex = () => {
 
-  const [editPromotionId, setEditPromotionId] = useState("")
+  const [editBlockId, setEditBlockId] = useState("")
   const { t } = useTranslation();
   const { user, isLoggedIn } = useSelector(state => state.auth)
 
   const links = [
-    { name: t("Privilege"), url: "#" },
-    { name: t("Promotions"), url: "#" }
+    { name: t("Privilege"), url: "/" },
+    { name: t("Blocks"), url: "#" }
   ]
 
   const tabs = [
-    { name: t("List"), id: "#promotion-all" },
-    { name: t("Add"), id: "#promotion-add" },
+    { name: t("List"), id: "#block-all" },
+    { name: t("Add"), id: "#block-add" },
   ]
 
   return (
@@ -30,8 +30,8 @@ const PromotionsIndex = () => {
         <Container tabs={tabs} links={links}>
           <div className="tab-content">
 
-            <List setEditPromotionId={setEditPromotionId} />
-            <Add editPromotionId={editPromotionId} setEditPromotionId={setEditPromotionId} />
+            <List setEditBlockId={setEditBlockId} />
+            <Add editBlockId={editBlockId} setEditBlockId={setEditBlockId} />
 
           </div>
         </Container>
@@ -41,4 +41,4 @@ const PromotionsIndex = () => {
 
 }
 
-export default PromotionsIndex
+export default BlocksIndex

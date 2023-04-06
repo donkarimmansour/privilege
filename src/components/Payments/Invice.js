@@ -12,15 +12,16 @@ import { useReactToPrint } from "react-to-print";
 
 const Invice = () => {
 
+    const { t } = useTranslation();
+
     const links = [
-        { name: "Ericsson", url: "#" },
-        { name: "Payment", url: "#" },
-        { name: "Invice", url: "#" }
+        { name: t("Privilege"), url: "/" },
+        { name: t("Payment"), url: "/payments" },
+        { name: t("Invice"), url: "#" }
     ]
 
     const tabs = []
 
-    const { t } = useTranslation();
     const dispatch = useDispatch()
     const params = useParams()
     const InviceRef = useRef()

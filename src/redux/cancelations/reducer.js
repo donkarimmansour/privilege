@@ -20,6 +20,9 @@ export const CancelationsReducerSlice = createSlice({
             state.success = false
             state.error = false
         },
+        cleanSingle: (state) => {
+            state.singleCancelation = {}
+        },
     },
     extraReducers: {
 
@@ -132,5 +135,5 @@ export const CancelationsReducerSlice = createSlice({
 })
 
 
-export const { cleanAlerts } = CancelationsReducerSlice.actions; 
+export const { cleanAlerts,cleanSingle } = CancelationsReducerSlice.actions; 
 export default CancelationsReducerSlice.reducer; 

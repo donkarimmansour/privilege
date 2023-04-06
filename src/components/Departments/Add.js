@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import { Field, Formik, Form } from "formik"
 import * as yup from 'yup'
 import { useDispatch, useSelector } from "react-redux";
 import { checkString, loader } from '../../common/funs';
 import swal from 'sweetalert';
-import { cleanAlerts } from '../../redux/department/reducer';
+import { cleanAlerts,cleanSingle } from '../../redux/department/reducer';
 import { createDepartment, editDepartment, getSingleDepartment } from '../../redux/department/action';
 
 
@@ -16,6 +16,7 @@ const Add = ({editDepartmentId ,   setEditDepartmentId}) => {
   const dispatch = useDispatch()
   const { loading, error, success, singleDepartment } = useSelector(state => state.departments)
   const { user } = useSelector(state => state.auth)
+  const cancelBtnRef = useRef()
 
   //get department data
   useEffect(() => {
@@ -38,6 +39,9 @@ const Add = ({editDepartmentId ,   setEditDepartmentId}) => {
     if (success) {
       swal(t("Success"), t(checkString(success)), "success");
 
+      //clear form
+      OnCancel({target: cancelBtnRef?.current})
+
     } else if (error) {
       swal(t("Error"), t(checkString(error)), "error");
     }
@@ -49,6 +53,10 @@ const Add = ({editDepartmentId ,   setEditDepartmentId}) => {
    //back to list
    const OnCancel = (evt) => {
     setEditDepartmentId("")
+
+    setInitialValues({name: "", description: ""})
+    cleanSingle()
+
     evt.target.closest(".tab-pane").classList.remove("active")
     evt.target.closest(".tab-content").children[0].classList.add("active")
 
@@ -148,7 +156,7 @@ const Add = ({editDepartmentId ,   setEditDepartmentId}) => {
 
                         <div className="col-sm-12">
                           <button type="submit" className="btn btn-primary mr-3" disabled={(loading || !isValid)}>{t("Submit")}</button>
-                          <button type="button" className="btn btn-outline-secondary btn-default" onClick={(e) => {OnCancel(e)}}>{t("Cancel")}</button>
+                          <button type="button" className="btn btn-outline-secondary btn-default" onClick={(e) => {OnCancel(e)}} ref={cancelBtnRef}>{t("Cancel")}</button>
 
                         </div>
 

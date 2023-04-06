@@ -21,6 +21,9 @@ export const AdminsReducerSlice = createSlice({
             state.success = false
             state.error = false
         },
+        cleanSingle: (state) => {
+            state.singleAdmin = {}
+        },
     },
     extraReducers: {
         //getSingleAdmin
@@ -163,5 +166,5 @@ export const AdminsReducerSlice = createSlice({
 
 
 
-export const { cleanAlerts } = AdminsReducerSlice.actions; 
+export const { cleanAlerts, cleanSingle } = AdminsReducerSlice.actions; 
 export default AdminsReducerSlice.reducer; 

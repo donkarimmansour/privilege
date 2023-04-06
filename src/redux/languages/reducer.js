@@ -20,6 +20,9 @@ export const LanguageReducerSlice = createSlice({
             state.success = false
             state.error = false
         },
+        cleanSingle: (state) => {
+            state.singleLanguage = {}
+        },
     },
     extraReducers: {
         //getSingleLanguage
@@ -136,6 +139,6 @@ export const LanguageReducerSlice = createSlice({
     }
 })
 
-export const { cleanAlerts } = LanguageReducerSlice.actions; 
+export const { cleanAlerts,cleanSingle } = LanguageReducerSlice.actions; 
 
 export default LanguageReducerSlice.reducer;

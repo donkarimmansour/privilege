@@ -3,8 +3,8 @@ import react, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import swal from 'sweetalert';
-import { checkString, loader } from '../../common/funs';
-import { countBill, getBill } from '../../redux/bills/action';
+import { checkRole, checkString, loader } from '../../common/funs';
+import { countBill, deleteBill, getBill } from '../../redux/bills/action';
 import { cleanAlerts } from '../../redux/bills/reducer'
 import ReactPaginate from "react-paginate";
 import ActionsModal from '../shared/ActionsModal';
@@ -19,6 +19,7 @@ const List = () => {
   const [pageCurrent, setPageCurrent] = useState(1);
   const [modalState, toggleModal] = useState(false)
   const [actions, setActions] = useState(false)
+  const { user } = useSelector(state => state.auth)
   const limit = 20
 
   //handle init
@@ -57,6 +58,28 @@ const List = () => {
     toggleModal(true)
   }
 
+
+    //delete bill
+    const OnDelete = (_id) => {
+
+      swal({
+        title: t("Are you sure?"),
+        text: t("You will not be able to recover this data"),
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#dc3545",
+        confirmButtonText: "Yes, delete it!",
+        cancelButtonText: "No, cancel plx!",
+        closeOnConfirm: false,
+        closeOnCancel: false
+      }).then(isConfirm => {
+        if (isConfirm) {
+          dispatch(deleteBill(_id))
+        }
+      });
+  
+  
+    }
 
 
   useEffect(() => {
@@ -98,6 +121,7 @@ const List = () => {
                       <td>{moment(b.updatedAt).format("DD/MM/YYYY")}</td>
                       <td>
                         <button type="button" className="btn btn-icon btn-sm" title="Actions" onClick={() => { ActionsPupup(b.actions) }}><i className="fa fa-eye" /></button>
+                        { checkRole(user.role, "superAdmin") && <button type="button" className="btn btn-icon btn-sm" onClick={() => { OnDelete(b._id) }} title="Delete"><i className="fa fa-trash-o text-danger" /></button>}
                       </td>
                     </tr>
                   )

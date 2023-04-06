@@ -19,6 +19,9 @@ export const TeachersReducerSlice = createSlice({
             state.success = false
             state.error = false
         },
+        cleanSingle: (state) => {
+            state.singleTeacher = {}
+        },
     },
     extraReducers: {
         //getSingleTeacher
@@ -158,7 +161,7 @@ export const TeachersReducerSlice = createSlice({
     }
 })
 
-export const { cleanAlerts } = TeachersReducerSlice.actions;
+export const { cleanAlerts,cleanSingle } = TeachersReducerSlice.actions;
 
 
 export default TeachersReducerSlice.reducer;

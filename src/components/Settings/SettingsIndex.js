@@ -13,7 +13,7 @@ const SettingsIndex = () => {
   const { user, isLoggedIn } = useSelector(state => state.auth)
 
   const links = [
-    { name: t("Privileg"), url: "#" },
+    { name: t("Privileg"), url: "/" },
     { name: t("Settings"), url: "#" },
   ]
 

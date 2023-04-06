@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'; 
 import { Field, Formik, Form } from "formik"
 import * as yup from 'yup'
@@ -9,7 +9,7 @@ import myClassnames from 'classnames';
 import { checkString, loader } from '../../common/funs';
 import swal from 'sweetalert';
 import { createTeacher, editTeacher, editTeacherImage, getSingleTeacher } from '../../redux/teachers/action';
-import { cleanAlerts } from '../../redux/teachers/reducer';
+import { cleanAlerts ,cleanSingle } from '../../redux/teachers/reducer';
 import { cleanAlerts as cleanLanguagesAlerts } from '../../redux/languages/reducer';
 import { CreateSingleFile } from '../../api/file';
 import { getLanguage } from '../../redux/languages/action';
@@ -21,6 +21,7 @@ const Add = ({ editTeacherId, setEditTeacherId, initAdd }) => {
     const { loading, error, success, singleTeacher } = useSelector(state => state.teachers)
     const { loading:loadingTR, error:errorTR, languages } = useSelector(state => state.languages)
     const { token, user } = useSelector(state => state.auth)
+    const cancelBtnRef = useRef()
 
     const [generateData, setGenerateData] = useState({})
     const [Lloading, setLLoading] = useState(false)
@@ -73,6 +74,9 @@ const Add = ({ editTeacherId, setEditTeacherId, initAdd }) => {
         if (success) {
             swal(t("Success"), t(checkString(success)), "success");
 
+            //clear form
+            OnCancel({ target: cancelBtnRef?.current })
+
         } else if (error || errorTR) {
             swal(t("Error"), t(checkString(error || errorTR)), "error");
         }
@@ -115,6 +119,10 @@ const Add = ({ editTeacherId, setEditTeacherId, initAdd }) => {
     //back to list
     const OnCancel = (evt) => {
         setEditTeacherId("")
+
+        setInitialValues({ name: "", description: "" })
+        cleanSingle()
+
         evt.target.closest(".tab-pane").classList.remove("active")
         evt.target.closest(".tab-content").children[0].classList.add("active")
 
@@ -391,7 +399,7 @@ const Add = ({ editTeacherId, setEditTeacherId, initAdd }) => {
 
                                                     <div className="col-sm-12">
                                                         <button type="submit" className="btn btn-primary mr-3" disabled={(loading || !isValid)}>{t("Submit")}</button>
-                                                        <button type="button" className="btn btn-outline-secondary" onClick={(e) => { OnCancel(e) }}>{t("Cancel")}</button>
+                                                        <button type="button" className="btn btn-outline-secondary" onClick={(e) => { OnCancel(e) }} ref={cancelBtnRef}>{t("Cancel")}</button>
                                                     </div>
                                                 </div>
                                             </div>

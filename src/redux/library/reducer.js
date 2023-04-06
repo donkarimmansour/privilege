@@ -19,6 +19,9 @@ export const LibraryReducerSlice = createSlice({
             state.success = false
             state.error = false
         },
+        cleanSingle: (state) => {
+            state.singleLibrary = {}
+        },
     },
     extraReducers: {
         //getSingleLibrary
@@ -127,6 +130,6 @@ export const LibraryReducerSlice = createSlice({
 })
 
 
-export const { cleanAlerts } = LibraryReducerSlice.actions; 
+export const { cleanAlerts,cleanSingle } = LibraryReducerSlice.actions; 
 
 export default LibraryReducerSlice.reducer;

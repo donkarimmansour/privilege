@@ -207,7 +207,7 @@ const Add = () => {
 
                   <div className="form-group row">
                     <label className="col-md-3 col-form-label">{t("Student Name")}  <span className="text-danger">*</span></label>
-                    <div className="col-md-7">
+                    <div className="col-md-9">
 
                       <AsyncTypeahead id="studentID"
                         caseSensitive={false}
@@ -257,7 +257,7 @@ const Add = () => {
 
                       <div className="form-group row">
                         <label className="col-md-3 col-form-label">{t("Book")}  <span className="text-danger">*</span></label>
-                        <div className="col-md-7">
+                        <div className="col-md-9">
 
                           <AsyncTypeahead id="book"
                             caseSensitive={false}
@@ -273,14 +273,14 @@ const Add = () => {
                               }else if(values?.bookType === "blackAndWhitePrice"){
                                 setAmount(selected[0]?.blackAndWhitePrice)
                               }
-
+ 
                             }}
                             labelKey={(option) => option.title}
                             minLength={1}
                             size={"lg"}
                             options={libraries}
                             placeholder={t("Select...")}
-                            isLoading={loadingStud}
+                            isLoading={loadingBK}
                             onSearch={handleBookSearch}
                             renderMenuItemChildren={(option) => (
                               <p key={option._id}>{option.title}</p>

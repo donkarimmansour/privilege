@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import { Field, Formik, Form } from "formik"
 import * as yup from 'yup'
@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { checkString, loader } from '../../common/funs';
 import swal from 'sweetalert';
 import { createGroupe, editGroupe, getSingleGroupe } from '../../redux/groupes/action';
-import { cleanAlerts } from '../../redux/groupes/reducer';
+import { cleanAlerts,cleanSingle } from '../../redux/groupes/reducer';
 import { cleanAlerts as cleanLanguagesAlerts } from '../../redux/languages/reducer';
 import { cleanAlerts as cleanLevelsAlerts } from '../../redux/levels/reducer';
 import { cleanAlerts as cleanTeachersAlerts } from '../../redux/teachers/reducer';
@@ -30,6 +30,7 @@ const Add = ({ editGroupeId, setEditGroupeId , initAdd }) => {
   const [schedule, setSchedule] = useState([])
   const { user } = useSelector(state => state.auth)
   const [langaugeID, setLangaugeID] = useState(null)
+  const cancelBtnRef = useRef()
 
  
   //get groupe data
@@ -104,6 +105,9 @@ const Add = ({ editGroupeId, setEditGroupeId , initAdd }) => {
     if ((success)) {
       swal(t("Success"), t(checkString((success))), "success");
 
+      //clear form
+      OnCancel({target: cancelBtnRef?.current})
+
     } else if ((error || errorLv || errorTR || errorLang || errorDR)) {
       swal(t("Error"), t(checkString((error || errorLv || errorTR || errorLang || errorDR))), "error");
     }
@@ -128,6 +132,10 @@ const Add = ({ editGroupeId, setEditGroupeId , initAdd }) => {
   //back to list
   const OnCancel = (evt) => {
     setEditGroupeId("")
+
+    setInitialValues({name: "", description: ""})
+    cleanSingle()
+
     evt.target.closest(".tab-pane").classList.remove("active")
     evt.target.closest(".tab-content").children[0].classList.add("active")
 
@@ -373,7 +381,7 @@ const Add = ({ editGroupeId, setEditGroupeId , initAdd }) => {
 
                         <div className="col-sm-12 ">
                           <button type="submit" className="btn btn-primary mr-3" disabled={(loading || !isValid)}>{t("Submit")}</button>
-                          <button type="button" className="btn btn-outline-secondary" onClick={(e) => { OnCancel(e) }}>{t("Cancel")}</button>
+                          <button type="button" className="btn btn-outline-secondary" onClick={(e) => { OnCancel(e) }} ref={cancelBtnRef}>{t("Cancel")}</button>
                         </div>
 
                       </div>

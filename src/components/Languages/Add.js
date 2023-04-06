@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from 'react'
+import { Fragment, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import { Field, Formik, Form, FieldArray } from "formik"
 import * as yup from 'yup'
@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { createLanguage, editLanguage, getSingleLanguage } from '../../redux/languages/action';
 import { checkString, loader } from '../../common/funs';
 import swal from 'sweetalert';
-import { cleanAlerts } from '../../redux/languages/reducer'; 
+import { cleanAlerts ,cleanSingle } from '../../redux/languages/reducer'; 
 
  
 const Add = ({ editLanguageId , setEditLanguageId}) => {
@@ -14,6 +14,7 @@ const Add = ({ editLanguageId , setEditLanguageId}) => {
   const dispatch = useDispatch()
   const { loading, error, success , singleLanguage} = useSelector(state => state.languages)
   const { user } = useSelector(state => state.auth)
+  const cancelBtnRef = useRef()
 
   //get Language data
   useEffect(() => {
@@ -35,6 +36,9 @@ const Add = ({ editLanguageId , setEditLanguageId}) => {
     if (success) {
       swal(t("Success"), t(checkString(success)), "success");
 
+      //clear form
+      OnCancel({target: cancelBtnRef?.current})
+
     } else if (error) {
       swal(t("Error"), t(checkString(error)), "error");
     }
@@ -46,6 +50,9 @@ const Add = ({ editLanguageId , setEditLanguageId}) => {
    //back to list
    const OnCancel = (evt) => {
     setEditLanguageId("")
+
+    setInitialValues({name: "", description: ""})
+    cleanSingle()
 
     evt.target.closest(".tab-pane").classList.remove("active")
     evt.target.closest(".tab-content").children[0].classList.add("active")
@@ -60,26 +67,25 @@ const Add = ({ editLanguageId , setEditLanguageId}) => {
   const [initialValues, setInitialValues] = useState({
     name: "",
     description: "",
+    registerFees: "",
     session: [{
+      ttype: "",
       hours: 0,
-      normale: 0,
-      accelerated: 0,
-      superAccelerated: 0,
+      price: 0,
     }],
 
   })
 
-
+ 
 
   //initial yup Scheme
   const LanguageAddValidator = yup.object().shape({
     name: yup.string().required(t("name field is required")),
-    description: yup.string().required(t("description field is required")),
+    registerFees: yup.number().required(t("register Fees field is required")),
     session: yup.array().of(yup.object({ 
-      hours: yup.string().required(t("hours field is required")),
-      normale: yup.number().required(`normale field is required`),
-      accelerated: yup.number().required(`accelerated field is required`),
-      superAccelerated: yup.number().required(`super Accelerated field is required`),
+      hours: yup.number().required(t("hours field is required")),
+      ttype: yup.string().required(`type field is required`),
+      price: yup.number().required(`price field is required`),
     })).test({
       name: 'one-true',
       message: "session field is required",
@@ -148,12 +154,21 @@ const Add = ({ editLanguageId , setEditLanguageId}) => {
                         </div>
 
                         <div className="form-group row">
-                          <label className="col-md-3 col-form-label">{t("Description")} <span className="text-danger">*</span></label>
+                          <label className="col-md-3 col-form-label">{t("Description")}</label>
                           <div className="col-md-9">
                             <Field as="textarea" type="text" rows="4" name="description" className="form-control" placeholder={t("Description")} />
                             {touched.description && errors.description && <small className="text-danger">{t(errors.description)}</small>}
                           </div>
                         </div>
+
+                        <div className="form-group row">
+                          <label className="col-md-3 col-form-label">{t("Register Fees")} <span className="text-danger">*</span></label>
+                          <div className="col-md-9">
+                            <Field type="number" name="registerFees" className="form-control" placeholder={t("Register Fees")} />
+                            {touched.registerFees && errors.registerFees && <small className="text-danger">{t(errors.registerFees)}</small>}
+                          </div>
+                        </div>
+
 
                   
                         <div className="form-group row">
@@ -170,25 +185,24 @@ const Add = ({ editLanguageId , setEditLanguageId}) => {
 
                                     {index !== 0 && <div className={"col-md-3"}></div>}
 
+                                    <div className="col-md-4 mt-1">
+                                      <Field as="select" type="text" name={`session.${index}.ttype`} className="form-control" placeholder={t("Type")}>
+                                        <option value="">{t("Select...")}</option>
+                                        <option value="normale">{t("Normale")}</option>
+                                        <option value="accelerated">{t("Accelerated")}</option>
+                                        <option value="superAccelerated">{t("Super Accelerated")}</option>
+                                      </Field>
+                                      {(touched?.session && touched?.session[index]?.ttype) && (errors?.session && errors?.session[index]?.ttype) && <small className="text-danger">{t(errors?.session[index]?.ttype)}</small>}
+                                    </div>
+
                                     <div className="col-md-2 mt-1">
                                       <Field type="number" name={`session.${index}.hours`} className="form-control" placeholder={t("Hours")} />
                                       {(touched?.session && touched?.session[index]?.hours) && (errors?.session && errors?.session[index]?.hours) && <small className="text-danger">{t(errors?.session[index]?.hours)}</small>}
                                     </div>
 
                                     <div className="col-md-2 mt-1">
-                                      <Field type="number" name={`session.${index}.normale`} className="form-control" placeholder={t("Normale")} />
-                                      {(touched?.session && touched?.session[index]?.normale) && (errors?.session && errors?.session[index]?.normale) && <small className="text-danger">{t(errors?.session[index]?.normale)}</small>}
-                                    </div>
-
-                                    <div className="col-md-2 mt-1">
-                                      <Field type="number" name={`session.${index}.accelerated`} className="form-control" placeholder={t("Accelerated")} />
-                                      {(touched?.session && touched?.session[index]?.accelerated) && (errors?.session && errors?.session[index]?.accelerated) && <small className="text-danger">{t(errors?.session[index]?.accelerated)}</small>}
-                                    </div>
-
-
-                                    <div className="col-md-2 mt-1">
-                                      <Field type="number" name={`session.${index}.superAccelerated`} className="form-control" placeholder={t("Super Accelerated")} />
-                                      {(touched?.session && touched?.session[index]?.superAccelerated) && (errors?.session && errors?.session[index]?.superAccelerated) && <small className="text-danger">{t(errors?.session[index]?.superAccelerated)}</small>}
+                                      <Field type="number" name={`session.${index}.price`} className="form-control" placeholder={t("Price")} />
+                                      {(touched?.session && touched?.session[index]?.price) && (errors?.session && errors?.session[index]?.price) && <small className="text-danger">{t(errors?.session[index]?.price)}</small>}
                                     </div>
 
 
@@ -197,9 +211,6 @@ const Add = ({ editLanguageId , setEditLanguageId}) => {
                                         <i className="fa fa-minus"></i>
                                       </button>
                                     </div>
-
-
-                                   
 
                                   </Fragment>
 
@@ -228,7 +239,7 @@ const Add = ({ editLanguageId , setEditLanguageId}) => {
                    
                         <div className="col-sm-12">
                           <button type="submit" className="btn btn-primary mr-3" disabled={(loading || !isValid)}>{t("Submit")}</button>
-                          <button type="button" className="btn btn-outline-secondary" onClick={(e) => { OnCancel(e) }}>{t("Cancel")}</button>
+                          <button type="button" className="btn btn-outline-secondary" onClick={(e) => { OnCancel(e) }} ref={cancelBtnRef}>{t("Cancel")}</button>
                         </div>
 
 

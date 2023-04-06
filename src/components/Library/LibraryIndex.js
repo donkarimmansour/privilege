@@ -15,7 +15,7 @@ const LibraryIndex = () => {
   const { user, isLoggedIn } = useSelector(state => state.auth)
 
   const links = [
-    { name: t("Privilege"), url: "#" },
+    { name: t("Privilege"), url: "/" },
     { name: t("Library"), url: "#" }
   ]
 

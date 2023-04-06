@@ -19,11 +19,19 @@ const resources = {
       "Session": "Session",
       "Normale": "Normale",
       "Accelerated": "Accelerated",
+      "Register Fees": "Register Fees",
       "Super Accelerated": "Super Accelerated",
       "Details": "Details",
+      "Price": "Price",
+      "Type": "Type",
+      "Hours": "Hours",
       "name field is required": "name field is required",
       "description field is required": "description field is required",
       "session field is required": "session field is required",
+      "register Fees field is required": "register Fees field is required",
+      "price field is required": "price field is required",
+      "hours field is required": "hours field is required",
+
 
       //Modal
       "Actions": "Actions",
@@ -55,13 +63,8 @@ const resources = {
       "Profile": "Profile",
       "Calendar": "Calendar",
       "Cancelations": "Cancelations",
-      "Promotions": "Promotions",
-
-      //Promotions
-      "normale field is required": "normale field is required",
-      "accelerated field is required": "accelerated field is required",
-      "super Accelerated field is required": "super Accelerated field is required",
-
+      "Block": "Block",
+    
 
 
       //library
@@ -353,7 +356,7 @@ const resources = {
       "there are no students": "there are no students",
       "there are no Teachers": "there are no Teachers",
       "there are no Cancelations": "there are no Cancelations",
-      "there are no Promotions": "there are no Promotions",
+      "there are no Blocks": "there are no Blocks",
 
       
       //roles

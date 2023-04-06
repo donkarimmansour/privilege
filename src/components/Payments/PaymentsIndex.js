@@ -16,7 +16,7 @@ const PaymentsIndex = () => {
   const { t } = useTranslation();
 
   const links = [
-    { name: t("Privilege"), url: "#" },
+    { name: t("Privilege"), url: "/" },
     { name: t("Fees"), url: "#" }
   ]
 

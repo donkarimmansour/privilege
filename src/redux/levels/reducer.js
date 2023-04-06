@@ -19,6 +19,9 @@ export const LevelsReducerSlice = createSlice({
             state.success = false
             state.error = false
         },
+        cleanSingle: (state) => {
+            state.singleLevel = {}
+        },
     },
     extraReducers: {
         //getSingleLevel
@@ -130,6 +133,6 @@ export const LevelsReducerSlice = createSlice({
 })
 
 
-export const { cleanAlerts } = LevelsReducerSlice.actions; 
+export const { cleanAlerts,cleanSingle } = LevelsReducerSlice.actions; 
 
 export default LevelsReducerSlice.reducer; 

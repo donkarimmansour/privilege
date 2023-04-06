@@ -11,15 +11,16 @@ import moment from 'moment';
 
 const View = () => {
 
+  const { t } = useTranslation();
+
   const links = [
-    { name: "Ericsson", url: "#" },
-    { name: "Languages", url: "#" },
-    { name: "Details", url: "#" }
+    { name: t("Privilege"), url: "/" },
+    { name: t("Languages"), url: "/languages" },
+    { name: t("Details"), url: "#" }
   ]
 
   const tabs = []
 
-  const { t } = useTranslation();
   const dispatch = useDispatch()
   const params = useParams()
   const { loading, error, success, singleLanguage } = useSelector(state => state.languages)
@@ -56,11 +57,11 @@ const View = () => {
 
           {loading && loader()}
 
-
+    
           <div className="row">
             {singleLanguage && singleLanguage._id &&
               <>
-
+              
                 <div className="col-xl-4 col-lg-5 col-md-12">
 
                   <div className="card">
@@ -84,16 +85,16 @@ const View = () => {
                             <td className="tx-medium">{t('Teachers')}</td>
                             <td className="text-right">{singleLanguage.teachersCount}</td>
                           </tr>
-                          {/* <tr>
-                        <td><i className="fa fa-cc-visa text-danger" /></td>
-                        <td className="tx-medium">{t('Fees')}</td>
-                        <td className="text-right">{singleLanguage.fees}</td>
-                      </tr> */}
                           <tr>
                             <td><i className="fa fa-users text-warning" /></td>
                             <td className="tx-medium">{t('Students')}</td>
                             <td className="text-right">{singleLanguage.studentsCount}</td>
                           </tr>
+                        <tr>
+                          <td><i className="fa fa-cc-visa text-danger" /></td>
+                          <td className="tx-medium">{t('Register Fees')}</td>
+                          <td className="text-right">{singleLanguage.registerFees}</td>
+                        </tr>
                         </tbody>
                       </table>
                     </div>
@@ -110,10 +111,9 @@ const View = () => {
                         singleLanguage.session.map((s, si) => (
                           <ul className="list-group mt-3" key={si}>
 
+                            <li className="list-group-item d-flex justify-content-between align-items-center">{t("Type")} <span className="badge badge-primary badge-pill">{s?.ttype}</span></li>
                             <li className="list-group-item d-flex justify-content-between align-items-center">{t("Hours")} <span className="badge badge-primary badge-pill">{s?.hours}</span></li>
-                            <li className="list-group-item d-flex justify-content-between align-items-center">{t("Normale")} <span className="badge badge-primary badge-pill">{s?.normale}</span></li>
-                            <li className="list-group-item d-flex justify-content-between align-items-center">{t("Accelerated")} <span className="badge badge-primary badge-pill">{s?.accelerated}</span></li>
-                            <li className="list-group-item d-flex justify-content-between align-items-center">{t("Super Accelerated")} <span className="badge badge-primary badge-pill">{s?.superAccelerated}</span></li>
+                            <li className="list-group-item d-flex justify-content-between align-items-center">{t("Price")} <span className="badge badge-primary badge-pill">{s?.price}</span></li>
                           </ul>
                         ))
 

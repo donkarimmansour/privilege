@@ -21,6 +21,9 @@ export const GroupesReducerSlice = createSlice({
             state.success = false
             state.error = false
         },
+        cleanSingle: (state) => {
+            state.singleGroupe = {}
+        },
     },
     extraReducers: {
         //getSingleGroupe
@@ -130,5 +133,5 @@ export const GroupesReducerSlice = createSlice({
 })
 
 
-export const { cleanAlerts } = GroupesReducerSlice.actions; 
+export const { cleanAlerts,cleanSingle } = GroupesReducerSlice.actions; 
 export default GroupesReducerSlice.reducer; 

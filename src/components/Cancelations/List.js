@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import "react-datepicker/dist/react-datepicker.css";
 import { useDispatch, useSelector } from 'react-redux';
 import swal from 'sweetalert';
-import { cleanAlerts } from '../../redux/promotions/reducer';
+import { cleanAlerts } from '../../redux/cancelations/reducer';
 import { checkRole, checkString, extractDesk, loader } from '../../common/funs';
 import ReactPaginate from 'react-paginate';
 import ActionsModal from '../shared/ActionsModal';

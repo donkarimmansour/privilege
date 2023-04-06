@@ -1,6 +1,7 @@
 import react from 'react'
 import myClassName from 'classnames'
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 
 
 const Breadcrumb = ({links , tabs , setInitAdd}) => {
@@ -20,7 +21,7 @@ const Breadcrumb = ({links , tabs , setInitAdd}) => {
                                 return <li key={li} className={myClassName("breadcrumb-item", { "active": li === (links.length - 1) })}
                                     {...(li === (links.length - 1) && { 'aria-current': "page" }) }>
 
-                                    {li !== (links.length - 1) ? <a href={link.url}>{t(link.name)}</a> : t(link.name)}
+                                    {li !== (links.length - 1) ? <Link to={link.url}>{t(link.name)}</Link> : t(link.name)}
                                 </li>
                             })}
 

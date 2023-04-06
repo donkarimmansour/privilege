@@ -87,8 +87,8 @@ const ApiEndpoints = {
     count: `/count`,  
   }, 
 
-  Promotions: { 
-    route: `${Host.PREFIX}/promotions`, 
+  Blocks: { 
+    route: `${Host.PREFIX}/blocks`, 
     list: `/list`, 
     create: `/create`, 
     delete: `/delete`, 

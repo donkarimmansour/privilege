@@ -15,7 +15,7 @@ const NotificationsIndex = () => {
   const [initAdd, setInitAdd] = useState(false)
 
   const links = [
-    { name: t("Privilege"), url: "#" },
+    { name: t("Privilege"), url: "/" },
     { name: t("Notifications"), url: "#" }
   ]
  

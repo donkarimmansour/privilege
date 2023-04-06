@@ -39,7 +39,7 @@ const LeftSidbar = () => {
                         { checkRole(user.role, "adminOrsuperAdmin") && <li><Link to="/cancelations"><i className="fa fa-window-close"></i><span>{t("Cancelations")}</span></Link></li>}
                         { checkRole(user.role, "adminOrsuperAdmin") && <li><Link to="/notifications"><i className="fa fa-bell"></i><span>{t("Notifications")}</span></Link></li>}
                         { checkRole(user.role, "adminOrsuperAdmin") && <li><Link to="/bills"><i className="fa fa-money"></i><span>{t("Bills")}</span></Link></li>}
-                        { checkRole(user.role, "adminOrsuperAdmin") && <li><Link to="/promotions"><i className="fa fa-calendar"></i><span>{t("Promotions")}</span></Link></li>}
+                        { checkRole(user.role, "adminOrsuperAdmin") && <li><Link to="/blocks"><i className="fa fa-calendar"></i><span>{t("Blocks")}</span></Link></li>}
                         { checkRole(user.role, "superAdmin") && <li><Link to="/settings"><i className="fa fa-gear"></i><span>{t("Settings")}</span></Link></li>}
                 </ul>
                 </nav>
