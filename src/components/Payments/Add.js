@@ -120,7 +120,7 @@ const Add = () => {
     evt.target.closest(".tab-pane").classList.remove("active")
     evt.target.closest(".tab-content").children[0].classList.add("active")
 
-    document.querySelectorAll(".page .nav-tabs .nav-item .nav-link")[1].classList.remove("active")
+    document.querySelectorAll(".page .nav-tabs .nav-item .nav-link")[2].classList.remove("active")
     document.querySelectorAll(".page .nav-tabs .nav-item .nav-link")[0].classList.add("active")
   }
 

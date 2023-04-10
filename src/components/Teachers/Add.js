@@ -120,7 +120,25 @@ const Add = ({ editTeacherId, setEditTeacherId, initAdd }) => {
     const OnCancel = (evt) => {
         setEditTeacherId("")
 
-        setInitialValues({ name: "", description: "" })
+        setInitialValues({
+            birthday: new Date(),
+            firstname: "",
+            lastname: "",
+            gender: "",
+            phone: "",
+            username: "",
+            email: "",
+            password: "",
+            confirmpassword: "",
+            facebook: "",
+            twitter: "",
+            linkedin: "",
+            note: "",
+            website: "",
+            language: "",
+            isAccountActivated: "yes"
+        })
+
         cleanSingle()
 
         evt.target.closest(".tab-pane").classList.remove("active")
@@ -146,10 +164,10 @@ const Add = ({ editTeacherId, setEditTeacherId, initAdd }) => {
         })
 
 
-        delete initialScheme.username
-        delete initialScheme.password
-        delete initialScheme.confirmpassword
-        setInitialScheme({ ...initialScheme })
+        // delete initialScheme.username
+        // delete initialScheme.password
+        // delete initialScheme.confirmpassword
+        // setInitialScheme({ ...initialScheme })
 
 
     }

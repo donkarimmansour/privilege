@@ -64,7 +64,13 @@ const Add = ({editCancelationId ,  setEditCancelationId, initAdd }) => {
   const OnCancel = (evt) => {
     setEditCancelationId("")
 
-    setInitialValues({name: "", description: ""})
+    setInitialValues({
+      name: "",
+      description: "",
+      day: "",
+      group: ""
+    })
+
     cleanSingle()
 
     evt.target.closest(".tab-pane").classList.remove("active")

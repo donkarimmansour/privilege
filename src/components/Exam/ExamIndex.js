@@ -15,6 +15,7 @@ const ExamIndex = () => {
 
     const links = [
         { name: t("Privilege"), url: "/" },
+        { name: t("Students"), url: "/students" },
         { name: t("Exam"), url: "#" }
     ]
 

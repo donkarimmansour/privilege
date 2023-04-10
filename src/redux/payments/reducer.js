@@ -1,8 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getSinglePayment, getPayment, countPayment, editPayment, deletePayment, createPayment } from "./action"
+import { getSinglePayment, getPayment, countPayment, editPayment, deletePayment, createPayment, getArchivedPayment, countArchivedPayment } from "./action"
+
 const initialState = {
+    archivedPayments: [],
     payments: [],
     singlePayment: {},
+    archivedCount: 0,
     count: 0,
     loading: false,
     error: false,
@@ -98,6 +101,7 @@ export const PaymentsReducerSlice = createSlice({
         [deletePayment.fulfilled]: (state, action) => {
             state.loading = false
             state.success = "Deleted"
+            state.archivedPayments = [...state.archivedPayments, ...state.payments.filter(s => s._id === action.meta.arg) ] 
             state.payments = state.payments.filter(s => s._id !== action.meta.arg) 
             state.count = -1
         },
@@ -123,6 +127,36 @@ export const PaymentsReducerSlice = createSlice({
             state.loading = false
             state.error = action.payload
         },
+
+
+        //getArchivedPayment
+        [getArchivedPayment.pending]: (state) => {
+            state.loading = true
+        },
+
+        [getArchivedPayment.fulfilled]: (state, action) => {
+            state.loading = false
+            state.archivedPayments = action.payload
+        },
+
+        [getArchivedPayment.rejected]: (state, action) => {
+            state.loading = false
+        },
+
+        //countArchivedPayment
+        [countArchivedPayment.pending]: (state) => {
+            state.loading = true
+        },
+
+        [countArchivedPayment.fulfilled]: (state, action) => {
+            state.loading = false
+            state.archivedCount = action.payload
+        },
+
+        [countArchivedPayment.rejected]: (state, action) => {
+            state.loading = false
+        },
+
     }
 })
 

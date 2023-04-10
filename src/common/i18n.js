@@ -64,6 +64,8 @@ const resources = {
       "Calendar": "Calendar",
       "Cancelations": "Cancelations",
       "Block": "Block",
+      "Archived": "Archived",
+      "Archived Students": "Archived Students",
     
 
 

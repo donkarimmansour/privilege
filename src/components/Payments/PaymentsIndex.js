@@ -5,6 +5,7 @@ import { Navigate } from 'react-router';
 import { checkRole } from '../../common/funs';
 import Container from '../shared/Container'
 import Add from './Add'
+import ArchivedList from './ArchivedList';
 import List from './List'
 
 
@@ -22,6 +23,7 @@ const PaymentsIndex = () => {
 
   const tabs = [
     { name: t("List"), id: "#fees-all" },
+    { name: t("Archived"), id: "#archived-all" },
     { name: t("Add"), id: "#fees-add" },
   ]
 
@@ -34,6 +36,7 @@ const PaymentsIndex = () => {
           <div className="tab-content">
 
             <List />
+            <ArchivedList />
             <Add />
 
           </div>

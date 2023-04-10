@@ -1,11 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getSingleBill, getBill, countBill, editBill, deleteBill, createBill  } from "./action"
+import { getSingleBill, getBill, countBill, deleteBill, countArchivedBill, getArchivedBill  } from "./action"
 
 
 
 const initialState = {
+    archivedBills: [],
     bills: [],
     singleBill: {},
+    archivedCount: 0,
     count: 0,
     loading: false,
     error: false,
@@ -101,6 +103,7 @@ export const BillsReducerSlice = createSlice({
         [deleteBill.fulfilled]: (state, action) => {
             state.loading = false
             state.success = "Deleted"
+            state.archivedBills = [...state.archivedBills, ...state.bills.filter(s => s._id === action.meta.arg) ] 
             state.bills = state.bills.filter(s => s._id !== action.meta.arg) 
             state.count = -1
         },
@@ -126,6 +129,35 @@ export const BillsReducerSlice = createSlice({
         //     state.loading = false
         //     state.error = action.payload
         // },
+
+
+        //getArchivedBill
+        [getArchivedBill.pending]: (state) => {
+            state.loading = true
+        },
+
+        [getArchivedBill.fulfilled]: (state, action) => {
+            state.loading = false
+            state.archivedBills = action.payload
+        },
+
+        [getArchivedBill.rejected]: (state, action) => {
+            state.loading = false
+        },
+
+        //countArchivedBill
+        [countArchivedBill.pending]: (state) => {
+            state.loading = true
+        },
+
+        [countArchivedBill.fulfilled]: (state, action) => {
+            state.loading = false
+            state.archivedCount = action.payload
+        },
+
+        [countArchivedBill.rejected]: (state, action) => {
+            state.loading = false
+        },
 
     
     }

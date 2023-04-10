@@ -92,5 +92,35 @@ const deleteBill =  createAsyncThunk("bills/delete" , async (args , BillApi) => 
 })
 
 
+const getArchivedBill =  createAsyncThunk("bills/archivedBills" , async (args , BillApi) => {
+    const { rejectWithValue , getState } = BillApi
+    const { token } = getState().auth
+    const authorization = { "Authorization": `bearer ${token}` }
 
-export { getBill , createBill, getSingleBill, editBill, deleteBill, countBill} 
+    try {
+        const res = await getApi(args, authorization )
+        return res.data.msg
+
+    } catch (err) {
+        return rejectWithValue(err.response.data.msg)
+    }
+})
+
+
+const countArchivedBill =  createAsyncThunk("bills/archivedCount" , async (args , BillApi) => {
+    const { rejectWithValue , getState } = BillApi
+    const { token } = getState().auth
+
+    const authorization = { "Authorization": `bearer ${token}` }
+
+    try {
+        const res = await countApi(args, authorization )
+        return res.data.msg
+        
+    } catch (err) {
+        return rejectWithValue(err.response.data.msg)
+    }
+})
+
+
+export { getBill , createBill, getSingleBill, editBill, deleteBill, countBill, countArchivedBill, getArchivedBill} 

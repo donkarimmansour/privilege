@@ -9,7 +9,8 @@ import ReactPaginate from "react-paginate";
 import ActionsModal from '../shared/ActionsModal';
 import { cleanAlerts } from '../../redux/payments/reducer';
 import { useNavigate } from 'react-router';
-
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const List = ({ _setEditPaymentId }) => {
 
@@ -22,14 +23,12 @@ const List = ({ _setEditPaymentId }) => {
   const [pageCurrent, setPageCurrent] = useState(1);
   const [actions, setActions] = useState(false)
   const { user } = useSelector(state => state.auth)
+  const [filters, setFilters] = useState({ lastname: "", from: "", to: "", firstname: "", status: "active" });
   const limit = 20
 
   //handle init
   useEffect(() => {
-    const skip = (pageCurrent === 1) ? 0 : (pageCurrent - 1) * limit
-
-    dispatch(getPayment({ sort: { _id: -1 }, expend: "all", skip: skip, limit: limit }))
-    dispatch(countPayment({}))
+     handleSearch()
   }, [dispatch, pageCurrent])
 
 
@@ -46,17 +45,6 @@ const List = ({ _setEditPaymentId }) => {
 
   }, [success, error]);
 
-  // //send to edit section
-  // const OnEdit = (_id, evt) => {
-  //   setEditPaymentId(_id)
-
-  //   evt.target.closest(".tab-pane").classList.remove("active")
-  //   evt.target.closest(".tab-content").children[1].classList.add("active")
-
-  //   document.querySelector(".page .nav-tabs .nav-item .nav-link").classList.remove("active")
-  //   document.querySelectorAll(".page .nav-tabs .nav-item .nav-link")[1].classList.add("active")
-
-  // }
 
   //Actions Pupup
   const ActionsPupup = actions => {
@@ -88,6 +76,46 @@ const List = ({ _setEditPaymentId }) => {
   }
 
 
+  //handle Search
+  const handleSearch = () => {
+    let nameFilter = []
+    let dateFilter = {}
+
+    for (const key in filters) {
+      if (filters[key] !== "") {
+        if (key === "firstname" || key === "lastname") {
+          nameFilter.push({[key]: { $regex: filters[key], $options: "i" } })
+        }
+         else if (key === "from") {
+          dateFilter.updatedAt = { ...dateFilter.updatedAt, $gte: new Date(2023,3,31) }
+        } else if (key === "to") {
+          dateFilter.updatedAt = { ...dateFilter.updatedAt, $lte: new Date(filters[key]) }
+        }
+
+      }
+    }
+
+    if (nameFilter.length > 0) {
+      nameFilter = { $or: nameFilter }
+    } else {
+      nameFilter = { lastname: { $ne: "xxxlxxxx" } }
+    }
+
+    
+    if (dateFilter.updatedAt?.["$gte"] || dateFilter.updatedAt?.["$lte"]) {
+      dateFilter = dateFilter
+    } else {
+      dateFilter = { updatedAt: { $ne: "xxxlxxxx" } }
+    }
+
+
+    const skip = (pageCurrent === 1) ? 0 : (pageCurrent - 1) * limit
+    dispatch(getPayment({ sort: { _id: -1 }, filter: { ...nameFilter, ...dateFilter }, expend: "all", skip: skip, limit: limit }))
+    dispatch(countPayment({ filter: { ...nameFilter, ...dateFilter } }))
+
+  }
+
+
   //handle paginate
   const handlePageClick = async (data) => {
     setPageCurrent(data.selected + 1)
@@ -112,7 +140,41 @@ const List = ({ _setEditPaymentId }) => {
 
       <div className="card">
         <div className="card-body">
-          <div className="table-responsive">
+
+          <div className="row">
+
+            <div className="col-md-3 col-sm-6">
+              <div className="input-group">
+                <input type="text" name="firstname" className="form-control" onChange={(e) => { setFilters({ ...filters, firstname: e.target.value }) }} placeholder={t("First Name")} />
+              </div>
+            </div>
+
+            <div className="col-md-3 col-sm-6">
+              <div className="input-group">
+                <input type="text" name="lastname" className="form-control" onChange={(e) => { setFilters({ ...filters, lastname: e.target.value }) }} placeholder={t("Last Name")} />
+              </div>
+            </div>
+
+            <div className="col-md-3 col-sm-6">
+              <div className="input-group">
+                <DatePicker selected={filters.from !== "" ? new Date(filters.from) : new Date()} onChange={(e) => { setFilters({ ...filters, from: e }) }} className="form-control"  />
+              </div>
+            </div>
+
+            <div className="col-md-3 col-sm-6">
+              <div className="input-group">
+                <DatePicker selected={filters.to !== "" ? new Date(filters.to) : new Date()} onChange={(e) => { setFilters({ ...filters, to: e }) }} className="form-control" />
+              </div>
+            </div>
+
+            <div className="col-md-12 col-sm-12 p-3">
+              <a href="#!;" onClick={handleSearch} className="btn btn-sm btn-primary btn-block" >{t("Search")}</a>
+            </div>
+
+          </div>
+      
+
+          <div className="table-responsive card">
             <table className="table table-hover text-nowrap js-basic-example dataTable table-striped table_custom border-style spacing5">
               <thead>
                 <tr>

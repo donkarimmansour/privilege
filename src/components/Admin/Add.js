@@ -105,7 +105,23 @@ const Add = ({ editAdminId, setEditAdminId }) => {
   const OnCancel = (evt) => {
     setEditAdminId("")
 
-    setInitialValues({name: "", description: ""})
+    setInitialValues({
+      firstname: "",
+      lastname: "",
+      gender: "",
+      phone: "",
+      birthday: new Date(),
+      username: "",
+      email: "",
+      password: "",
+      confirmpassword: "",
+      facebook: "",
+      twitter: "",
+      linkedin: "",
+      isAccountActivated: "yes",
+      role: "admin",
+    })
+
     cleanSingle()
 
     evt.target.closest(".tab-pane").classList.remove("active")
@@ -131,10 +147,10 @@ const Add = ({ editAdminId, setEditAdminId }) => {
     })
 
 
-    delete initialScheme.username
-    delete initialScheme.password
-    delete initialScheme.confirmpassword
-    setInitialScheme({ ...initialScheme })
+    // delete initialScheme.username
+    // delete initialScheme.password
+    // delete initialScheme.confirmpassword
+    // setInitialScheme({ ...initialScheme })
 
   }
 

@@ -36,8 +36,15 @@ const deleteApi = async (id , token) => {
    return  await axios.get(`${Host.BACKEND}${ApiEndpoints.Students.route}${ApiEndpoints.Students.count}` , {headers : {...config.headers , ...token} , params : filter } )
 }
 
+const getArchivedApi = async (filter , token) => {
+   return  await axios.get(`${Host.BACKEND}${ApiEndpoints.Students.route}${ApiEndpoints.Students.archivedList}` , {headers : {...config.headers , ...token} , params : filter} )
+}
+
+const countArchivedApi = async (filter , token) => {
+  return  await axios.get(`${Host.BACKEND}${ApiEndpoints.Students.route}${ApiEndpoints.Students.archivedCount}` , {headers : {...config.headers , ...token} , params : filter } )
+}
 
  
-export {createApi , editApi  , deleteApi , getApi , countApi , editImageApi , editProfileApi}
+export {createApi , editApi  , deleteApi , getApi , countApi , editImageApi , editProfileApi, countArchivedApi, getArchivedApi}
 
 

@@ -89,4 +89,35 @@ const getSinglePayment =  createAsyncThunk("Payment/getSingle" , async (args , P
     }
 })
 
-export {getSinglePayment , getPayment , countPayment , editPayment , deletePayment ,createPayment} 
+
+const getArchivedPayment =  createAsyncThunk("Payment/archivedPayments" , async (args , PaymentsApi) => {
+    const { rejectWithValue , getState } = PaymentsApi
+    const { token } = getState().auth
+
+    const authorization = { "Authorization": `bearer ${token}` }
+
+    try {
+        const res = await getApi(args, authorization )
+        return res.data.msg
+
+    } catch (err) {
+        return rejectWithValue(err.response.data.msg)
+    }
+})
+
+const countArchivedPayment =  createAsyncThunk("Payment/archivedCount" , async (args , PaymentsApi) => {
+    const { rejectWithValue , getState } = PaymentsApi
+    const { token } = getState().auth
+
+ 
+    const authorization = { "Authorization": `bearer ${token}` }
+
+    try {
+        const res = await countApi(args, authorization )
+        return res.data.msg
+    } catch (err) {
+        return rejectWithValue(err.response.data.msg)
+    }
+})
+
+export {getSinglePayment , getPayment , countPayment , editPayment , deletePayment ,createPayment, getArchivedPayment, countArchivedPayment} 

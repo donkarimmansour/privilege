@@ -133,7 +133,17 @@ const Add = ({ editGroupeId, setEditGroupeId , initAdd }) => {
   const OnCancel = (evt) => {
     setEditGroupeId("")
 
-    setInitialValues({name: "", description: ""})
+    setInitialValues({
+      name: "",
+      level: "",
+      department: "",
+      language: "",
+      session: "",
+      teacher: "",
+      //  calindar: "",
+      option: ""
+    })
+
     cleanSingle()
 
     evt.target.closest(".tab-pane").classList.remove("active")

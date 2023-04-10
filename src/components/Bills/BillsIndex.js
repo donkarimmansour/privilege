@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import { Navigate } from 'react-router';
 import { checkRole } from '../../common/funs';
 import Container from '../shared/Container'
+import ArchivedList from './ArchivedList';
 import List from './List'
 
 
@@ -19,7 +20,8 @@ const BillsIndex = () => {
   ]
 
   const tabs = [
-    { name: t("List"), id: "#fees-all" }
+    { name: t("List"), id: "#fees-all" },
+    { name: t("Archived"), id: "#archived-all" },
   ]
 
   return (
@@ -30,6 +32,7 @@ const BillsIndex = () => {
         <Container tabs={tabs} links={links}>
           <div className="tab-content">
 
+            <ArchivedList />
             <List />
 
           </div>

@@ -51,7 +51,17 @@ const Add = ({ editLanguageId , setEditLanguageId}) => {
    const OnCancel = (evt) => {
     setEditLanguageId("")
 
-    setInitialValues({name: "", description: ""})
+     setInitialValues({
+       name: "",
+       description: "",
+       registerFees: "",
+       session: [{
+         ttype: "",
+         hours: 0,
+         price: 0,
+       }],
+     })
+     
     cleanSingle()
 
     evt.target.closest(".tab-pane").classList.remove("active")

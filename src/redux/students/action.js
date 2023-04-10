@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { createApi, editApi, deleteApi, getApi, countApi, editImageApi } from "../../api/students";
+import { createApi, editApi, deleteApi, getApi, countApi, editImageApi, getArchivedApi, countArchivedApi } from "../../api/students";
 
 import { updateProfileImage } from "../auth/reducer";
 
@@ -121,4 +121,37 @@ const getSingleStudent = createAsyncThunk("students/getSingle", async (args, Stu
 })
 
 
-export { getSingleStudent, getStudent, countStudent, editStudent, deleteStudent, createStudent  , editStudentImage }
+const getArchivedStudent = createAsyncThunk("students/archivedCount", async (args, StudentsApi) => {
+    const { rejectWithValue, getState } = StudentsApi
+    const { token } = getState().auth
+
+    const authorization = { "Authorization": `bearer ${token}` }
+
+
+    try {
+        const res = await getArchivedApi(args, authorization )
+        return res.data.msg
+
+    } catch (err) {
+        return rejectWithValue(err.response.data.msg)
+    }
+})
+
+const countArchivedStudent = createAsyncThunk("students/archivedStudents", async (args, StudentsApi) => {
+    const { rejectWithValue, getState } = StudentsApi
+    const { token } = getState().auth
+
+    const authorization = { "Authorization": `bearer ${token}` }
+
+    try {
+        const res = await countArchivedApi(args, authorization )
+        return res.data.msg
+
+    } catch (err) {
+        return rejectWithValue(err.response.data.msg)
+    }
+})
+
+
+
+export { getSingleStudent, getStudent, countStudent, editStudent, deleteStudent, createStudent  , editStudentImage, getArchivedStudent, countArchivedStudent }

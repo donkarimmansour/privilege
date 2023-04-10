@@ -16,7 +16,7 @@ const List = ({ setEditTeacherId }) => {
  
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const [filters, setFilters] = useState({ lastname: "", phone: "", email: "", firstname: "" });
+  const [filters, setFilters] = useState({ lastname: "", email: "", firstname: "" });
   const { loading, error, success, teachers, count } = useSelector(state => state.teachers)
   const [pageCount, setPageCount] = useState(0);
   const [pageCurrent, setPageCurrent] = useState(1);

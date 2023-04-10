@@ -54,7 +54,12 @@ const Add = ({editDepartmentId ,   setEditDepartmentId}) => {
    const OnCancel = (evt) => {
     setEditDepartmentId("")
 
-    setInitialValues({name: "", description: ""})
+     setInitialValues({
+       brief: "",
+       floorName: "",
+       className: ""
+     })
+
     cleanSingle()
 
     evt.target.closest(".tab-pane").classList.remove("active")

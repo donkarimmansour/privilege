@@ -80,7 +80,15 @@ const Add = ({ editLibraryId , setEditLibraryId, initAdd  }) => {
   const OnCancel = (evt) => {
     setEditLibraryId("")
 
-    setInitialValues({name: "", description: ""})
+    setInitialValues({
+      title: "",
+      quantity: "",
+      level: "",
+      language: "",
+      colorPrice: "",
+      blackAndWhitePrice: ""
+    })
+    
     cleanSingle()
 
     evt.target.closest(".tab-pane").classList.remove("active")

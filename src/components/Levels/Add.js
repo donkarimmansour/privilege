@@ -67,7 +67,8 @@ const Add = ({editLevelId , setEditLevelId, initAdd }) => {
   const OnCancel = (evt) => {
     setEditLevelId("")
 
-    setInitialValues({name: "", description: ""})
+    setInitialValues({ name: "", languages: []})
+    
     cleanSingle()
 
     evt.target.closest(".tab-pane").classList.remove("active")

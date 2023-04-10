@@ -219,7 +219,32 @@ const Add = ({ editStudentId, setEditStudentId, initAdd }) => {
   const OnCancel = (evt) => {
     setEditStudentId("")
 
-    setInitialValues({ name: "", description: "" })
+    setInitialValues({
+      firstname: "",
+      lastname: "",
+      gender: "",
+      phone: "",
+      birthday: new Date(),
+      username: "",
+      email: "",
+      password: "",
+      confirmpassword: "",
+      facebook: "",
+      twitter: "",
+      linkedin: "",
+      language: "",
+      group: "",
+      level: "",
+      hours: "",
+      option: "",
+      session: "",
+      cin: "",
+      isAccountActivated: "yes",
+      tested: "yes",
+      registerFees: "free",
+      amount: 0
+    })
+
     cleanSingle()
 
     evt.target.closest(".tab-pane").classList.remove("active")
@@ -228,7 +253,7 @@ const Add = ({ editStudentId, setEditStudentId, initAdd }) => {
     document.querySelectorAll(".page .nav-tabs .nav-item .nav-link")[1].classList.remove("active")
     document.querySelectorAll(".page .nav-tabs .nav-item .nav-link")[0].classList.add("active")
   }
-
+ 
   //check for Generate username and password
   const canGenerate = () => {
     return generateData && generateData.firstname && generateData.lastname && generateData.firstname !== "" && generateData.lastname !== ""
@@ -243,11 +268,10 @@ const Add = ({ editStudentId, setEditStudentId, initAdd }) => {
     })
 
 
-    delete initialScheme.username
-    delete initialScheme.password
-    delete initialScheme.confirmpassword
-    setInitialScheme({ ...initialScheme })
-
+    //delete initialScheme.username
+    //delete initialScheme.password
+    // delete initialScheme.confirmpassword
+    // setInitialScheme({ ...initialScheme })
 
   }
 
@@ -265,6 +289,7 @@ const Add = ({ editStudentId, setEditStudentId, initAdd }) => {
       ...values,
       level: (values.level.length > 10) ? values.level : null,
       group: (values.group.length > 10) ? values.group : null,
+      amount,
       actions
     }
 

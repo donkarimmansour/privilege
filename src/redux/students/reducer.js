@@ -1,10 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getSingleStudent, getStudent, countStudent, editStudent, deleteStudent, createStudent, editStudentImage   } from "./action"
+import { getSingleStudent, getStudent, countStudent, editStudent, deleteStudent, createStudent, editStudentImage , countArchivedStudent, getArchivedStudent   } from "./action"
 
 
 const initialState = {
+    archivedStudents: [],
     students: [],
     singleStudent: {},
+    archivedCount: 0,
     count: 0,
     loading: false,
     error: false,
@@ -157,6 +159,34 @@ export const StudentsReducerSlice = createSlice({
         [createStudent.rejected]: (state, action) => {
             state.loading = false
             state.error = action.payload
+        },
+
+        //getArchivedStudent
+        [getArchivedStudent.pending]: (state) => {
+            state.loading = true
+        },
+
+        [getArchivedStudent.fulfilled]: (state, action) => {
+            state.loading = false
+            state.archivedStudents = action.payload
+        },
+
+        [getArchivedStudent.rejected]: (state, action) => {
+            state.loading = false
+        },
+
+        //countArchivedStudent
+        [countArchivedStudent.pending]: (state) => {
+            state.loading = true
+        },
+
+        [countArchivedStudent.fulfilled]: (state, action) => {
+            state.loading = false
+            state.archivedCount = action.payload
+        },
+
+        [countArchivedStudent.rejected]: (state, action) => {
+            state.loading = false
         },
 
     }

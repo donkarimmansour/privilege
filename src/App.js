@@ -32,6 +32,7 @@ import BlocksIndex from './components/Blocks/BlocksIndex';
 import FPAdmin from './components/Auth/admin/FPAdmin';
 import LogAdmin from './components/Auth/admin/LogAdmin';
 import Invice from './components/Payments/Invice';
+import ArchivedStudentsIndex from './components/Students/ArchivedStudentsIndex';
 
 function App() {
 
@@ -46,6 +47,7 @@ function App() {
               <Route element={<HomeIndex />} path="/" />
               <Route element={<TeachersIndex />} path="/teachers" />
               <Route element={<StudentsIndex />} path="/students" />
+              <Route element={<ArchivedStudentsIndex />} path="/archived-students" />
               <Route element={<GroupsIndex />} path="/groups" />
               <Route element={<LevelsIndex />} path="/levels" />
               <Route element={<NotificationsIndex />} path="/notifications" />
