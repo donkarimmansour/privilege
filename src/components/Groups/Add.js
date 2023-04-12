@@ -31,8 +31,9 @@ const Add = ({ editGroupeId, setEditGroupeId , initAdd }) => {
   const { user } = useSelector(state => state.auth)
   const [langaugeID, setLangaugeID] = useState(null)
   const cancelBtnRef = useRef()
+  const groupeRef = useRef()
 
- 
+  
   //get groupe data
   useEffect(() => {
     if (editGroupeId && editGroupeId !== "") {
@@ -124,7 +125,7 @@ const Add = ({ editGroupeId, setEditGroupeId , initAdd }) => {
     } else if (errorDR) {
       dispatch(cleanDepartmentsAlerts())
     }
-
+ 
 
 
   }, [success, error, errorLv, errorTR, errorLang, errorDR]);
@@ -218,7 +219,30 @@ const Add = ({ editGroupeId, setEditGroupeId , initAdd }) => {
 
 
   }
+    
 
+  const nameShorter = (name, length) => (name.length > length) ? name.substr(0, length) : name
+
+  useEffect(() => {
+
+    if (groupeRef?.current?.values
+      && !!groupeRef?.current?.values.session && !!groupeRef?.current?.values.option
+      && !!groupeRef?.current?.values.language && !!groupeRef?.current?.values.level) {
+
+      const LNGindex = languages.findIndex(l => l._id === groupeRef?.current?.values.language)
+      const LVLindex = levels.findIndex(l => l._id === groupeRef?.current?.values.level)
+      const language = languages[LNGindex]?.name || ""
+      const level = levels[LVLindex]?.name || ""
+
+      const name = `${nameShorter(language, 3)} - ${nameShorter(level, 2)} - ${nameShorter(groupeRef?.current?.values.session, 3)} - ${nameShorter(groupeRef?.current?.values.option, 3)}`
+
+
+      groupeRef?.current?.setFieldTouched("name")
+      groupeRef?.current?.setFieldValue("name", name)
+
+    }
+
+  }, [groupeRef?.current?.values])
 
 
   return (
@@ -232,7 +256,8 @@ const Add = ({ editGroupeId, setEditGroupeId , initAdd }) => {
           initialValues={initialValues}
           onSubmit={onSubmit}
           validationSchema={GroupeAddValidator}
-          enableReinitialize={true}>
+          enableReinitialize={true}
+          innerRef={groupeRef}>
 
           {
             ({ touched, errors, isValid, setFieldValue, setFieldTouched, values }) => (

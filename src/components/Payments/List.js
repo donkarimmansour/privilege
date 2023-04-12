@@ -1,4 +1,3 @@
-import moment from 'moment';
 import react, { Fragment, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
@@ -10,7 +9,7 @@ import ActionsModal from '../shared/ActionsModal';
 import { cleanAlerts } from '../../redux/payments/reducer';
 import { useNavigate } from 'react-router';
 import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+import moment from "moment";
 
 const List = ({ _setEditPaymentId }) => {
 
@@ -23,7 +22,7 @@ const List = ({ _setEditPaymentId }) => {
   const [pageCurrent, setPageCurrent] = useState(1);
   const [actions, setActions] = useState(false)
   const { user } = useSelector(state => state.auth)
-  const [filters, setFilters] = useState({ lastname: "", from: "", to: "", firstname: "", status: "active" });
+  const [filters, setFilters] = useState({ lastname: "", from: "", to: "", firstname: "" });
   const limit = 20
 
   //handle init
@@ -81,20 +80,21 @@ const List = ({ _setEditPaymentId }) => {
     let nameFilter = []
     let dateFilter = {}
 
+
     for (const key in filters) {
       if (filters[key] !== "") {
         if (key === "firstname" || key === "lastname") {
           nameFilter.push({[key]: { $regex: filters[key], $options: "i" } })
         }
-         else if (key === "from") {
-          dateFilter.updatedAt = { ...dateFilter.updatedAt, $gte: new Date(2023,3,31) }
+         else if (key === "from") { 
+          dateFilter.updatedAt = { ...dateFilter.updatedAt, $gte: filters[key] }
         } else if (key === "to") {
-          dateFilter.updatedAt = { ...dateFilter.updatedAt, $lte: new Date(filters[key]) }
+          dateFilter.updatedAt = { ...dateFilter.updatedAt, $lte: filters[key] }
         }
 
       }
     }
-
+  
     if (nameFilter.length > 0) {
       nameFilter = { $or: nameFilter }
     } else {
@@ -110,11 +110,11 @@ const List = ({ _setEditPaymentId }) => {
 
 
     const skip = (pageCurrent === 1) ? 0 : (pageCurrent - 1) * limit
-    dispatch(getPayment({ sort: { _id: -1 }, filter: { ...nameFilter, ...dateFilter }, expend: "all", skip: skip, limit: limit }))
-    dispatch(countPayment({ filter: { ...nameFilter, ...dateFilter } }))
+    dispatch(getPayment({ sort: { _id: -1 }, filter: { ...nameFilter, ...dateFilter, status: "active" }, expend: "all", skip: skip, limit: limit }))
+    dispatch(countPayment({ filter: { ...nameFilter, ...dateFilter, status: "active" } }))
 
   }
-
+ 
 
   //handle paginate
   const handlePageClick = async (data) => {

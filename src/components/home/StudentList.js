@@ -3,7 +3,6 @@ import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { getPayment } from '../../redux/payments/action';
-import myClassnames from 'classnames';
 
 
 const StudentList = () => {
@@ -39,15 +38,15 @@ const StudentList = () => {
                                     <tr>
                                         <th>{t("#")}</th>
                                         <th>{t("Name")}</th>
-                                        <th>{t("Class")}</th>
+                                        <th>{t("Language")}</th>
                                         <th>{t("Method")}</th>
                                         <th>{t("Type")}</th>
                                         <th>{t("Amount")}</th>
-                                        <th>{t("DATE")}</th>
+                                        <th>{t("Date")}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-
+ 
 
                                     {payments.length > 0 && payments.map((p, pi) => {
                                         return (
@@ -61,6 +60,7 @@ const StudentList = () => {
                                                 <td>{p.feesType}</td>
                                                 <td>{p.amount}</td>
                                                 <td>{moment(p.updatedAt).format("DD/MM/YYYY")}</td>
+
 
                                             </tr>
                                         )

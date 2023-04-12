@@ -5,6 +5,7 @@ import { getExam } from '../../redux/exam/action';
 import { DownloadTableExcel } from 'react-export-table-to-excel';
 import moment from 'moment';
 import { ImageVIEW } from '../../common/funs';
+import { Link } from 'react-router-dom';
 
 
 const Exam = () => {
@@ -37,6 +38,7 @@ const Exam = () => {
                                 <th>{t("Rate")}</th>
                                 <th>{t("Activated")}</th>
                                 <th>{t("Date")}</th>
+                                <th>{t("Exam")}</th>
                             </tr>
 
                             {exam && exam.length > 0 && exam.map((ex, exi) => {
@@ -57,6 +59,8 @@ const Exam = () => {
                                           <td>%{ex.rate}</td>
                                           <td>{ex.studentID?.isAccountActivated ? t('Yes') : t('No')}</td>
                                           <td>{moment(ex.updatedAt).format("DD/MM/YYYY")}</td>
+                                          <td><Link to={`/exam/${ex._id}`} className="btn btn-icon btn-sm"><i className="fa fa-eye" /></Link></td>
+
 
                                     </tr>
                                 )

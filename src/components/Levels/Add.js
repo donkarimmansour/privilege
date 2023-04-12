@@ -53,7 +53,7 @@ const Add = ({editLevelId , setEditLevelId, initAdd }) => {
 
     } else if (error || errorLang) {
       swal(t("Error"), t(checkString(error || errorLang)), "error");
-    }
+    } 
 
     if (error || success) {
       dispatch(cleanAlerts())

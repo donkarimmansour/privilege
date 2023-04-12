@@ -132,7 +132,7 @@ const ArchivedList = () => {
               <th>{t("Phone")}</th>
               <th>{t("Hours")}</th>
               <th>{t("Date")}</th>
-              {user.role !== "teacher" && <th>{t("Action")}</th>}
+              <th>{t("Action")}</th>
             </tr>
           </thead>
 
@@ -155,8 +155,8 @@ const ArchivedList = () => {
                   <td>{s.phone}</td>
                   <td>{s.hours}</td>
                   <td>{moment(s.updatedAt).format("DD/MM/YYYY")}</td>                 
-                  {user.role !== "teacher" && <td> <button type="button" className="btn btn-icon btn-sm" title="View" onClick={() => { ActionsPupup(s.actions) }}><i className="fa fa-eye" /></button> </td> }
-                
+                  <td><button type="button" className="btn btn-icon btn-sm" title="View" onClick={() => { ActionsPupup(s.actions) }}><i className="fa fa-eye" /></button></td>  
+                 
                 </tr>
                 </Fragment>
 

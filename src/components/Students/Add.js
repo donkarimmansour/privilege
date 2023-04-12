@@ -14,6 +14,7 @@ import { cleanAlerts, cleanSingle } from '../../redux/students/reducer';
 import { cleanAlerts as cleanLanguagesAlerts } from '../../redux/languages/reducer';
 import { cleanAlerts as cleanGroupesAlerts } from '../../redux/groupes/reducer';
 import { cleanAlerts as cleanLevelsAlerts } from '../../redux/levels/reducer';
+import { cleanAlerts as cleanBillsAlerts } from '../../redux/bills/reducer';
 import { checkString, loader } from '../../common/funs';
 import { getLanguage } from '../../redux/languages/action';
 import { getGroupe } from '../../redux/groupes/action';
@@ -29,7 +30,7 @@ const Add = ({ editStudentId, setEditStudentId, initAdd }) => {
   const { loading: loadingLV, error: errorLV, levels } = useSelector(state => state.level)
   const { loading: loadingGR, error: errorGR, groupes } = useSelector(state => state.groupe)
   const { token, user } = useSelector(state => state.auth)
-  const { singleBill } = useSelector(state => state.bills)
+  const { singleBill, error: errorBL} = useSelector(state => state.bills)
   const cancelBtnRef = useRef()
 
   const [generateData, setGenerateData] = useState({})
@@ -40,9 +41,11 @@ const Add = ({ editStudentId, setEditStudentId, initAdd }) => {
   const [hourFilter, setHourFilter] = useState(null)
   const [amount, setAmount] = useState(0)
   const [registerFees, setRegisterFees] = useState(0)
+  const [registerType, setRegisterType] = useState("free")
+  const [total, setTotal] = useState(0)
   const [sessions, setSessions] = useState({})
   const [hours, setHours] = useState(["30", "60"])
-  
+
 
 
   //yup Scheme
@@ -122,9 +125,12 @@ const Add = ({ editStudentId, setEditStudentId, initAdd }) => {
       dispatch(cleanGroupesAlerts())
     } else if (errorLV) {
       dispatch(cleanLevelsAlerts())
+    } else if (errorBL) {
+      dispatch(cleanLevelsAlerts())
+      setAmount(0)
     }
 
-  }, [success, error, errorGR, errorLV, errorLG]);
+  }, [success, error, errorGR, errorLV, errorLG, errorBL]);
 
 
 
@@ -146,35 +152,62 @@ const Add = ({ editStudentId, setEditStudentId, initAdd }) => {
 
       delete initialScheme.password
       delete initialScheme.confirmpassword
+      delete initialScheme.session
 
       setInitialScheme({ ...initialScheme })
       setSessions(singleStudent?.language?.session || [])
       setGroupeFilter({ option: singleStudent.option, session: singleStudent.session, language: singleStudent.language?._id, level: singleStudent.level?._id || null })
       setLanguageFilter(singleStudent.language?._id || null)
+      setHourFilter(singleStudent.hours)
     }
   }, [singleStudent])
 
   //update student amount
   useEffect(() => {
-    if (editStudentId && editStudentId !== "") {
-      setAmount(singleBill?.amount || 0)
+    if (editStudentId && editStudentId !== "" && singleBill?._id) {
+      setAmount(singleBill?.amount)
     }
   }, [singleBill])
 
+  //update student total
+  useEffect(() => {
+    if (registerType === "paid") {
+      setTotal(amount + registerFees)
+    } else {
+      setTotal(amount)
+    }
+  }, [amount, registerFees, registerType])
 
 
-  //get Languages
+
+  //get Languages 
   useEffect(() => {
     if (initAdd) dispatch(getLanguage({ sort: { _id: -1 } }))
   }, [dispatch, initAdd])
 
 
-  //get levels data
+  //get levels and hours
   useEffect(() => {
-    if (languageFilter && languageFilter.length > 10) {
+
+    if (languages && languages.length > 0 && languageFilter && languageFilter.length > 10) {
       dispatch(getLevel({ sort: { _id: -1 }, filter: { language: languageFilter } }))
+
+      const index = languages.findIndex(l => l._id === languageFilter)
+
+      if (initAdd) {
+        setHours(Array.from(new Set(languages[index].session.map(s => s.hours))))
+      } else {
+        setHours(Array.from(new Set([initialValues?.hours, ...languages[index].session.map(s => s.hours)])))
+      }
+
+      setRegisterFees(languages[index].registerFees)
+
+    } else {
+      setHours([])
+      setRegisterFees(0)
+
     }
-  }, [languageFilter])
+  }, [languages, languageFilter, initAdd])
 
 
   //get groupes data
@@ -183,22 +216,6 @@ const Add = ({ editStudentId, setEditStudentId, initAdd }) => {
       && dispatch(getGroupe({ sort: { _id: -1 }, filter: { ...groupeFilter } }))
   }, [groupeFilter])
 
-
-
-  //get hours
-  useEffect(() => {
-
-    if (languages && languages.length > 0 && languageFilter && languageFilter.length > 10) {
-      const index = languages.findIndex(l => l._id === languageFilter)
-      setHours(Array.from(new Set(languages[index].session.map(s => s.hours))))
-
-      if(initAdd){
-        setRegisterFees(languages[index].registerFees)
-      }
-    } else {
-      setHours([])
-    }
-  }, [languages, languageFilter])
 
 
   //get session price
@@ -253,7 +270,7 @@ const Add = ({ editStudentId, setEditStudentId, initAdd }) => {
     document.querySelectorAll(".page .nav-tabs .nav-item .nav-link")[1].classList.remove("active")
     document.querySelectorAll(".page .nav-tabs .nav-item .nav-link")[0].classList.add("active")
   }
- 
+
   //check for Generate username and password
   const canGenerate = () => {
     return generateData && generateData.firstname && generateData.lastname && generateData.firstname !== "" && generateData.lastname !== ""
@@ -266,12 +283,6 @@ const Add = ({ editStudentId, setEditStudentId, initAdd }) => {
       confirmpassword: `${generateData.firstname}-${generateData.lastname}-123`,
       password: `${generateData.firstname}-${generateData.lastname}-123`
     })
-
-
-    //delete initialScheme.username
-    //delete initialScheme.password
-    // delete initialScheme.confirmpassword
-    // setInitialScheme({ ...initialScheme })
 
   }
 
@@ -289,11 +300,16 @@ const Add = ({ editStudentId, setEditStudentId, initAdd }) => {
       ...values,
       level: (values.level.length > 10) ? values.level : null,
       group: (values.group.length > 10) ? values.group : null,
-      amount,
+      amount: total,
       actions
     }
 
     if (editStudentId && editStudentId !== "") {//if edit  
+
+      if (!newVals.session || newVals.session === "") {
+        delete newVals.session
+      }
+
       dispatch(editStudent({ ...newVals, image: profileImage }))
 
     } else {//if add
@@ -424,36 +440,6 @@ const Add = ({ editStudentId, setEditStudentId, initAdd }) => {
 
 
                         <div className="form-group row">
-                          <label className="col-md-3 col-form-label">{t("Register Fees")} <span className="text-danger">*</span></label>
-                          <div className="col-md-9">
-                            <Field as="select" className="form-control input-height" name="registerFees" value={values.registerFees}
-                              onChange={val => {
-                                setFieldTouched("registerFees")
-                                setFieldValue("registerFees", val.target.value)
-
-                                // if(val.target.value === "paid"){
-                                // //  setRegisterFees(rej)
-                                //    setFieldValue("amount", ((values.amount || 0) + (val.target.value === "paid" ? registerFees : 0)))
-
-                                // }else{
-                                //   setRegisterFees(0)
-                                // }
-                                
-                                setFieldValue("amount", ((values.amount || 0) + (val.target.value === "paid" ? registerFees : 0)))
-
-
-
-                              }}>
-                              <option value="free">{t('Free')}</option>
-                              <option value="paid">{t('Paid')}</option>
-                            </Field>
-
-                          </div>
-                        </div>
-
-
-
-                        <div className="form-group row">
                           <label className="col-md-3 col-form-label">{t("Option")} <span className="text-danger">*</span></label>
                           <div className="col-md-9">
                             <Field as="select" className="form-control input-height" name="option" value={values.option}
@@ -472,8 +458,6 @@ const Add = ({ editStudentId, setEditStudentId, initAdd }) => {
 
                           </div>
                         </div>
-
-
 
 
                         <div className="form-group row">
@@ -502,6 +486,25 @@ const Add = ({ editStudentId, setEditStudentId, initAdd }) => {
 
 
                         <div className="form-group row">
+                          <label className="col-md-3 col-form-label">{t("Register Fees")} <span className="text-danger">*</span></label>
+                          <div className="col-md-9">
+                            <Field as="select" className="form-control input-height" name="registerFees" value={values.registerFees}
+                              onChange={val => {
+                                setFieldTouched("registerFees")
+                                setFieldValue("registerFees", val.target.value)
+                                setRegisterType(val.target.value)
+
+                              }}>
+                              <option value="free">{t('Free')}</option>
+                              <option value="paid">{`${t('Paid')} (${languages.length > 0 && languageFilter && languages.find(s => s._id === languageFilter)?.registerFees || 0})`}</option>
+                            </Field>
+
+                          </div>
+                        </div>
+
+
+
+                        <div className="form-group row">
                           <label className="col-md-3 col-form-label">{t("Hours")} <span className="text-danger">*</span></label>
                           <div className="col-md-9">
                             <Field as="select" className="form-control input-height" name="hours" value={values.hours}
@@ -524,14 +527,18 @@ const Add = ({ editStudentId, setEditStudentId, initAdd }) => {
 
 
                         <div className="form-group row">
-                          <label className="col-md-3 col-form-label">{t("Session")} <span className="text-danger">*</span></label>
+
+                          <label className="col-md-3 col-form-label">{t("Session")}
+                            {!editStudentId && editStudentId === "" && <span className="text-danger">*</span>}
+                          </label>
+
                           <div className="col-md-9">
                             <Field as="select" className="form-control input-height" name="session" value={values.session}
                               onChange={val => {
                                 setFieldTouched("session")
                                 setFieldValue("session", val.target.value)
                                 setGroupeFilter({ ...groupeFilter, session: val.target.value })
-                                setFieldValue("amount", (sessions.filter(s => s.ttype === val.target.value)?.[0]?.price || 0) + (values.registerFees === "paid" ? registerFees : 0))
+                                setAmount(sessions.find(s => s.ttype === val.target.value)?.price || 0)
                               }}>
 
                               <option value="">{t("Select...")}</option>
@@ -594,7 +601,7 @@ const Add = ({ editStudentId, setEditStudentId, initAdd }) => {
                         <div className="form-group row">
                           <label className="col-md-3 col-form-label">{t("Amount")} </label>
                           <div className="col-md-9">
-                            <Field type="number" disabled name="amount" className="form-control" placeholder={t("Amount")} />
+                            <input type="number" disabled name="amount" className="form-control" placeholder={t("Amount")} value={total} />
                           </div>
                         </div>
 

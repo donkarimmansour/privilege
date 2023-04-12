@@ -10,6 +10,7 @@ import ReactPaginate from "react-paginate";
 import ActionsModal from '../shared/ActionsModal';
 import { getSingleGroupe } from '../../redux/groupes/action';
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 const List = ({setEditStudentId}) => { 
 
@@ -19,6 +20,7 @@ const List = ({setEditStudentId}) => {
   const { loading, error, success, students, count } = useSelector(state => state.students)
   const { singleGroupe } = useSelector(state => state.groupe)
   const [pageCount, setPageCount] = useState(0);
+  const navigate = useNavigate();
   const [pageCurrent, setPageCurrent] = useState(1);
   const [modalState, toggleModal] = useState(false)
   const [actions, setActions] = useState(false)
@@ -237,7 +239,7 @@ const List = ({setEditStudentId}) => {
                     <img className="avatar" src={ImageVIEW(s.image)} alt="" />
                   </td>
                   <td><span className="font-16">{`${s.firstname} ${s.lastname}`}</span></td>
-                  <td>{s?.language?.name}</td>
+                  <td>{s?.language?.name}</td> 
                   <td>{s.email}</td>
                   <td>{s.phone}</td>
                   <td>{s.hours}</td>
@@ -248,6 +250,9 @@ const List = ({setEditStudentId}) => {
                   {user.role !== "teacher" && <td>
                     <button type="button" className="btn btn-icon btn-sm" title="Edit" onClick={(e) => { OnEdit(s._id , e) }}><i className="fa fa-edit" /></button>
                     <button type="button" className="btn btn-icon btn-sm" title="View" onClick={() => { ActionsPupup(s.actions) }}><i className="fa fa-eye" /></button> 
+                    <button type="button" className="btn btn-icon btn-sm" title="level" onClick={() => { navigate(`/archived-students/level/${s._id}`) }}><i className="fa fa-graduation-cap" /></button>
+                    <button type="button" className="btn btn-icon btn-sm" title="register" onClick={() => { navigate(`/archived-students/register/${s._id}`) }}><i className="fa fa-print" /></button>
+                
                     <> {checkRole(user.role, "superAdmin") && <button type="button" className="btn btn-icon btn-sm" onClick={() => { OnDelete(s._id) }} title="Delete"><i className="fa fa-trash-o text-danger" /></button>}</>
                   </td>}
                 </tr>

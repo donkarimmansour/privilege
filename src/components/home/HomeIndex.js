@@ -38,15 +38,18 @@ const HomeIndex = () => {
 
                         {checkRole(user.role, "adminOrsuperAdmin") &&
                             <div className="tab-pane fade show active" id="admin-Dashboard" role="tabpanel">
+                            
+                            
                                 {/* <div className="row clearfix">
                                    <University />
+                                </div> */}
 
-                               </div> */}
                                 <div className="row clearfix row-deck">
-
                                     <Exam />
                                 </div>
+
                                 <StudentList />
+
                             </div>
                         }
 

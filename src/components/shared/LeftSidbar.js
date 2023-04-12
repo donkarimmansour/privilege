@@ -28,7 +28,7 @@ const LeftSidbar = () => {
                         { checkRole(user.role, "superAdmin") && <li><Link to="/admins"><i className="fa fa-lock"></i><span>{t("Admins")}</span></Link></li>}
                         { checkRole(user.role, "adminOrsuperAdmin") && <li><Link to="/teachers"><i className="fa fa-black-tie"></i><span>{t("Teachers")}</span></Link></li>}
                         { checkRole(user.role, "teacherOradminOrsuperAdmin") && <li><Link to="/students"><i className="fa fa-user"></i><span>{t("Students")}</span></Link></li>}
-                        { checkRole(user.role, "adminOrsuperAdmin") && <li><Link to="/archived-students"><i className="fa fa-user"></i><span>{t("Archived Students")}</span></Link></li>}
+                        { checkRole(user.role, "adminOrsuperAdmin") && <li><Link to="/archived-students"><i className="icon-user"></i><span>{t("Archived Students")}</span></Link></li>}
                         { checkRole(user.role, "adminOrsuperAdmin") && <li><Link to="/departments"><i className="fa fa-building"></i><span>{t("Departments")}</span></Link></li>}
                         { checkRole(user.role, "adminOrsuperAdmin") && <li><Link to="/languages"><i className="fa fa-graduation-cap"></i><span>{t("Languages")}</span></Link></li>}                       
                         { checkRole(user.role, "adminOrsuperAdmin") && <li><Link to="/library"><i className="fa fa-book"></i><span>{t("Books")}</span></Link></li>}

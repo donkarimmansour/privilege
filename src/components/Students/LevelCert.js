@@ -1,23 +1,23 @@
 import { useEffect, useRef } from 'react'
-import { useTranslation } from 'react-i18next'; 
+import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from "react-redux";
 import { checkRole, checkString, loader } from '../../common/funs';
 import swal from 'sweetalert';
-import { cleanAlerts } from '../../redux/payments/reducer';
+import { cleanAlerts } from '../../redux/students/reducer';
 import Container from '../shared/Container'
 import { Navigate, useParams } from 'react-router';
 import moment from 'moment';
-import { getSinglePayment } from '../../redux/payments/action';
 import { useReactToPrint } from "react-to-print";
+import { getSingleStudent } from '../../redux/students/action';
 
-const Invice = () => {
+const LevelCert = () => {
 
     const { t } = useTranslation();
-
+ 
     const links = [
         { name: t("Privilege"), url: "/" },
-        { name: t("Payment"), url: "/payments" },
-        { name: t("Invice"), url: "#" }
+        { name: t("Students"), url: "/students" },
+        { name: t("Level Certificat"), url: "#" }
     ]
 
     const tabs = []
@@ -25,13 +25,14 @@ const Invice = () => {
     const dispatch = useDispatch()
     const params = useParams()
     const InviceRef = useRef()
-    const { loading, error, success, singlePayment } = useSelector(state => state.payments)
+    const { loading, error, success, singleStudent } = useSelector(state => state.students)
     const { user, isLoggedIn } = useSelector(state => state.auth)
+
 
     //get Language data
     useEffect(() => {
         if (isLoggedIn && params && params.id && params.id !== "") {
-            dispatch(getSinglePayment({ filter: { _id: params.id }, expend: "studentID" }))
+            dispatch(getSingleStudent({ filter: { _id: params.id }, expend: "all" }))
         }
     }, [params, isLoggedIn])
 
@@ -67,19 +68,20 @@ const Invice = () => {
 
 
                     <div className="card" ref={InviceRef}>
-                        {singlePayment && singlePayment._id &&
+                        {singleStudent && singleStudent._id &&
                             <>
 
                                 <div className="card-header">
-                                    <h3 className="card-title">#{singlePayment._id}</h3>
+                                    <h3 className="card-title">#{singleStudent._id}</h3>
                                     <div className="card-options">
                                         <button type="button" className="btn btn-primary" onClick={printInvice}>
                                             <i className="si si-printer" /> {t("Print Invoice")}
                                         </button>
                                     </div>
                                 </div>
-                                
                                 <div className="card-body">
+                                    <div className="card-body">
+
                                     <div className="row my-8">
                                         <div className="col-6">
                                             <p className="h3">{t('Privilege')}</p>
@@ -96,56 +98,43 @@ const Invice = () => {
                                         <div className="col-6 text-right">
                                             <p className="h3">{t('Student')}</p>
                                             <address>
-                                            {`${singlePayment?.studentID?.firstname} ${singlePayment?.studentID?.lastname}`}
+                                            {`${singleStudent?.firstname} ${singleStudent?.lastname}`}
                                             <br />
-                                            {singlePayment?.studentID?.email}
+                                            {singleStudent?.email}
                                             <br />
-                                            {singlePayment?.studentID?.gender}
+                                            {singleStudent.gender}
                                             <br />
-                                            {moment(singlePayment.updatedAt).format("DD/MM/YYYY")}
+                                            {moment(new Date()).format("DD/MM/YYYY")}
     
                                             </address>
                                         </div>
                                     </div>
+                                   
+
                                     <div className="table-responsive push">
                                         <table className="table table-bordered table-hover text-nowrap">
                                             <tbody>
                                                 <tr>
-                                                    <th>{t("Type & Method")}</th>
-                                                    <th className="text-center">{t("Reference")}</th>
-                                                    <th className="text-right">{t("Details")}</th>
-                                                    <th className="text-right">{t("Amount")}</th>
+                                                    <th>{t("Cin")}</th>
+                                                    <th className="text-center">{t("Language")}</th>
+                                                    <th className="text-right">{t("Level")}</th>
                                                 </tr>
                                                 <tr>
-                                                    <td>
-                                                        <p className="font600 mb-1">{singlePayment.feesType}</p>
-                                                        <div className="text-muted">{singlePayment.paymentMethod}</div>
-                                                    </td>
-                                                    <td className="text-right">{singlePayment.paymentReference}</td>
-                                                    <td className="text-center">{singlePayment.paymentDetails}</td>
-                                                    <td className="text-right">{singlePayment.amount}</td>
+                                                    <td>{singleStudent.cin}</td>
+                                                    <td className="text-center">{singleStudent.language?.name}</td>
+                                                    <td className="text-right">{singleStudent.level?.name}</td>
                                                 </tr>
-                                              
-                                               <tr>
-                                                    <td colSpan={3} className="font600 text-right">{t('Subtotal')}</td>
-                                                    <td className="text-right">{singlePayment.amount}</td>
-                                                </tr>
-                                                <tr className="bg-light">
-                                                    <td colSpan={3} className="font600 text-right">{t('Vat Rate')}</td>
-                                                    <td className="text-right">0%</td>
-                                                </tr>
-
-                                                <tr className="bg-green text-light">
-                                                    <td colSpan={3} className="font00 text-right total-print">{t('Total Due')}</td>
-                                                    <td className="font700 text-right total-print">{singlePayment.amount}</td>
-                                                </tr>
+                                  
 
                                             </tbody>
                                         </table>
                                     </div>
+                                   
                                     <p className="text-muted text-center">
                                         {t('Thank you very much for doing business with us. We look forward to working with you again!')}
                                     </p>
+
+                                    </div>
                                 </div>
 
                             </>
@@ -163,4 +152,4 @@ const Invice = () => {
 
 }
 
-export default Invice
+export default LevelCert

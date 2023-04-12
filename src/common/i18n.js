@@ -42,7 +42,7 @@ const resources = {
       "FullName": "Normale",
 
       //Breadcrumb
-      "Privilege": "Privilege",
+      "Privilege": "Privilege", 
       "Admins": "Admins",
       "List": "List",
       "Add": "Add",
@@ -66,6 +66,8 @@ const resources = {
       "Block": "Block",
       "Archived": "Archived",
       "Archived Students": "Archived Students",
+      "Register Certificat": "Register Certificat",
+      "Level Certificat": "Level Certificat",
     
 
 
@@ -132,7 +134,7 @@ const resources = {
       "Sunday": "Sunday",
       "day field is required": "day field is required",
 
-
+   
       //student add
       "Basic Information": "Basic Information",
       "Edit Profile": "Edit Profile",

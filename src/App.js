@@ -33,6 +33,8 @@ import FPAdmin from './components/Auth/admin/FPAdmin';
 import LogAdmin from './components/Auth/admin/LogAdmin';
 import Invice from './components/Payments/Invice';
 import ArchivedStudentsIndex from './components/Students/ArchivedStudentsIndex';
+import LevelCert from './components/Students/LevelCert';
+import RegisterCert from './components/Students/RegisterCert';
 
 function App() {
 
@@ -48,6 +50,9 @@ function App() {
               <Route element={<TeachersIndex />} path="/teachers" />
               <Route element={<StudentsIndex />} path="/students" />
               <Route element={<ArchivedStudentsIndex />} path="/archived-students" />
+              <Route element={<LevelCert />} path="/archived-students/level/:id" />
+              <Route element={<RegisterCert />} path="/archived-students/register/:id" />
+
               <Route element={<GroupsIndex />} path="/groups" />
               <Route element={<LevelsIndex />} path="/levels" />
               <Route element={<NotificationsIndex />} path="/notifications" />

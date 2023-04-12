@@ -6494,11 +6494,11 @@ body.h_menu.rtl .metismenu>li:last-child .collapse {
     left: 0;
     right: auto
 }
-@media print {
+/* @media print {
     body {
         background: none
     }
-}
+} */
 body *::-webkit-scrollbar {
     width: 0;
     height: 5px;
@@ -8347,7 +8347,7 @@ img {
     }
 }
 @media print {
-    .card-header {
+    .card-header .card-options {
         display: none
     }
 }
@@ -14519,4 +14519,10 @@ svg {
     right: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
+}
+
+@media print {
+    .total-print {
+        color: black
+    }
 }
