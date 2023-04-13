@@ -23,8 +23,6 @@ const resources = {
       "Super Accelerated": "Super Accelerated",
       "Details": "Details",
       "Price": "Price",
-      "Type": "Type",
-      "Hours": "Hours",
       "name field is required": "name field is required",
       "description field is required": "description field is required",
       "session field is required": "session field is required",

@@ -195,7 +195,7 @@ const Add = ({ editLanguageId , setEditLanguageId}) => {
 
                                     {index !== 0 && <div className={"col-md-3"}></div>}
 
-                                    <div className="col-md-4 mt-1">
+                                    {/* <div className="col-md-4 mt-1">
                                       <Field as="select" type="text" name={`session.${index}.ttype`} className="form-control" placeholder={t("Type")}>
                                         <option value="">{t("Select...")}</option>
                                         <option value="normale">{t("Normale")}</option>
@@ -203,7 +203,13 @@ const Add = ({ editLanguageId , setEditLanguageId}) => {
                                         <option value="superAccelerated">{t("Super Accelerated")}</option>
                                       </Field>
                                       {(touched?.session && touched?.session[index]?.ttype) && (errors?.session && errors?.session[index]?.ttype) && <small className="text-danger">{t(errors?.session[index]?.ttype)}</small>}
+                                    </div> */}
+
+                                    <div className="col-md-2 mt-1">
+                                      <Field type="text" name={`session.${index}.ttype`} className="form-control" placeholder={t("Type")} />
+                                      {(touched?.session && touched?.session[index]?.ttype) && (errors?.session && errors?.session[index]?.ttype) && <small className="text-danger">{t(errors?.session[index]?.ttype)}</small>}
                                     </div>
+
 
                                     <div className="col-md-2 mt-1">
                                       <Field type="number" name={`session.${index}.hours`} className="form-control" placeholder={t("Hours")} />
