@@ -342,6 +342,7 @@ const Add = ({ editStudentId, setEditStudentId, initAdd }) => {
 
       const formData = new FormData();
       formData.append('image', img);
+      formData.append('type', "...");
       formData.append('actions', actions);
 
       setLLoading(true)

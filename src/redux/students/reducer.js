@@ -114,7 +114,11 @@ export const StudentsReducerSlice = createSlice({
             if(action.meta.arg.type !== "profile"){
                 const editImageIndex = state.students.findIndex(s => s._id === state.singleStudent._id)
                 state.students[editImageIndex].image = action.payload
+
+                console.log(action.payload)
             }
+
+            console.log(action.meta.arg.type);
            
         },
 

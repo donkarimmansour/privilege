@@ -350,7 +350,7 @@ const Add = ({initAdd}) => {
 
 
                         <div className="form-group row">
-                          <button type="submit mr-3" className="btn btn-primary" disabled={(loading || !isValid)}>{t("Send")}</button>
+                          <button type="submit" className="btn btn-primary mr-3" disabled={(loading || !isValid)}>{t("Send")}</button>
                           <button type="button" className="btn btn-outline-secondary" onClick={(e) => { OnCancel(e) }}>{t("Cancel")}</button>
                         </div>
 
