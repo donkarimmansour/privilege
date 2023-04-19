@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 
 const Loader = () => {
-
+ 
     const navigate =  useNavigate()
   
     useEffect(() => {
@@ -29,7 +29,7 @@ const Loader = () => {
             <div className="loader">
             </div>
         </div>
-    )
+    ) 
 
 }
 
