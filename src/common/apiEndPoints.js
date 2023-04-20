@@ -1,7 +1,7 @@
 const Host = {
-  ROOT: !process.env.NODE_ENV || process.env.NODE_ENV === 'development' ? "http://localhost:3000" : "https://app.privilege.com",
+  ROOT: !process.env.NODE_ENV || process.env.NODE_ENV === 'development' ? "http://localhost:3000" : "https://app.centreprivilege.com",
   PREFIX: "/v1/api",
-  BACKEND: !process.env.NODE_ENV || process.env.NODE_ENV === 'development' ? "http://localhost:3001" : "https://api.privilege.com",
+  BACKEND: !process.env.NODE_ENV || process.env.NODE_ENV === 'development' ? "http://localhost:3001" : "https://api.centreprivilege.com",
 }
  
 const ApiEndpoints = {
